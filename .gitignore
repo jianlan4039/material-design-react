@@ -1,0 +1,60 @@
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Swap the comments on the following lines if you don't wish to use zero-installs
+# Documentation here: https://yarnpkg.com/features/zero-installs
+!.yarn/cache
+#.pnp.*
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Yarn
+yarn.lock
+.pnp
+.pnp.js
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# User-specific files
+*.log
+*.iml
+.vscode/
+.idea/
+
+# Build output
+build/
+dist/
+out/
+
+# Dependency directories
+/jspm_packages/
+/bower_components/
+
+# TypeScript
+*.tsbuildinfo
+
+# Visual Studio Code
+.vscode/
+
+# Sublime Text
+.sublime-project
+.sublime-workspace
+
+# Editor directories and files
+.idea/
+.project
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
