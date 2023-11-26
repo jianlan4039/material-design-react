@@ -58,3 +58,4 @@ out/
 *.sln
 *.sw?
 
+/.yarn/
