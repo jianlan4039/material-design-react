@@ -36,17 +36,12 @@ export default {
 
         sass({insert: false, output: 'dist/styles.css'}), // Add the Sass plugin
 
-        // Compile TypeScript to JavaScript
-        // typescript({
-        //   tsconfig: 'tsconfig.json', // Path to your TypeScript configuration file
-        // }),
-
         // Transpile JavaScript and JSX code using Babel
         babel({
             exclude: 'node_modules/**',
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
             babelHelpers: 'bundled',
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
         }),
     ],
     external: ['react', 'react-dom'], // Specify external dependencies to prevent bundling them

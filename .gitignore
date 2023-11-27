@@ -27,8 +27,6 @@ Thumbs.db
 # User-specific files
 *.log
 *.iml
-.vscode/
-.idea/
 
 # Build output
 build/
