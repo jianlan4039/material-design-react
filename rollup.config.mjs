@@ -1,5 +1,4 @@
 // rollup.config.mjs
-// import typescript from 'rollup-plugin-typescript2';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
@@ -8,11 +7,6 @@ import sass from 'rollup-plugin-sass';
 export default {
     input: 'src/index.ts', // Entry point of your TypeScript and React code
     output: [
-        // {
-        //   file: 'dist/bundle.js',
-        //   format: 'cjs', // CommonJS format, but you can choose others like 'esm' for ES modules
-        //   sourcemap: true,
-        // },
         {
             file: 'dist/bundle.cjs.js',
             format: 'cjs',
