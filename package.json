@@ -35,7 +35,6 @@
     "css-loader": "^6.8.1",
     "rollup": "^4.6.0",
     "rollup-plugin-sass": "^1.12.21",
-    "rollup-plugin-typescript2": "^0.36.0",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
     "storybook": "^7.5.3",
