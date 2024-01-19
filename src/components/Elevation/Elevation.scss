@@ -1,27 +1,38 @@
-@use "tokens-builder";
+@use 'sass:list';
+@use 'sass:map';
+
+@use "../builder/tokens-builder";
 @use '../tokens';
 
-@mixin theme($tokens){
+$_md-sys-motion: tokens.md-sys-motion-values();
+
+@mixin theme($tokens) {
   @include tokens-builder.theme($tokens, tokens.$md-comp-elevation-supported-tokens, elevation);
 }
 
 @mixin styles() {
-  .nd-elevation{
-    @include tokens-builder.tokens(tokens.md-comp-elevation-values(), elevation);
-  }
+  @include tokens-builder.tokens(tokens.md-comp-elevation-values(), elevation);
 
-  .nd-elevation::before,
-  .nd-elevation::after {
+  position: relative;
+  display: flex;
+  transition-duration: map.get($_md-sys-motion, 'duration-medium2');
+  transition-timing-function: map.get($_md-sys-motion, 'emphasized-easing');
+
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
     transition-property: box-shadow, opacity;
+    transition-duration: inherit;
+    transition-timing-function: inherit;
+    z-index: -1;
   }
 
 
   // Key box shadow
-  .nd-elevation::before {
+  &::before {
     // level0: box-shadow: 0px 0px 0px 0px;
     // level1: box-shadow: 0px 1px 2px 0px;
     // level2: box-shadow: 0px 1px 2px 0px;
@@ -62,12 +73,12 @@
     // Convert to px.
     $blur: calc(1px * ($level1-blur + $level3-blur + $level5-blur));
 
-    box-shadow: 0px $y $blur 0px var(--_shadow-color);
+    box-shadow: 0 $y $blur 0 var(--_shadow-color);
     opacity: 0.3;
   }
 
   // Ambient box shadow
-  .nd-elevation::after {
+  &::after {
     // level0: box-shadow: 0px 0px 0px 0px;
     // level1: box-shadow: 0px 1px 3px 1px;
     // level2: box-shadow: 0px 2px 6px 2px;
@@ -131,7 +142,11 @@
     // Convert to px.
     $spread: calc(1px * ($level1to4-spread + $level5-spread));
 
-    box-shadow: 0px $y $blur $spread var(--_shadow-color);
+    box-shadow: 0 $y $blur $spread var(--_shadow-color);
     opacity: 0.15;
   }
+}
+
+.nd-elevation {
+  @include styles;
 }
