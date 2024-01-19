@@ -1,0 +1,10 @@
+
+@mixin background() {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: var(--_container-color);
+  }
+}
