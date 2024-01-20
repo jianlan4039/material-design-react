@@ -15,6 +15,7 @@ $_md-sys-motion: tokens.md-sys-motion-values();
 
   position: relative;
   display: flex;
+  background-color: var(--_container-color);
   transition-duration: map.get($_md-sys-motion, 'duration-medium2');
   transition-timing-function: map.get($_md-sys-motion, 'emphasized-easing');
 

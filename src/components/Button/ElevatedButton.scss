@@ -1,9 +1,7 @@
-@use "../builder/background";
 @use "../builder/tokens-builder";
 @use "../tokens";
 
 .nd-elevated-button {
   --md-elevation-level: 1;
-  @include background.styles;
   @include tokens-builder.tokens(tokens.md-comp-elevated-button-values(), elevated-button);
 }

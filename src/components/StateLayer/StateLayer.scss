@@ -11,6 +11,7 @@
     border-radius: inherit;
     -webkit-tap-highlight-color: transparent;
     overflow: hidden;
+    z-index: 10;
 
     &.nd-state-layer--disabled {
       display: none;
