@@ -105,8 +105,9 @@ export default function StateLayer(props: StateLayerProps) {
   }
 
   const mouseDownHandler = (e: MouseEvent<HTMLDivElement>) => {
-    setPressed(true)
-    startPressAnimation(e).then(Promise.resolve)
+    startPressAnimation(e).then(()=>{
+      setPressed(true)
+    })
   }
 
   const mouseUpHandler = () => {
