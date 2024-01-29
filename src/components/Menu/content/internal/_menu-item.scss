@@ -1,0 +1,23 @@
+@mixin styles() {
+  .nd-menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0 12px;
+    gap: 8px;
+    cursor: pointer;
+    block-size: 48px;
+    min-inline-size: 112px;
+    max-inline-size: 280px;
+  }
+
+  .nd-menu-item__start,
+  .nd-menu-item__end {
+    display: contents;
+  }
+
+  .nd-menu-item__center {
+    white-space: nowrap;
+    flex-grow: 10;
+  }
+}

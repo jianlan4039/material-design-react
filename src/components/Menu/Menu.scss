@@ -1,0 +1,29 @@
+@use "../tokens";
+@use "../builder/tokens-builder";
+@use "../builder/background";
+@use "../Elevation/internal/elevation";
+
+.nd-menu-block {
+  position: relative;
+}
+
+.nd-menu-container {
+  @include tokens-builder.tokens(tokens.md-comp-menu-values(), menu);
+  @include elevation.theme((
+    level: var(--_container-elevation),
+    shadow-color: var(--_container-shadow-color)
+  ));
+  @include background.styles;
+  border-radius: 4px;
+  position: absolute;
+  display: none;
+}
+
+.nd-menu-container.open {
+  display: block;
+}
+
+.nd-menu-drawer {
+  overflow: hidden;
+  border-radius: inherit;
+}

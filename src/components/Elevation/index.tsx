@@ -1,17 +1,22 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import './Elevation.scss'
+import {Simulate} from "react-dom/test-utils";
 
 export interface ElevationProps {
   children?: ReactNode
 }
 
-export default function Elevation(props: ElevationProps) {
+const Elevation = forwardRef<HTMLDivElement, ElevationProps>((props, ref) => {
   const {
     children,
     ...rest
   } = props
 
-  return <div className={'nd-elevation'}>
-    {children}
-  </div>
-}
+  return (
+    <div ref={ref} className={'nd-elevation'}>
+      {children}
+    </div>
+  )
+})
+
+export default Elevation

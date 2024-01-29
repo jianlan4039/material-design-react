@@ -1,0 +1,15 @@
+@mixin styles() {
+  .nd-menu {
+    position: relative;
+    margin: 0;
+    padding: 8px 0;
+    min-inline-size: 112px;
+    max-inline-size: 280px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    li {
+      list-style: none;
+    }
+  }
+}

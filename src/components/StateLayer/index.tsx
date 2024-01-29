@@ -1,4 +1,4 @@
-import React, {ReactNode, useRef, MouseEvent, useState} from 'react'
+import React, {ReactNode, useRef, MouseEvent, useState, memo, forwardRef} from 'react'
 import cln from 'classnames'
 import './StateLayer.scss'
 
@@ -7,11 +7,10 @@ export interface StateLayerProps {
   disabled?: boolean
 }
 
-export default function StateLayer(props: StateLayerProps) {
+const StateLayer = memo(forwardRef<HTMLDivElement, StateLayerProps>((props, ref) => {
   const {
     children,
     disabled,
-    ...rest
   } = props
 
   const PRESS_GROW_MS = 450;
@@ -105,7 +104,7 @@ export default function StateLayer(props: StateLayerProps) {
   }
 
   const mouseDownHandler = (e: MouseEvent<HTMLDivElement>) => {
-    startPressAnimation(e).then(()=>{
+    startPressAnimation(e).then(() => {
       setPressed(true)
     })
   }
@@ -142,4 +141,6 @@ export default function StateLayer(props: StateLayerProps) {
       {children}
     </div>
   )
-}
+}))
+
+export default StateLayer
