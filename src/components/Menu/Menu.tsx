@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react'
+import React, {HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
 import cln from "classnames";
 import './Menu.scss'
 import MenuContent from "./content/MenuContent";
@@ -6,9 +6,10 @@ import Elevation from "../Elevation";
 import {EASING} from '../internal/motion/animation'
 import MenuItem, {MenuItemProps} from "./MenuItem";
 
-export interface MenuProps {
+export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   open?: boolean
+  onClose?: () => void
   menuItems?: MenuItemProps[]
 }
 
@@ -49,6 +50,7 @@ export default function Menu(props: MenuProps) {
   const {
     children,
     open,
+    onClose,
     menuItems,
     ...rest
   } = props
@@ -56,21 +58,25 @@ export default function Menu(props: MenuProps) {
   const anchorRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const focus = useRef(false);
 
   const top = useRef<number>();
   const left = useRef<number>();
 
   const animateOpen = async () => {
-    if (drawerRef.current) {
-      const menuRect = drawerRef.current.getBoundingClientRect()
-      const height = menuRect.height
-      const heightAnimation = drawerRef.current.animate([
-        {height: 0}, {height: height + 'px'}
-      ], {easing: EASING.EMPHASIZED, duration: 500})//.playbackRate = 0.1
-      const opacityAnimation = drawerRef.current.animate([
-        {opacity: 0}, {opacity: 1}
-      ], 50)
-      await Promise.all([heightAnimation.finished, opacityAnimation.finished])
+    if (containerRef.current) {
+      containerRef.current.classList.toggle('open', true)
+      if (drawerRef.current) {
+        const menuRect = drawerRef.current.getBoundingClientRect()
+        const height = menuRect.height
+        const heightAnimation = drawerRef.current.animate([
+          {height: 0}, {height: height + 'px'}
+        ], {easing: EASING.EMPHASIZED, duration: 500})//.playbackRate = 0.1
+        const opacityAnimation = drawerRef.current.animate([
+          {opacity: 0}, {opacity: 1}
+        ], 50)
+        await Promise.all([heightAnimation.finished, opacityAnimation.finished])
+      }
     }
   }
 
@@ -85,7 +91,16 @@ export default function Menu(props: MenuProps) {
         {opacity: 1}, {opacity: 0}
       ], {duration: 50, delay: 100})
       await Promise.all([heightAnimation.finished, opacityAnimation.finished])
+      containerRef.current!.classList.toggle('open', false)
     }
+  }
+
+  const focusHandler = () => {
+
+  }
+
+  const blurHandler = () => {
+    animateClose().then(onClose)
   }
 
 
@@ -98,14 +113,11 @@ export default function Menu(props: MenuProps) {
 
   useEffect(() => {
     if (open) {
-      if (containerRef.current) {
-        containerRef.current.classList.toggle('open', true)
-      }
-      animateOpen()
-    } else {
-      animateClose().then(() => {
-        containerRef.current!.classList.toggle('open', false)
+      animateOpen().then(() => {
+        containerRef.current!.focus()
       })
+    } else {
+      animateClose().then(onClose)
     }
   }, [open]);
 
@@ -116,8 +128,12 @@ export default function Menu(props: MenuProps) {
       </div>
       <div
         ref={containerRef}
+        onBlur={blurHandler}
+        onFocus={focusHandler}
         className={'nd-menu-container'}
+        tabIndex={0}
         style={{top: top.current + 'px', left: left.current + 'px'}}
+        {...rest}
       >
         <Elevation>
           <div ref={drawerRef} className={'nd-menu-drawer'}>
