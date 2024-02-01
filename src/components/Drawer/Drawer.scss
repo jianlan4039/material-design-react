@@ -1,8 +1,25 @@
 .nd-drawer {
   position: absolute;
   display: none;
+  overflow: hidden;
 
-  &.open {
+  &.drawer--open {
     display: block;
+  }
+
+  &.drawer--downward {
+    top: 0;
+  }
+
+  &.drawer--upward {
+    bottom: 0;
+  }
+
+  &.drawer--left {
+    right: 0;
+  }
+
+  &.drawer--right {
+    left: 0;
   }
 }

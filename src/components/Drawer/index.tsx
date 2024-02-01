@@ -1,4 +1,5 @@
 import React, {ReactNode, useEffect, useRef} from 'react'
+import cln from "classnames";
 import './Drawer.scss'
 import {EASING} from "../internal/motion/animation";
 
@@ -6,7 +7,6 @@ type AnimationOptions = number | KeyframeAnimationOptions | undefined
 
 export interface DrawerProps {
   children?: ReactNode
-  position: [number, number]
   to: 'DOWNWARD' | "UPWARD" | 'LEFT' | 'RIGHT'
   selfAdapt?: boolean,
   open?: boolean
@@ -18,7 +18,6 @@ export interface DrawerProps {
 export default function Drawer(props: DrawerProps) {
   const {
     children,
-    position,
     to,
     open,
     onClose,
@@ -36,38 +35,32 @@ export default function Drawer(props: DrawerProps) {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  function getFrames(rect: DOMRect) {
+  function getFrames(el: HTMLDivElement) {
     let startFrame: Keyframe = {}
     let endFrame: Keyframe = {}
+    const rect = el.getBoundingClientRect()
 
     switch (to) {
-      case "DOWNWARD":
-        startFrame['bottom'] = rect.top + 'px'
-        endFrame['bottom'] = rect.top + rect.height + 'px'
-        break;
       case "UPWARD":
-        startFrame['top'] = rect.bottom + 'px'
-        endFrame['top'] = rect.bottom - rect.height + 'px'
+      case "DOWNWARD":
+        startFrame['height'] = 0
+        endFrame['height'] = rect.height + 'px'
         break;
       case "LEFT":
-        startFrame['left'] = rect.right + 'px'
-        endFrame['left'] = rect.right - rect.width + 'px'
-        break;
       case "RIGHT":
-        startFrame['right'] = rect.left + 'px'
-        endFrame['right'] = rect.left + rect.width + 'px'
+        startFrame['width'] = 0
+        endFrame['width'] = rect.width + 'px'
         break;
     }
     return {startFrame, endFrame};
   }
 
   const animateOpen = async (self: HTMLDivElement) => {
-    self.classList.toggle('open', true)
-    const rect = self.getBoundingClientRect()
-    let {startFrame, endFrame} = getFrames(rect);
+    self.classList.toggle('drawer--open', true)
+    let {startFrame, endFrame} = getFrames(self);
     const openAnimation = self.animate([
       startFrame, endFrame
-    ], openAnimationOptions)
+    ], openAnimationOptions);
     const opacityAnimation = self.animate([
       {opacity: 0}, {opacity: 1}
     ], 50)
@@ -76,13 +69,12 @@ export default function Drawer(props: DrawerProps) {
   }
 
   const animateClose = async (self: HTMLDivElement) => {
-    const rect = self.getBoundingClientRect()
-    let {startFrame, endFrame} = getFrames(rect)
+    let {startFrame, endFrame} = getFrames(self)
     const closeAnimation = self.animate([
       endFrame, startFrame
     ], closeAnimationOptions)
     await closeAnimation.finished
-    self.classList.toggle('open', false)
+    self.classList.toggle('drawer--open', false)
   }
 
   const blurHandler = () => {
@@ -90,17 +82,26 @@ export default function Drawer(props: DrawerProps) {
   }
 
   useEffect(() => {
-    if (open && ref.current) {
-      void animateOpen(ref.current)
+    if (ref.current) {
+      if (open) {
+        void animateOpen(ref.current)
+      } else {
+        void animateClose(ref.current)
+      }
     }
-  }, []);
+  }, [open]);
 
   return (
     <div
       ref={ref}
       tabIndex={0}
-      className={'nd-drawer'}
-      onBlur={blurHandler}
+      className={cln('nd-drawer', {
+        'drawer--downward': to === 'DOWNWARD',
+        'drawer--upward': to === 'UPWARD',
+        'drawer--left': to === 'LEFT',
+        'drawer--right': to === 'RIGHT'
+      })}
+      // onBlur={blurHandler}
       {...rest}
     >
       {children}
