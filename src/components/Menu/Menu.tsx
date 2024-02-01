@@ -5,6 +5,7 @@ import MenuContent from "./content/MenuContent";
 import Elevation from "../Elevation";
 import {EASING} from '../internal/motion/animation'
 import MenuItem, {MenuItemProps} from "./MenuItem";
+import * as assert from "assert";
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
@@ -85,7 +86,7 @@ export default function Menu(props: MenuProps) {
       const rect = drawerRef.current.getBoundingClientRect()
       const height = rect.height
       const heightAnimation = drawerRef.current.animate([
-        {height: `${height}px`}, {height: `${height * 0.35}px`}
+        {bottom: `${top.current}px`}, {bottom: `${(top.current! + height) * 0.35}px`}
       ], {easing: EASING.EMPHASIZED_ACCELERATE, duration: 150})
       const opacityAnimation = drawerRef.current.animate([
         {opacity: 1}, {opacity: 0}
@@ -116,8 +117,6 @@ export default function Menu(props: MenuProps) {
       animateOpen().then(() => {
         containerRef.current!.focus()
       })
-    } else {
-      animateClose().then(onClose)
     }
   }, [open]);
 
@@ -143,7 +142,7 @@ export default function Menu(props: MenuProps) {
                   key={`menu-item-${index}`}
                   open={open}
                   duration={250}
-                  delay={250 / menuItems.length}
+                  delay={(250 / menuItems.length) * index}
                   {...item}
                 ></AnimateMenuItem>
               })}

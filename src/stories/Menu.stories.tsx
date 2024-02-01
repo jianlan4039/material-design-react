@@ -22,7 +22,7 @@ export const Primary: Story = {
     const [open, setOpen] = useState(false)
 
     const clickHandler = () => {
-      setOpen(!open)
+      setOpen(true)
     }
 
     const closeHandler = () => {
