@@ -1,10 +1,10 @@
-import React, {ReactNode} from 'react'
+import React, {HTMLAttributes, ReactNode} from 'react'
 import './ElevatedButton.scss'
-import ElevatedButtonContent from "./content/ElevatedButtonContent";
+import ElevatedButtonContent, {ElevatedButtonContentProps} from "./content/ElevatedButtonContent";
 import StateLayer from "../StateLayer";
 import Elevation from "../Elevation";
 
-export interface ElevatedButtonProps {
+export interface ElevatedButtonProps extends ElevatedButtonContentProps {
   children?: ReactNode
 }
 
@@ -16,13 +16,11 @@ export default function ElevatedButton(props: ElevatedButtonProps) {
 
   return (
     <div className={'nd-elevated-button'}>
-      <Elevation>
-        <StateLayer>
-          <ElevatedButtonContent>
-            {children}
-          </ElevatedButtonContent>
-        </StateLayer>
-      </Elevation>
+      <Elevation></Elevation>
+      <StateLayer></StateLayer>
+      <ElevatedButtonContent {...rest}>
+        {children}
+      </ElevatedButtonContent>
     </div>
   )
 }

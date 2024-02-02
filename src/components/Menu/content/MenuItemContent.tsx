@@ -16,10 +16,10 @@ const MenuItemContent = memo((props: MenuItemContentProps) => {
   } = props
 
   return <>
-    <div className={'nd-menu-item'}>
-      {start && <div className={'nd-menu-item__start'}>{start}</div>}
-      <div className={'nd-menu-item__center'}>{children}</div>
-      {end && <div className={'nd-menu-item__end'}>{end}</div>}
+    <div className={'nd-menu-item-content'}>
+      {start && <div className={'nd-menu-item-content__start'}>{start}</div>}
+      <div className={'nd-menu-item-content__center'}>{children}</div>
+      {end && <div className={'nd-menu-item-content__end'}>{end}</div>}
     </div>
   </>
 })

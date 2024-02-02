@@ -4,4 +4,6 @@
 .nd-elevated-button {
   --md-elevation-level: 1;
   @include tokens-builder.tokens(tokens.md-comp-elevated-button-values(), elevated-button);
+  background: var(--_container-color);
+  position: relative;
 }

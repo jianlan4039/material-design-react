@@ -13,7 +13,7 @@ const MenuContent = memo(forwardRef<HTMLUListElement, MenuContentProps>((props, 
     ...rest
   } = props
 
-  return <ul ref={ref} className={cln('nd-menu', className)} {...rest}>
+  return <ul ref={ref} className={cln('nd-menu-content', className)} {...rest}>
     {children}
   </ul>
 }))

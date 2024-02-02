@@ -1,15 +1,13 @@
-import React, {ReactNode, useRef, MouseEvent, useState, memo, forwardRef} from 'react'
-import cln from 'classnames'
+import React, {ReactNode, useRef, MouseEvent, useState, memo, forwardRef, useEffect} from 'react'
+import {EASING} from "../internal/motion/animation";
 import './StateLayer.scss'
 
 export interface StateLayerProps {
-  children?: ReactNode
   disabled?: boolean
 }
 
-const StateLayer = memo(forwardRef<HTMLDivElement, StateLayerProps>((props, ref) => {
+const StateLayer = (props: StateLayerProps) => {
   const {
-    children,
     disabled,
   } = props
 
@@ -19,15 +17,13 @@ const StateLayer = memo(forwardRef<HTMLDivElement, StateLayerProps>((props, ref)
   const PADDING = 10;
   const SOFT_EDGE_MINIMUM_SIZE = 75;
   const SOFT_EDGE_CONTAINER_RATIO = 0.35;
-  const EASE_STANDARD = 'cubic-bezier(0.2, 0, 0, 1)'
+  const EASE_STANDARD = EASING.STANDARD
   const ANIMATION_FILL = 'forwards';
 
   let rippleScale = '';
   let initialSize = 0;
-  const [hover, setHover] = useState(false)
-  const [pressed, setPressed] = useState(false)
 
-  const surfaceElement = useRef<HTMLDivElement>(null);
+  const surfaceElement = useRef<HTMLSpanElement>(null);
   const growAnimation = useRef<Animation>();
 
   function getNormalizedPointerEventCoords(e: MouseEvent<HTMLElement>) {
@@ -68,7 +64,7 @@ const StateLayer = memo(forwardRef<HTMLDivElement, StateLayerProps>((props, ref)
     return {startPoint, endPoint};
   }
 
-  async function startPressAnimation(e: MouseEvent<HTMLDivElement>) {
+  async function startPressAnimation(e: MouseEvent<HTMLSpanElement>) {
     determineRippleSize(e.currentTarget);
     const {startPoint, endPoint} = getTranslationCoordinates(e);
     const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
@@ -95,7 +91,7 @@ const StateLayer = memo(forwardRef<HTMLDivElement, StateLayerProps>((props, ref)
   async function endPressAnimation() {
     const pressAnimationPlayState = growAnimation.current?.currentTime as number
     if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
-      setPressed(false);
+      // setPressed(false);
       return
     }
     await new Promise(resolve => {
@@ -103,44 +99,27 @@ const StateLayer = memo(forwardRef<HTMLDivElement, StateLayerProps>((props, ref)
     });
   }
 
-  const mouseDownHandler = (e: MouseEvent<HTMLDivElement>) => {
-    startPressAnimation(e).then(() => {
-      setPressed(true)
-    })
-  }
+  useEffect(() => {
+    if (surfaceElement.current && surfaceElement.current.parentElement) {
+      surfaceElement.current.parentElement.addEventListener('mouseover', () => {
+        surfaceElement.current!.classList.toggle('hover', true)
+      })
+      surfaceElement.current.parentElement.addEventListener('mouseout', () => {
+        surfaceElement.current!.classList.toggle('hover', false)
+        surfaceElement.current!.classList.toggle('pressed', false)
+      })
+      surfaceElement.current.parentElement.addEventListener('mousedown', (e: any) => {
+        startPressAnimation(e).then(() => {
+          surfaceElement.current!.classList.toggle('pressed', true)
+        })
+      })
+      surfaceElement.current.parentElement.addEventListener('mouseup', () => {
+        surfaceElement.current!.classList.toggle('pressed', false)
+      })
+    }
+  }, [surfaceElement.current]);
 
-  const mouseUpHandler = () => {
-    endPressAnimation().then(() => {
-      setPressed(false)
-    })
-  }
-
-  const mouseOverHandler = () => {
-    setHover(true)
-  }
-
-  const mouseOutHandler = () => {
-    setHover(false)
-    setPressed(false)
-  }
-
-
-  return (
-    <div
-      ref={surfaceElement}
-      className={cln('nd-state-layer', {
-        'nd-state-layer--disabled': disabled,
-        'hover': hover,
-        'pressed': pressed
-      })}
-      onMouseDown={mouseDownHandler}
-      onMouseUp={mouseUpHandler}
-      onMouseOut={mouseOutHandler}
-      onMouseOver={mouseOverHandler}
-    >
-      {children}
-    </div>
-  )
-}))
+  return <span ref={surfaceElement} className={'nd-state-layer'}></span>
+}
 
 export default StateLayer

@@ -1,5 +1,6 @@
 @mixin styles() {
-  .nd-menu-item {
+  .nd-menu-item-content {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: stretch;
@@ -11,12 +12,12 @@
     max-inline-size: 280px;
   }
 
-  .nd-menu-item__start,
-  .nd-menu-item__end {
+  .nd-menu-item-content__start,
+  .nd-menu-item-content__end {
     display: contents;
   }
 
-  .nd-menu-item__center {
+  .nd-menu-item-content__center {
     white-space: nowrap;
     flex-grow: 10;
   }

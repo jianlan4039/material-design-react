@@ -1,7 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React, {useState} from "react";
 import Menu from "../components/Menu/Menu";
-import MenuItem from "../components/Menu/MenuItem";
 import ElevatedButton from "../components/Button/ElevatedButton";
 
 const meta: Meta<typeof Menu> = {
@@ -17,12 +16,12 @@ export default meta;
 type Story = StoryObj<typeof Menu>;
 
 export const Primary: Story = {
-  render: () => {
+  render: (args) => {
 
     const [open, setOpen] = useState(false)
 
     const clickHandler = () => {
-      setOpen(true)
+      setOpen(!open)
     }
 
     const closeHandler = () => {
@@ -31,18 +30,15 @@ export const Primary: Story = {
 
     return (
       <>
-        <ElevatedButton>Another One</ElevatedButton>
+        <ElevatedButton onClick={clickHandler}>Open Menu</ElevatedButton>
         <Menu
           open={open}
-          onClose={closeHandler}
           menuItems={[
-            { label: 'Lorem ipsum' },
-            { label: "Lorem ipsum dolor sit amet"},
-            { label: "Lorem ipsum dolor sit"}
+            {label: 'Item 1'},
+            {label: 'Item 2'},
+            {label: 'Item 3'}
           ]}
-        >
-          <button onClick={clickHandler}>Open Menu</button>
-        </Menu>
+        />
       </>
     )
   }

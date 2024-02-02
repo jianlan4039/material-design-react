@@ -101,7 +101,7 @@ export default function Drawer(props: DrawerProps) {
         'drawer--left': to === 'LEFT',
         'drawer--right': to === 'RIGHT'
       })}
-      // onBlur={blurHandler}
+      onBlur={blurHandler}
       {...rest}
     >
       {children}

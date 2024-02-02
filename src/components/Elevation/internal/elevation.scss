@@ -13,12 +13,13 @@ $_md-sys-motion: tokens.md-sys-motion-values();
 @mixin styles() {
   .nd-elevation{
     @include tokens-builder.tokens(tokens.md-comp-elevation-values(), elevation);
-    position: relative;
+    position: absolute;
+    inset: 0;
     border-radius: inherit;
-    block-size: inherit;
-    inline-size: inherit;
-    transition-duration: map.get($_md-sys-motion, 'duration-medium2');
-    transition-timing-function: map.get($_md-sys-motion, 'emphasized-easing');
+    transition-property: inherit;
+    transition-duration: inherit;
+    transition-timing-function: inherit;
+    z-index: -1;
 
     &::before,
     &::after {

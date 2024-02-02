@@ -15,5 +15,5 @@ export default meta;
 type Story = StoryObj<typeof ElevatedButton>;
 
 export const Primary: Story = {
-  render: () => <ElevatedButton></ElevatedButton>
+  render: () => <ElevatedButton>A Button</ElevatedButton>
 }

@@ -1,155 +1,107 @@
-import React, {HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
-import cln from "classnames";
+import React, {HTMLAttributes, ReactNode, useEffect, useRef} from 'react'
 import './Menu.scss'
 import MenuContent from "./content/MenuContent";
 import Elevation from "../Elevation";
-import {EASING} from '../internal/motion/animation'
+import {EASING} from "../internal/motion/animation";
 import MenuItem, {MenuItemProps} from "./MenuItem";
-import * as assert from "assert";
+import menuItem from "./MenuItem";
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactNode
-  open?: boolean
-  onClose?: () => void
+  anchorEl?: ReactNode
   menuItems?: MenuItemProps[]
-}
-
-interface AnimateMenuItemProps extends MenuItemProps {
   open?: boolean
-  duration: number
-  delay: number
-}
-
-const AnimateMenuItem = (props: AnimateMenuItemProps) => {
-  const {
-    open,
-    duration,
-    delay,
-    ...rest
-  } = props
-
-  const ref = useRef<HTMLLIElement>(null);
-
-  const animateOpen = () => {
-    if (ref.current) {
-      ref.current.animate([
-        {opacity: 0}, {opacity: 1}
-      ], {duration: duration, delay: delay, fill: 'backwards'})
-    }
-  }
-
-  useEffect(() => {
-    if (open) {
-      animateOpen()
-    }
-  }, [open]);
-
-  return <MenuItem ref={ref} {...rest}></MenuItem>
 }
 
 export default function Menu(props: MenuProps) {
   const {
-    children,
-    open,
-    onClose,
+    anchorEl,
     menuItems,
+    open,
     ...rest
   } = props
 
-  const anchorRef = useRef<HTMLDivElement>(null);
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const focus = useRef(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const top = useRef<number>();
-  const left = useRef<number>();
+  const OPEN_FULL_DURATION = 500;
+  const CLOSE_FULL_DURATION = 150;
 
-  const animateOpen = async () => {
-    if (containerRef.current) {
-      containerRef.current.classList.toggle('open', true)
-      if (drawerRef.current) {
-        const menuRect = drawerRef.current.getBoundingClientRect()
-        const height = menuRect.height
-        const heightAnimation = drawerRef.current.animate([
-          {height: 0}, {height: height + 'px'}
-        ], {easing: EASING.EMPHASIZED, duration: 500})//.playbackRate = 0.1
-        const opacityAnimation = drawerRef.current.animate([
-          {opacity: 0}, {opacity: 1}
-        ], 50)
-        await Promise.all([heightAnimation.finished, opacityAnimation.finished])
-      }
-    }
+  const animateOpen = async (el: HTMLElement, length: number) => {
+    el.classList.toggle('open', true)
+    const SURFACE_OPACITY_DURATION = 50;
+    const rect = el.getBoundingClientRect()
+
+    const heightAnimation = el.animate([
+      {height: 0}, {height: rect.height + 'px'}
+    ], {duration: OPEN_FULL_DURATION, easing: EASING.EMPHASIZED,})
+    const opacityAnimation = el.animate([{opacity: 0}, {opacity: 1}], SURFACE_OPACITY_DURATION);
+    await Promise.all([heightAnimation.finished, opacityAnimation.finished])
   }
 
-  const animateClose = async () => {
-    if (drawerRef.current) {
-      const rect = drawerRef.current.getBoundingClientRect()
-      const height = rect.height
-      const heightAnimation = drawerRef.current.animate([
-        {bottom: `${top.current}px`}, {bottom: `${(top.current! + height) * 0.35}px`}
-      ], {easing: EASING.EMPHASIZED_ACCELERATE, duration: 150})
-      const opacityAnimation = drawerRef.current.animate([
-        {opacity: 1}, {opacity: 0}
-      ], {duration: 50, delay: 100})
-      await Promise.all([heightAnimation.finished, opacityAnimation.finished])
-      containerRef.current!.classList.toggle('open', false)
-    }
+  const animateClose = async (el: HTMLElement, length: number) => {
+    const height = el.getBoundingClientRect().height
+    const END_HEIGHT_PERCENTAGE = 0.35;
+    const SURFACE_OPACITY_DURATION = 50;
+    const SURFACE_OPACITY_DELAY = CLOSE_FULL_DURATION - SURFACE_OPACITY_DURATION;
+
+    const heightAnimation = el.animate([
+      {height: `${height}px`},
+      {height: `${height * END_HEIGHT_PERCENTAGE}px`}
+    ], {
+      duration: CLOSE_FULL_DURATION,
+      easing: EASING.EMPHASIZED_ACCELERATE,
+    })
+    const opacityAnimation = el.animate([
+      {opacity: 1},
+      {opacity: 0}
+    ], {
+      duration: SURFACE_OPACITY_DURATION,
+      delay: SURFACE_OPACITY_DELAY
+    })
+
+    await Promise.all([heightAnimation.finished, opacityAnimation.finished])
+    el.classList.toggle('open', false)
   }
-
-  const focusHandler = () => {
-
-  }
-
-  const blurHandler = () => {
-    animateClose().then(onClose)
-  }
-
-
-  useEffect(() => {
-    if (!top.current && !left.current && anchorRef.current) {
-      top.current = anchorRef.current.offsetHeight
-      left.current = anchorRef.current.offsetLeft
-    }
-  }, [anchorRef.current]);
 
   useEffect(() => {
     if (open) {
-      animateOpen().then(() => {
-        containerRef.current!.focus()
-      })
+      menuRef.current && animateOpen(menuRef.current, menuItem.length)
+    } else {
+      menuRef.current && animateClose(menuRef.current, menuItem.length)
     }
   }, [open]);
 
-  return (
-    <div className={'nd-menu-block'}>
-      <div ref={anchorRef} className={'nd-menu-anchor'}>
-        {children}
-      </div>
-      <div
-        ref={containerRef}
-        onBlur={blurHandler}
-        onFocus={focusHandler}
-        className={'nd-menu-container'}
-        tabIndex={0}
-        style={{top: top.current + 'px', left: left.current + 'px'}}
-        {...rest}
-      >
-        <Elevation>
-          <div ref={drawerRef} className={'nd-menu-drawer'}>
-            <MenuContent>
-              {menuItems?.map((item, index) => {
-                return <AnimateMenuItem
-                  key={`menu-item-${index}`}
-                  open={open}
-                  duration={250}
-                  delay={(250 / menuItems.length) * index}
-                  {...item}
-                ></AnimateMenuItem>
-              })}
-            </MenuContent>
-          </div>
-        </Elevation>
-      </div>
-    </div>
-  )
+  return <div ref={menuRef} className={'nd-menu'} {...rest}>
+    <Elevation></Elevation>
+    <MenuContent>
+      {
+        menuItems?.map((child, index) => {
+          const length = menuItems.length
+          const childRef = useRef<HTMLLIElement>(null);
+
+          useEffect(() => {
+            if (open) {
+              const ITEM_OPACITY_DURATION = 250;
+              const DELAY_BETWEEN_ITEMS = (OPEN_FULL_DURATION - ITEM_OPACITY_DURATION) / length;
+              childRef.current?.animate([{opacity: 0}, {opacity: 1}], {
+                duration: ITEM_OPACITY_DURATION,
+                delay: DELAY_BETWEEN_ITEMS * index,
+                fill: 'both'
+              })
+            } else {
+              const ITEM_OPACITY_DURATION = 50;
+              const ITEM_OPACITY_INITIAL_DELAY = 50;
+              const DELAY_BETWEEN_ITEMS = (CLOSE_FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) / length;
+              childRef.current?.animate([{opacity: 1}, {opacity: 0}], {
+                duration: ITEM_OPACITY_DURATION,
+                delay: ITEM_OPACITY_INITIAL_DELAY + DELAY_BETWEEN_ITEMS * (length - 1 - index),
+                fill: 'both'
+              })
+            }
+          }, [open]);
+
+          return <MenuItem ref={childRef} key={index} {...child}></MenuItem>
+        })
+      }
+    </MenuContent>
+  </div>
 }
