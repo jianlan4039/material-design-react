@@ -4,7 +4,7 @@
 .nd-menu-item {
   @include tokens-builder.tokens(tokens.md-comp-menu-item-values(), menu-item);
   position: relative;
-  background-color: var(--_container-color);
+  //background-color: var(--_container-color);
 
   .nd-menu-item__label {
     display: flex;

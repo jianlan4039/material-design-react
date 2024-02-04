@@ -1,7 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
-import ElevatedButton from "../components/Button/ElevatedButton";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
@@ -17,8 +16,13 @@ type Story = StoryObj<typeof Menu>;
 
 export const Primary: Story = {
   render: (args) => {
-
+    const {
+      menuCorner = 'start_start',
+      anchorCorner = 'end_start',
+    } = args
     const [open, setOpen] = useState(false)
+    const btnRef = useRef<HTMLButtonElement>(null);
+    const [anchor, setAnchor] = useState<HTMLElement>()
 
     const clickHandler = () => {
       setOpen(!open)
@@ -28,18 +32,27 @@ export const Primary: Story = {
       setOpen(false)
     }
 
+    useEffect(() => {
+      btnRef.current && setAnchor(btnRef.current)
+    }, [btnRef]);
+
     return (
-      <>
-        <ElevatedButton onClick={clickHandler}>Open Menu</ElevatedButton>
-        <Menu
-          open={open}
-          menuItems={[
-            {label: 'Item 1'},
-            {label: 'Item 2'},
-            {label: 'Item 3'}
-          ]}
-        />
-      </>
+      <div>
+          <span style={{position: 'relative'}}>
+          <button ref={btnRef} onClick={clickHandler}>Open Menu</button>
+          <Menu
+            anchorEl={anchor}
+            menuCorner={menuCorner}
+            anchorCorner={anchorCorner}
+            open={open}
+            menuItems={[
+              {label: 'Item 1'},
+              {label: 'Item 2'},
+              {label: 'Item 3'}
+            ]}
+          />
+        </span>
+      </div>
     )
   }
 }

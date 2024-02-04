@@ -9,18 +9,19 @@
     level: var(--_container-elevation),
     shadow-color: var(--_container-shadow-color)
   ));
+  @include background.styles;
   position: absolute;
   border-radius: 4px;
   padding: 0;
   list-style: none;
-  background-color: var(--_container-color);
-  display: none;
+  opacity: 0;
+
+  &.suspending {
+    display: none;
+  }
 
   &.open {
     display: block;
+    opacity: 1;
   }
-}
-
-.nd-menu-item__container {
-
 }

@@ -1,107 +1,303 @@
-import React, {HTMLAttributes, ReactNode, useEffect, useRef} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, CSSProperties, useState} from 'react'
 import './Menu.scss'
 import MenuContent from "./content/MenuContent";
 import Elevation from "../Elevation";
-import {EASING} from "../internal/motion/animation";
 import MenuItem, {MenuItemProps} from "./MenuItem";
-import menuItem from "./MenuItem";
+import {Corner} from "../internal/alignment/geometry";
+import {EASING} from "../internal/motion/animation";
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
-  anchorEl?: ReactNode
+  children?: ReactNode
   menuItems?: MenuItemProps[]
+  anchorEl?: HTMLElement | null
+  menuCorner?: string
+  anchorCorner?: string
   open?: boolean
 }
 
-export default function Menu(props: MenuProps) {
+const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
   const {
-    anchorEl,
+    children,
     menuItems,
+    anchorCorner = Corner.END_START,
+    menuCorner = Corner.START_START,
+    anchorEl,
+    style,
     open,
     ...rest
   } = props
 
   const menuRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLUListElement>(null)
+  const [position, setPosition] = useState<CSSProperties | null>()
+  const openDirection = useRef<"DOWN" | "UP">();
+  const animationAbortController = new AbortController()
 
-  const OPEN_FULL_DURATION = 500;
-  const CLOSE_FULL_DURATION = 150;
+  const calcPosition = (menuCorner: string, anchorCorner: string, menu: HTMLElement, anchor: HTMLElement): CSSProperties => {
+    const styles: CSSProperties = {}
+    const [menuBlockAlign, menuInlineAlign] = menuCorner.split('_')
+    const [anchorBlockAlign, anchorInlineAlign] = anchorCorner.split('_')
+    const blockAlign = `${menuBlockAlign}_${anchorBlockAlign}`
+    const inlineAlign = `${menuInlineAlign}_${anchorInlineAlign}`
+    const menuRect = menu.getBoundingClientRect()
+    const anchorRect = anchor.getBoundingClientRect()
 
-  const animateOpen = async (el: HTMLElement, length: number) => {
-    el.classList.toggle('open', true)
-    const SURFACE_OPACITY_DURATION = 50;
-    const rect = el.getBoundingClientRect()
+    switch (blockAlign) {
+      case 'start_end':
+        const bottomDis = window.innerHeight - anchorRect.bottom
+        if (bottomDis > menuRect.height || bottomDis > anchorRect.top && (styles.height = `${bottomDis}px`)) {
+          styles.top = `${anchorRect.height}px`
+          openDirection.current = 'DOWN'
+        } else {
+          styles.bottom = `${anchorRect.height}px`
+          openDirection.current = 'UP'
+        }
+        break
+      case 'end_end':
+        const topDis = anchorRect.bottom
+        if (topDis > menuRect.height || topDis > (window.innerHeight - anchorRect.top) && (styles.height = `${topDis}px`)) {
+          styles.bottom = `0`
+          openDirection.current = 'UP'
+        } else {
+          styles.top = `0`
+          openDirection.current = 'DOWN'
+        }
+        break
+      case 'start_start':
+        const bottomDis2 = window.innerHeight - anchorRect.top
+        if (bottomDis2 > menuRect.height || bottomDis2 > anchorRect.bottom && (styles.height = `${bottomDis2}px`)) {
+          styles.top = `0`
+          openDirection.current = 'DOWN'
+        } else {
+          styles.bottom = `0`
+          openDirection.current = 'UP'
+        }
+        break
+      case 'end_start':
+        const topDis2 = anchorRect.top
+        if (topDis2 > menuRect.height || topDis2 > (window.innerHeight - anchorRect.bottom) && (styles.height = `${topDis2}px`)) {
+          styles.bottom = `${anchorRect.height}px`
+          openDirection.current = 'UP'
+        } else {
+          styles.top = `${anchorRect.height}px`
+          openDirection.current = 'DOWN'
+        }
+        break
+    }
 
-    const heightAnimation = el.animate([
-      {height: 0}, {height: rect.height + 'px'}
-    ], {duration: OPEN_FULL_DURATION, easing: EASING.EMPHASIZED,})
-    const opacityAnimation = el.animate([{opacity: 0}, {opacity: 1}], SURFACE_OPACITY_DURATION);
-    await Promise.all([heightAnimation.finished, opacityAnimation.finished])
+    switch (inlineAlign) {
+      case 'start_end':
+        const rightDis = window.innerWidth - anchorRect.right
+        if (rightDis > menuRect.width || rightDis > anchorRect.left && (styles.width = `${rightDis}px`)) {
+          styles.left = `${anchorRect.width}px`
+        } else {
+          styles.right = `${anchorRect.width}px`
+        }
+        break
+      case 'end_end':
+        const leftDis = anchorRect.left
+        if (leftDis > menuRect.width || leftDis > window.innerWidth - anchorRect.left && (styles.width = `${leftDis}px`)) {
+          styles.right = `0`
+        } else {
+          styles.left = `0`
+        }
+        break
+      case 'start_start':
+        const rightDis2 = window.innerWidth - anchorRect.left
+        if (rightDis2 > menuRect.width || rightDis2 > anchorRect.right && (styles.width = `${rightDis2}px`)) {
+          styles.left = `0`
+        } else {
+          styles.right = `0`
+        }
+        break
+      case 'end_start':
+        const leftDis2 = anchorRect.left
+        if (leftDis2 > menuRect.width || leftDis2 > window.innerWidth - anchorRect.right && (styles.width = `${leftDis2}px`)) {
+          styles.right = `${anchorRect.width}px`
+        } else {
+          styles.left = `${anchorRect.width}px`
+        }
+        break
+    }
+    return styles
   }
 
-  const animateClose = async (el: HTMLElement, length: number) => {
-    const height = el.getBoundingClientRect().height
-    const END_HEIGHT_PERCENTAGE = 0.35;
+  const animateOpen = async (host: HTMLElement, content: HTMLElement, length: number = 1) => {
+    const FULL_DURATION = 500;
     const SURFACE_OPACITY_DURATION = 50;
-    const SURFACE_OPACITY_DELAY = CLOSE_FULL_DURATION - SURFACE_OPACITY_DURATION;
+    const ITEM_OPACITY_DURATION = 250;
+    const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_DURATION) / length;
+    const height = host.offsetHeight
+    const abortSignal = animationAbortController.signal
+    const children = host.querySelectorAll('.nd-menu-item')
 
-    const heightAnimation = el.animate([
-      {height: `${height}px`},
-      {height: `${height * END_HEIGHT_PERCENTAGE}px`}
-    ], {
-      duration: CLOSE_FULL_DURATION,
-      easing: EASING.EMPHASIZED_ACCELERATE,
+    const surfaceHeightAnimation = host.animate([{height: '0px'}, {height: `${height}px`}], {
+      duration: FULL_DURATION,
+      easing: EASING.EMPHASIZED,
+      fill: 'backwards'
+    });
+
+    const upPositionCorrectionAnimation = content.animate([
+      {transform: openDirection.current === 'UP' ? `translateY(-${height}px)` : ''},
+      {transform: ''},
+    ], {duration: FULL_DURATION, easing: EASING.EMPHASIZED});
+
+    const surfaceOpacityAnimation = host.animate([{opacity: 0}, {opacity: 1}], SURFACE_OPACITY_DURATION);
+
+    const childrenAnimations: Animation[] = [];
+    for (let i = 0; i < children.length; i++) {
+      // If we are animating upwards, then reverse the children list.
+      const directionalIndex = openDirection.current === 'UP' ? children.length - 1 - i : i;
+      const child = children[directionalIndex];
+
+      const animation = child.animate([{opacity: 0}, {opacity: 1}], {
+        duration: ITEM_OPACITY_DURATION,
+        delay: DELAY_BETWEEN_ITEMS * i,
+        fill: 'backwards'
+      });
+      childrenAnimations.push(animation);
+    }
+
+    let resolveAnimation: (value: unknown) => void
+    const animationFinished = new Promise((resolve) => {
+      resolveAnimation = resolve
     })
-    const opacityAnimation = el.animate([
-      {opacity: 1},
-      {opacity: 0}
+
+    abortSignal.addEventListener('abort', () => {
+      surfaceHeightAnimation.cancel()
+      upPositionCorrectionAnimation.cancel()
+      surfaceOpacityAnimation.cancel()
+      childrenAnimations.forEach((animation) => {
+        animation.cancel()
+      })
+      resolveAnimation(true)
+    })
+    return await animationFinished
+  }
+
+  const animateClose = async (host: HTMLElement, content: HTMLElement, length: number = 1) => {
+    let resolve: (value: unknown) => void
+    let reject: (reason?: any) => void
+    const animationEnded = new Promise((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+    const signal = animationAbortController.signal
+    const FULL_DURATION = 150;
+    const SURFACE_OPACITY_DURATION = 50;
+    const SURFACE_OPACITY_DELAY = FULL_DURATION - SURFACE_OPACITY_DURATION;
+    const ITEM_OPACITY_DURATION = 50;
+    const ITEM_OPACITY_INITIAL_DELAY = 50;
+    const END_HEIGHT_PERCENTAGE = 0.35;
+    const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) / length;
+    const height = content.offsetHeight
+    const children = host.querySelectorAll('.nd-menu-item')
+
+    const surfaceHeightAnimation = host.animate([
+      {height: `${height}px`},
+      {height: `${height * END_HEIGHT_PERCENTAGE}px`},
     ], {
+      duration: FULL_DURATION,
+      easing: EASING.EMPHASIZED_ACCELERATE,
+    });
+
+    const downPositionCorrectionAnimation = content.animate([
+      {transform: ''},
+      {
+        transform: openDirection.current === 'UP' ? `translateY(-${height * (1 - END_HEIGHT_PERCENTAGE)}px)` : '',
+      },
+    ], {duration: FULL_DURATION, easing: EASING.EMPHASIZED_ACCELERATE});
+
+    const surfaceOpacityAnimation = host.animate([{opacity: 1}, {opacity: 0}], {
       duration: SURFACE_OPACITY_DURATION,
       delay: SURFACE_OPACITY_DELAY
-    })
+    });
+    const childrenAnimations: Animation[] = [];
 
-    await Promise.all([heightAnimation.finished, opacityAnimation.finished])
-    el.classList.toggle('open', false)
+    for (let i = 0; i < children.length; i++) {
+      const directionalIndex = openDirection.current === 'UP' ? i : children.length - 1 - i;
+      const child = children[directionalIndex];
+      const animation = child.animate([{opacity: 1}, {opacity: 0}], {
+        duration: ITEM_OPACITY_DURATION,
+        delay: ITEM_OPACITY_INITIAL_DELAY + DELAY_BETWEEN_ITEMS * i,
+      });
+      childrenAnimations.push(animation);
+    }
+    signal.addEventListener('abort', () => {
+      surfaceHeightAnimation.cancel()
+      downPositionCorrectionAnimation.cancel()
+      surfaceOpacityAnimation.cancel()
+      childrenAnimations.forEach(child => {
+        child.cancel()
+      })
+      reject();
+    })
+    surfaceHeightAnimation.addEventListener('finish', () => {
+      resolve(true);
+    })
+    return await animationEnded
   }
 
-  useEffect(() => {
-    if (open) {
-      menuRef.current && animateOpen(menuRef.current, menuItem.length)
-    } else {
-      menuRef.current && animateClose(menuRef.current, menuItem.length)
+  const openMenu = () => {
+    if (menuRef.current && contentRef.current && anchorEl) {
+      menuRef.current?.classList.toggle('suspending', false)
+      setPosition(calcPosition(menuCorner, anchorCorner, menuRef.current, anchorEl))
+      menuRef.current?.classList.toggle('open', true)
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // 执行动画
+        void animateOpen(menuRef.current, contentRef.current, menuItems?.length)
+      }
     }
+  }
+
+  const closeMenu = () => {
+    if (menuRef.current && contentRef.current && anchorEl) {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        animateClose(menuRef.current, contentRef.current, menuItems?.length).then(() => {
+          restore()
+        }).catch(() => {
+          restore()
+        })
+      } else {
+        restore()
+      }
+    }
+  }
+
+  const restore = () => {
+    menuRef.current?.classList.toggle('open', false)
+    menuRef.current?.classList.toggle('suspending', true)
+  }
+
+  /**
+   * initialize the first location, after that, it is set suspending.
+   */
+  useEffect(() => {
+    if (anchorEl && menuRef.current) {
+      setPosition(calcPosition(menuCorner, anchorCorner, menuRef.current, anchorEl))
+      menuRef.current.classList.toggle('suspending', true)
+    }
+  }, [anchorEl, menuRef.current]);
+
+  /**
+   * when open is changed
+   */
+  useEffect(() => {
+    open ? openMenu() : closeMenu()
   }, [open]);
 
-  return <div ref={menuRef} className={'nd-menu'} {...rest}>
-    <Elevation></Elevation>
-    <MenuContent>
-      {
-        menuItems?.map((child, index) => {
-          const length = menuItems.length
-          const childRef = useRef<HTMLLIElement>(null);
+  return (
+    <div
+      ref={menuRef}
+      className={'nd-menu'}
+      style={{...position, ...style}}
+    >
+      <Elevation></Elevation>
+      <MenuContent ref={contentRef}>
+        {menuItems?.map((props, index) => <MenuItem key={index} {...props}></MenuItem>)}
+      </MenuContent>
+    </div>
+  )
+})
 
-          useEffect(() => {
-            if (open) {
-              const ITEM_OPACITY_DURATION = 250;
-              const DELAY_BETWEEN_ITEMS = (OPEN_FULL_DURATION - ITEM_OPACITY_DURATION) / length;
-              childRef.current?.animate([{opacity: 0}, {opacity: 1}], {
-                duration: ITEM_OPACITY_DURATION,
-                delay: DELAY_BETWEEN_ITEMS * index,
-                fill: 'both'
-              })
-            } else {
-              const ITEM_OPACITY_DURATION = 50;
-              const ITEM_OPACITY_INITIAL_DELAY = 50;
-              const DELAY_BETWEEN_ITEMS = (CLOSE_FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) / length;
-              childRef.current?.animate([{opacity: 1}, {opacity: 0}], {
-                duration: ITEM_OPACITY_DURATION,
-                delay: ITEM_OPACITY_INITIAL_DELAY + DELAY_BETWEEN_ITEMS * (length - 1 - index),
-                fill: 'both'
-              })
-            }
-          }, [open]);
-
-          return <MenuItem ref={childRef} key={index} {...child}></MenuItem>
-        })
-      }
-    </MenuContent>
-  </div>
-}
+export default Menu
