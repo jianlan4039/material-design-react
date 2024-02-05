@@ -14,13 +14,15 @@
   border-radius: 4px;
   padding: 0;
   list-style: none;
+  display: none;
   opacity: 0;
 
-  &.suspending {
-    display: none;
+  &.nd-menu--preparing {
+    display: block;
+    opacity: 0;
   }
 
-  &.open {
+  &.nd-menu--prepared {
     display: block;
     opacity: 1;
   }

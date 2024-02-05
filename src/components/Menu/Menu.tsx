@@ -5,6 +5,7 @@ import Elevation from "../Elevation";
 import MenuItem, {MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
+import menuItem from "./MenuItem";
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
@@ -128,7 +129,6 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     const ITEM_OPACITY_DURATION = 250;
     const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_DURATION) / length;
     const height = host.offsetHeight
-    const abortSignal = animationAbortController.signal
     const children = host.querySelectorAll('.nd-menu-item')
 
     const surfaceHeightAnimation = host.animate([{height: '0px'}, {height: `${height}px`}], {
@@ -146,7 +146,6 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
 
     const childrenAnimations: Animation[] = [];
     for (let i = 0; i < children.length; i++) {
-      // If we are animating upwards, then reverse the children list.
       const directionalIndex = openDirection.current === 'UP' ? children.length - 1 - i : i;
       const child = children[directionalIndex];
 
@@ -163,7 +162,7 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
       resolveAnimation = resolve
     })
 
-    abortSignal.addEventListener('abort', () => {
+    surfaceHeightAnimation.addEventListener('finish', () => {
       surfaceHeightAnimation.cancel()
       upPositionCorrectionAnimation.cancel()
       surfaceOpacityAnimation.cancel()
@@ -176,13 +175,6 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
   }
 
   const animateClose = async (host: HTMLElement, content: HTMLElement, length: number = 1) => {
-    let resolve: (value: unknown) => void
-    let reject: (reason?: any) => void
-    const animationEnded = new Promise((res, rej) => {
-      resolve = res;
-      reject = rej;
-    });
-    const signal = animationAbortController.signal
     const FULL_DURATION = 150;
     const SURFACE_OPACITY_DURATION = 50;
     const SURFACE_OPACITY_DELAY = FULL_DURATION - SURFACE_OPACITY_DURATION;
@@ -223,67 +215,40 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
       });
       childrenAnimations.push(animation);
     }
-    signal.addEventListener('abort', () => {
+
+    let resolveAnimation: (value: unknown) => void
+    const animationFinished = new Promise((resolve) => {
+      resolveAnimation = resolve
+    })
+
+    surfaceHeightAnimation.addEventListener('finish', () => {
       surfaceHeightAnimation.cancel()
       downPositionCorrectionAnimation.cancel()
       surfaceOpacityAnimation.cancel()
       childrenAnimations.forEach(child => {
         child.cancel()
       })
-      reject();
+      resolveAnimation(true)
     })
-    surfaceHeightAnimation.addEventListener('finish', () => {
-      resolve(true);
-    })
-    return await animationEnded
+    return await animationFinished
   }
 
-  const openMenu = () => {
-    if (menuRef.current && contentRef.current && anchorEl) {
-      menuRef.current?.classList.toggle('suspending', false)
-      setPosition(calcPosition(menuCorner, anchorCorner, menuRef.current, anchorEl))
-      menuRef.current?.classList.toggle('open', true)
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        // 执行动画
-        void animateOpen(menuRef.current, contentRef.current, menuItems?.length)
-      }
-    }
-  }
-
-  const closeMenu = () => {
-    if (menuRef.current && contentRef.current && anchorEl) {
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        animateClose(menuRef.current, contentRef.current, menuItems?.length).then(() => {
-          restore()
-        }).catch(() => {
-          restore()
+  useEffect(() => {
+    if (anchorEl && menuRef.current && contentRef.current) {
+      if (open) {
+        menuRef.current.classList.toggle('nd-menu--preparing', true)
+        setPosition(calcPosition(menuCorner, anchorCorner, menuRef.current, anchorEl))
+        menuRef.current.classList.toggle('nd-menu--prepared', true)
+        animateOpen(menuRef.current, contentRef.current, menuItems?.length).then(() => {
+          menuRef.current!.classList.toggle('nd-menu--preparing', false)
         })
       } else {
-        restore()
+        animateClose(menuRef.current, contentRef.current, menuItems?.length).then(() => {
+          menuRef.current!.classList.toggle('nd-menu--preparing', false)
+          menuRef.current!.classList.toggle('nd-menu--prepared', false)
+        })
       }
     }
-  }
-
-  const restore = () => {
-    menuRef.current?.classList.toggle('open', false)
-    menuRef.current?.classList.toggle('suspending', true)
-  }
-
-  /**
-   * initialize the first location, after that, it is set suspending.
-   */
-  useEffect(() => {
-    if (anchorEl && menuRef.current) {
-      setPosition(calcPosition(menuCorner, anchorCorner, menuRef.current, anchorEl))
-      menuRef.current.classList.toggle('suspending', true)
-    }
-  }, [anchorEl, menuRef.current]);
-
-  /**
-   * when open is changed
-   */
-  useEffect(() => {
-    open ? openMenu() : closeMenu()
   }, [open]);
 
   return (
