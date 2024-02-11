@@ -1,15 +1,12 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, CSSProperties, useState} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, CSSProperties, useState, useMemo} from 'react'
 import './Menu.scss'
 import MenuContent from "./content/MenuContent";
 import Elevation from "../Elevation";
-import MenuItem, {MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
-import menuItem from "./MenuItem";
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
-  menuItems?: MenuItemProps[]
   anchorEl?: HTMLElement | null
   menuCorner?: string
   anchorCorner?: string
@@ -19,7 +16,6 @@ export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
 const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
   const {
     children,
-    menuItems,
     anchorCorner = Corner.END_START,
     menuCorner = Corner.START_START,
     anchorEl,
@@ -29,10 +25,12 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
   } = props
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLUListElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState<CSSProperties | null>()
   const openDirection = useRef<"DOWN" | "UP">();
   const animationAbortController = new AbortController()
+  const menuItems = useRef<NodeListOf<Element>>()
+
 
   const calcPosition = (menuCorner: string, anchorCorner: string, menu: HTMLElement, anchor: HTMLElement): CSSProperties => {
     const styles: CSSProperties = {}
@@ -129,7 +127,7 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     const ITEM_OPACITY_DURATION = 250;
     const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_DURATION) / length;
     const height = host.offsetHeight
-    const children = host.querySelectorAll('.nd-menu-item')
+    const children = menuItems.current ?? []
 
     const surfaceHeightAnimation = host.animate([{height: '0px'}, {height: `${height}px`}], {
       duration: FULL_DURATION,
@@ -183,7 +181,7 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     const END_HEIGHT_PERCENTAGE = 0.35;
     const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) / length;
     const height = content.offsetHeight
-    const children = host.querySelectorAll('.nd-menu-item')
+    const children = menuItems.current ?? []
 
     const surfaceHeightAnimation = host.animate([
       {height: `${height}px`},
@@ -235,15 +233,16 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
 
   useEffect(() => {
     if (anchorEl && menuRef.current && contentRef.current) {
+      menuItems.current = contentRef.current.querySelectorAll(':scope>*')
       if (open) {
         menuRef.current.classList.toggle('nd-menu--preparing', true)
         setPosition(calcPosition(menuCorner, anchorCorner, menuRef.current, anchorEl))
         menuRef.current.classList.toggle('nd-menu--prepared', true)
-        animateOpen(menuRef.current, contentRef.current, menuItems?.length).then(() => {
+        animateOpen(menuRef.current, contentRef.current, menuItems.current?.length).then(() => {
           menuRef.current!.classList.toggle('nd-menu--preparing', false)
         })
       } else {
-        animateClose(menuRef.current, contentRef.current, menuItems?.length).then(() => {
+        animateClose(menuRef.current, contentRef.current, menuItems.current?.length).then(() => {
           menuRef.current!.classList.toggle('nd-menu--preparing', false)
           menuRef.current!.classList.toggle('nd-menu--prepared', false)
         })
@@ -259,7 +258,7 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     >
       <Elevation></Elevation>
       <MenuContent ref={contentRef}>
-        {menuItems?.map((props, index) => <MenuItem key={index} {...props}></MenuItem>)}
+        {children}
       </MenuContent>
     </div>
   )

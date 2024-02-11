@@ -1,6 +1,8 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React, {useEffect, useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
+import SubMenu from "../components/Menu/SubMenu";
+import MenuItem from "../components/Menu/MenuItem";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
@@ -14,15 +16,15 @@ const meta: Meta<typeof Menu> = {
 export default meta;
 type Story = StoryObj<typeof Menu>;
 
-export const Primary: Story = {
+export const DefaultUsage: Story = {
   render: (args) => {
     const {
       menuCorner = 'start_start',
       anchorCorner = 'end_start',
     } = args
+
     const [open, setOpen] = useState(false)
     const btnRef = useRef<HTMLButtonElement>(null);
-    const [anchor, setAnchor] = useState<HTMLElement>()
 
     const clickHandler = () => {
       setOpen(!open)
@@ -32,27 +34,56 @@ export const Primary: Story = {
       setOpen(false)
     }
 
-    useEffect(() => {
-      btnRef.current && setAnchor(btnRef.current)
-    }, [btnRef]);
-
     return (
       <div>
-          <span style={{position: 'relative'}}>
+        <span style={{position: 'relative'}}>
           <button ref={btnRef} onClick={clickHandler}>Open Menu</button>
           <Menu
-            anchorEl={anchor}
+            anchorEl={btnRef.current}
             menuCorner={menuCorner}
             anchorCorner={anchorCorner}
             open={open}
-            menuItems={[
-              {label: 'Item 1'},
-              {label: 'Item 2'},
-              {label: 'Item 3'}
-            ]}
-          />
+          >
+            <MenuItem>Item 1</MenuItem>
+            <MenuItem>Item 2</MenuItem>
+            <MenuItem>Item 3</MenuItem>
+          </Menu>
         </span>
       </div>
     )
+  }
+}
+
+export const WithSubMenuUsage = {
+  render: () => {
+
+    const [open, setOpen] = useState(false)
+    const btnRef = useRef<HTMLButtonElement>(null);
+
+    const clickHandler = () => {
+      setOpen(!open)
+    }
+
+    const closeHandler = () => {
+      setOpen(false)
+    }
+
+    return <span style={{position: 'relative'}}>
+      <button ref={btnRef} onClick={clickHandler}>Open Menu</button>
+      <Menu
+        anchorEl={btnRef.current}
+        open={open}
+      >
+        <MenuItem>Item 1</MenuItem>
+        <MenuItem>Item 2</MenuItem>
+        <SubMenu
+          menuItem={<MenuItem>Item 3</MenuItem>}
+        >
+          <MenuItem>Item 4</MenuItem>
+          <MenuItem>Item 5</MenuItem>
+          <MenuItem>Item 6</MenuItem>
+        </SubMenu>
+      </Menu>
+    </span>
   }
 }

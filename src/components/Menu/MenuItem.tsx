@@ -4,12 +4,12 @@ import './MenuItem.scss'
 import StateLayer from "../StateLayer";
 import MenuItemContent, {MenuItemContentProps} from "./content/MenuItemContent";
 
-export interface MenuItemProps extends MenuItemContentProps, HTMLAttributes<HTMLLIElement> {
+export interface MenuItemProps extends MenuItemContentProps, HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   label?: string
 }
 
-const MenuItem = memo(forwardRef<HTMLLIElement, MenuItemProps>((props, ref) => {
+const MenuItem = memo(forwardRef<HTMLDivElement, MenuItemProps>((props, ref) => {
   const {
     children,
     label,
@@ -18,12 +18,12 @@ const MenuItem = memo(forwardRef<HTMLLIElement, MenuItemProps>((props, ref) => {
   } = props
 
   return (
-    <li ref={ref} className={cln('nd-menu-item', className)}>
+    <div ref={ref} className={cln('nd-menu-item', className)}>
       <StateLayer></StateLayer>
       <MenuItemContent {...rest}>
         <label className={'nd-menu-item__label'}>{label || children}</label>
       </MenuItemContent>
-    </li>
+    </div>
   )
 }))
 
