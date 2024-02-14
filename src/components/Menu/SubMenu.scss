@@ -12,6 +12,9 @@
   position: relative;
 
   .nd-sub-menu__header {
-
+    &.selected {
+      --_container-color: #e8def8;
+      @include background.styles;
+    }
   }
 }

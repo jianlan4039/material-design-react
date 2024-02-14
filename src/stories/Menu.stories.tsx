@@ -1,8 +1,9 @@
 import {Meta, StoryObj} from "@storybook/react";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
 import SubMenu from "../components/Menu/SubMenu";
 import MenuItem from "../components/Menu/MenuItem";
+import {Corner} from "../components/internal/alignment/geometry";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
@@ -18,10 +19,6 @@ type Story = StoryObj<typeof Menu>;
 
 export const DefaultUsage: Story = {
   render: (args) => {
-    const {
-      menuCorner = 'start_start',
-      anchorCorner = 'end_start',
-    } = args
 
     const [open, setOpen] = useState(false)
     const btnRef = useRef<HTMLButtonElement>(null);
@@ -40,9 +37,10 @@ export const DefaultUsage: Story = {
           <button ref={btnRef} onClick={clickHandler}>Open Menu</button>
           <Menu
             anchorEl={btnRef.current}
-            menuCorner={menuCorner}
-            anchorCorner={anchorCorner}
+            menuCorner={Corner.START_START}
+            anchorCorner={Corner.END_START}
             open={open}
+            onClose={closeHandler}
           >
             <MenuItem>Item 1</MenuItem>
             <MenuItem>Item 2</MenuItem>
@@ -73,6 +71,7 @@ export const WithSubMenuUsage = {
       <Menu
         anchorEl={btnRef.current}
         open={open}
+        onClose={closeHandler}
       >
         <MenuItem>Item 1</MenuItem>
         <MenuItem>Item 2</MenuItem>

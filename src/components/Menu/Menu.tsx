@@ -1,4 +1,12 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, CSSProperties, useState, useMemo} from 'react'
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useRef,
+  CSSProperties,
+  useState,
+} from 'react'
 import './Menu.scss'
 import MenuContent from "./content/MenuContent";
 import Elevation from "../Elevation";
@@ -8,10 +16,20 @@ import {EASING} from "../internal/motion/animation";
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   anchorEl?: HTMLElement | null
-  menuCorner?: string
-  anchorCorner?: string
+  menuCorner?: Corner
+  anchorCorner?: Corner
   open?: boolean
+  quick?: boolean
+  onClose?: () => void
+  stayOpenOnOutsideClick?: boolean
 }
+
+type Position = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 
 const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
   const {
@@ -21,6 +39,12 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     anchorEl,
     style,
     open,
+    quick = false,
+    onClose,
+    onBlur,
+    onFocus,
+    onMouseDown,
+    stayOpenOnOutsideClick,
     ...rest
   } = props
 
@@ -31,94 +55,58 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
   const animationAbortController = new AbortController()
   const menuItems = useRef<NodeListOf<Element>>()
 
+  function calculateMenuPosition(
+    anchor: Position,
+    menu: Position,
+    anchorCorner: Corner,
+    menuCorner: Corner
+  ): { top?: string; left?: string; bottom?: string; right?: string } {
 
-  const calcPosition = (menuCorner: string, anchorCorner: string, menu: HTMLElement, anchor: HTMLElement): CSSProperties => {
-    const styles: CSSProperties = {}
-    const [menuBlockAlign, menuInlineAlign] = menuCorner.split('_')
-    const [anchorBlockAlign, anchorInlineAlign] = anchorCorner.split('_')
-    const blockAlign = `${menuBlockAlign}_${anchorBlockAlign}`
-    const inlineAlign = `${menuInlineAlign}_${anchorInlineAlign}`
-    const menuRect = menu.getBoundingClientRect()
-    const anchorRect = anchor.getBoundingClientRect()
+    // 获取视口宽度和高度
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-    switch (blockAlign) {
-      case 'start_end':
-        const bottomDis = window.innerHeight - anchorRect.bottom
-        if (bottomDis > menuRect.height || bottomDis > anchorRect.top && (styles.height = `${bottomDis}px`)) {
-          styles.top = `${anchorRect.height}px`
-          openDirection.current = 'DOWN'
-        } else {
-          styles.bottom = `${anchorRect.height}px`
-          openDirection.current = 'UP'
-        }
-        break
-      case 'end_end':
-        const topDis = anchorRect.bottom
-        if (topDis > menuRect.height || topDis > (window.innerHeight - anchorRect.top) && (styles.height = `${topDis}px`)) {
-          styles.bottom = `0`
-          openDirection.current = 'UP'
-        } else {
-          styles.top = `0`
-          openDirection.current = 'DOWN'
-        }
-        break
-      case 'start_start':
-        const bottomDis2 = window.innerHeight - anchorRect.top
-        if (bottomDis2 > menuRect.height || bottomDis2 > anchorRect.bottom && (styles.height = `${bottomDis2}px`)) {
-          styles.top = `0`
-          openDirection.current = 'DOWN'
-        } else {
-          styles.bottom = `0`
-          openDirection.current = 'UP'
-        }
-        break
-      case 'end_start':
-        const topDis2 = anchorRect.top
-        if (topDis2 > menuRect.height || topDis2 > (window.innerHeight - anchorRect.bottom) && (styles.height = `${topDis2}px`)) {
-          styles.bottom = `${anchorRect.height}px`
-          openDirection.current = 'UP'
-        } else {
-          styles.top = `${anchorRect.height}px`
-          openDirection.current = 'DOWN'
-        }
-        break
+    // 计算锚点组件的角位置
+    const anchorCorners = {
+      [Corner.START_START]: {x: anchor.x, y: anchor.y},
+      [Corner.START_END]: {x: anchor.x + anchor.width, y: anchor.y},
+      [Corner.END_END]: {x: anchor.x + anchor.width, y: anchor.y + anchor.height},
+      [Corner.END_START]: {x: anchor.x, y: anchor.y + anchor.height},
+    };
+
+    // 计算菜单的预期位置
+    let menuPosition = {top: 0, left: 0};
+    switch (menuCorner) {
+      case Corner.START_START:
+        menuPosition = {top: anchorCorners[anchorCorner].y, left: anchorCorners[anchorCorner].x};
+        break;
+      case Corner.START_END:
+        menuPosition = {top: anchorCorners[anchorCorner].y, left: anchorCorners[anchorCorner].x - menu.width};
+        break;
+      case Corner.END_START:
+        menuPosition = {
+          top: anchorCorners[anchorCorner].y - menu.height,
+          left: anchorCorners[anchorCorner].x - menu.width
+        };
+        break;
+      case Corner.END_END:
+        menuPosition = {top: anchorCorners[anchorCorner].y - menu.height, left: anchorCorners[anchorCorner].x};
+        break;
     }
 
-    switch (inlineAlign) {
-      case 'start_end':
-        const rightDis = window.innerWidth - anchorRect.right
-        if (rightDis > menuRect.width || rightDis > anchorRect.left && (styles.width = `${rightDis}px`)) {
-          styles.left = `${anchorRect.width}px`
-        } else {
-          styles.right = `${anchorRect.width}px`
-        }
-        break
-      case 'end_end':
-        const leftDis = anchorRect.left
-        if (leftDis > menuRect.width || leftDis > window.innerWidth - anchorRect.left && (styles.width = `${leftDis}px`)) {
-          styles.right = `0`
-        } else {
-          styles.left = `0`
-        }
-        break
-      case 'start_start':
-        const rightDis2 = window.innerWidth - anchorRect.left
-        if (rightDis2 > menuRect.width || rightDis2 > anchorRect.right && (styles.width = `${rightDis2}px`)) {
-          styles.left = `0`
-        } else {
-          styles.right = `0`
-        }
-        break
-      case 'end_start':
-        const leftDis2 = anchorRect.left
-        if (leftDis2 > menuRect.width || leftDis2 > window.innerWidth - anchorRect.right && (styles.width = `${leftDis2}px`)) {
-          styles.right = `${anchorRect.width}px`
-        } else {
-          styles.left = `${anchorRect.width}px`
-        }
-        break
-    }
-    return styles
+    // 调整位置以确保菜单不会超出视口
+    if (menuPosition.left < 0) menuPosition.left = 0;
+    if (menuPosition.top < 0) menuPosition.top = 0;
+    if (menuPosition.left + menu.width > viewportWidth) menuPosition.left = viewportWidth - menu.width;
+    if (menuPosition.top + menu.height > viewportHeight) menuPosition.top = viewportHeight - menu.height;
+
+    // 将数字值转换为带'px'的字符串
+    const result: { [key: string]: string } = {};
+    Object.keys(menuPosition).forEach(key => {
+      result[key] = `${menuPosition[key as keyof typeof menuPosition]}px`;
+    });
+
+    return result;
   }
 
   const animateOpen = async (host: HTMLElement, content: HTMLElement, length: number = 1) => {
@@ -128,6 +116,11 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_DURATION) / length;
     const height = host.offsetHeight
     const children = menuItems.current ?? []
+
+    let resolveAnimation: (value: unknown) => void
+    const animationFinished = new Promise((resolve) => {
+      resolveAnimation = resolve
+    })
 
     const surfaceHeightAnimation = host.animate([{height: '0px'}, {height: `${height}px`}], {
       duration: FULL_DURATION,
@@ -155,11 +148,6 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
       childrenAnimations.push(animation);
     }
 
-    let resolveAnimation: (value: unknown) => void
-    const animationFinished = new Promise((resolve) => {
-      resolveAnimation = resolve
-    })
-
     surfaceHeightAnimation.addEventListener('finish', () => {
       surfaceHeightAnimation.cancel()
       upPositionCorrectionAnimation.cancel()
@@ -182,6 +170,11 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) / length;
     const height = content.offsetHeight
     const children = menuItems.current ?? []
+
+    let resolveAnimation: (value: unknown) => void
+    const animationFinished = new Promise((resolve) => {
+      resolveAnimation = resolve
+    })
 
     const surfaceHeightAnimation = host.animate([
       {height: `${height}px`},
@@ -214,11 +207,6 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
       childrenAnimations.push(animation);
     }
 
-    let resolveAnimation: (value: unknown) => void
-    const animationFinished = new Promise((resolve) => {
-      resolveAnimation = resolve
-    })
-
     surfaceHeightAnimation.addEventListener('finish', () => {
       surfaceHeightAnimation.cancel()
       downPositionCorrectionAnimation.cancel()
@@ -231,27 +219,73 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     return await animationFinished
   }
 
+  const toggleOpenAndCloseClass = (open: boolean) => {
+    if (open) {
+      menuRef.current!.classList.toggle('preparing', false)
+    } else {
+      menuRef.current!.classList.toggle('preparing', false)
+      menuRef.current!.classList.toggle('prepared', false)
+    }
+  }
+
+
   useEffect(() => {
     if (anchorEl && menuRef.current && contentRef.current) {
       menuItems.current = contentRef.current.querySelectorAll(':scope>*')
+      menuRef.current.classList.toggle('preparing', true)
       if (open) {
-        menuRef.current.classList.toggle('nd-menu--preparing', true)
-        setPosition(calcPosition(menuCorner, anchorCorner, menuRef.current, anchorEl))
-        menuRef.current.classList.toggle('nd-menu--prepared', true)
-        animateOpen(menuRef.current, contentRef.current, menuItems.current?.length).then(() => {
-          menuRef.current!.classList.toggle('nd-menu--preparing', false)
-        })
+        const menuPosition = calculateMenuPosition(
+          {
+            x: anchorEl.offsetLeft,
+            y: anchorEl.offsetTop,
+            width: anchorEl.offsetWidth,
+            height: anchorEl.offsetHeight
+          },
+          {
+            x: menuRef.current.offsetLeft,
+            y: menuRef.current.offsetTop,
+            width: menuRef.current.offsetWidth,
+            height: menuRef.current.offsetHeight
+          },
+          anchorCorner, menuCorner
+        )
+        setPosition(menuPosition)
+        menuRef.current.classList.toggle('prepared', true)
+        !stayOpenOnOutsideClick && menuRef.current.focus()
+        if (quick) {
+          toggleOpenAndCloseClass(true)
+        } else {
+          animateOpen(menuRef.current, contentRef.current, menuItems.current?.length).then(() => {
+            toggleOpenAndCloseClass(true)
+          })
+        }
       } else {
-        animateClose(menuRef.current, contentRef.current, menuItems.current?.length).then(() => {
-          menuRef.current!.classList.toggle('nd-menu--preparing', false)
-          menuRef.current!.classList.toggle('nd-menu--prepared', false)
-        })
+        if (quick) {
+          toggleOpenAndCloseClass(false)
+        } else {
+          animateClose(menuRef.current, contentRef.current, menuItems.current?.length).then(() => {
+            toggleOpenAndCloseClass(false)
+          })
+        }
       }
     }
   }, [open]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !anchorEl?.contains(event.target as Node) && !menuRef.current.contains(event.target as Node)) {
+        !stayOpenOnOutsideClick && onClose?.()
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [menuRef, anchorEl]);
+
   return (
     <div
+      tabIndex={stayOpenOnOutsideClick ? -1 : 0}
       ref={menuRef}
       className={'nd-menu'}
       style={{...position, ...style}}

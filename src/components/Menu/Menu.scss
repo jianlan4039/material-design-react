@@ -17,12 +17,16 @@
   display: none;
   opacity: 0;
 
-  &.nd-menu--preparing {
+  &.preparing {
     display: block;
     opacity: 0;
+
+    .nd-menu-content {
+      overflow: hidden;
+    }
   }
 
-  &.nd-menu--prepared {
+  &.prepared {
     display: block;
     opacity: 1;
   }

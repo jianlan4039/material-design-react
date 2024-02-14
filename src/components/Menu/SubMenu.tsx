@@ -1,6 +1,7 @@
 import React, {ReactNode, useRef, useState} from 'react'
 import './SubMenu.scss'
 import Menu from "./Menu";
+import cln from 'classnames'
 
 export interface SubMenuProps {
   children?: ReactNode
@@ -34,10 +35,13 @@ export default function SubMenu(props: SubMenuProps) {
       className={'nd-sub-menu'}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
+      {...rest}
     >
       <div
         ref={headerRef}
-        className={'nd-sub-menu__header'}
+        className={cln('nd-sub-menu__header', {
+          'selected': open
+        })}
       >
         {menuItem}
       </div>
@@ -46,6 +50,8 @@ export default function SubMenu(props: SubMenuProps) {
         menuCorner={'start_start'}
         anchorCorner={'start_end'}
         open={open}
+        quick={true}
+        stayOpenOnOutsideClick={true}
       >
         {children}
       </Menu>
