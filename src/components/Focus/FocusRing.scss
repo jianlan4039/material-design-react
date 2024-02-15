@@ -1,0 +1,13 @@
+@use "./internal/focus-ring";
+
+.nd-focus-ring-container {
+  @include focus-ring.theme(());
+  position: absolute;
+  inset: 0;
+  display: flex;
+  outline: none;
+
+  .nd-focus-ring{
+    @include focus-ring.styles;
+  }
+}

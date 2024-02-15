@@ -1,6 +1,6 @@
 @use "sass:list";
 
-@mixin theme($new-tokens, $supported-tokens, $comp){
+@mixin theme($new-tokens:(), $supported-tokens, $comp){
   @each $token, $value in $new-tokens {
     @if list.index($supported-tokens, $token) == null {
       @error 'Token `#{$token}` is not a supported token.';
