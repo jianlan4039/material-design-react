@@ -1,0 +1,5 @@
+@use "content/fab";
+
+.nd-fab {
+  @include fab.styles;
+}

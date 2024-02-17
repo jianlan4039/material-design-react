@@ -3,6 +3,7 @@ import cln from "classnames";
 import './MenuItem.scss'
 import StateLayer from "../StateLayer";
 import MenuItemContent, {MenuItemContentProps} from "./content/MenuItemContent";
+import FocusRing from "../Focus/FocusRing";
 
 export interface MenuItemProps extends MenuItemContentProps, HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
@@ -19,6 +20,7 @@ const MenuItem = memo(forwardRef<HTMLDivElement, MenuItemProps>((props, ref) => 
 
   return (
     <div ref={ref} className={cln('nd-menu-item', className)}>
+      <FocusRing></FocusRing>
       <StateLayer></StateLayer>
       <MenuItemContent {...rest}>
         <label className={'nd-menu-item__label'}>{label || children}</label>

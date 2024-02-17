@@ -17,7 +17,7 @@ const meta: Meta<typeof Menu> = {
 export default meta;
 type Story = StoryObj<typeof Menu>;
 
-export const DefaultUsage: Story = {
+export const Default: Story = {
   render: (args) => {
 
     const [open, setOpen] = useState(false)

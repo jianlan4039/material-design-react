@@ -7,6 +7,4 @@ $tokens: md-comp-filled-button.values();
 @mixin styles() {
   @include tokens-builder.tokens($tokens, filled-button);
   @include shared.styles;
-
-
 }

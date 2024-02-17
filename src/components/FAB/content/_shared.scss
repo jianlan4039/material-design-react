@@ -1,0 +1,58 @@
+@use "../../Elevation/internal/elevation";
+
+@mixin theme() {
+
+}
+
+@mixin styles() {
+  & {
+    @include elevation.theme((
+      level: var(--_container-elevation)
+    ));
+    position: relative;
+    display: inline-flex;
+
+    &:hover {
+      @include elevation.theme((
+        level: var(--_hover-container-elevation)
+      ));
+    }
+
+    &:focus {
+      @include elevation.theme((
+        level: var(--_focus-container-elevation)
+      ))
+    }
+
+    &:active {
+      @include elevation.theme((
+        level: var(--_pressed-container-elevation)
+      ))
+    }
+
+    .nd-fab__button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      outline: none;
+      background: transparent;
+      block-size: inherit;
+      inline-size: inherit;
+      min-inline-size: inherit;
+      padding: 0;
+      color: var(--_label-text-color);
+      font-size: var(--_label-text-size);
+      font-family: var(--_label-text-font);
+      line-height: var(--_label-text-line-height);
+      font-weight: var(--_label-text-weight);
+      cursor: pointer;
+
+      .nd-fab__icon-slot,
+      .nd-fab__label-slot {
+        display: contents;
+      }
+    }
+  }
+}

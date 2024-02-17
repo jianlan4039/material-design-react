@@ -1,0 +1,5 @@
+@use "content/fab-branded";
+
+.nd-branded-fab{
+  @include fab-branded.styles;
+}

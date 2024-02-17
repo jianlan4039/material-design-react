@@ -23,7 +23,12 @@ $supported-tokens: (
   'outward-offset',
   'shape',
   'width',
-  // go/keep-sorted end
+    // Copyright 2024 The New Dawn LLC
+    // SPDX-License-Identifier: Apache-2.0
+  'shape-start-start',
+  'shape-start-end',
+  'shape-end-end',
+  'shape-end-start' // go/keep-sorted end
 );
 
 $_default: (
@@ -43,5 +48,13 @@ $_default: (
     'width': if($exclude-hardcoded-values, null, 3px),
   );
 
-  @return values.validate($tokens, $supported-tokens: $supported-tokens);
+  @return values.validate($tokens, $supported-tokens: $supported-tokens,
+    // Copyright 2024 The New Dawn LLC
+    // SPDX-License-Identifier: Apache-2.0
+  $new-tokens: (
+    'shape-start-start':map.get($deps, 'md-sys-shape', 'corner-full'),
+    'shape-start-end':map.get($deps, 'md-sys-shape', 'corner-full'),
+    'shape-end-end':map.get($deps, 'md-sys-shape', 'corner-full'),
+    'shape-end-start':map.get($deps, 'md-sys-shape', 'corner-full'),
+  ));
 }

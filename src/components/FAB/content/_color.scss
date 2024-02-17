@@ -1,0 +1,43 @@
+@use "sass:map";
+@use "../../builder/background";
+@use "../../StateLayer/internal/state-layer";
+
+@mixin styles($colors) {
+  @include background.theme((
+    color: map.get($colors, 'container-color')
+  ));
+  @include state-layer.theme((
+    hover-color: map.get($colors, hover-state-layer-color),
+    pressed-color: map.get($colors, pressed-state-layer-color),
+  ));
+
+  &:focus {
+    .nd-fab__icon-slot {
+      color: map.get($colors, focus-icon-color);
+    }
+
+    .nd-fab__label-slot {
+      color: map.get($colors, focus-label-text-color);
+    }
+  }
+
+  &:hover {
+    .nd-fab__icon-slot {
+      color: map.get($colors, hover-icon-color);
+    }
+
+    .nd-fab__label-slot {
+      color: map.get($colors, hover-label-text-color);
+    }
+  }
+
+  &:active {
+    .nd-fab__icon-slot {
+      color: map.get($colors, pressed-icon-color);
+    }
+
+    .nd-fab__label-slot {
+      color: map.get($colors, pressed-label-text-color);
+    }
+  }
+}
