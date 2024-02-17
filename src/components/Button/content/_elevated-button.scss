@@ -1,8 +1,5 @@
 @use "../../builder/tokens-builder";
-@use "../../builder/background";
 @use "../../tokens/md-comp-elevated-button";
-@use "../../StateLayer/internal/state-layer";
-@use "../../Elevation/internal/elevation";
 @use "shared";
 
 $token: md-comp-elevated-button.values();
@@ -13,47 +10,5 @@ $token: md-comp-elevated-button.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($token, elevated-button);
-  @include state-layer.theme((
-    hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
-  ));
-  @include elevation.theme((
-    level: var(--_container-elevation)
-  ));
-  @include background.styles;
   @include shared.styles;
-
-  &:hover {
-    @include elevation.theme((
-      level: var(--_hover-container-elevation)
-    ))
-  }
-
-  &:focus {
-    @include elevation.theme((
-      level: var(--_focus-container-elevation)
-    ))
-  }
-
-  &:active {
-    @include elevation.theme((
-      level: var(--_pressed-container-elevation)
-    ))
-  }
-
-  &.disabled {
-    @include elevation.theme((
-      level: var(--_disabled-container-elevation)
-    ));
-    @include background.theme((
-      color: var(--_disabled-container-color),
-      opacity: var(--_disabled-container-opacity)
-    ));
-
-    .nd-button {
-      color: var(--_disabled-label-text-color);
-      opacity: var(--_disabled-label-text-opacity);
-      cursor: auto;
-    }
-  }
 }

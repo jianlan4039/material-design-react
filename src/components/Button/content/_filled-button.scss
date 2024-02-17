@@ -1,0 +1,12 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-filled-button";
+@use "shared";
+
+$tokens: md-comp-filled-button.values();
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, elevated-button);
+  @include shared.styles;
+
+
+}

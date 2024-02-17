@@ -1,0 +1,5 @@
+@use "content/filled-button";
+
+.nd-filled-button{
+  @include filled-button.styles;
+}

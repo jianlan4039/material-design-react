@@ -4,7 +4,7 @@ import ElevatedButton from "../components/Button/ElevatedButton";
 
 const meta: Meta<typeof ElevatedButton> = {
   component: ElevatedButton,
-  title: 'Button/CommonButton',
+  title: 'Button/ElevatedButton',
   parameters: {
     layout: 'centered'
   },
