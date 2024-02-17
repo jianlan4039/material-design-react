@@ -1,0 +1,5 @@
+@use "content/text-button";
+
+.nd-text-button {
+  @include text-button.styles;
+}

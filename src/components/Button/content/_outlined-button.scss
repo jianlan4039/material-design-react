@@ -1,0 +1,16 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-outlined-button";
+@use "shared";
+
+$tokens: md-comp-outlined-button.values();
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, outlined-button);
+  @include shared.styles;
+
+  .nd-state-layer {
+    border-style: solid;
+    border-color: var(--_outline-color);
+    border-width: var(--_outline-width);
+  }
+}

@@ -1,0 +1,10 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-text-button";
+@use "shared";
+
+$tokens: md-comp-text-button.values();
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, text-button);
+  @include shared.styles;
+}

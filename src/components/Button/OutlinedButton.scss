@@ -1,0 +1,5 @@
+@use "content/outlined-button";
+
+.nd-outlined-button {
+  @include outlined-button.styles;
+}

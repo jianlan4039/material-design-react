@@ -80,6 +80,7 @@
       padding-block: calc((var(--_container-height) - $single-line-height) / 2);
       padding-inline-start: var(--_leading-space);
       padding-inline-end: var(--_trailing-space);
+      min-width: 64px;
 
       .nd-button__icon-slot,
       .nd-button__trailing-icon-slot {
