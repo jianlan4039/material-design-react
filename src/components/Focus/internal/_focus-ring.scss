@@ -6,12 +6,21 @@
 $tokens: md-comp-focus-ring.values();
 $_md-sys-motion: md-sys-motion.values();
 
-@mixin theme($new-tokens){
-  @include tokens-builder.theme($new-tokens, $tokens, nd-focus-ring);
+/*
+  active-width',
+  'color',
+  'duration',
+  'inward-offset',
+  'outward-offset',
+  'shape',
+  'width',
+ */
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, md-comp-focus-ring.$supported-tokens, focus-ring);
 }
 
 @mixin styles() {
-  @include tokens-builder.tokens($tokens, nd-focus-ring);
+  @include tokens-builder.tokens($tokens, focus-ring);
   $start-start: var(--md-focus-ring-shape-start-start, var(--md-focus-ring-shape, var(--_shape)));
   $start-end: var(--md-focus-ring-shape-start-end, var(--md-focus-ring-shape, var(--_shape)));
   $end-end: var(--md-focus-ring-shape-end-end, var(--md-focus-ring-shape, var(--_shape)));

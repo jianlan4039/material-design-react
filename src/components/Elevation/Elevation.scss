@@ -1,3 +1,6 @@
 @use "./internal/elevation";
 
-@include elevation.styles;
+.nd-elevation{
+  @include elevation.styles;
+  transition-duration: 280ms;
+}

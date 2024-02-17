@@ -1,0 +1,55 @@
+@mixin styles() {
+  & {
+    // Support logical shape properties
+    --_container-shape-start-start: var(--md-elevated-button-container-shape-start-start, var(--_container-shape));
+    --_container-shape-start-end: var(--md-elevated-button-container-shape-start-end, var(--_container-shape));
+    --_container-shape-end-end: var(--md-elevated-button-container-shape-end-end, var(--_container-shape));
+    --_container-shape-end-start: var(--md-elevated-button-container-shape-end-start, var(--_container-shape));
+
+    position: relative;
+    display: inline-flex;
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+
+    .nd-button {
+      display: inline-flex;
+      background: transparent;
+      border: none;
+      outline: none;
+      margin: 0;
+      border-radius: inherit;
+      color: var(--_label-text-color);
+      font-size: var(--_label-text-size);
+      font-family: var(--_label-text-font);
+      line-height: var(--_label-text-line-height);
+      font-weight: var(--_label-text-weight);
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      block-size: 40px;
+      cursor: pointer;
+      $single-line-height: max(var(--_label-text-line-height), var(--_icon-size));
+      padding-block: calc((var(--_container-height) - $single-line-height) / 2);
+      padding-inline-start: var(--_leading-space);
+      padding-inline-end: var(--_trailing-space);
+
+      .nd-button__icon-slot,
+      .nd-button__trailing-icon-slot {
+        font-size: var(--_icon-size);
+        display: contents;
+      }
+
+      &.nd-button--has-icon {
+        padding-inline-start: var(--_with-leading-icon-leading-space);
+        padding-inline-end: var(--_with-leading-icon-trailing-space);
+      }
+
+      &.nd-button--has-trailing-icon {
+        padding-inline-start: var(--_with-trailing-icon-leading-space);
+        padding-inline-end: var(--_with-trailing-icon-trailing-space);
+      }
+    }
+  }
+}

@@ -1,49 +1,5 @@
-@use "../builder/tokens-builder";
-@use "../tokens";
+@use "internal/state-layer";
 
-@mixin styles() {
-  .nd-state-layer {
-    @include tokens-builder.tokens(tokens.md-comp-ripple-values(), ripple);
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    overflow: hidden;
-    -webkit-tap-highlight-color: transparent;
-    z-index: -1;
-
-    &.nd-state-layer--disabled {
-      display: none;
-    }
-
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      opacity: 0;
-      z-index: -1;
-    }
-
-    &::before {
-      inset: 0;
-      background-color: var(--_hover-color);
-      transition: opacity 15ms linear, background-color 15ms linear;
-    }
-
-    &.hover::before {
-      opacity: var(--_hover-opacity);
-    }
-
-    &::after {
-      background: radial-gradient(closest-side, var(--_pressed-color) max(calc(100% - 70px), 65%), transparent 100%);
-      transform-origin: center center;
-      transition: opacity 375ms linear;
-    }
-
-    &.pressed::after {
-      opacity: var(--_pressed-opacity);
-      transition-duration: 105ms;
-    }
-  }
+.nd-state-layer{
+  @include state-layer.styles;
 }
-
-@include styles;

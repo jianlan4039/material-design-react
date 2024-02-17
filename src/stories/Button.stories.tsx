@@ -4,7 +4,7 @@ import ElevatedButton from "../components/Button/ElevatedButton";
 
 const meta: Meta<typeof ElevatedButton> = {
   component: ElevatedButton,
-  title: 'Button/ElevatedButton',
+  title: 'Button/CommonButton',
   parameters: {
     layout: 'centered'
   },
@@ -14,6 +14,8 @@ const meta: Meta<typeof ElevatedButton> = {
 export default meta;
 type Story = StoryObj<typeof ElevatedButton>;
 
-export const Primary: Story = {
-  render: () => <ElevatedButton>A Button</ElevatedButton>
+export const Elevated: Story = {
+  render: () => (
+    <ElevatedButton>Elevated</ElevatedButton>
+  )
 }

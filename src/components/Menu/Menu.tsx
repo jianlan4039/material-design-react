@@ -75,7 +75,7 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
     };
 
     // 计算菜单的预期位置
-    let menuPosition = {top: 0, left: 0};
+    let menuPosition: { top?: number, left: number, bottom?: number } = {top: 0, left: 0, bottom: 0};
     switch (menuCorner) {
       case Corner.START_START:
         menuPosition = {top: anchorCorners[anchorCorner].y, left: anchorCorners[anchorCorner].x};
@@ -85,20 +85,31 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props: MenuProps, ref) => {
         break;
       case Corner.END_START:
         menuPosition = {
-          top: anchorCorners[anchorCorner].y - menu.height,
+          bottom: viewportHeight - anchorCorners[anchorCorner].y - menu.height,
           left: anchorCorners[anchorCorner].x - menu.width
         };
         break;
       case Corner.END_END:
-        menuPosition = {top: anchorCorners[anchorCorner].y - menu.height, left: anchorCorners[anchorCorner].x};
+        menuPosition = {
+          bottom: viewportHeight - anchorCorners[anchorCorner].y - menu.height,
+          left: anchorCorners[anchorCorner].x
+        };
         break;
     }
 
     // 调整位置以确保菜单不会超出视口
     if (menuPosition.left < 0) menuPosition.left = 0;
-    if (menuPosition.top < 0) menuPosition.top = 0;
     if (menuPosition.left + menu.width > viewportWidth) menuPosition.left = viewportWidth - menu.width;
-    if (menuPosition.top + menu.height > viewportHeight) menuPosition.top = viewportHeight - menu.height;
+
+    if (menuPosition.top) {
+      if (menuPosition.top < 0) menuPosition.top = 0;
+      if (menuPosition.top + menu.height > viewportHeight) menuPosition.top = viewportHeight - menu.height;
+    }
+
+    if (menuPosition.bottom) {
+      if (menuPosition.bottom < 0) menuPosition.bottom = 0;
+      if (menuPosition.bottom + menu.height > viewportHeight) menuPosition.bottom = viewportHeight - menu.height
+    }
 
     // 将数字值转换为带'px'的字符串
     const result: { [key: string]: string } = {};

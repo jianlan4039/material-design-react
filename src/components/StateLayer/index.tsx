@@ -1,5 +1,6 @@
-import React, {ReactNode, useRef, MouseEvent, useState, memo, forwardRef, useEffect} from 'react'
+import React, {useRef, MouseEvent as ReactMouseEvent, useEffect} from 'react'
 import {EASING} from "../internal/motion/animation";
+import cln from "classnames";
 import './StateLayer.scss'
 
 export interface StateLayerProps {
@@ -26,8 +27,8 @@ const StateLayer = (props: StateLayerProps) => {
   const surfaceElement = useRef<HTMLSpanElement>(null);
   const growAnimation = useRef<Animation>();
 
-  function getNormalizedPointerEventCoords(e: MouseEvent<HTMLElement>) {
-    const self = e.currentTarget
+  function getNormalizedPointerEventCoords(e: MouseEvent) {
+    const self = e.currentTarget as HTMLElement
     const {scrollX, scrollY} = window;
     const {left, top} = self.getBoundingClientRect();
     const documentX = scrollX + left;
@@ -36,7 +37,7 @@ const StateLayer = (props: StateLayerProps) => {
     return {x: pageX - documentX, y: pageY - documentY};
   }
 
-  function determineRippleSize(e: HTMLSpanElement) {
+  function determineRippleSize(e: HTMLElement) {
     const {height, width} = e.getBoundingClientRect();
     const maxDim = Math.max(height, width);
     const softEdgeSize = Math.max(SOFT_EDGE_CONTAINER_RATIO * maxDim, SOFT_EDGE_MINIMUM_SIZE);
@@ -47,8 +48,8 @@ const StateLayer = (props: StateLayerProps) => {
     rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`;
   }
 
-  function getTranslationCoordinates(e: MouseEvent<HTMLElement>) {
-    const self = e.currentTarget
+  function getTranslationCoordinates(e: MouseEvent) {
+    const self = e.currentTarget as HTMLElement
     const {height, width} = self.getBoundingClientRect();
     // end in the center
     const endPoint = {
@@ -64,8 +65,8 @@ const StateLayer = (props: StateLayerProps) => {
     return {startPoint, endPoint};
   }
 
-  async function startPressAnimation(e: MouseEvent<HTMLSpanElement>) {
-    determineRippleSize(e.currentTarget);
+  async function startPressAnimation(e: MouseEvent) {
+    determineRippleSize(e.currentTarget as HTMLElement);
     const {startPoint, endPoint} = getTranslationCoordinates(e);
     const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
     const translateEnd = `${endPoint.x}px, ${endPoint.y}px`;
@@ -100,26 +101,51 @@ const StateLayer = (props: StateLayerProps) => {
   }
 
   useEffect(() => {
-    if (surfaceElement.current && surfaceElement.current.parentElement) {
-      surfaceElement.current.parentElement.addEventListener('mouseover', () => {
+    const mouseOverHandler = () => {
+      if (!disabled) {
         surfaceElement.current!.classList.toggle('hover', true)
-      })
-      surfaceElement.current.parentElement.addEventListener('mouseout', () => {
+      }
+    }
+
+    const mouseOutHandler = () => {
+      if (!disabled) {
         surfaceElement.current!.classList.toggle('hover', false)
         surfaceElement.current!.classList.toggle('pressed', false)
-      })
-      surfaceElement.current.parentElement.addEventListener('mousedown', (e: any) => {
+      }
+    }
+
+    const mouseDownHandler = (e: MouseEvent) => {
+      if (!disabled) {
         startPressAnimation(e).then(() => {
           surfaceElement.current!.classList.toggle('pressed', true)
         })
-      })
-      surfaceElement.current.parentElement.addEventListener('mouseup', () => {
+      }
+    }
+
+    const mouseUpHandler = () => {
+      if (!disabled) {
         surfaceElement.current!.classList.toggle('pressed', false)
-      })
+      }
+    }
+
+    if (surfaceElement.current && surfaceElement.current.parentElement) {
+      surfaceElement.current.parentElement.addEventListener('mouseover', mouseOverHandler)
+      surfaceElement.current.parentElement.addEventListener('mouseout', mouseOutHandler)
+      surfaceElement.current.parentElement.addEventListener('mousedown', mouseDownHandler)
+      surfaceElement.current.parentElement.addEventListener('mouseup', mouseUpHandler)
+    }
+
+    return () => {
+      if (surfaceElement.current && surfaceElement.current.parentElement) {
+        surfaceElement.current.parentElement.removeEventListener('mouseover', mouseOverHandler)
+        surfaceElement.current.parentElement.removeEventListener('mouseout', mouseOutHandler)
+        surfaceElement.current.parentElement.removeEventListener('mousedown', mouseDownHandler)
+        surfaceElement.current.parentElement.removeEventListener('mouseup', mouseUpHandler)
+      }
     }
   }, [surfaceElement.current]);
 
-  return <span ref={surfaceElement} className={'nd-state-layer'}></span>
+  return <span ref={surfaceElement} className={cln('nd-state-layer', {'disabled': disabled})}></span>
 }
 
 export default StateLayer
