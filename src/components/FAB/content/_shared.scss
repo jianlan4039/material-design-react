@@ -29,7 +29,7 @@
     border-end-end-radius: var(--_container-shape-end-end);
 
     block-size: var(--_container-height);
-    min-inline-size: var(--_container-width);
+
 
     &:hover {
       @include elevation.theme((

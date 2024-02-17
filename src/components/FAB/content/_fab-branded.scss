@@ -17,6 +17,7 @@ $tokens: md-comp-fab-branded.values();
   --_large-container-shape-start-end: var(--md-fab-branded-large-container-shape-start-end, var(--_large-container-shape));
   --_large-container-shape-end-end: var(--md-fab-branded-large-container-shape-end-end, var(--_large-container-shape));
   --_large-container-shape-end-start: var(--md-fab-branded-large-container-shape-end-start, var(--_large-container-shape));
+  min-inline-size: var(--_container-width);
 
   .nd-fab__button {
     padding-inline-start: 16px;

@@ -22,5 +22,7 @@ $tokens: md-comp-fab.values();
   --_small-container-shape-start-end: var(--md-fab-small-container-shape-start-end, var(--_small-container-shape));
   --_small-container-shape-end-end: var(--md-fab-small-container-shape-end-end, var(--_small-container-shape));
   --_small-container-shape-end-start: var(--md-fab-small-container-shape-end-start, var(--_small-container-shape));
+
+  inline-size: var(--_container-width);;
 }
 
