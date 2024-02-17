@@ -52,6 +52,8 @@
       .nd-fab__icon-slot,
       .nd-fab__label-slot {
         display: contents;
+        color: var(--_icon-color);
+        font-size: var(--_icon-size);
       }
     }
   }
