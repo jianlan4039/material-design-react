@@ -18,6 +18,6 @@ export const Primary: Story = {
 
   render: () => {
 
-    return <FilledButton>Filled</FilledButton>
+    return <FilledButton disabled>Filled</FilledButton>
   }
 }

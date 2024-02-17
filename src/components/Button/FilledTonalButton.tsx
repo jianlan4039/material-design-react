@@ -4,13 +4,13 @@ import Elevation from "../Elevation";
 import StateLayer from "../StateLayer";
 import CommonButton, {CommonButtonProps} from "./content/CommonButton";
 import cln from "classnames";
-import './FilledButton.scss'
+import './FilledTonalButton.scss'
 
-export interface FilledButtonProps extends CommonButtonProps {
+export interface FilledTonalButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-export default function FilledButton(props: FilledButtonProps) {
+export default function FilledTonalButton(props: FilledTonalButtonProps) {
   const {
     children,
     disabled,
@@ -18,7 +18,7 @@ export default function FilledButton(props: FilledButtonProps) {
   } = props
 
   return (
-    <div className={cln('nd-filled-button', {'disabled': disabled})}>
+    <div className={cln('nd-filled-tonal-button', {'disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       <StateLayer disabled={disabled}></StateLayer>

@@ -1,0 +1,10 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-filled-tonal-button";
+@use "shared";
+
+$tokens: md-comp-filled-tonal-button.values();
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, filled-tonal-button);
+  @include shared.styles;
+}
