@@ -7,7 +7,7 @@ import Button, {ButtonProps} from "./content/Button";
 import './BrandedFAB.scss'
 import {FABProps} from "./FAB";
 
-export interface BrandedFABProps extends ButtonProps {
+export interface BrandedFABProps extends Omit<FABProps, 'theme'>, ButtonProps {
   children?: ReactNode
   large?: boolean
 }
@@ -18,13 +18,15 @@ export default function BrandedFAB(props: BrandedFABProps) {
     label,
     icon,
     large,
+    lowered,
     ...rest
   } = props
 
   return (
     <div
       className={cln('nd-branded-fab', {
-        'nd-branded-fab--large': large,
+        'large': large,
+        'lowered': lowered
       })}
     >
       <FocusRing></FocusRing>

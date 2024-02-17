@@ -1,22 +1,13 @@
 @use "../../tokens/md-comp-fab-branded";
 @use "../../builder/tokens-builder";
-@use "../../builder/background";
-@use "../../Focus/internal/focus-ring";
-@use "../../StateLayer/internal/state-layer";
 @use "shared";
-@use "color";
 
 $tokens: md-comp-fab-branded.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, fab);
   @include shared.styles;
-  @include background.styles;
-  @include focus-ring.theme((shape: var(--_container-shape)));
-  @include state-layer.theme((
-    hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
-  ));
+
   // Support logical shape properties
   --_container-shape-start-start: var(--md-fab-branded-container-shape-start-start, var(--_container-shape));
   --_container-shape-start-end: var(--md-fab-branded-container-shape-start-end, var(--_container-shape));
@@ -26,27 +17,6 @@ $tokens: md-comp-fab-branded.values();
   --_large-container-shape-start-end: var(--md-fab-branded-large-container-shape-start-end, var(--_large-container-shape));
   --_large-container-shape-end-end: var(--md-fab-branded-large-container-shape-end-end, var(--_large-container-shape));
   --_large-container-shape-end-start: var(--md-fab-branded-large-container-shape-end-start, var(--_large-container-shape));
-
-  border-start-start-radius: var(--_container-shape-start-start);
-  border-start-end-radius: var(--_container-shape-start-end);
-  border-end-start-radius: var(--_container-shape-end-start);
-  border-end-end-radius: var(--_container-shape-end-end);
-  block-size: var(--_container-height);
-  min-inline-size: var(--_container-width);
-
-  &.nd-branded-fab--large {
-    @include focus-ring.theme((shape: var(--_large-container-shape)));
-    block-size: var(--_large-container-height);
-    inline-size: var(--_large-container-width);
-    border-start-start-radius: var(--_large-container-shape-start-start);
-    border-start-end-radius: var(--_large-container-shape-start-end);
-    border-end-start-radius: var(--_large-container-shape-end-start);
-    border-end-end-radius: var(--_large-container-shape-end-end);
-
-    .nd-fab__icon-slot {
-      font-size: var(--_large-icon-size);
-    }
-  }
 
   .nd-fab__button {
     padding-inline-start: 16px;

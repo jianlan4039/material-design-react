@@ -10,6 +10,7 @@ export interface FABProps {
   children?: ReactNode
   size?: 'small' | "large" | "default"
   theme?: 'primary' | 'secondary' | 'tertiary'
+  lowered?: boolean
 }
 
 export default function FAB(props: FABProps) {
@@ -17,14 +18,16 @@ export default function FAB(props: FABProps) {
     children,
     size,
     theme,
+    lowered,
     ...rest
   } = props
 
   return (
     <div
       className={cln('nd-fab', {
-        [`nd-fab--${size}`]: size,
-        [`nd-fab--${theme}`]: theme
+        [`${size}`]: size,
+        [`nd-fab--${theme}`]: theme,
+        'lowered': lowered
       })}
     >
       <FocusRing></FocusRing>
