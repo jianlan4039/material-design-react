@@ -2,6 +2,7 @@ import React, {ReactNode, useRef, useState} from 'react'
 import './SubMenu.scss'
 import Menu from "./Menu";
 import cln from 'classnames'
+import {Corner} from "../internal/alignment/geometry";
 
 export interface SubMenuProps {
   children?: ReactNode
@@ -47,8 +48,8 @@ export default function SubMenu(props: SubMenuProps) {
       </div>
       <Menu
         anchorEl={headerRef.current}
-        menuCorner={'start_start'}
-        anchorCorner={'start_end'}
+        menuCorner={Corner.START_START}
+        anchorCorner={Corner.START_END}
         open={open}
         quick={true}
         stayOpenOnOutsideClick={true}

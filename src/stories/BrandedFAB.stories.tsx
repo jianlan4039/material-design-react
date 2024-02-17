@@ -16,9 +16,10 @@ export default meta;
 type Story = StoryObj<typeof BrandedFAB>;
 
 export const Default: Story = {
-  render: () => {
+  render: ({large, label = 'Branded'}) => {
     return <BrandedFAB
-      label={'Branded'}
+      label={label}
+      large={large}
       icon={<FilledIcon>add</FilledIcon>}
     ></BrandedFAB>
   }

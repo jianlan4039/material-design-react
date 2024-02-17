@@ -16,25 +16,25 @@ export default meta;
 type Story = StoryObj<typeof FAB>;
 
 export const Default: Story = {
-  render: () => {
-    return <FAB><FilledIcon>add</FilledIcon></FAB>
+  render: (args) => {
+    return <FAB {...args}><FilledIcon>add</FilledIcon></FAB>
   }
 }
 
 export const Primary: Story = {
-  render: () => {
-    return <FAB theme={'primary'}><FilledIcon>add</FilledIcon></FAB>
+  render: ({size, theme = "primary"}) => {
+    return <FAB size={size} theme={theme}><FilledIcon>add</FilledIcon></FAB>
   }
 }
 
 export const Secondary: Story = {
-  render: () => {
-    return <FAB theme={'secondary'}><FilledIcon>add</FilledIcon></FAB>
+  render: ({size, theme = 'secondary'}) => {
+    return <FAB size={size} theme={theme}><FilledIcon>add</FilledIcon></FAB>
   }
 }
 
 export const Tertiary: Story = {
-  render: () => {
-    return <FAB theme={'tertiary'}><FilledIcon>add</FilledIcon></FAB>
+  render: ({size, theme = 'tertiary'}) => {
+    return <FAB size={size} theme={theme}><FilledIcon>add</FilledIcon></FAB>
   }
 }

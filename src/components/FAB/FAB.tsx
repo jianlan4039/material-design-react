@@ -8,7 +8,7 @@ import './FAB.scss'
 
 export interface FABProps {
   children?: ReactNode
-  size?: 'small' | "large"
+  size?: 'small' | "large" | "default"
   theme?: 'primary' | 'secondary' | 'tertiary'
 }
 
