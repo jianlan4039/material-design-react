@@ -86,6 +86,20 @@
         )
     );
 
+    &.lowered {
+      @include background.theme((
+        color: var(--_lowered-container-color)
+      ));
+      @include _elevation(
+          (
+            'default': var(--_lowered-container-elevation),
+            'focus': var(--_lowered-focus-container-elevation),
+            'hover': var(--_lowered-hover-container-elevation),
+            'pressed': var(--_lowered-pressed-container-elevation),
+          )
+      );
+    }
+
     &.nd-fab--primary {
       @include color.styles(
           (
@@ -137,20 +151,6 @@
             'hover-label-text-color': var(--_tertiary-hover-label-text-color),
             'focus-label-text-color': var(--_tertiary-focus-label-text-color),
             'pressed-label-text-color': var(--_tertiary-pressed-label-text-color),
-          )
-      );
-    }
-
-    &.lowered {
-      @include background.theme((
-        color: var(--_lowered-container-color)
-      ));
-      @include _elevation(
-          (
-            'default': var(--_lowered-container-elevation),
-            'focus': var(--_lowered-focus-container-elevation),
-            'hover': var(--_lowered-hover-container-elevation),
-            'pressed': var(--_lowered-pressed-container-elevation),
           )
       );
     }

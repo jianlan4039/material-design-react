@@ -22,19 +22,19 @@ export const Default: Story = {
 }
 
 export const Primary: Story = {
-  render: ({size, theme = "primary"}) => {
-    return <FAB size={size} theme={theme}><FilledIcon>add</FilledIcon></FAB>
+  render: ({size, variant = "primary",...rest}) => {
+    return <FAB size={size} variant={variant} {...rest}><FilledIcon>add</FilledIcon></FAB>
   }
 }
 
 export const Secondary: Story = {
-  render: ({size, theme = 'secondary'}) => {
-    return <FAB size={size} theme={theme}><FilledIcon>add</FilledIcon></FAB>
+  render: ({size, variant = 'secondary', ...rest}) => {
+    return <FAB size={size} variant={variant} {...rest}><FilledIcon>add</FilledIcon></FAB>
   }
 }
 
 export const Tertiary: Story = {
-  render: ({size, theme = 'tertiary'}) => {
-    return <FAB size={size} theme={theme}><FilledIcon>add</FilledIcon></FAB>
+  render: ({size, variant = 'tertiary', ...rest}) => {
+    return <FAB size={size} variant={variant} {...rest}><FilledIcon>add</FilledIcon></FAB>
   }
 }

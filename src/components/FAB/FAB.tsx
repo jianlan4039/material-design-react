@@ -9,7 +9,7 @@ import './FAB.scss'
 export interface FABProps {
   children?: ReactNode
   size?: 'small' | "large" | "default"
-  theme?: 'primary' | 'secondary' | 'tertiary'
+  variant?: 'surface' | 'primary' | 'secondary' | 'tertiary'
   lowered?: boolean
 }
 
@@ -17,7 +17,7 @@ export default function FAB(props: FABProps) {
   const {
     children,
     size,
-    theme,
+    variant,
     lowered,
     ...rest
   } = props
@@ -26,7 +26,7 @@ export default function FAB(props: FABProps) {
     <div
       className={cln('nd-fab', {
         [`${size}`]: size,
-        [`nd-fab--${theme}`]: theme,
+        [`nd-fab--${variant}`]: variant,
         'lowered': lowered
       })}
     >

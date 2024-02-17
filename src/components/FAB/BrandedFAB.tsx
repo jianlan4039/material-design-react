@@ -7,7 +7,7 @@ import Button, {ButtonProps} from "./content/Button";
 import './BrandedFAB.scss'
 import {FABProps} from "./FAB";
 
-export interface BrandedFABProps extends Omit<FABProps, 'theme'>, ButtonProps {
+export interface BrandedFABProps extends Omit<FABProps, 'variant'>, ButtonProps {
   children?: ReactNode
   large?: boolean
 }
