@@ -1,0 +1,30 @@
+@use "../../builder/tokens-builder";
+
+$supported-tokens: (
+  'style',
+  'width',
+  'color'
+);
+
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, $supported-tokens, outline)
+}
+
+@mixin styles() {
+  --_outline-style: solid;
+  --_outline-width: 1px;
+  --_outline-color: #79747E;
+
+  position: absolute;
+  display: inline-flex;
+  inset: 0;
+  border-style: var(--md-outline-style, var(--_outline-style));
+  border-width: var(--md-outline-width, var(--_outline-width));
+  border-color: var(--md-outline-color, var(--_outline-color));
+  border-radius: inherit;
+  z-index: -1;
+
+  &.nd-disabled{
+    opacity: 0.12;
+  }
+}

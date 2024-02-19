@@ -16,8 +16,8 @@ type Story = StoryObj<typeof OutlinedButton>;
 
 export const Primary: Story = {
 
-  render: () => {
+  render: (args) => {
 
-    return <OutlinedButton>Outlined</OutlinedButton>
+    return <OutlinedButton {...args}>Outlined</OutlinedButton>
   }
 }

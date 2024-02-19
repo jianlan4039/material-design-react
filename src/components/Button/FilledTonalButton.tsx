@@ -18,7 +18,7 @@ export default function FilledTonalButton(props: FilledTonalButtonProps) {
   } = props
 
   return (
-    <div className={cln('nd-filled-tonal-button', {'disabled': disabled})}>
+    <div className={cln('nd-filled-tonal-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       <StateLayer disabled={disabled}></StateLayer>

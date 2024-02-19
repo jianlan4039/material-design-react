@@ -1,0 +1,58 @@
+@use "../../builder/background";
+@use "../../StateLayer/internal/state-layer";
+
+@mixin styles() {
+  &:not(:disabled).nd-toggled {
+    @include background.theme((
+      color: var(--_unselected-container-color)
+    ));
+    @include state-layer.theme((
+      hover-color: var(--_toggle-hover-state-layer-color),
+      pressed-color: var(--_toggle-pressed-state-layer-color)
+    ));
+
+    .nd-icon-button__icon-slot,
+    .nd-icon-button__icon-slot > * {
+      color: var(--_toggle-icon-color);
+    }
+
+    &:hover {
+      color: var(--_toggle-hover-icon-color);
+    }
+
+    &:focus {
+      color: var(--_toggle-focus-icon-color);
+    }
+
+    &:active {
+      color: var(--_toggle-pressed-icon-color);
+    }
+
+    &.nd-selected {
+      @include background.theme((
+        color: var(--_selected-container-color)
+      ));
+      @include state-layer.theme((
+        hover-color: var(--_toggle-selected-hover-state-layer-color),
+        pressed-color: var(--_toggle-selected-pressed-state-layer-color)
+      ));
+
+      .nd-icon-button__icon-slot,
+      .nd-icon-button__icon-slot > * {
+        color: var(--_toggle-selected-icon-color);
+      }
+
+      &:hover {
+        color: var(--_toggle-selected-hover-icon-color);
+      }
+
+      &:focus {
+        color: var(--_toggle-selected-focus-icon-color);
+      }
+
+      &:active {
+        color: var(--_toggle-selected-pressed-icon-color);
+      }
+    }
+  }
+}

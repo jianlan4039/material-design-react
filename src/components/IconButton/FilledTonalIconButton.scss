@@ -1,0 +1,5 @@
+@use "content/filled-tonal-icon-button";
+
+.nd-filled-tonal-icon-button{
+  @include filled-tonal-icon-button.styles;
+}

@@ -18,11 +18,11 @@ export default function ElevatedButton(props: ElevatedButtonProps) {
   } = props
 
   return (
-    <div className={cln('nd-elevated-button', {'disabled': disabled})}>
+    <div className={cln('nd-elevated-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       <StateLayer disabled={disabled}></StateLayer>
-      <CommonButton {...rest}>
+      <CommonButton disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>

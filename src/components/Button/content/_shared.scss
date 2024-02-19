@@ -3,100 +3,104 @@
 @use "../../Elevation/internal/elevation";
 
 @mixin styles() {
-  & {
-    @include state-layer.theme((
-      hover-color: var(--_hover-state-layer-color),
-      pressed-color: var(--_pressed-state-layer-color)
-    ));
-    @include elevation.theme((
-      level: var(--_container-elevation)
-    ));
-    @include background.styles;
-    // Support logical shape properties
-    --_container-shape-start-start: var(--md-elevated-button-container-shape-start-start, var(--_container-shape));
-    --_container-shape-start-end: var(--md-elevated-button-container-shape-start-end, var(--_container-shape));
-    --_container-shape-end-end: var(--md-elevated-button-container-shape-end-end, var(--_container-shape));
-    --_container-shape-end-start: var(--md-elevated-button-container-shape-end-start, var(--_container-shape));
 
-    position: relative;
+  @include background.styles;
+  @include elevation.theme((
+    level: var(--_container-elevation)
+  ));
+  @include state-layer.theme((
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: var(--_pressed-state-layer-color)
+  ));
+  --_container-shape-start-start: var(--md-elevated-button-container-shape-start-start, var(--_container-shape));
+  --_container-shape-start-end: var(--md-elevated-button-container-shape-start-end, var(--_container-shape));
+  --_container-shape-end-end: var(--md-elevated-button-container-shape-end-end, var(--_container-shape));
+  --_container-shape-end-start: var(--md-elevated-button-container-shape-end-start, var(--_container-shape));
+
+  position: relative;
+  display: inline-flex;
+  border-start-start-radius: var(--_container-shape-start-start);
+  border-start-end-radius: var(--_container-shape-start-end);
+  border-end-start-radius: var(--_container-shape-end-start);
+  border-end-end-radius: var(--_container-shape-end-end);
+
+  .nd-button {
     display: inline-flex;
-    border-start-start-radius: var(--_container-shape-start-start);
-    border-start-end-radius: var(--_container-shape-start-end);
-    border-end-start-radius: var(--_container-shape-end-start);
-    border-end-end-radius: var(--_container-shape-end-end);
+    background: transparent;
+    border: none;
+    outline: none;
+    margin: 0;
+    border-radius: inherit;
+    color: var(--_label-text-color);
+    font-size: var(--_label-text-size);
+    font-family: var(--_label-text-font);
+    line-height: var(--_label-text-line-height);
+    font-weight: var(--_label-text-weight);
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    block-size: 40px;
+    cursor: pointer;
+    $single-line-height: max(var(--_label-text-line-height), var(--_icon-size));
+    padding-block: calc((var(--_container-height) - $single-line-height) / 2);
+    padding-inline-start: var(--_leading-space);
+    padding-inline-end: var(--_trailing-space);
+    min-width: 64px;
 
-    &:hover {
-      @include elevation.theme((
-        level: var(--_hover-container-elevation)
-      ))
+    .nd-button__icon-slot > *,
+    .nd-button__trailing-icon-slot > * {
+      font-size: var(--_icon-size);
     }
 
-    &:focus {
-      @include elevation.theme((
-        level: var(--_focus-container-elevation)
-      ))
+    .nd-button__icon-slot,
+    .nd-button__trailing-icon-slot {
+      font-size: var(--_icon-size);
+      display: contents;
     }
 
-    &:active {
-      @include elevation.theme((
-        level: var(--_pressed-container-elevation)
-      ))
+    &.nd-button--has-icon {
+      padding-inline-start: var(--_with-leading-icon-leading-space);
+      padding-inline-end: var(--_with-leading-icon-trailing-space);
     }
 
-    &.disabled {
-      @include elevation.theme((
-        level: var(--_disabled-container-elevation)
-      ));
-      @include background.theme((
-        color: var(--_disabled-container-color),
-        opacity: var(--_disabled-container-opacity)
-      ));
-
-      .nd-button {
-        color: var(--_disabled-label-text-color);
-        opacity: var(--_disabled-label-text-opacity);
-        cursor: auto;
-      }
-    }
-
-    .nd-button {
-      display: inline-flex;
-      background: transparent;
-      border: none;
-      outline: none;
-      margin: 0;
-      border-radius: inherit;
-      color: var(--_label-text-color);
-      font-size: var(--_label-text-size);
-      font-family: var(--_label-text-font);
-      line-height: var(--_label-text-line-height);
-      font-weight: var(--_label-text-weight);
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      block-size: 40px;
-      cursor: pointer;
-      $single-line-height: max(var(--_label-text-line-height), var(--_icon-size));
-      padding-block: calc((var(--_container-height) - $single-line-height) / 2);
-      padding-inline-start: var(--_leading-space);
-      padding-inline-end: var(--_trailing-space);
-      min-width: 64px;
-
-      .nd-button__icon-slot,
-      .nd-button__trailing-icon-slot {
-        font-size: var(--_icon-size);
-        display: contents;
-      }
-
-      &.nd-button--has-icon {
-        padding-inline-start: var(--_with-leading-icon-leading-space);
-        padding-inline-end: var(--_with-leading-icon-trailing-space);
-      }
-
-      &.nd-button--has-trailing-icon {
-        padding-inline-start: var(--_with-trailing-icon-leading-space);
-        padding-inline-end: var(--_with-trailing-icon-trailing-space);
-      }
+    &.nd-button--has-trailing-icon {
+      padding-inline-start: var(--_with-trailing-icon-leading-space);
+      padding-inline-end: var(--_with-trailing-icon-trailing-space);
     }
   }
+
+  &:hover {
+    @include elevation.theme((
+      level: var(--_hover-container-elevation)
+    ))
+  }
+
+  &:focus-visible {
+    @include elevation.theme((
+      level: var(--_focus-container-elevation)
+    ))
+  }
+
+  &:active {
+    @include elevation.theme((
+      level: var(--_pressed-container-elevation)
+    ))
+  }
+
+  &.nd-disabled {
+    @include elevation.theme((
+      level: var(--_disabled-container-elevation)
+    ));
+    @include background.theme((
+      color: var(--_disabled-container-color),
+      opacity: var(--_disabled-container-opacity)
+    ));
+
+    .nd-button {
+      color: var(--_disabled-label-text-color);
+      opacity: var(--_disabled-label-text-opacity);
+      cursor: auto;
+    }
+  }
+
 }

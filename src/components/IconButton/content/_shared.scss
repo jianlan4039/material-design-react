@@ -1,0 +1,72 @@
+@use "../../builder/background";
+@use "../../Elevation/internal/elevation";
+@use "../../StateLayer/internal/state-layer";
+@use "../../Focus/internal/focus-ring";
+
+
+@mixin styles() {
+
+  & {
+    position: relative;
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+
+    .nd-icon-button__button {
+      @include background.styles;
+      @include state-layer.theme((
+        hover-color: var(--_hover-state-layer-color),
+        pressed-color: var(--_pressed-state-layer-color)
+      ));
+      display: inline-flex;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      border: none;
+      outline: none;
+      block-size: var(--_container-height);
+      inline-size: var(--_container-width);
+      padding: 0;
+      border-radius: inherit;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      .nd-icon-button__icon-slot,
+      .nd-icon-button__icon-slot > * {
+        color: var(--_icon-color);
+        font-size: var(--_icon-size);
+        block-size: var(--_icon-size);
+        inline-size: var(--_icon-size);
+      }
+
+      &:hover {
+        color: var(--_hover-icon-color);
+      }
+
+      &:focus {
+        color: var(--_focus-icon-color);
+      }
+
+      &:active {
+        color: var(--_pressed-icon-color);
+      }
+
+      &:disabled {
+        @include background.theme((
+          color: var(--_disabled-container-color),
+          opacity: var(--_disabled-container-opacity)
+        ));
+        cursor: auto;
+
+        .nd-icon-button__icon-slot,
+        .nd-icon-button__icon-slot > * {
+          display: flex;
+          color: var(--_disabled-icon-color);
+          opacity: var(--_disabled-icon-opacity);
+        }
+      }
+    }
+  }
+}

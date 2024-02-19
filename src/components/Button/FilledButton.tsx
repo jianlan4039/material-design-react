@@ -18,11 +18,11 @@ export default function FilledButton(props: FilledButtonProps) {
   } = props
 
   return (
-    <div className={cln('nd-filled-button', {'disabled': disabled})}>
+    <div className={cln('nd-filled-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       <StateLayer disabled={disabled}></StateLayer>
-      <CommonButton {...rest}>
+      <CommonButton disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>

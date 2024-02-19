@@ -1,0 +1,20 @@
+@use "shared";
+@use "toggled";
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-filled-tonal-icon-button";
+
+$tokens: md-comp-filled-tonal-icon-button.values();
+
+@mixin styles(){
+  @include tokens-builder.tokens($tokens, icon-button);
+  --_container-shape-start-start: var(--md-filled-tonal-icon-button-container-shape-start-start, var(--_container-shape));
+  --_container-shape-start-end: var(--md-filled-tonal-icon-button-container-shape-start-end, var(--_container-shape));
+  --_container-shape-end-end: var(--md-filled-tonal-icon-button-container-shape-end-end, var(--_container-shape));
+  --_container-shape-end-start: var(--md-filled-tonal-icon-button-container-shape-end-start, var(--_container-shape));
+
+  @include shared.styles;
+
+  .nd-icon-button__button {
+    @include toggled.styles;
+  }
+}

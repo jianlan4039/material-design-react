@@ -1,7 +1,10 @@
 import React, {HTMLAttributes, ReactNode} from 'react'
 import cln from "classnames";
+import FocusRing from "../../Focus/FocusRing";
+import Elevation from "../../Elevation";
+import StateLayer from "../../StateLayer";
 
-export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement>{
+export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean
   children?: ReactNode
   icon?: ReactNode
@@ -13,6 +16,7 @@ export default function CommonButton(props: CommonButtonProps) {
     children,
     icon,
     trailingIcon,
+    disabled,
     ...rest
   } = props
 
@@ -22,6 +26,7 @@ export default function CommonButton(props: CommonButtonProps) {
         'nd-button--has-icon': icon,
         'nd-button--has-trailing-icon': trailingIcon
       })}
+      disabled={disabled}
       {...rest}
     >
       <span className={'nd-button__icon-slot'}>{icon}</span>

@@ -16,8 +16,8 @@ type Story = StoryObj<typeof FilledTonalButton>;
 
 export const Primary: Story = {
 
-  render: () => {
+  render: (args) => {
 
-    return <FilledTonalButton>FilledTonal</FilledTonalButton>
+    return <FilledTonalButton {...args}>FilledTonal</FilledTonalButton>
   }
 }

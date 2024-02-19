@@ -16,8 +16,7 @@ type Story = StoryObj<typeof FilledButton>;
 
 export const Primary: Story = {
 
-  render: () => {
-
-    return <FilledButton disabled>Filled</FilledButton>
+  render: (args) => {
+    return <FilledButton {...args}>Filled</FilledButton>
   }
 }

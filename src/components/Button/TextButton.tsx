@@ -18,11 +18,11 @@ export default function TextButton(props: TextButtonProps) {
   } = props
 
   return (
-    <div className={cln('nd-text-button', {'disabled': disabled})}>
+    <div className={cln('nd-text-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       <StateLayer disabled={disabled}></StateLayer>
-      <CommonButton {...rest}>
+      <CommonButton disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>

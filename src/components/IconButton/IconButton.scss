@@ -1,0 +1,5 @@
+@use "content/icon-button";
+
+.nd-icon-button{
+  @include icon-button.styles;
+}
