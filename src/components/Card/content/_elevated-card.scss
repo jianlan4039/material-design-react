@@ -1,0 +1,19 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-elevated-card";
+@use "./card";
+
+$tokens: md-comp-elevated-card.values();
+$supported-tokens: md-comp-elevated-card.$supported-tokens;
+
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, $supported-tokens, elevated-card);
+}
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, elevated-card);
+  --_container-shape-start-start: var(--_md-elevated-card-container-shape-start-start, var(--_container-shape));
+  --_container-shape-start-end: var(--_md-elevated-card-container-shape-start-end, var(--_container-shape));
+  --_container-shape-end-start: var(--_md-elevated-card-container-shape-end-start, var(--_container-shape));
+  --_container-shape-end-end: var(--_md-elevated-card-container-shape-end-end, var(--_container-shape));
+  @include card.styles;
+}

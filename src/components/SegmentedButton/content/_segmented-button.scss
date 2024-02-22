@@ -5,10 +5,11 @@
 @use "../../StateLayer/internal/state-layer";
 
 $tokens: md-comp-outlined-segmented-button.values();
+$supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
 
 
-@mixin theme() {
-
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, $supported-tokens, outlined-segmented-button);
 }
 
 @mixin styles() {

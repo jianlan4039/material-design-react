@@ -6,5 +6,9 @@ $tokens: md-comp-text-button.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, text-button);
+  --_container-shape-start-start: var(--md-text-button-container-shape-start-start, var(--_container-shape));
+  --_container-shape-start-end: var(--md-text-button-container-shape-start-end, var(--_container-shape));
+  --_container-shape-end-end: var(--md-text-button-container-shape-end-end, var(--_container-shape));
+  --_container-shape-end-start: var(--md-text-button-container-shape-end-start, var(--_container-shape));
   @include shared.styles;
 }

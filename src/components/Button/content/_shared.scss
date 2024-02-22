@@ -12,10 +12,6 @@
     hover-color: var(--_hover-state-layer-color),
     pressed-color: var(--_pressed-state-layer-color)
   ));
-  --_container-shape-start-start: var(--md-elevated-button-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-elevated-button-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-elevated-button-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-elevated-button-container-shape-end-start, var(--_container-shape));
 
   position: relative;
   display: inline-flex;

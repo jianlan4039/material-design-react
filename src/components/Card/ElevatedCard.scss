@@ -1,0 +1,5 @@
+@use "content/elevated-card";
+
+.nd-elevated-card{
+  @include elevated-card.styles;
+}

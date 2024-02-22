@@ -7,6 +7,10 @@ $tokens: md-comp-outlined-button.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, outlined-button);
+  --_container-shape-start-start: var(--md-outlined-button-container-shape-start-start, var(--_container-shape));
+  --_container-shape-start-end: var(--md-outlined-button-container-shape-start-end, var(--_container-shape));
+  --_container-shape-end-end: var(--md-outlined-button-container-shape-end-end, var(--_container-shape));
+  --_container-shape-end-start: var(--md-outlined-button-container-shape-end-start, var(--_container-shape));
   @include shared.styles;
   @include outline.theme((
     color: var(--_outline-color),

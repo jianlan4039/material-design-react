@@ -1,0 +1,19 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-filled-card";
+@use "./card";
+
+$tokens: md-comp-filled-card.values();
+$supported-tokens: md-comp-filled-card.$supported-tokens;
+
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, $supported-tokens, filled-card);
+}
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, filled-card);
+  --_container-shape-start-start: var(--_md-filled-card-container-shape-start-start, var(--_container-shape));
+  --_container-shape-start-end: var(--_md-filled-card-container-shape-start-end, var(--_container-shape));
+  --_container-shape-end-start: var(--_md-filled-card-container-shape-end-start, var(--_container-shape));
+  --_container-shape-end-end: var(--_md-filled-card-container-shape-end-end, var(--_container-shape));
+  @include card.styles;
+}

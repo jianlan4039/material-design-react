@@ -1,0 +1,5 @@
+@use "content/filled-card";
+
+.nd-filled-card{
+  @include filled-card.styles;
+}
