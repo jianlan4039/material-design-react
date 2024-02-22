@@ -1,0 +1,157 @@
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../tokens/md-comp-outlined-segmented-button";
+@use "../../Outline/content/outline";
+@use "../../StateLayer/internal/state-layer";
+
+$tokens: md-comp-outlined-segmented-button.values();
+
+
+@mixin theme() {
+
+}
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, outlined-segmented-button);
+  @include outline.theme((
+    color: var(--_outline-color)
+  ));
+  @include state-layer.theme((
+    hover-color: var(--_unselected-hover-state-layer-color),
+    pressed-color: var(--_unselected-pressed-state-layer-color)
+  ));
+  display: inline-flex;
+  position: relative;
+
+  & + div.nd-segmented-button {
+    .nd-outline {
+      border-left-width: 0;
+    }
+  }
+  &:first-child {
+    border-top-left-radius: var(--_shape);
+    border-bottom-left-radius: var(--_shape);
+  }
+  &:last-child {
+    border-top-right-radius: var(--_shape);
+    border-bottom-right-radius: var(--_shape);
+  }
+  @include background.styles;
+
+  .nd-segmented-button-content {
+    background: transparent;
+    outline: none;
+    border: none;
+    border-radius: inherit;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    block-size: 40px;
+    box-sizing: border-box;
+    gap: 8px;
+    padding-inline: 12px;
+    color: var(--_unselected-label-text-color);
+    font-size: var(--_label-text-size);
+    line-height: var(--_label-text-line-height);
+    font-weight: var(--_label-text-weight);
+    font-family: var(--_label-text-font);
+    width: inherit;
+
+    .nd-segmented-button__icon-slot,
+    .nd-segmented-button__trailing-icon-slot {
+      display: contents;
+    }
+  }
+
+  @include state();
+
+  &.nd-selected {
+    @include state('selected')
+  }
+
+  &.nd-disabled {
+    @include outline.theme((
+      color: var(--_disabled-outline-color)
+    ));
+    color: var(--_disabled-label-text-color);
+
+    .nd-outline {
+      border-right-width: 0;
+    }
+
+    .nd-segmented-button__icon-slot,
+    .nd-segmented-button__trailing-icon-slot,
+    .nd-segmented-button__icon-slot > *,
+    .nd-segmented-button__trailing-icon-slot > * {
+      color: var(--_disabled-icon-color);
+    }
+
+    & > .nd-segmented-button-content {
+      opacity: 0.38;
+    }
+
+    & + div.nd-segmented-button {
+      .nd-outline {
+        border-left-width: thin;
+      }
+    }
+  }
+
+  &.nd-disabled:last-child {
+    .nd-outline {
+      border-right-width: thin;
+    }
+  }
+}
+
+@mixin state($selected:'unselected') {
+  @include background.theme((
+    color: var(--_#{$selected}-container-color)
+  ));
+  @include state-layer.theme((
+    hover-color: var(--_#{$selected}-hover-state-layer-color),
+    pressed-color: var(--_#{$selected}-pressed-state-layer-color)
+  ));
+  .nd-segmented-button__icon-slot,
+  .nd-segmented-button__trailing-icon-slot,
+  .nd-segmented-button__icon-slot > *,
+  .nd-segmented-button__trailing-icon-slot > * {
+    font-size: var(--_icon-size);
+    color: var(--_#{$selected}-icon-color);
+  }
+
+  &:focus-visible {
+    color: var(--_#{$selected}-focus-label-text-color);
+
+    .nd-segmented-button__icon-slot,
+    .nd-segmented-button__trailing-icon-slot,
+    .nd-segmented-button__icon-slot > *,
+    .nd-segmented-button__trailing-icon-slot > * {
+      color: var(--_#{$selected}-focus-label-text-color);
+    }
+  }
+
+  &:hover {
+    color: var(--_#{$selected}-hover-label-text-color);
+
+    .nd-segmented-button__icon-slot,
+    .nd-segmented-button__trailing-icon-slot,
+    .nd-segmented-button__icon-slot > *,
+    .nd-segmented-button__trailing-icon-slot > * {
+      color: var(--_#{$selected}-hover-icon-color);
+    }
+  }
+
+  &:active {
+    color: var(--_#{$selected}-pressed-label-text-color);
+
+    .nd-segmented-button__icon-slot,
+    .nd-segmented-button__trailing-icon-slot,
+    .nd-segmented-button__icon-slot > *,
+    .nd-segmented-button__trailing-icon-slot > * {
+      color: var(--_#{$selected}-pressed-icon-color);
+    }
+  }
+}

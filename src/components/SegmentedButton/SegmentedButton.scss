@@ -1,0 +1,5 @@
+@use "content/segmented-button";
+
+.nd-segmented-button{
+  @include segmented-button.styles;
+}

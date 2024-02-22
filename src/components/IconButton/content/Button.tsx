@@ -1,7 +1,4 @@
-import React, {HTMLAttributes, ReactNode, useRef, useState, MouseEvent} from 'react'
-import FocusRing from "../../Focus/FocusRing";
-import Elevation from "../../Elevation";
-import StateLayer from "../../StateLayer";
+import React, {HTMLAttributes, ReactNode, useState, MouseEvent} from 'react'
 import cln from "classnames";
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
@@ -39,9 +36,6 @@ export default function Button(props: ButtonProps) {
       disabled={disabled}
       {...rest}
     >
-      <FocusRing></FocusRing>
-      <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
       <span className={'nd-icon-button__icon-slot'}>{children}</span>
     </button>
   )
