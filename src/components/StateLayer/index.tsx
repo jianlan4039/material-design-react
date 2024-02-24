@@ -26,19 +26,19 @@ const StateLayer = (props: StateLayerProps) => {
 
   const surfaceElement = useRef<HTMLSpanElement>(null);
   const growAnimation = useRef<Animation>();
+  let pageX: number, pageY: number
 
-  function getNormalizedPointerEventCoords(e: MouseEvent) {
-    const self = e.currentTarget as HTMLElement
+  function getNormalizedPointerEventCoords(rect: DOMRect) {
     const {scrollX, scrollY} = window;
-    const {left, top} = self.getBoundingClientRect();
+    const {left, top} = rect;
     const documentX = scrollX + left;
     const documentY = scrollY + top;
-    const {pageX, pageY} = e;
+    // const {pageX, pageY} = e;
     return {x: pageX - documentX, y: pageY - documentY};
   }
 
-  function determineRippleSize(e: HTMLElement) {
-    const {height, width} = e.getBoundingClientRect();
+  function determineRippleSize(rect: DOMRect) {
+    const {height, width} = rect;
     const maxDim = Math.max(height, width);
     const softEdgeSize = Math.max(SOFT_EDGE_CONTAINER_RATIO * maxDim, SOFT_EDGE_MINIMUM_SIZE);
     const _initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE);
@@ -48,15 +48,14 @@ const StateLayer = (props: StateLayerProps) => {
     rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`;
   }
 
-  function getTranslationCoordinates(e: MouseEvent) {
-    const self = e.currentTarget as HTMLElement
-    const {height, width} = self.getBoundingClientRect();
+  function getTranslationCoordinates(rect: DOMRect) {
+    const {height, width} = rect
     // end in the center
     const endPoint = {
       x: (width - initialSize) / 2,
       y: (height - initialSize) / 2,
     };
-    let startPoint = getNormalizedPointerEventCoords(e)
+    let startPoint = getNormalizedPointerEventCoords(rect)
     // center around start point
     startPoint = {
       x: startPoint.x - (initialSize / 2),
@@ -65,9 +64,11 @@ const StateLayer = (props: StateLayerProps) => {
     return {startPoint, endPoint};
   }
 
-  async function startPressAnimation(e: MouseEvent) {
-    determineRippleSize(e.currentTarget as HTMLElement);
-    const {startPoint, endPoint} = getTranslationCoordinates(e);
+  async function startPressAnimation(e: MouseEvent, rect: DOMRect) {
+    pageX = e.pageX;
+    pageY = e.pageY;
+    determineRippleSize(rect);
+    const {startPoint, endPoint} = getTranslationCoordinates(rect);
     const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
     const translateEnd = `${endPoint.x}px, ${endPoint.y}px`;
     growAnimation.current = surfaceElement.current?.animate(
@@ -92,7 +93,6 @@ const StateLayer = (props: StateLayerProps) => {
   async function endPressAnimation() {
     const pressAnimationPlayState = growAnimation.current?.currentTime as number
     if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
-      // setPressed(false);
       return
     }
     await new Promise(resolve => {
@@ -115,8 +115,8 @@ const StateLayer = (props: StateLayerProps) => {
     }
 
     const mouseDownHandler = (e: MouseEvent) => {
-      if (!disabled) {
-        startPressAnimation(e).then(() => {
+      if (!disabled && surfaceElement.current) {
+        startPressAnimation(e, surfaceElement.current.getBoundingClientRect()).then(() => {
           surfaceElement.current!.classList.toggle('pressed', true)
         })
       }
