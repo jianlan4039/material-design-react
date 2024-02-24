@@ -48,11 +48,7 @@ $supported-tokens: (
   'selected-pressed-state-layer-opacity',
   'state-layer-shape',
   'state-layer-size',
-  // go/keep-sorted end
-);
-
-$unsupported-tokens: (
-  // go/keep-sorted start
+  // move the unsupported tokens here
   'error-focus-outline-color',
   'error-focus-state-layer-color',
   'error-focus-state-layer-opacity',
@@ -80,6 +76,12 @@ $unsupported-tokens: (
   'selected-hover-outline-width',
   'selected-outline-width',
   'selected-pressed-outline-width',
+  // go/keep-sorted end
+);
+
+$unsupported-tokens: (
+  // go/keep-sorted start
+
   // go/keep-sorted end
 );
 

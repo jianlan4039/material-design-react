@@ -1,0 +1,46 @@
+@use "../../builder/background";
+
+@mixin styles() {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  .nd-checkbox-content {
+    --_icon-color: var(--_outline-color);
+    @include background.styles;
+    display: inline-flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--_container-shape);
+
+    input[type='checkbox'] {
+      opacity: 0;
+      block-size: 48px;
+      inline-size: 48px;
+      position: absolute;
+      z-index: 1;
+      margin: 0;
+      appearance: none;
+    }
+
+    svg {
+      // change it at different state
+      fill: var(--_icon-color);
+    }
+
+    &.nd-check,
+    &.nd-indeterminate {
+      @include background.theme((
+        // change it at different state
+        color: var(--_selected-container-color)
+      ));
+
+      svg {
+        // change it at different state
+        fill: var(--_selected-icon-color);
+      }
+    }
+  }
+}

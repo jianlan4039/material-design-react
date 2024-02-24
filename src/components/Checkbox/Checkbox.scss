@@ -1,0 +1,89 @@
+@use "content/check-box";
+@use "../builder/tokens-builder";
+@use "../builder/background";
+@use "../tokens/md-comp-checkbox";
+@use "../StateLayer/internal/state-layer";
+
+$tokens: md-comp-checkbox.values();
+$supported-tokens: md-comp-checkbox.$supported-tokens;
+
+.nd-checkbox {
+  @include tokens-builder.tokens($tokens, checkbox);
+  @include state-layer.theme((
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: var(--_pressed-state-layer-color)
+  ));
+  @include check-box.styles;
+  border-radius: var(--_state-layer-shape);
+
+  .nd-state-layer {
+    block-size: var(--_state-layer-size);
+    inline-size: var(--_state-layer-size);
+    inset: unset;
+  }
+
+  .nd-focus-ring-container {
+    block-size: 44px;
+    inline-size: 44px;
+    inset: unset;
+  }
+
+  .nd-focus-ring {
+    block-size: 44px;
+    inline-size: 44px;
+    inset: unset !important;
+  }
+
+  &.nd-disabled {
+    & > .nd-check,
+    & > .nd-indeterminate {
+      @include background.theme((
+        color: var(--_selected-disabled-container-color),
+        opacity: var(--_selected-disabled-container-opacity)
+      ))
+    }
+
+    & > .nd-uncheck {
+      svg {
+        fill: var(--_disabled-outline-color);
+        opacity: var(--_disabled-container-opacity)
+      }
+    }
+  }
+
+  &.nd-selected {
+    @include state-layer.theme((
+      hover-color: var(--_selected-hover-state-layer-color),
+      pressed-color: var(--_selected-pressed-state-layer-color)
+    ))
+  }
+
+  &.nd-error {
+    @include state-layer.theme((
+      hover-color: var(--_error-hover-state-layer-color),
+      pressed-color: var(--_error-pressed-state-layer-color)
+    ));
+
+    .nd-checkbox-content > svg {
+      fill: var(--_error-outline-color);
+    }
+
+    &.nd-selected {
+      @include state-layer.theme((
+        hover-color: var(--_error-hover-state-layer-color),
+        pressed-color: var(--_error-pressed-state-layer-color)
+      ));
+
+      & > .nd-checkbox-content.nd-check,
+      & > .nd-checkbox-content.nd-indeterminate {
+        @include background.theme((
+          color: var(--_selected-error-container-color)
+        ));
+
+        svg{
+          fill: var(--_selected-error-icon-color);
+        }
+      }
+    }
+  }
+}
