@@ -1,0 +1,54 @@
+@use "./content/shared";
+@use "../tokens/md-comp-input-chip";
+@use "../builder/tokens-builder";
+@use "../builder/background";
+
+$tokens: md-comp-input-chip.values();
+$supported-tokens: md-comp-input-chip.$supported-tokens;
+
+.nd-input-chip {
+  @include tokens-builder.tokens($tokens, input-chip);
+  --_chip-trail-icon-size: var(--_icon-size);
+  @include background.styles;
+  @include shared.styles;
+
+  .nd-chip__button {
+    position: static;
+    padding-inline-end: 0;
+  }
+
+  .nd-input-chip__trail {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    background: transparent;
+    block-size: var(--_chip-height);
+    padding-inline-start: var(--_icon-label-space);
+    padding-inline-end: var(--_with-trailing-icon-trailing-space);
+
+    svg {
+      block-size: var(--_chip-icon-size);
+      inline-size: var(--_chip-icon-size);
+      fill: var(--_trailing-icon-color);
+    }
+
+    .nd-state-layer {
+      border-radius: 50%;
+      height: calc(4 / 3 * var(--_icon-size)); // 24px default
+      width: calc(4 / 3 * var(--_icon-size)); // 24px default
+      margin: auto;
+    }
+  }
+
+  &.nd-disabled {
+    .nd-input-chip__trail {
+      svg{
+        fill: var(--_disabled-trailing-icon-color);
+        opacity: var(--_disabled-trailing-icon-opacity);
+      }
+    }
+  }
+}

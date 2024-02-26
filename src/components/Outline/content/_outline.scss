@@ -3,7 +3,8 @@
 $supported-tokens: (
   'style',
   'width',
-  'color'
+  'color',
+  'opacity'
 );
 
 @mixin theme($new-tokens) {
@@ -21,10 +22,11 @@ $supported-tokens: (
   border-style: var(--md-outline-style, var(--_outline-style));
   border-width: var(--md-outline-width, var(--_outline-width));
   border-color: var(--md-outline-color, var(--_outline-color));
+  opacity: var(--md-outline-opacity, var(--_outline-opacity, 1));
   border-radius: inherit;
   z-index: -1;
 
-  &.nd-disabled{
+  &.nd-disabled {
     opacity: 0.12;
   }
 }

@@ -1,0 +1,151 @@
+@use "../../Outline/content/outline";
+@use "../../Focus/internal/focus-ring";
+@use "../../builder/background";
+@use "../../Elevation/internal/elevation";
+@use "../../StateLayer/internal/state-layer";
+
+@mixin styles() {
+  --_chip-padding-inline-start: var(--_leading-space);
+  --_chip-padding-inline-end: var(--_trailing-space);
+  --_chip-height: var(--_container-height);
+  --_chip-font-family: var(--_label-text-font);
+  --_chip-font-size: var(--_label-text-size);
+  --_chip-line-height: var(--_label-text-line-height);
+  --_chip-font-weight: var(--_label-text-weight);
+  --_chip-font-color: var(--_label-text-color);
+  --_chip-icon-color: var(--_leading-icon-color);
+  --_chip-icon-size: var(--_icon-size);
+
+  @include outline.theme((
+    width: var(--_outline-width),
+    color: var(--_outline-color)
+  ));
+  @include focus-ring.theme((
+    shape: var(--_container-shape)
+  ));
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-start-start-radius: var(--_chip-shape-start-start, var(--_container-shape));
+  border-start-end-radius: var(--_chip-shape-start-end, var(--_container-shape));
+  border-end-start-radius: var(--_chip-shape-end-start, var(--_container-shape));
+  border-end-end-radius: var(--_chip-shape-end-end, var(--_container-shape));
+
+  &:focus-visible {
+    --_chip-font-color: var(--_focus-label-text-color);
+    --_chip-icon-color: var(--_focus-leading-icon-color);
+    --_chip-trail-color: var(--_focus-trailing-icon-color);
+    @include outline.theme((
+      color: var(--_focus-outline-color)
+    ))
+  }
+
+  &:hover {
+    --_chip-font-color: var(--_hover-label-text-color);
+    --_chip-icon-color: var(--_hover-leading-icon-color);
+  }
+
+  &:active {
+    --_chip-font-color: var(--_pressed-label-text-color);
+    --_chip-icon-color: var(--_pressed-leading-icon-color);
+  }
+
+  &.nd-disabled {
+    --_chip-font-color: var(--_disabled-label-text-color);
+    --_chip-icon-color: var(--_disabled-leading-icon-color);
+    @include outline.theme((
+      color: var(--_disabled-outline-color),
+      opacity: var(--_disabled-outline-opacity)
+    ));
+
+    .nd-chip__label {
+      opacity: var(--_disabled-label-text-opacity);
+    }
+
+    .nd-chip__icon-slot,
+    .nd-chip__icon-slot > * {
+      opacity: var(--_disabled-leading-icon-opacity);
+    }
+  }
+
+  &.nd-elevated {
+    @include background.theme((
+      color: var(--_elevated-container-color)
+    ));
+    @include elevation.theme((
+      level: var(--_elevated-container-elevation)
+    ));
+
+    &:focus-visible {
+      @include elevation.theme((
+        level: var(--_elevated-focus-container-elevation)
+      ));
+    }
+
+    &:hover {
+      @include elevation.theme((
+        level: var(--_elevated-hover-container-elevation)
+      ));
+    }
+
+    &:active {
+      @include elevation.theme((
+        level: var(--_elevated-pressed-container-elevation)
+      ));
+    }
+
+    &.nd-disabled {
+      @include background.theme((
+        color: var(--_elevated-disabled-container-color),
+        opacity: var(--_elevated-disabled-container-opacity)
+      ));
+      @include elevation.theme((
+        level: var(--_elevated-disabled-container-elevation)
+      ));
+    }
+  }
+
+  .nd-chip__button {
+    border: none;
+    outline: none;
+    background: transparent;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    block-size: var(--_chip-height);
+    gap: 8px;
+    padding-inline-start: var(--_chip-padding-inline-start);
+    padding-inline-end: var(--_chip-padding-inline-end);
+    $single-line-height: max(var(--_chip-line-height), var(--_chip-icon-size));
+    padding-block: calc((var(--_chip-height) - $single-line-height) / 2);
+    border-radius: inherit;
+
+    .nd-chip__icon-slot {
+      display: contents;
+    }
+
+    .nd-chip__icon-slot,
+    .nd-chip__icon-slot > * {
+      color: var(--_chip-icon-color);
+      font-size: var(--_chip-icon-size);
+    }
+
+    .nd-chip__label {
+      font-family: var(--_chip-font-family);
+      font-size: var(--_chip-font-size);
+      color: var(--_chip-font-color);
+      line-height: var(--_chip-line-height);
+      font-weight: var(--_chip-font-weight);
+    }
+
+    &.nd-chip--with-icon {
+      --_chip-padding-inline-start: var(--_with-leading-icon-leading-space)
+    }
+
+    &.nd-chip--with-trailing-icon {
+      --_chip-padding-inline-end: var(--_with-trailing-icon-trailing-space);
+    }
+  }
+}

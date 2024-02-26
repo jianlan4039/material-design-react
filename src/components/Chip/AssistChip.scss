@@ -1,0 +1,17 @@
+@use "content/shared";
+@use "../builder/tokens-builder";
+@use "../tokens/md-comp-assist-chip";
+@use "../builder/background";
+
+$tokens: md-comp-assist-chip.values();
+$supported-tokens: md-comp-assist-chip.$supported-tokens;
+
+.nd-assist-chip {
+  @include tokens-builder.tokens($tokens, assist-chip);
+  --_chip-shape-start-start: var(--_md-assist-chip-shape-start-start, var(--_container-shape));
+  --_chip-shape-start-end: var(--_md-assist-chip-shape-start-end, var(--_container-shape));
+  --_chip-shape-end-start: var(--_md-assist-chip-shape-end-start, var(--_container-shape));
+  --_chip-shape-end-end: var(--_md-assist-chip-shape-end-end, var(--_container-shape));
+  @include background.styles;
+  @include shared.styles;
+}
