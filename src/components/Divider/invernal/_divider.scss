@@ -1,0 +1,35 @@
+@use "../../tokens/md-comp-divider";
+@use "../../builder/tokens-builder";
+
+$tokens: md-comp-divider.values();
+$supported-tokens: md-comp-divider.$supported-tokens;
+
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, $supported-tokens, divider);
+}
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, divider);
+  box-sizing: border-box;
+  color: var(--_color);
+  display: flex;
+  height: var(--_thickness);
+  width: 100%;
+
+  &.nd-inset,
+  &.nd-inset-start{
+    padding-inline-start: 16px;
+  }
+
+  &.nd-inset,
+  &.nd-inset-end{
+    padding-inline-end: 16px;
+  }
+
+  &::before {
+    background: currentColor;
+    content: '';
+    height: 100%;
+    width: 100%;
+  }
+}

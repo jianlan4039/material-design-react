@@ -1,0 +1,5 @@
+@use "./content/dialog";
+
+.nd-dialog__container{
+  @include dialog.styles;
+}

@@ -1,0 +1,115 @@
+@use "sass:map";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../tokens/md-comp-dialog";
+@use "../../tokens/md-sys-color";
+
+$tokens: md-comp-dialog.values();
+$supported-tokens: md-comp-dialog.$supported-tokens;
+$md-sys-color: md-sys-color.values-light();
+
+@mixin theme() {
+
+}
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, dialog);
+
+  --_container-shape-start-start: var(--md-dialog-container-shape-start-start, var(--_container-shape));
+  --_container-shape-start-end: var(--md-dialog-container-shape-start-end, var(--_container-shape));
+  --_container-shape-end-end: var(--md-dialog-container-shape-end-end, var(--_container-shape));
+  --_container-shape-end-start: var(--md-dialog-container-shape-end-start, var(--_container-shape));
+  display: contents;
+  margin: auto;
+
+  min-height: 140px;
+  min-width: 280px;
+  height: fit-content;
+  width: fit-content;
+
+
+  .nd-dialog__scrim {
+    position: fixed;
+    display: none;
+    background: map.get($md-sys-color, 'scrim');
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &.nd-show {
+    .nd-dialog__scrim {
+      display: flex;
+    }
+  }
+
+  dialog.nd-dialog {
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-end-radius: var(--_container-shape-end-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border: none;
+    outline: none;
+    max-height: min(560px, calc(100% - 48px));
+    max-width: min(560px, calc(100% - 48px));
+    background: transparent;
+
+    &::backdrop {
+      background: none;
+    }
+
+    .nd-dialog__content-container {
+      @include background.theme((
+        color: var(--_container-color)
+      ));
+      @include background.styles;
+      display: flex;
+      flex-direction: column;
+      border-radius: inherit;
+      opacity: 1;
+
+      .nd-dialog__icon,
+      .nd-dialog__icon > * {
+        color: var(--_icon-color);
+        font-size: var(--_icon-size);
+        display: inline-flex;
+        justify-content: center;
+      }
+
+      .nd-dialog__headline {
+        font-family: var(--_headline-font);
+        font-size: var(--_headline-size);
+        font-weight: var(--_headline-weight);
+        color: var(--_headline-color);
+        line-height: var(--_headline-line-height);
+        display: inline-flex;
+        justify-content: center;
+        opacity: 0;
+      }
+
+      .nd-dialog__support-text {
+        font-family: var(--_supporting-text-font);
+        font-size: var(--_supporting-text-size);
+        font-weight: var(--_supporting-text-weight);
+        color: var(--_supporting-text-color);
+        line-height: var(--_supporting-text-line-height);
+      }
+
+      .nd-dialog__content {
+        opacity: 0;
+      }
+
+      .nd-divider {
+        margin-block: 10px;
+      }
+
+      .nd-dialog__action {
+        display: inline-flex;
+        justify-content: right;
+        gap: 8px;
+        opacity: 0;
+      }
+    }
+  }
+}
