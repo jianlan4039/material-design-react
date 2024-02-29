@@ -1,35 +1,46 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react'
-import DialogContent, {DialogContentProps} from "./content/DialogContent";
-import {DialogAnimation, DialogAnimationArgs} from "./content/animation";
-import {DIALOG_DEFAULT_OPEN_ANIMATION, DIALOG_DEFAULT_CLOSE_ANIMATION} from "./content/animation";
+import React, {forwardRef, ReactNode, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, FormEvent} from 'react'
+import DialogContent, {DialogContentProps, InnerRefHandle} from "./content/DialogContent";
+import {
+  DIALOG_DEFAULT_OPEN_ANIMATION,
+  DIALOG_DEFAULT_CLOSE_ANIMATION,
+  DialogAnimation,
+  DialogAnimationArgs
+} from './content/animation'
 import './Dialog.scss'
-import cln from "classnames";
+import c from "classnames";
 
-export interface DialogProps extends DialogContentProps {
+export interface DialogProps extends React.DialogHTMLAttributes<HTMLDialogElement>, DialogContentProps {
   children?: ReactNode
-  show?: boolean,
+  show?: boolean
+  stayOpenOnOutsideClick?: boolean
   onClose?: () => void
 }
 
-export default function Dialog(props: DialogProps) {
+const Dialog = forwardRef((props: DialogProps, ref) => {
   const {
     children,
     show: _show = false,
+    stayOpenOnOutsideClick = false,
     onClose,
+    icon,
+    supportingText,
+    actions,
+    headline,
+    onSubmit,
     ...rest
   } = props
 
-  const ref = useRef<HTMLDivElement>(null);
-  const dialog = useRef<HTMLDialogElement>(null);
-  const scrim = useRef<HTMLDivElement>(null);
-  const container = useRef<HTMLDivElement>(null);
-  const headline = useRef<HTMLElement>();
-  const content = useRef<HTMLElement>();
-  const actions = useRef<HTMLElement>();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<InnerRefHandle>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const scrimRef = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(_show)
 
-  const [show, setShow] = useState<boolean>(_show)
+  const animateDialog = async (animation: DialogAnimation) => {
+    if (!dialogRef.current || !scrimRef.current || !containerRef.current) {
+      return;
+    }
 
-  async function animateDialog(animation: DialogAnimation) {
     const {
       container: containerAnimate,
       dialog: dialogAnimate,
@@ -39,66 +50,91 @@ export default function Dialog(props: DialogProps) {
       actions: actionsAnimate,
     } = animation;
 
-    const elementAndAnimation: [HTMLElement | null | undefined, DialogAnimationArgs[]][] = [
-      [dialog.current, dialogAnimate ?? []],
-      [scrim.current, scrimAnimate ?? []],
-      [container.current, containerAnimate ?? []],
-      [headline.current, headlineAnimate ?? []],
-      [content.current, contentAnimate ?? []],
-      [actions.current, actionsAnimate ?? []],
+    const elementAndAnimation: [HTMLElement, DialogAnimationArgs[]][] = [
+      [dialogRef.current, dialogAnimate ?? []],
+      [scrimRef.current, scrimAnimate ?? []],
+      [containerRef.current.containerRef(), containerAnimate ?? []],
+      [containerRef.current.headlineRef(), headlineAnimate ?? []],
+      [containerRef.current.contentRef(), contentAnimate ?? []],
+      [containerRef.current.actionRef(), actionsAnimate ?? []],
     ];
 
     const animations = [];
     for (const [element, animation] of elementAndAnimation) {
-      if (element) {
-        for (const animateArgs of animation) {
-          animations.push(element.animate(...animateArgs));
-        }
+      for (const animateArgs of animation) {
+        animations.push(element.animate(...animateArgs));
       }
     }
     await Promise.all(animations.map((animation) => animation.finished));
   }
 
-  const openDialog = (dialogEl: HTMLDialogElement) => {
+  const openDialog = () => {
+    if (!dialogRef.current) {
+      return
+    }
     setShow(true)
-    dialogEl.showModal()
+    dialogRef.current.showModal()
     void animateDialog(DIALOG_DEFAULT_OPEN_ANIMATION)
   }
 
-  const closeDialog = (dialogEl: HTMLDialogElement) => {
-    animateDialog(DIALOG_DEFAULT_CLOSE_ANIMATION).then(() => {
-      setShow(false)
-      dialogEl.close()
-    })
+  const closeDialog = async () => {
+    if (!dialogRef.current) {
+      return
+    }
+    await animateDialog(DIALOG_DEFAULT_CLOSE_ANIMATION)
+    dialogRef.current.close()
+    setShow(false)
+    onClose?.()
+  }
+
+  const rootClickHandler = (e: ReactMouseEvent) => {
+    if (stayOpenOnOutsideClick || !dialogRef.current) {
+      return
+    }
+    const {clientX, clientY} = e
+    const dialogRect = dialogRef.current.getBoundingClientRect()
+    if (clientX < dialogRect.x || clientX > dialogRect.right || clientY < dialogRect.y || clientY > dialogRect.bottom) {
+      void closeDialog()
+    }
+  }
+
+  const submitHandler = (e: FormEvent<HTMLDialogElement>) => {
+    e.preventDefault()
+    void closeDialog()
+    onSubmit?.(e)
   }
 
   useEffect(() => {
-    if (dialog.current) {
-      if (_show) {
-        openDialog(dialog.current)
-      } else {
-        closeDialog(dialog.current)
-      }
+    if (_show) {
+      openDialog()
+    } else {
+      void closeDialog()
     }
-  }, [dialog, _show]);
+  }, [_show]);
 
   useEffect(() => {
-    if (dialog.current) {
-      headline.current = dialog.current.querySelector('span.nd-dialog__headline') as HTMLElement
-      content.current = dialog.current.querySelector('div.nd-dialog__content') as HTMLElement
-      actions.current = dialog.current.querySelector('div.nd-dialog__action') as HTMLElement
+    const escKeyDownHandler = (e: KeyboardEvent) => {
+      if (dialogRef.current && dialogRef.current.open && e.key === 'Escape') {
+        e.preventDefault()
+        void closeDialog()
+      }
     }
-  }, [dialog]);
-
+    document.addEventListener('keydown', escKeyDownHandler)
+    return () => {
+      document.removeEventListener('keydown', escKeyDownHandler)
+    }
+  });
 
   return (
-    <div className={cln('nd-dialog__container', {'nd-show': show})}>
-      <div ref={scrim} className={'nd-dialog__scrim'}>123</div>
-      <dialog className={'nd-dialog'} ref={dialog}>
-        <DialogContent ref={container} {...rest}>
+    <div ref={rootRef} className={c('nd-dialog-host', {'nd-show': show})} onClick={rootClickHandler}>
+      <div ref={scrimRef} className={c("nd-dialog-scrim", {'nd-show': show})}></div>
+      <dialog ref={dialogRef} className={'nd-dialog'} onSubmit={submitHandler} {...rest}>
+        <DialogContent ref={containerRef} headline={headline} icon={icon} supportingText={supportingText} actions={actions}>
           {children}
         </DialogContent>
       </dialog>
     </div>
   )
-}
+})
+
+export default Dialog

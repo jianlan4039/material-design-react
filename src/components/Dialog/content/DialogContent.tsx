@@ -1,44 +1,62 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode, useImperativeHandle, useRef, MouseEvent} from 'react'
 import Divider from "../../Divider/Divider";
+import c from 'classnames'
 
 export interface DialogContentProps {
   children?: ReactNode
   icon?: ReactNode
   headline?: ReactNode
-  supportText?: ReactNode
-  footer?: ReactNode
+  supportingText?: ReactNode
+  actions?: ReactNode
 }
 
-const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props: DialogContentProps, ref) => {
+export interface InnerRefHandle extends React.HTMLProps<HTMLDivElement> {
+  containerRef: () => HTMLDivElement
+  headlineRef: () => HTMLDivElement
+  contentRef: () => HTMLDivElement
+  actionRef: () => HTMLDivElement
+}
+
+const DialogContent = forwardRef<InnerRefHandle, DialogContentProps>((props, ref) => {
   const {
     children,
     icon,
     headline,
-    supportText,
-    footer,
+    supportingText,
+    actions,
     ...rest
   } = props
 
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const actionRef = useRef<HTMLDivElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    containerRef: () => containerRef.current!,
+    headlineRef: () => headlineRef.current!,
+    contentRef: () => contentRef.current!,
+    actionRef: () => actionRef.current!
+  }))
+
   return (
-    <div ref={ref} className={'nd-dialog__content-container'}>
-      {children}
-      {/*<span className={'nd-dialog__icon'}>*/}
-      {/*  {icon}*/}
-      {/*</span>*/}
-      {/*<span className="nd-dialog__headline">*/}
-      {/*    {headline}*/}
-      {/*  </span>*/}
-      {/*<span className="nd-dialog__support-text">*/}
-      {/*    {supportText}*/}
-      {/*  </span>*/}
-      {/*<Divider></Divider>*/}
-      {/*<div className={'nd-dialog__content'}>*/}
-      {/*  {children}*/}
-      {/*</div>*/}
-      {/*<Divider></Divider>*/}
-      {/*<div className="nd-dialog__action">*/}
-      {/*  {footer}*/}
-      {/*</div>*/}
+    <div ref={containerRef} className={'nd-dialog-container'} {...rest}>
+      <div ref={headlineRef} className={c('nd-dialog-header', {'nd-with-icon': icon})}>
+        {icon && <span className="nd-dialog-header__icon">{icon}</span>}
+        {headline && <h2 className="nd-dialog-header__headline">{headline}</h2>}
+        {supportingText && <p className="nd-dialog-header__supporting-text">{supportingText}</p>}
+        <Divider></Divider>
+      </div>
+      <div ref={contentRef} className="nd-dialog-content">
+        {children}
+      </div>
+      <div ref={actionRef} className={"nd-dialog-actions"}>
+        <Divider></Divider>
+        <div className={'nd-dialog-actions__actions-slot'}>
+          {actions}
+        </div>
+      </div>
     </div>
   )
 })

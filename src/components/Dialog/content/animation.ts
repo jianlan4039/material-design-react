@@ -1,14 +1,8 @@
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
 import {EASING} from '../../internal/motion/animation';
 
 /**
- * The default dialog open animation.
+ * A dialog animation's arguments. See `Element.prototype.animate`.
  */
-
 export type DialogAnimationArgs = Parameters<Element['animate']>;
 
 /**

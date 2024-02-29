@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import FocusRing from "../Focus/FocusRing";
 import Elevation from "../Elevation";
 import StateLayer from "../StateLayer";
@@ -10,7 +10,7 @@ export interface TextButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-export default function TextButton(props: TextButtonProps) {
+const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -27,4 +27,6 @@ export default function TextButton(props: TextButtonProps) {
       </CommonButton>
     </div>
   )
-}
+})
+
+export default TextButton

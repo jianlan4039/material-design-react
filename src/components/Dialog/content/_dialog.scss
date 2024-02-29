@@ -1,114 +1,122 @@
 @use "sass:map";
-@use "../../builder/tokens-builder";
-@use "../../builder/background";
 @use "../../tokens/md-comp-dialog";
 @use "../../tokens/md-sys-color";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
 
 $tokens: md-comp-dialog.values();
 $supported-tokens: md-comp-dialog.$supported-tokens;
 $md-sys-color: md-sys-color.values-light();
 
-@mixin theme() {
-
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, $supported-tokens, dialog)
 }
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, dialog);
-
   --_container-shape-start-start: var(--md-dialog-container-shape-start-start, var(--_container-shape));
   --_container-shape-start-end: var(--md-dialog-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-dialog-container-shape-end-end, var(--_container-shape));
   --_container-shape-end-start: var(--md-dialog-container-shape-end-start, var(--_container-shape));
-  display: contents;
-  margin: auto;
 
-  min-height: 140px;
-  min-width: 280px;
-  height: fit-content;
-  width: fit-content;
-
-
-  .nd-dialog__scrim {
+  .nd-dialog-scrim {
+    background: map.get($md-sys-color, 'scrim');
     position: fixed;
     display: none;
-    background: map.get($md-sys-color, 'scrim');
     inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
+    opacity: 32%;
+    //pointer-events: none;
 
-  &.nd-show {
-    .nd-dialog__scrim {
+    &.nd-show {
       display: flex;
     }
   }
 
-  dialog.nd-dialog {
+  .nd-dialog {
     border-start-start-radius: var(--_container-shape-start-start);
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-end-radius: var(--_container-shape-end-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border: none;
     outline: none;
-    max-height: min(560px, calc(100% - 48px));
-    max-width: min(560px, calc(100% - 48px));
+    padding: 0;
+    min-width: 240px;
+    max-width: 560px;
+    box-sizing: border-box;
     background: transparent;
 
     &::backdrop {
       background: none;
+      //pointer-events: none;
     }
 
-    .nd-dialog__content-container {
+    .nd-dialog-container {
       @include background.theme((
         color: var(--_container-color)
       ));
       @include background.styles;
+      border-radius: inherit;
       display: flex;
       flex-direction: column;
-      border-radius: inherit;
-      opacity: 1;
+      padding: 24px;
 
-      .nd-dialog__icon,
-      .nd-dialog__icon > * {
-        color: var(--_icon-color);
-        font-size: var(--_icon-size);
-        display: inline-flex;
-        justify-content: center;
+      .nd-dialog-header {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        //gap: 16px;
+        opacity: 0;
+
+        .nd-dialog-header__icon {
+          block-size: var(--_icon-size);
+          inline-size: var(--_icon-size);
+          color: var(--_icon-color);
+          font-size: var(--_icon-color);
+          display: contents;
+        }
+
+        .nd-dialog-header__headline,
+        .nd-dialog-header__supporting-text {
+          all: unset;
+        }
+
+        .nd-dialog-header__headline {
+          font-family: var(--_headline-font);
+          font-size: var(--_headline-size);
+          color: var(--_headline-color);
+          line-height: var(--_headline-line-height);
+          font-weight: var(--_headline-weight);
+          padding-block-start: 16px;
+        }
+
+        .nd-dialog-header__supporting-text {
+          font-family: var(--_supporting-text-font);
+          font-size: var(--_supporting-text-size);
+          color: var(--_supporting-text-color);
+          line-height: var(--_supporting-text-line-height);
+          font-weight: var(--_supporting-text-weight);
+          padding-block: 16px;
+        }
+
+        &.nd-with-icon {
+          align-items: center;
+        }
       }
 
-      .nd-dialog__headline {
-        font-family: var(--_headline-font);
-        font-size: var(--_headline-size);
-        font-weight: var(--_headline-weight);
-        color: var(--_headline-color);
-        line-height: var(--_headline-line-height);
-        display: inline-flex;
-        justify-content: center;
+      .nd-dialog-content {
+        padding-block: 24px;
         opacity: 0;
       }
 
-      .nd-dialog__support-text {
-        font-family: var(--_supporting-text-font);
-        font-size: var(--_supporting-text-size);
-        font-weight: var(--_supporting-text-weight);
-        color: var(--_supporting-text-color);
-        line-height: var(--_supporting-text-line-height);
-      }
-
-      .nd-dialog__content {
+      .nd-dialog-actions {
         opacity: 0;
-      }
 
-      .nd-divider {
-        margin-block: 10px;
-      }
-
-      .nd-dialog__action {
-        display: inline-flex;
-        justify-content: right;
-        gap: 8px;
-        opacity: 0;
+        .nd-dialog-actions__actions-slot{
+          padding-block-start: 16px;
+          display: flex;
+          justify-content: end;
+          gap: 8px;
+        }
       }
     }
   }

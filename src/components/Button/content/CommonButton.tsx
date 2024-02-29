@@ -4,7 +4,7 @@ import FocusRing from "../../Focus/FocusRing";
 import Elevation from "../../Elevation";
 import StateLayer from "../../StateLayer";
 
-export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean
   children?: ReactNode
   icon?: ReactNode
