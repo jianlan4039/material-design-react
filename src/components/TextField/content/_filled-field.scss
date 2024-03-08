@@ -1,6 +1,6 @@
-@use "../../tokens/md-comp-filled-field";
 @use "../../builder/tokens-builder";
 @use "share";
+@use "supporing-text";
 
 @mixin theme($new-token) {
 
@@ -10,11 +10,13 @@
   .nd-filled-field {
     @include share.theme((
       input-block-start-space: calc(56px - 8px - 24px),
-      input-block-end-space: 8px
+      input-block-end-space: 8px,
+      input-opacity: 0
     ));
     position: relative;
     cursor: text;
     @include share.styles;
+    @include supporing-text.styles;
 
     &::before {
       content: '';
@@ -25,17 +27,6 @@
       background: var(--_active-indicator-color);
     }
 
-    &.focus {
-      @include share.theme((
-        input-text-color: var(--_focus-input-text-color)
-      ));
-
-      &::before {
-        background: var(--_focus-active-indicator-color);
-        height: var(--_focus-active-indicator-height);
-      }
-    }
-
     .nd-field {
       .nd-filled-field__label {
         position: absolute;
@@ -44,10 +35,6 @@
         font-size: var(--_label-text-font);
         font-weight: var(--_label-text-weight);
         line-height: var(--_label-text-line-height);
-      }
-
-      .nd-field__input-wrapper {
-        opacity: 0;
       }
 
       &.with-leading {
@@ -68,28 +55,139 @@
 
     &.focus,
     &.populated {
+      @include share.theme((
+        input-opacity: 1
+      ))
+    }
+
+    &:hover {
+      @include share.theme((
+        input-text-color: var(--_hover-input-text-color),
+        leading-icon-color: var(--_hover-leading-icon-color),
+        trailing-icon-color: var(--_hover-trailing-icon-color)
+      ));
+
+      &::before {
+        background: var(--_hover-active-indicator-color);
+        height: var(--_hover-active-indicator-height);
+      }
+
+      &.error {
+        @include share.theme((
+          input-text-color: var(--_error-hover-input-text-color),
+          leading-icon-color: var(--_error-hover-leading-icon-color),
+          trailing-icon-color: var(--_error-hover-trailing-icon-color)
+        ));
+        @include supporing-text.theme((
+          supporting-text-color: var(--_error-hover-supporting-text-color)
+        ));
+
+        &::before {
+          background: var(--_error-hover-active-indicator-color);
+        }
+
+        .nd-field {
+          .nd-filled-field__label {
+            color: var(--_error-hover-label-text-color);
+          }
+        }
+      }
+
       .nd-field {
-        .nd-field__input-wrapper {
-          opacity: 1;
+        .nd-filled-field__label {
+          color: var(--_hover-label-text-color);
         }
       }
     }
 
-    .nd-field__supporting-text {
-      position: absolute;
-      display: flex;
-      inset-inline: 0;
-      inset-block-end: 0;
-      transform: translateY(100%);
-      padding-block-start: 4px;
-      padding-inline: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      font-size: var(--_supporting-text-size);
-      color: var(--_supporting-text-color);
-      font-family: var(--_supporting-text-font);
-      line-height: var(--_supporting-text-line-height);
-      font-weight: var(--_supporting-text-weight);
+    &.focus {
+      @include share.theme((
+        input-text-color: var(--_focus-input-text-color)
+      ));
+      @include supporing-text.theme((
+        supporting-text-color: var(--_focus-supporting-text-color)
+      ));
+
+      &::before {
+        background: var(--_focus-active-indicator-color);
+        height: var(--_focus-active-indicator-height);
+      }
+
+      &.error {
+        @include share.theme((
+          caret-color: var(--_error-focus-caret-color),
+          input-text-color: var(--_error-focus-input-text-color),
+          leading-icon-color: var(--_error-focus-leading-icon-color),
+          trailing-icon-color: var(--_error-focus-trailing-icon-color)
+        ));
+        @include supporing-text.theme((
+          supporting-text-color: var(--_error-focus-supporting-text-color)
+        ));
+
+        &::before {
+          background: var(--_error-focus-active-indicator-color);
+        }
+
+        .nd-field {
+          .nd-filled-field__label {
+            color: var(--_error-focus-label-text-color);
+          }
+        }
+      }
+    }
+
+    &.error {
+      @include share.theme((
+        input-text-color: var(--_error-input-text-color),
+        leading-icon-color: var(--_error-leading-icon-color),
+        trailing-icon-color: var(--_error-trailing-icon-color)
+      ));
+      @include supporing-text.theme((
+        supporting-text-color: var(--_error-supporting-text-color)
+      ));
+
+      &::before {
+        background: var(--_error-active-indicator-color);
+      }
+
+      .nd-field {
+        .nd-filled-field__label {
+          color: var(--_error-label-text-color);
+        }
+      }
+    }
+
+    &.disabled {
+      @include share.theme((
+        input-text-color: var(--_disabled-input-text-color),
+        leading-icon-color: var(--_disabled-leading-icon-color),
+        trailing-icon-color: var(--_disabled-trailing-icon-color),
+        leading-opacity: var(--_disabled-leading-icon-opacity),
+        trailing-opacity: var(--_disabled-trailing-icon-opacity)
+      ));
+      @include supporing-text.theme((
+        supporting-text-color: var(--_disabled-supporting-text-color),
+        supporting-text-opacity: var(--_disabled-supporting-text-opacity)
+      ));
+
+      &.populated {
+        @include share.theme((
+          input-opacity: var(--_disabled-input-text-opacity),
+        ))
+      }
+
+      &::before {
+        background: var(--_disabled-active-indicator-color);
+        height: var(--_disabled-active-indicator-height);
+        opacity: var(--_disabled-active-indicator-opacity);
+      }
+
+      .nd-field {
+        .nd-filled-field__label {
+          color: var(--_disabled-label-text-color);
+          opacity: var(--_disabled-label-text-opacity);
+        }
+      }
     }
   }
 }

@@ -13,7 +13,9 @@ $supported-tokens: md-comp-filled-text-field.$supported-tokens;
     color: var(--_container-color)
   ));
   @include state-layer.theme((
-    pressed-color: transparent
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: transparent,
+    hover-opacity: var(--_hover-state-layer-opacity)
   ));
   position: relative;
   display: inline-flex;
@@ -21,4 +23,18 @@ $supported-tokens: md-comp-filled-text-field.$supported-tokens;
   margin-block-end: 20px;
   @include filled-field.styles;
   @include background.styles();
+
+  &.error {
+    @include state-layer.theme((
+      hover-color: var(--_error-hover-state-layer-color),
+      hover-opacity: var(--_error-hover-state-layer-opacity)
+    ))
+  }
+
+  &.disabled {
+    @include background.theme((
+      color: var(--_disabled-container-color),
+      opacity: var(--_disabled-container-opacity)
+    ))
+  }
 }

@@ -17,7 +17,7 @@ export default meta;
 type Story = StoryObj<typeof FilledTextField>;
 
 export const Default: Story = {
-  render: (args) => {
+  render: ({disabled, error}) => {
 
     return (
       <FilledTextField
@@ -27,6 +27,8 @@ export const Default: Story = {
         suffix={'.00'}
         label={'Label'}
         supportingText={'Supporting text'}
+        disabled={disabled}
+        error={error}
       ></FilledTextField>
     )
   }

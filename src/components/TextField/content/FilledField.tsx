@@ -15,6 +15,8 @@ export interface FilledFieldProps extends FieldProps {
   children?: ReactNode
   label?: string
   supportingText?: string
+  error?: boolean
+  disabled?: boolean
 }
 
 const FilledField = (props: FilledFieldProps) => {
@@ -24,6 +26,8 @@ const FilledField = (props: FilledFieldProps) => {
     onChange,
     focus: _focus,
     supportingText,
+    error,
+    disabled,
     ...rest
   } = props
 
@@ -38,10 +42,16 @@ const FilledField = (props: FilledFieldProps) => {
   const [inputFocus, setInputFocus] = useState(_focus)
 
   const mouseDownHandler = () => {
+    if (disabled) {
+      return
+    }
     setFocus(true)
   }
 
   const mouseClickHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+    if (disabled) {
+      return
+    }
     e.preventDefault()
     setInputFocus(true)
   }
@@ -150,14 +160,25 @@ const FilledField = (props: FilledFieldProps) => {
     }
   }, [focus, value]);
 
+  useEffect(() => {
+    if (disabled) {
+      animateIndicatorNonactive()
+    }
+  }, [disabled]);
+
   return (
     <div
       ref={rootRef}
-      className={c('nd-filled-field', {'focus': focus, 'populated': focus || value})}
+      className={c('nd-filled-field', {
+        'focus': focus,
+        'populated': focus || value,
+        'error': error,
+        'disabled': disabled
+      })}
       onMouseDown={mouseDownHandler}
       onClick={mouseClickHandler}
     >
-      <Field onChange={inputChangeHandler} focus={inputFocus} {...rest}>
+      <Field onChange={inputChangeHandler} focus={inputFocus} disabled={disabled} {...rest}>
         <span ref={labelRef} className={'nd-filled-field__label'}>{label}</span>
       </Field>
       <SupportingText>

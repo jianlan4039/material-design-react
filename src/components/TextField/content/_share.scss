@@ -8,7 +8,13 @@ $supported-tokens: (
   'input-text-font',
   'input-line-height',
   'input-font-weight',
-  'input-font-size'
+  'input-font-size',
+  'input-opacity',
+  'leading-icon-color',
+  'leading-opacity',
+  'trailing-icon-color',
+  'trailing-opacity',
+  'caret-color'
 );
 @mixin theme($tokens) {
   @include tokens-builder.theme($tokens, $supported-tokens, field)
@@ -27,14 +33,16 @@ $supported-tokens: (
 
     .nd-field__leading,
     .nd-field__leading > * {
-      color: var(--_leading-icon-color);
+      color: var(--md-field-leading-icon-color, var(--_leading-icon-color));
       font-size: var(--_leading-icon-size);
+      opacity: var(--md-field-leading-opacity, 1);
     }
 
     .nd-field__trailing,
     .nd-field__trailing > * {
-      color: var(--_trailing-icon-color);
+      color: var(--md-field-trailing-icon-color, var(--_trailing-icon-color));
       font-size: var(--_trailing-icon-size);
+      opacity: var(--md-field-trailing-opacity, 1);
     }
 
     &.with-leading,
@@ -68,6 +76,7 @@ $supported-tokens: (
       justify-content: center;
       align-items: end;
       padding-inline: 16px;
+      opacity: var(--md-field-input-opacity, 1);
 
       .nd-field__input-wrapper__prefix,
       .nd-field__input-wrapper__suffix {
@@ -82,7 +91,7 @@ $supported-tokens: (
         background: transparent;
         padding-block-end: var(--md-field-input-block-end-space, 0);
         padding-block-start: var(--md-field-input-block-start-space, 0);
-        caret-color: var(--_caret-color);
+        caret-color: var(--md-field-caret-color, var(--_caret-color));
 
         &::placeholder {
           color: var(--input-text-placeholder-color);
