@@ -1,0 +1,95 @@
+@use "../../tokens/md-comp-filled-field";
+@use "../../builder/tokens-builder";
+@use "share";
+
+@mixin theme($new-token) {
+
+}
+
+@mixin styles() {
+  .nd-filled-field {
+    @include share.theme((
+      input-block-start-space: calc(56px - 8px - 24px),
+      input-block-end-space: 8px
+    ));
+    position: relative;
+    cursor: text;
+    @include share.styles;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      inset-block-end: 0;
+      height: var(--_active-indicator-height);
+      background: var(--_active-indicator-color);
+    }
+
+    &.focus {
+      @include share.theme((
+        input-text-color: var(--_focus-input-text-color)
+      ));
+
+      &::before {
+        background: var(--_focus-active-indicator-color);
+        height: var(--_focus-active-indicator-height);
+      }
+    }
+
+    .nd-field {
+      .nd-filled-field__label {
+        position: absolute;
+        inset-inline-start: calc(16px);
+        color: var(--_label-text-color);
+        font-size: var(--_label-text-font);
+        font-weight: var(--_label-text-weight);
+        line-height: var(--_label-text-line-height);
+      }
+
+      .nd-field__input-wrapper {
+        opacity: 0;
+      }
+
+      &.with-leading {
+        .nd-filled-field__label {
+          inset-inline-start: calc(12px + 24px + 16px);
+        }
+      }
+    }
+
+    &.populated {
+      .nd-field {
+        .nd-filled-field__label {
+          color: var(--_focus-label-text-color);
+          line-height: var(--_label-text-populated-line-height);
+        }
+      }
+    }
+
+    &.focus,
+    &.populated {
+      .nd-field {
+        .nd-field__input-wrapper {
+          opacity: 1;
+        }
+      }
+    }
+
+    .nd-field__supporting-text {
+      position: absolute;
+      display: flex;
+      inset-inline: 0;
+      inset-block-end: 0;
+      transform: translateY(100%);
+      padding-block-start: 4px;
+      padding-inline: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: var(--_supporting-text-size);
+      color: var(--_supporting-text-color);
+      font-family: var(--_supporting-text-font);
+      line-height: var(--_supporting-text-line-height);
+      font-weight: var(--_supporting-text-weight);
+    }
+  }
+}
