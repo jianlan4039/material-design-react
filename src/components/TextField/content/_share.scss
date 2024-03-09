@@ -77,11 +77,11 @@ $supported-tokens: (
       align-items: end;
       padding-inline: 16px;
       opacity: var(--md-field-input-opacity, 1);
+      block-size: inherit;
 
       .nd-field__input-wrapper__prefix,
       .nd-field__input-wrapper__suffix {
         display: none;
-        padding-block-end: 8px;
       }
 
       .nd-field__input-wrapper__input {
@@ -92,6 +92,7 @@ $supported-tokens: (
         padding-block-end: var(--md-field-input-block-end-space, 0);
         padding-block-start: var(--md-field-input-block-start-space, 0);
         caret-color: var(--md-field-caret-color, var(--_caret-color));
+        block-size: inherit;
 
         &::placeholder {
           color: var(--input-text-placeholder-color);

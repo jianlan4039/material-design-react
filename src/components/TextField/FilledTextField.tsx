@@ -13,13 +13,20 @@ const FilledTextField = forwardRef<HTMLInputElement, FilledTextFieldContentProps
     children,
     error,
     disabled,
+    supportingText,
     ...rest
   } = props
 
   return (
-    <div className={c('nd-filled-text-field', {'error': error, 'disabled': disabled})}>
+    <div
+      className={c('nd-filled-text-field', {
+        'error': error,
+        'disabled': disabled,
+        'with-supporting-text': supportingText
+      })}
+    >
       <StateLayer disabled={disabled}></StateLayer>
-      <FilledField error={error} disabled={disabled} {...rest}></FilledField>
+      <FilledField error={error} disabled={disabled} supportingText={supportingText} {...rest}></FilledField>
     </div>
   )
 })

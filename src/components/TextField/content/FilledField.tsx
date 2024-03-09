@@ -181,9 +181,7 @@ const FilledField = (props: FilledFieldProps) => {
       <Field onChange={inputChangeHandler} focus={inputFocus} disabled={disabled} {...rest}>
         <span ref={labelRef} className={'nd-filled-field__label'}>{label}</span>
       </Field>
-      <SupportingText>
-        {supportingText}
-      </SupportingText>
+      {supportingText && <SupportingText>{supportingText}</SupportingText>}
     </div>
   )
 }

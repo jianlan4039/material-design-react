@@ -33,11 +33,23 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
     children,
     focus,
     className,
+    onClick,
+    onMouseDown,
     ...rest
   } = props
 
   const inputRef = useRef<HTMLInputElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+
+  const clickHandler = (e: MouseEvent<HTMLInputElement>) => {
+    onClick?.(e)
+    e.stopPropagation()
+  }
+
+  const mouseDownHandler = (e: MouseEvent<HTMLInputElement>) => {
+    onMouseDown?.(e)
+    e.stopPropagation()
+  }
 
   useImperativeHandle(ref, () => ({
     rootRef: () => rootRef.current,
@@ -56,7 +68,14 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
       <span className={'nd-field__leading'}>{leading}</span>
       <div className={c('nd-field__input-wrapper', {'with-prefix': prefix, 'with-suffix': suffix})}>
         <span className={'nd-field__input-wrapper__prefix'}>{prefix}</span>
-        <input ref={inputRef} className={'nd-field__input-wrapper__input'} type={type} {...rest}/>
+        <input
+          ref={inputRef}
+          className={'nd-field__input-wrapper__input'}
+          type={type}
+          onClick={clickHandler}
+          onMouseDown={mouseDownHandler}
+          {...rest}
+        />
         <span className={'nd-field__input-wrapper__suffix'}>{suffix}</span>
       </div>
       <span className={'nd-field__trailing'}>{trailing}</span>

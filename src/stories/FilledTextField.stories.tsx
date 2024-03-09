@@ -1,14 +1,13 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React from "react";
-import Field from "../components/TextField/content/Field";
 import {FilledIcon} from "../icons";
 import FilledTextField from "../components/TextField/FilledTextField";
 
 const meta: Meta<typeof FilledTextField> = {
   component: FilledTextField,
-  title: 'Field/TextField',
+  title: 'Field/FilledTextField',
   parameters: {
-    // layout: 'centered'
+    layout: 'centered'
   },
   tags: ['autodocs']
 }
@@ -16,15 +15,15 @@ const meta: Meta<typeof FilledTextField> = {
 export default meta;
 type Story = StoryObj<typeof FilledTextField>;
 
-export const Default: Story = {
-  render: ({disabled, error}) => {
+export const Filled: Story = {
+  render: ({disabled, error = false}) => {
 
     return (
       <FilledTextField
         leading={<FilledIcon>home</FilledIcon>}
         trailing={<FilledIcon>edit</FilledIcon>}
-        prefix={'$'}
-        suffix={'.00'}
+        // prefix={'$'}
+        // suffix={'.00'}
         label={'Label'}
         supportingText={'Supporting text'}
         disabled={disabled}

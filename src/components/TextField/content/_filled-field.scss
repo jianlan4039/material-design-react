@@ -2,10 +2,6 @@
 @use "share";
 @use "supporing-text";
 
-@mixin theme($new-token) {
-
-}
-
 @mixin styles() {
   .nd-filled-field {
     @include share.theme((
@@ -32,15 +28,25 @@
         position: absolute;
         inset-inline-start: calc(16px);
         color: var(--_label-text-color);
-        font-size: var(--_label-text-font);
+        font-size: var(--_label-text-size);
+        font-family: var(--_label-text-font);
         font-weight: var(--_label-text-weight);
         line-height: var(--_label-text-line-height);
+      }
+
+      .nd-field__input-wrapper__input{
+        pointer-events: none;
       }
 
       &.with-leading {
         .nd-filled-field__label {
           inset-inline-start: calc(12px + 24px + 16px);
         }
+      }
+
+      .nd-field__input-wrapper__prefix,
+      .nd-field__input-wrapper__suffix {
+        padding-block-end: 8px;
       }
     }
 
@@ -49,6 +55,10 @@
         .nd-filled-field__label {
           color: var(--_focus-label-text-color);
           line-height: var(--_label-text-populated-line-height);
+        }
+
+        .nd-field__input-wrapper__input{
+          pointer-events: auto;
         }
       }
     }

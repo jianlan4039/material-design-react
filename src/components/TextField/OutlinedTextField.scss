@@ -1,0 +1,10 @@
+@use "./content/outlined-field";
+@use "../tokens/md-comp-outlined-text-field";
+@use "../builder/tokens-builder";
+
+.nd-outlined-text-field{
+  @include tokens-builder.tokens(md-comp-outlined-text-field.values(), outlined-text-field);
+  position: relative;
+  display: inline-flex;
+  @include outlined-field.styles;
+}

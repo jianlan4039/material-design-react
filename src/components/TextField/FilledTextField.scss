@@ -20,9 +20,12 @@ $supported-tokens: md-comp-filled-text-field.$supported-tokens;
   position: relative;
   display: inline-flex;
   border-radius: var(--_container-shape);
-  margin-block-end: 20px;
   @include filled-field.styles;
   @include background.styles();
+
+  &.with-supporting-text{
+    margin-block-end: 20px;
+  }
 
   &.error {
     @include state-layer.theme((
