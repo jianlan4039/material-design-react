@@ -43,7 +43,7 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
 
   const clickHandler = (e: MouseEvent<HTMLInputElement>) => {
     onClick?.(e)
-    e.stopPropagation()
+    // e.stopPropagation()
   }
 
   const mouseDownHandler = (e: MouseEvent<HTMLInputElement>) => {
@@ -72,7 +72,6 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
           ref={inputRef}
           className={'nd-field__input-wrapper__input'}
           type={type}
-          onClick={clickHandler}
           onMouseDown={mouseDownHandler}
           {...rest}
         />

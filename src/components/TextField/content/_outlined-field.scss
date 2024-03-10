@@ -10,16 +10,26 @@
     position: relative;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 0;
     margin: 0;
     cursor: text;
-    border-style: solid;
-    box-sizing: border-box;
-    border-radius: var(--_container-shape);
-    border-color: var(--_outline-color);
-    border-width: var(--_outline-width);
+    block-size: 56px;
     @include share.styles;
     @include supporing-text.styles;
+
+    .nd-outlined-field__outline {
+      position: absolute;
+      box-sizing: content-box;
+      border-style: solid;
+      inline-size: 100%;
+      block-size: inherit;
+      padding: 0;
+      margin: 0;
+      border-radius: var(--_container-shape);
+      border-color: var(--_outline-color);
+      border-width: var(--_outline-width);
+    }
 
     .nd-field__label-reflection {
       font-size: var(--_label-text-populated-size);
@@ -40,7 +50,7 @@
     }
 
     .nd-field {
-      block-size: 56px;
+      block-size: inherit;
 
       .nd-field__label {
         position: absolute;
@@ -51,6 +61,7 @@
         font-family: var(--_label-text-font);
         font-weight: var(--_label-text-weight);
         line-height: var(--_label-text-line-height);
+        //opacity: 0;
       }
 
       .nd-field__input-wrapper__input {
@@ -87,8 +98,11 @@
       @include supporing-text.theme((
         supporting-text-color: var(--_hover-supporting-text-color)
       ));
-      border-color: var(--_hover-outline-color);
-      border-width: var(--_hover-outline-width);
+
+      .nd-outlined-field__outline {
+        border-color: var(--_hover-outline-color);
+        border-width: var(--_hover-outline-width);
+      }
 
       .nd-field__label {
         color: var(--_hover-label-text-color)
@@ -104,7 +118,14 @@
       @include supporing-text.theme((
         supporting-text-color: var(--_focus-supporting-text-color)
       ));
-      border-color: var(--_focus-outline-color);
+
+      .nd-field__label-reflection {
+        //margin-inline-start: 13px;
+      }
+
+      .nd-outlined-field__outline {
+        border-color: var(--_focus-outline-color);
+      }
 
       .nd-field__label {
         color: var(--_focus-label-text-color)
@@ -120,7 +141,14 @@
       @include supporing-text.theme((
         supporting-text-color: var(--_error-supporting-text-color)
       ));
-      border-color: var(--_error-outline-color);
+
+      .nd-outlined-field__outline {
+        border-color: var(--_error-outline-color);
+      }
+      //
+      .nd-field__label {
+        color: var(--_error-label-text-color)
+      }
 
       &:hover {
         @include share.theme((
@@ -131,7 +159,10 @@
         @include supporing-text.theme((
           supporting-text-color: var(--_error-hover-supporting-text-color)
         ));
-        border-color: var(--_error-hover-outline-color);
+
+        .nd-outlined-field__outline {
+          border-color: var(--_error-hover-outline-color);
+        }
 
         .nd-field__label {
           color: var(--_error-hover-label-text-color)
@@ -149,7 +180,9 @@
           supporting-text-color: var(--_error-focus-supporting-text-color)
         ));
 
-        border-color: var(--_error-focus-outline-color);
+        .nd-outlined-field__outline {
+          border-color: var(--_error-focus-outline-color);
+        }
 
         .nd-field__label {
           color: var(--_error-focus-label-text-color)
@@ -171,8 +204,11 @@
         supporting-text-opacity: var(--_disabled-supporting-text-opacity)
       ));
 
-      border-color: var(--_disabled-outline-color);
-      border-width: var(--_disabled-outline-width);
+      .nd-outlined-field__outline {
+        border-color: var(--_disabled-outline-color);
+        border-width: var(--_disabled-outline-width);
+        opacity: var(--_disabled-outline-opacity);
+      }
 
       .nd-field__label {
         color: var(--_disabled-label-text-color);

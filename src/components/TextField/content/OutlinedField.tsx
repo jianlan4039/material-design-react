@@ -39,7 +39,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
   const legendRef = useRef<HTMLLegendElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
-  const rootRef = useRef<HTMLFieldSetElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const outlineRef = useRef<HTMLFieldSetElement>(null);
   const labelPopulated = useRef<boolean>(false);
   const legendMounted = useRef<boolean>(false);
   const outlineBolded = useRef<boolean>(false);
@@ -73,7 +74,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       legend: [
         {
           width: ['0', `${legendWidth}px`],
-          paddingInline: ['0', '4px']
+          paddingInline: ['0', '2px'],
+          // marginLeft: ['16px', '13px']
         },
         {
           duration: 150, easing: EASING.STANDARD, fill: 'forwards'
@@ -81,7 +83,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       ],
       outline: [
         {
-          borderWidth: ['var(--_outline-width)', 'var(--_focus-outline-width)']
+          borderWidth: ['var(--_outline-width)', 'var(--_focus-outline-width)'],
+          // insetInlineStart: ['0', '-3px']
         },
         {
           duration: 100, easing: EASING.STANDARD, fill: 'forwards'
@@ -105,7 +108,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       legend: [
         {
           width: [`${legendWidth}px`, '0'],
-          paddingInline: ['4px', '0']
+          paddingInline: ['2px', '0'],
         },
         {
           duration: 150, easing: EASING.STANDARD, fill: 'forwards'
@@ -113,7 +116,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       ],
       outline: [
         {
-          borderWidth: ['var(--_focus-outline-width)', 'var(--_outline-width)']
+          borderWidth: ['var(--_focus-outline-width)', 'var(--_outline-width)'],
         },
         {
           duration: 100, easing: EASING.STANDARD, fill: 'forwards'
@@ -125,7 +128,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
   }
 
   const animateFocus = () => {
-    if (!fieldFocusAnimations.current || !rootRef.current) {
+    if (!fieldFocusAnimations.current) {
       console.warn('fieldFocusAnimations is undefined!')
       return
     }
@@ -150,7 +153,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
     if (!outlineBolded.current) {
       elementAndAnimations.push([
-        rootRef.current!,
+        outlineRef.current!,
         fieldFocusAnimations.current.outline
       ])
       outlineBolded.current = true
@@ -185,7 +188,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
     if (outlineBolded.current) {
       elementAndAnimations.push([
-        rootRef.current!,
+        outlineRef.current!,
         fieldBlurAnimations.current.outline
       ])
       outlineBolded.current = false
@@ -253,7 +256,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
 
   return (
-    <fieldset
+    <div
       ref={rootRef}
       className={c('nd-outlined-field', {
         'populated': populated || value,
@@ -265,11 +268,13 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       onMouseDown={mouseDownHandler}
       onClick={rootClickHandler}
     >
-      <legend ref={legendRef} className={'nd-field__label-reflection calculating'}>{label}</legend>
-      <Field onChange={valueChangeHandler} focus={focus} {...rest}>
+      <fieldset ref={outlineRef} className={'nd-outlined-field__outline'}>
+        <legend ref={legendRef} className={'nd-field__label-reflection calculating'}>{label}</legend>
+      </fieldset>
+      <Field onChange={valueChangeHandler} focus={inputFocus} disabled={disabled} {...rest}>
         <span ref={labelRef} className={'nd-field__label'}>{label}</span>
       </Field>
       {supportingText && <SupportingText>{supportingText}</SupportingText>}
-    </fieldset>
+    </div>
   )
 }
