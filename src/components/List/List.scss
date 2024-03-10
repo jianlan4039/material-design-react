@@ -1,0 +1,7 @@
+@use "../tokens/md-comp-list";
+@use "../builder/tokens-builder";
+
+.nd-list {
+  @include tokens-builder.tokens(md-comp-list.values(), list);
+  
+}

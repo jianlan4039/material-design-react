@@ -1,0 +1,17 @@
+@use "../../../builder/tokens-builder";
+@use "../../../builder/background";
+
+@mixin theme() {
+
+}
+
+@mixin styles() {
+  & {
+    position: relative;
+    padding-block: 8px;
+    list-style: none;
+    padding-inline: 0;
+    margin: 0;
+    @include background.styles;
+  }
+}

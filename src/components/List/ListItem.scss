@@ -1,0 +1,22 @@
+@use "../tokens/md-comp-list-item";
+@use "../builder/tokens-builder";
+@use "../StateLayer/internal/state-layer";
+
+.nd-list-item-wrapper {
+  @include state-layer.theme((
+    hover-color: var(--_hover-state-layer-color),
+    hover-opacity: var(--_hover-state-layer-opacity),
+    pressed-color: var(--_pressed-state-layer-color),
+    pressed-opacity: var(--_pressed-state-layer-opacity)
+  ));
+  @include tokens-builder.tokens(md-comp-list-item.values(), list-item);
+  position: relative;
+
+  &.interactive {
+    cursor: pointer;
+  }
+
+  &.disabled {
+    opacity: var(--_disabled-opacity);
+  }
+}
