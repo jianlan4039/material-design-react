@@ -4,13 +4,13 @@ import c from 'classnames'
 import SupportingText from "./SupportingText";
 import {EASING} from "../../internal/motion/animation";
 
-export type OutlinedFieldAnimationArgs = Parameters<Element['animate']>
-export type ElementAndAnimations = [HTMLElement, OutlinedFieldAnimationArgs][]
+export type AnimationArgs = Parameters<Element['animate']>
+export type ElementAndAnimations = [HTMLElement, AnimationArgs][]
 
 export interface OutlinedFieldAnimation {
-  label: OutlinedFieldAnimationArgs
-  legend: OutlinedFieldAnimationArgs
-  outline: OutlinedFieldAnimationArgs
+  label: AnimationArgs
+  legend: AnimationArgs
+  outline: AnimationArgs
 }
 
 export interface OutlinedFieldProps extends FieldProps {
@@ -36,6 +36,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
   const [value, setValue] = useState<any>()
   const [focus, setFocus] = useState(false)
   const [inputFocus, setInputFocus] = useState(false)
+  const [calculating, setCalculating] = useState(true)
 
   const legendRef = useRef<HTMLLegendElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -124,7 +125,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       ]
     }
 
-    legendRef.current.classList.toggle('calculating', false)
+    setCalculating(false)
   }
 
   const animateFocus = () => {
@@ -269,7 +270,12 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       onClick={rootClickHandler}
     >
       <fieldset ref={outlineRef} className={'nd-outlined-field__outline'}>
-        <legend ref={legendRef} className={'nd-field__label-reflection calculating'}>{label}</legend>
+        <legend
+          ref={legendRef}
+          className={c('nd-field__label-reflection', {'calculating': calculating})}
+        >
+          {label}
+        </legend>
       </fieldset>
       <Field onChange={valueChangeHandler} focus={inputFocus} disabled={disabled} {...rest}>
         <span ref={labelRef} className={'nd-field__label'}>{label}</span>
