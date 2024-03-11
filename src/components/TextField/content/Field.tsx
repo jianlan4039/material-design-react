@@ -83,7 +83,6 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
         <span className={'nd-field__input-wrapper__suffix'}>{suffix}</span>
       </div>
       <span className={'nd-field__trailing'}>{trailing}</span>
-      <span ref={labelRef} className={'nd-field__label'}>{label}</span>
       {children}
     </div>
   )

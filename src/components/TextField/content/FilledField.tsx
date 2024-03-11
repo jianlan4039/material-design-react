@@ -32,11 +32,12 @@ const FilledField = (props: FilledFieldProps) => {
     supportingText,
     error,
     disabled,
+    label,
     ...rest
   } = props
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const fieldRef = useRef<FieldRefProps>(null)
+  const labelRef = useRef<HTMLSpanElement>(null)
 
   const labelPopulated = useRef<boolean>(false);
   const indicatorActive = useRef<boolean>(false);
@@ -70,12 +71,11 @@ const FilledField = (props: FilledFieldProps) => {
   }
 
   const setAnimateFrames = () => {
-    const labelRef = fieldRef.current?.labelRef()
-    if (!labelRef) {
+    if (!labelRef.current) {
       return
     }
 
-    const labelTop = labelRef.offsetTop
+    const labelTop = labelRef.current.offsetTop
 
     fieldFocusAnimations.current = {
       label: [
@@ -117,15 +117,14 @@ const FilledField = (props: FilledFieldProps) => {
   }
 
   const animateFocus = () => {
-    const labelRef = fieldRef.current?.labelRef()
-    if (!labelRef || !rootRef.current || !fieldFocusAnimations.current || !fieldFocusAnimations.current) {
+    if (!labelRef.current || !rootRef.current || !fieldFocusAnimations.current || !fieldFocusAnimations.current) {
       return
     }
 
     const elementAndAnimations: ElementAndAnimations = []
     if (!labelPopulated.current) {
       elementAndAnimations.push([
-        labelRef,
+        labelRef.current,
         fieldFocusAnimations.current.label,
         true
       ])
@@ -145,15 +144,14 @@ const FilledField = (props: FilledFieldProps) => {
   }
 
   const animateBlur = () => {
-    const labelRef = fieldRef.current?.labelRef()
-    if (!labelRef || !rootRef.current || !fieldBlurAnimations.current || !fieldFocusAnimations.current) {
+    if (!labelRef.current || !rootRef.current || !fieldBlurAnimations.current || !fieldFocusAnimations.current) {
       return
     }
 
     const elementAndAnimations: ElementAndAnimations = []
     if (labelPopulated.current && !value) {
       elementAndAnimations.push([
-        labelRef,
+        labelRef.current,
         fieldBlurAnimations.current.label,
         true
       ])
@@ -180,14 +178,14 @@ const FilledField = (props: FilledFieldProps) => {
   };
 
   useEffect(() => {
-    if (rootRef.current && fieldRef.current) {
+    if (rootRef.current && labelRef.current) {
       setAnimateFrames()
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [rootRef, fieldRef]);
+  }, [rootRef, labelRef]);
 
   useEffect(() => {
     if (focus) {
@@ -216,12 +214,13 @@ const FilledField = (props: FilledFieldProps) => {
       onClick={mouseClickHandler}
     >
       <Field
-        ref={fieldRef}
         onChange={inputChangeHandler}
         focus={inputFocus}
         disabled={disabled}
         {...rest}
-      ></Field>
+      >
+        <span ref={labelRef} className={'nd-field__label'}>{label}</span>
+      </Field>
       {supportingText && <SupportingText>{supportingText}</SupportingText>}
     </div>
   )
