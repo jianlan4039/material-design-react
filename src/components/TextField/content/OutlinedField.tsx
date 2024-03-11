@@ -3,9 +3,7 @@ import Field, {FieldProps} from "./Field";
 import c from 'classnames'
 import SupportingText from "./SupportingText";
 import {EASING} from "../../internal/motion/animation";
-
-export type AnimationArgs = Parameters<Element['animate']>
-export type ElementAndAnimations = [HTMLElement, AnimationArgs][]
+import {AnimationArgs, ElementAndAnimations, executeAnimation} from "./AnimateConfig";
 
 export interface OutlinedFieldAnimation {
   label: AnimationArgs
@@ -139,7 +137,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     if (!labelPopulated.current) {
       elementAndAnimations.push([
         labelRef.current!,
-        fieldFocusAnimations.current.label
+        fieldFocusAnimations.current.label,
+        true
       ])
       labelPopulated.current = true
     }
@@ -147,7 +146,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     if (!legendMounted.current) {
       elementAndAnimations.push([
         legendRef.current!,
-        fieldFocusAnimations.current.legend
+        fieldFocusAnimations.current.legend,
+        true
       ])
       legendMounted.current = true
     }
@@ -155,7 +155,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     if (!outlineBolded.current) {
       elementAndAnimations.push([
         outlineRef.current!,
-        fieldFocusAnimations.current.outline
+        fieldFocusAnimations.current.outline,
+        true
       ])
       outlineBolded.current = true
     }
@@ -174,7 +175,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     if (labelPopulated.current && !value) {
       elementAndAnimations.push([
         labelRef.current!,
-        fieldBlurAnimations.current.label
+        fieldBlurAnimations.current.label,
+        true
       ])
       labelPopulated.current = false
     }
@@ -182,7 +184,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     if (legendMounted.current && !value) {
       elementAndAnimations.push([
         legendRef.current!,
-        fieldBlurAnimations.current.legend
+        fieldBlurAnimations.current.legend,
+        true
       ])
       legendMounted.current = false
     }
@@ -190,26 +193,14 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     if (outlineBolded.current) {
       elementAndAnimations.push([
         outlineRef.current!,
-        fieldBlurAnimations.current.outline
+        fieldBlurAnimations.current.outline,
+        true
       ])
       outlineBolded.current = false
     }
 
     executeAnimation(elementAndAnimations).then(() => {
       setPopulated(false)
-    })
-  }
-
-  const executeAnimation = async (elementAndAnimations: ElementAndAnimations) => {
-    const animations: Animation[] = []
-    for (const [element, animationArgs] of elementAndAnimations) {
-      const animate = element.animate(animationArgs[0], animationArgs[1])
-      animations.push(animate)
-    }
-    await Promise.all(animations.map((animation) => animation.finished))
-    animations.forEach(a => {
-      a.commitStyles()
-      a.cancel()
     })
   }
 

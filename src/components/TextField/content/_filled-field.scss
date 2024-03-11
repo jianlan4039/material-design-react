@@ -24,7 +24,7 @@
     }
 
     .nd-field {
-      .nd-filled-field__label {
+      .nd-field__label {
         position: absolute;
         inset-inline-start: calc(16px);
         color: var(--_label-text-color);
@@ -39,7 +39,7 @@
       }
 
       &.with-leading {
-        .nd-filled-field__label {
+        .nd-field__label {
           inset-inline-start: calc(12px + 24px + 16px);
         }
       }
@@ -51,8 +51,11 @@
     }
 
     &.populated {
+      @include share.theme((
+        input-opacity: 1
+      ));
       .nd-field {
-        .nd-filled-field__label {
+        .nd-field__label {
           color: var(--_focus-label-text-color);
           line-height: var(--_label-text-populated-line-height);
         }
@@ -97,14 +100,14 @@
         }
 
         .nd-field {
-          .nd-filled-field__label {
+          .nd-field__label {
             color: var(--_error-hover-label-text-color);
           }
         }
       }
 
       .nd-field {
-        .nd-filled-field__label {
+        .nd-field__label {
           color: var(--_hover-label-text-color);
         }
       }
@@ -139,7 +142,7 @@
         }
 
         .nd-field {
-          .nd-filled-field__label {
+          .nd-field__label {
             color: var(--_error-focus-label-text-color);
           }
         }
@@ -161,7 +164,7 @@
       }
 
       .nd-field {
-        .nd-filled-field__label {
+        .nd-field__label {
           color: var(--_error-label-text-color);
         }
       }
@@ -193,7 +196,7 @@
       }
 
       .nd-field {
-        .nd-filled-field__label {
+        .nd-field__label {
           color: var(--_disabled-label-text-color);
           opacity: var(--_disabled-label-text-opacity);
         }

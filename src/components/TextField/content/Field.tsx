@@ -16,11 +16,13 @@ export interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
   prefix?: string
   suffix?: string
   focus?: boolean
+  label?: string
 }
 
 export interface FieldRefProps {
   rootRef: () => HTMLDivElement | null
   inputRef: () => HTMLInputElement | null
+  labelRef: () => HTMLSpanElement | null
 }
 
 const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
@@ -35,11 +37,13 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
     className,
     onClick,
     onMouseDown,
+    label,
     ...rest
   } = props
 
   const inputRef = useRef<HTMLInputElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
 
   const clickHandler = (e: MouseEvent<HTMLInputElement>) => {
     onClick?.(e)
@@ -53,7 +57,8 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     rootRef: () => rootRef.current,
-    inputRef: () => inputRef.current
+    inputRef: () => inputRef.current,
+    labelRef: () => labelRef.current
   }))
 
   useEffect(() => {
@@ -78,6 +83,7 @@ const Field = forwardRef<FieldRefProps, FieldProps>((props, ref) => {
         <span className={'nd-field__input-wrapper__suffix'}>{suffix}</span>
       </div>
       <span className={'nd-field__trailing'}>{trailing}</span>
+      <span ref={labelRef} className={'nd-field__label'}>{label}</span>
       {children}
     </div>
   )

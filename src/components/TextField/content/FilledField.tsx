@@ -10,10 +10,15 @@ import Field, {FieldProps, FieldRefProps} from "./Field";
 import c from 'classnames'
 import {EASING} from "../../internal/motion/animation";
 import SupportingText from "./SupportingText";
+import {AnimationArgs, ElementAndAnimations, executeAnimation} from "./AnimateConfig";
+
+interface FilledAnimations {
+  label: AnimationArgs
+  indicator: AnimationArgs
+}
 
 export interface FilledFieldProps extends FieldProps {
   children?: ReactNode
-  label?: string
   supportingText?: string
   error?: boolean
   disabled?: boolean
@@ -22,7 +27,6 @@ export interface FilledFieldProps extends FieldProps {
 const FilledField = (props: FilledFieldProps) => {
   const {
     children,
-    label,
     onChange,
     focus: _focus,
     supportingText,
@@ -32,19 +36,23 @@ const FilledField = (props: FilledFieldProps) => {
   } = props
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
+  const fieldRef = useRef<FieldRefProps>(null)
+
   const labelPopulated = useRef<boolean>(false);
   const indicatorActive = useRef<boolean>(false);
-  const labelFrames = useRef<PropertyIndexedKeyframes[]>();
 
   const [value, setValue] = useState<any>()
   const [focus, setFocus] = useState(false)
   const [inputFocus, setInputFocus] = useState(_focus)
 
-  const mouseDownHandler = () => {
+  const fieldFocusAnimations = useRef<FilledAnimations>();
+  const fieldBlurAnimations = useRef<FilledAnimations>();
+
+  const mouseDownHandler = (e: ReactMouseEvent) => {
     if (disabled) {
       return
     }
+    e.preventDefault()
     setFocus(true)
   }
 
@@ -61,70 +69,107 @@ const FilledField = (props: FilledFieldProps) => {
     setValue(e.target.value)
   }
 
-  const getLabelAnimateFrames = () => {
-    if (!labelRef.current) {
+  const setAnimateFrames = () => {
+    const labelRef = fieldRef.current?.labelRef()
+    if (!labelRef) {
       return
     }
 
-    const currentTopDis = labelRef.current.offsetTop
-    return [
-      {
-        insetBlockStart: [`${currentTopDis}px`, `8px`],
-        fontSize: ['1rem', '0.75rem'],
-        lineHeight: ['1.5rem', '1rem']
-      },
-      {
-        insetBlockStart: ['8px', `${currentTopDis}px`],
-        fontSize: ['0.75rem', '1rem'],
-        lineHeight: ['1rem', '1.5rem']
-      }
-    ]
+    const labelTop = labelRef.offsetTop
+
+    fieldFocusAnimations.current = {
+      label: [
+        {
+          insetBlockStart: [`${labelTop}px`, `8px`],
+          fontSize: ['1rem', '0.75rem'],
+          lineHeight: ['1.5rem', '1rem']
+        },
+        {
+          duration: 150, easing: EASING.STANDARD, fill: 'forwards'
+        }
+      ],
+      indicator: [
+        {
+          height: ['1px', '3px']
+        },
+        {duration: 150, easing: EASING.STANDARD, fill: 'forwards', pseudoElement: '::before'}
+      ]
+    }
+
+    fieldBlurAnimations.current = {
+      label: [
+        {
+          insetBlockStart: ['8px', `${labelTop}px`],
+          fontSize: ['0.75rem', '1rem'],
+          lineHeight: ['1rem', '1.5rem']
+        },
+        {
+          duration: 150, easing: EASING.STANDARD, fill: 'forwards'
+        }
+      ],
+      indicator: [
+        {
+          height: ['3px', '1px']
+        },
+        {duration: 100, easing: EASING.STANDARD, fill: 'forwards', pseudoElement: '::before'}
+      ]
+    }
   }
 
-  const animateLabelPopulate = async (frame: PropertyIndexedKeyframes) => {
-    if (!labelRef.current || labelPopulated.current) {
+  const animateFocus = () => {
+    const labelRef = fieldRef.current?.labelRef()
+    if (!labelRef || !rootRef.current || !fieldFocusAnimations.current || !fieldFocusAnimations.current) {
       return
     }
-    const animate = labelRef.current.animate(frame, {
-      duration: 150, easing: EASING.STANDARD, fill: 'forwards'
-    })
-    await animate.finished
-    animate.commitStyles()
-    animate.cancel()
-    labelPopulated.current = true
+
+    const elementAndAnimations: ElementAndAnimations = []
+    if (!labelPopulated.current) {
+      elementAndAnimations.push([
+        labelRef,
+        fieldFocusAnimations.current.label,
+        true
+      ])
+      labelPopulated.current = true
+    }
+
+    if (!indicatorActive.current) {
+      elementAndAnimations.push([
+        rootRef.current,
+        fieldFocusAnimations.current.indicator,
+        false
+      ])
+      indicatorActive.current = true
+    }
+
+    void executeAnimation(elementAndAnimations)
   }
 
-  const animateLabelRestore = async (frame: PropertyIndexedKeyframes) => {
-    if (!labelRef.current || !labelPopulated.current) {
+  const animateBlur = () => {
+    const labelRef = fieldRef.current?.labelRef()
+    if (!labelRef || !rootRef.current || !fieldBlurAnimations.current || !fieldFocusAnimations.current) {
       return
     }
-    const animate = labelRef.current.animate(frame, {
-      duration: 150, easing: EASING.STANDARD, fill: 'forwards'
-    })
-    await animate.finished
-    animate.commitStyles()
-    animate.cancel()
-    labelPopulated.current = false
-  }
 
-  const animateIndicatorActive = () => {
-    if (!rootRef.current || indicatorActive.current) {
-      return
+    const elementAndAnimations: ElementAndAnimations = []
+    if (labelPopulated.current && !value) {
+      elementAndAnimations.push([
+        labelRef,
+        fieldBlurAnimations.current.label,
+        true
+      ])
+      labelPopulated.current = false
     }
-    const animate = rootRef.current.animate({
-      height: ['1px', '3px']
-    }, {duration: 150, easing: EASING.STANDARD, fill: 'forwards', pseudoElement: '::before'})
-    indicatorActive.current = true
-  }
 
-  const animateIndicatorNonactive = () => {
-    if (!rootRef.current || !indicatorActive.current) {
-      return
+    if (indicatorActive.current) {
+      elementAndAnimations.push([
+        rootRef.current,
+        fieldBlurAnimations.current.indicator,
+        false
+      ])
+      indicatorActive.current = false
     }
-    const animate = rootRef.current.animate({
-      height: ['3px', '1px']
-    }, {duration: 100, easing: EASING.STANDARD, fill: 'forwards', pseudoElement: '::before'})
-    indicatorActive.current = false
+
+    void executeAnimation(elementAndAnimations)
   }
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -135,34 +180,26 @@ const FilledField = (props: FilledFieldProps) => {
   };
 
   useEffect(() => {
-    if (labelRef.current) {
-      labelFrames.current = getLabelAnimateFrames()
+    if (rootRef.current && fieldRef.current) {
+      setAnimateFrames()
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [rootRef, labelRef]);
+  }, [rootRef, fieldRef]);
 
   useEffect(() => {
-    if (!labelFrames.current) {
-      return
-    }
     if (focus) {
-      void animateLabelPopulate(labelFrames.current[0])
-      animateIndicatorActive()
-    } else if (value) {
-      void animateLabelPopulate(labelFrames.current[0])
-      animateIndicatorNonactive()
+      animateFocus()
     } else {
-      void animateLabelRestore(labelFrames.current[1])
-      animateIndicatorNonactive()
+      animateBlur()
     }
-  }, [focus, value]);
+  }, [focus]);
 
   useEffect(() => {
     if (disabled) {
-      animateIndicatorNonactive()
+
     }
   }, [disabled]);
 
@@ -178,9 +215,13 @@ const FilledField = (props: FilledFieldProps) => {
       onMouseDown={mouseDownHandler}
       onClick={mouseClickHandler}
     >
-      <Field onChange={inputChangeHandler} focus={inputFocus} disabled={disabled} {...rest}>
-        <span ref={labelRef} className={'nd-filled-field__label'}>{label}</span>
-      </Field>
+      <Field
+        ref={fieldRef}
+        onChange={inputChangeHandler}
+        focus={inputFocus}
+        disabled={disabled}
+        {...rest}
+      ></Field>
       {supportingText && <SupportingText>{supportingText}</SupportingText>}
     </div>
   )
