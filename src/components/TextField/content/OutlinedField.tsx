@@ -1,5 +1,5 @@
 import React, {ReactNode, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, ChangeEvent} from 'react'
-import Field, {FieldProps} from "./Field";
+import Field, {FieldProps, FieldRefProps} from "./Field";
 import c from 'classnames'
 import SupportingText from "./SupportingText";
 import {EASING} from "../../internal/motion/animation";
@@ -37,7 +37,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
   const [calculating, setCalculating] = useState(true)
 
   const legendRef = useRef<HTMLLegendElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
+  const fieldRef = useRef<FieldRefProps>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const outlineRef = useRef<HTMLFieldSetElement>(null);
   const labelPopulated = useRef<boolean>(false);
@@ -48,13 +48,14 @@ export default function OutlinedField(props: OutlinedFieldProps) {
   const fieldBlurAnimations = useRef<OutlinedFieldAnimation>();
 
   const setAnimations = () => {
-    if (!labelRef.current || !legendRef.current) {
+    const labelRef = fieldRef.current?.labelRef();
+    if (!labelRef || !legendRef.current) {
       console.warn('labelRef or legendRef are undefined!')
       return
     }
 
-    const labelTop = labelRef.current.offsetTop
-    const labelLeft = labelRef.current.offsetLeft
+    const labelTop = labelRef.offsetTop
+    const labelLeft = labelRef.offsetLeft
     const legendWidth = legendRef.current.getBoundingClientRect().width
 
     fieldFocusAnimations.current = {
@@ -127,7 +128,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
   }
 
   const animateFocus = () => {
-    if (!fieldFocusAnimations.current) {
+    const labelRef = fieldRef.current?.labelRef();
+    if (!fieldFocusAnimations.current || !labelRef) {
       console.warn('fieldFocusAnimations is undefined!')
       return
     }
@@ -136,7 +138,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
     if (!labelPopulated.current) {
       elementAndAnimations.push([
-        labelRef.current!,
+        labelRef,
         fieldFocusAnimations.current.label,
         true
       ])
@@ -165,7 +167,8 @@ export default function OutlinedField(props: OutlinedFieldProps) {
   }
 
   const animateBlur = () => {
-    if (!fieldBlurAnimations.current) {
+    const labelRef = fieldRef.current?.labelRef();
+    if (!fieldBlurAnimations.current || !labelRef) {
       console.warn('fieldBlurAnimations is undefined!')
       return
     }
@@ -174,7 +177,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
     if (labelPopulated.current && !value) {
       elementAndAnimations.push([
-        labelRef.current!,
+        labelRef,
         fieldBlurAnimations.current.label,
         true
       ])
@@ -231,12 +234,14 @@ export default function OutlinedField(props: OutlinedFieldProps) {
   }
 
   useEffect(() => {
-    setAnimations()
+    if (rootRef.current && fieldRef.current) {
+      setAnimations()
+    }
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [rootRef, labelRef])
+  }, [rootRef, fieldRef])
 
   useEffect(() => {
     if (focus && populated) {
@@ -268,9 +273,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
           {label}
         </legend>
       </fieldset>
-      <Field onChange={valueChangeHandler} focus={inputFocus} disabled={disabled} {...rest}>
-        <span ref={labelRef} className={'nd-field__label'}>{label}</span>
-      </Field>
+      <Field ref={fieldRef} onChange={valueChangeHandler} focus={inputFocus} disabled={disabled} label={label} {...rest}></Field>
       {supportingText && <SupportingText>{supportingText}</SupportingText>}
     </div>
   )
