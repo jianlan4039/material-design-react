@@ -17,7 +17,6 @@ export interface OutlinedFieldProps extends FieldProps {
   supportingText?: string
   error?: boolean
   disabled?: boolean
-  fieldMode?: boolean
 }
 
 export default function OutlinedField(props: OutlinedFieldProps) {
@@ -28,7 +27,6 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     onChange,
     error = false,
     disabled = false,
-    fieldMode,
     ...rest
   } = props
 
@@ -134,7 +132,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
     const elementAndAnimations: ElementAndAnimations = []
 
-    if (!labelPopulated.current && !fieldMode) {
+    if (!labelPopulated.current) {
       elementAndAnimations.push([
         labelRef.current,
         fieldFocusAnimations.current.label,
@@ -143,7 +141,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       labelPopulated.current = true
     }
 
-    if (!legendMounted.current && !fieldMode) {
+    if (!legendMounted.current) {
       elementAndAnimations.push([
         legendRef.current!,
         fieldFocusAnimations.current.legend,

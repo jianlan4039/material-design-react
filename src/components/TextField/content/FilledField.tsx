@@ -197,7 +197,7 @@ const FilledField = (props: FilledFieldProps) => {
 
   useEffect(() => {
     if (disabled) {
-
+      animateBlur()
     }
   }, [disabled]);
 
