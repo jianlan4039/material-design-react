@@ -21,7 +21,6 @@ export default function Field(props: FieldProps) {
   const floatingLabel = useRef<HTMLSpanElement>(null);
   const restingLabel = useRef<HTMLSpanElement>(null);
   const labelAnimation = useRef<Animation | null>(null);
-  const [animating, setAnimating] = useState<boolean>(false)
 
   const getLabelKeyframes = () => {
     if (!floatingLabel.current || !restingLabel.current) {
