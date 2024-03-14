@@ -1,0 +1,22 @@
+.nd-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  block-size: 100%;
+  min-inline-size: min-content;
+  border-radius: inherit;
+
+  .nd-container__middle,
+  .nd-container__start,
+  .nd-container__end {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    block-size: 100%;
+  }
+
+  .nd-container__middle {
+    box-sizing: border-box;
+  }
+}

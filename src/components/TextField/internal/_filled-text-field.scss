@@ -1,0 +1,12 @@
+@use '../../tokens/md-comp-filled-text-field';
+@use "../../builder/tokens-builder";
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, md-comp-filled-text-field.$supported-tokens, filled-text-field);
+}
+
+@mixin styles() {
+  & {
+    @include tokens-builder.tokens(md-comp-filled-text-field.values(), filled-text-field);
+  }
+}

@@ -1,0 +1,5 @@
+@use "./filled-text-field";
+
+.nd-filled-text-field {
+  @include filled-text-field.styles;
+}
