@@ -19,8 +19,51 @@ export const Default: Story = {
   render: (args) => {
     return (
       <OutlinedTextField
+        label={'Label'}
+        {...args}></OutlinedTextField>
+    )
+  }
+}
+
+export const LeadingIcon: Story = {
+  render: (args) => {
+    return (
+      <OutlinedTextField
+        leadingIcon={<FilledIcon>home</FilledIcon>}
+        label={'Label'}
+        {...args}></OutlinedTextField>
+    )
+  }
+}
+
+export const TrailingIcon: Story = {
+  render: (args) => {
+    return (
+      <OutlinedTextField
+        label={'Label'}
+        {...args}></OutlinedTextField>
+    )
+  }
+}
+
+export const LeadingAndTrailing: Story = {
+  render: (args) => {
+    return (
+      <OutlinedTextField
         leadingIcon={<FilledIcon>home</FilledIcon>}
         trailingIcon={<FilledIcon>check</FilledIcon>}
+        label={'Label'}
+        {...args}></OutlinedTextField>
+    )
+  }
+}
+
+export const PrefixAndSuffix: Story = {
+  render: (args) => {
+    return (
+      <OutlinedTextField
+        prefix={'$'}
+        suffix={'.00 '}
         label={'Label'}
         {...args}></OutlinedTextField>
     )

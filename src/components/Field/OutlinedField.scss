@@ -16,6 +16,18 @@
     border-radius: inherit;
     border-color: var(--_outline-color);
 
+    .nd-outline__start::after,
+    .nd-outline__end::after,
+    .nd-outline__notch > .nd-outline__panel-inactive::before,
+    .nd-outline__notch > .nd-outline__panel-inactive::after,
+    .nd-outline__notch > .nd-outline__panel-active,
+    .nd-outline__notch > .nd-outline__panel-active::after,
+    .nd-outline__notch > .nd-outline__panel-active::before {
+      transition-property: border-width, inline-size;
+      transition-duration: 150ms;
+      transition-timing-function: linear;
+    }
+
     .nd-outline__start,
     .nd-outline__end {
       position: relative;
@@ -34,7 +46,8 @@
       }
 
       &::after {
-        opacity: 0;
+        //opacity: 0;
+        border-width: 0;
       }
     }
 
@@ -110,25 +123,26 @@
       }
 
       .nd-outline__panel-active {
-        opacity: 0;
+        border-width: 0;
+
+        &::after {
+          border-block-start-width: 0;
+        }
       }
     }
 
     &.indicator-active {
       .nd-outline__start,
       .nd-outline__end {
-        &::before {
-          opacity: 0;
-        }
+        border-color: var(--_focus-outline-color);
 
         &::after {
-          opacity: 1;
           border-width: var(--_focus-outline-width);
         }
       }
 
       .nd-outline__panel-inactive {
-        opacity: 0;
+        border-color: var(--_focus-outline-color);
 
         &::before,
         &::after {
@@ -137,8 +151,8 @@
       }
 
       .nd-outline__panel-active {
-        opacity: 1;
         border-width: var(--_focus-outline-width);
+        border-color: var(--_focus-outline-color);
 
         &::before,
         &::after {
@@ -153,19 +167,15 @@
         inline-size: 12px;
       }
     }
-  }
 
-  .nd-outlined-field__outline-wrapper {
-    .nd-outline__start::after,
-    .nd-outline__end::after,
-    .nd-outline__notch > .nd-outline__panel-inactive::before,
-    .nd-outline__notch > .nd-outline__panel-inactive::after,
-    .nd-outline__notch > .nd-outline__panel-active,
-    .nd-outline__notch > .nd-outline__panel-active::after,
-    .nd-outline__notch > .nd-outline__panel-active::before {
-      transition-property: border-width, inline-size;
-      transition-duration: 150ms;
-      transition-timing-function: linear;
+    &.populated:not(.indicator-active) {
+      .nd-outline__panel-active,
+      .nd-outline__panel-inactive {
+        &::before,
+        &::after {
+          inline-size: 0;
+        }
+      }
     }
   }
 
@@ -194,6 +204,13 @@
       .nd-field__label-wrapper {
         .nd-field__label-wrapper__label.floating {
           inset-block-start: calc(0px - var(--_label-text-populated-line-height) / 2);
+        }
+      }
+    }
+
+    &.with-leading-icon {
+      .nd-field__label-wrapper {
+        .nd-field__label-wrapper__label.floating {
           inset-inline-start: calc(0px - (var(--_leading-space) + 24px - 4px));
         }
       }

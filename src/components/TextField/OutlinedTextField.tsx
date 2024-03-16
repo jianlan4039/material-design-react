@@ -1,5 +1,6 @@
-import React, {InputHTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {ChangeEvent, MouseEvent as ReactMouseEvent, InputHTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
 import OutlinedField from "../Field/OutlinedField";
+import './OutlinedTextField.scss'
 
 export interface OutlinedTextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   children?: ReactNode
@@ -20,18 +21,24 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     trailingIcon,
     supportingText,
     label,
+    onChange,
     ...rest
   } = props
 
-  const [populated, setPopulated] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [focus, setFocus] = useState<boolean>(false)
+  const [value, setValue] = useState<any>(null)
 
+  const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange?.(e)
+    setValue(e.target.value)
+  }
 
-  const rootMouseDownHandler = () => {
+  const mouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
     setFocus(true)
-    setPopulated(true)
   }
 
   useEffect(() => {
@@ -40,7 +47,6 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
       if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
         // 如果点击发生在组件外部
         setFocus(false)
-        setPopulated(false)
       }
     };
 
@@ -53,16 +59,29 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     };
   }, [rootRef]); // 确保effect运行在组件挂载和卸载时
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+      inputRef.current.select()
+    }
+  }, [focus]);
+
   return (
     <div
       ref={rootRef}
       className={'nd-outlined-text-field'}
-      onMouseDown={rootMouseDownHandler}
+      onMouseDown={mouseDownHandler}
     >
-      <OutlinedField start={leadingIcon} end={trailingIcon} label={label} populated={populated} focus={focus} {...rest}>
+      <OutlinedField
+        start={leadingIcon}
+        end={trailingIcon}
+        label={label}
+        populated={value || focus}
+        focus={focus} {...rest}
+      >
         <div className={'nd-input-wrapper'}>
           {prefix && <span>{prefix}</span>}
-          <input type="text"/>
+          <input ref={inputRef} onChange={inputChangeHandler} type="text"/>
           {suffix && <span>{suffix}</span>}
         </div>
       </OutlinedField>

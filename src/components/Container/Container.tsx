@@ -21,12 +21,12 @@ export default function Container(props: ContainerProps) {
 
   return (
     <div className={c('nd-container', className)} {...rest}>
-      <div className={'nd-container__start'}>{start}</div>
+      {start && <div className={'nd-container__start'}>{start}</div>}
       <div className={'nd-container__middle'}>
-        {middle}
+      {middle}
         {children && <div className={'nd-container__content'}>{children}</div>}
       </div>
-      <div className={'nd-container__end'}>{end}</div>
+      {end && <div className={'nd-container__end'}>{end}</div>}
     </div>
   )
 }

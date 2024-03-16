@@ -15,6 +15,7 @@ export default function Field(props: FieldProps) {
     children,
     label,
     populated,
+    className,
     ...rest
   } = props
 
@@ -105,7 +106,7 @@ export default function Field(props: FieldProps) {
 
   return (
     <Container
-      className={c('nd-field', {'populated': populated})}
+      className={c('nd-field', className, {'populated': populated})}
       middle={label &&
         <div className={'nd-field__label-wrapper'}>
           <span
