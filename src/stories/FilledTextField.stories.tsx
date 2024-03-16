@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React from "react";
-import FilledTextField from "../components/TextField/internal/FilledTextField";
+import FilledTextField from "../components/TextField/FilledTextField";
 import {FilledIcon} from "../icons";
 
 const meta: Meta<typeof FilledTextField> = {

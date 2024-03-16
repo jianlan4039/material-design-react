@@ -16,7 +16,6 @@ export default function FilledField(props: FilledFieldProps) {
     label,
     className,
     focus,
-    populated,
     ...rest
   } = props
 
@@ -24,7 +23,7 @@ export default function FilledField(props: FilledFieldProps) {
     <div className={c('nd-filled-field', className, {'with-label': label})}>
       <StateLayer></StateLayer>
       <div className={'nd-filled-field__indicator'}></div>
-      <Field label={label} populated={populated} {...rest}>
+      <Field label={label} {...rest}>
         {children}
       </Field>
     </div>

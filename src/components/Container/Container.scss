@@ -14,6 +14,8 @@
     align-items: center;
     justify-content: center;
     block-size: 100%;
+    inline-size: fit-content;
+    box-sizing: border-box;
   }
 
   .nd-container__middle {

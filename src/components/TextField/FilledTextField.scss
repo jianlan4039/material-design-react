@@ -1,4 +1,4 @@
-@use "./filled-text-field";
+@use "internal/filled-text-field";
 
 .nd-filled-text-field {
   @include filled-text-field.styles;

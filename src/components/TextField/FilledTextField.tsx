@@ -1,5 +1,5 @@
 import React, {InputHTMLAttributes, ReactNode, useState} from 'react'
-import FilledField from "../../Field/FilledField";
+import FilledField from "../Field/FilledField";
 import './FilledTextField.scss'
 
 export interface FilledTextFieldProps extends InputHTMLAttributes<HTMLInputElement>{
