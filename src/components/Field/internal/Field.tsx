@@ -21,6 +21,7 @@ export default function Field(props: FieldProps) {
   const floatingLabel = useRef<HTMLSpanElement>(null);
   const restingLabel = useRef<HTMLSpanElement>(null);
   const labelAnimation = useRef<Animation | null>(null);
+  const [floatingLabelShow, setFloatingLabelShow] = useState<boolean>(Boolean(populated))
 
   const getLabelKeyframes = () => {
     if (!floatingLabel.current || !restingLabel.current) {
@@ -66,34 +67,57 @@ export default function Field(props: FieldProps) {
     ];
   }
 
-  useEffect(() => {
-    if (!floatingLabel.current || !restingLabel.current) {
+  function animateFloating() {
+    if (!floatingLabel.current) {
       return
     }
-    labelAnimation.current?.cancel()
-    floatingLabel.current.classList.toggle('hidden', false)
-    restingLabel.current.classList.toggle('hidden', true)
+
     labelAnimation.current = floatingLabel.current.animate(getLabelKeyframes(), {
       duration: 150,
-      easing: EASING.STANDARD
+      easing: EASING.STANDARD,
+      fill: 'forwards'
     })
     labelAnimation.current.addEventListener('finish', () => {
       if (!populated) {
-        floatingLabel.current!.classList.toggle('hidden', true)
-        restingLabel.current!.classList.toggle('hidden', false)
+        setFloatingLabelShow(false)
+      } else {
+        labelAnimation.current?.cancel()
       }
     })
+  }
+
+  useEffect(() => {
+    labelAnimation.current?.cancel()
+    if (populated) {
+      setFloatingLabelShow(true)
+    } else {
+      animateFloating();
+    }
   }, [populated]);
+
+  useEffect(() => {
+    if (floatingLabelShow) {
+      animateFloating();
+    } else {
+      labelAnimation.current?.cancel()
+    }
+  }, [floatingLabelShow]);
 
   return (
     <Container
       className={c('nd-field', {'populated': populated})}
       middle={label &&
         <div className={'nd-field__label-wrapper'}>
-          <span ref={restingLabel} className={c('nd-field__label-wrapper__label resting')}>
+          <span
+            ref={restingLabel}
+            className={c('nd-field__label-wrapper__label resting', {'hidden': floatingLabelShow})}
+          >
             {label}
           </span>
-          <span ref={floatingLabel} className={c('nd-field__label-wrapper__label floating hidden')}>
+          <span
+            ref={floatingLabel}
+            className={c('nd-field__label-wrapper__label floating', {'hidden': !floatingLabelShow})}
+          >
             {label}
           </span>
         </div>
