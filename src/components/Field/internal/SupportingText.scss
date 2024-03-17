@@ -1,0 +1,5 @@
+@use "supporting-text";
+
+.nd-field-supporting-text {
+  @include supporting-text.styles;
+}

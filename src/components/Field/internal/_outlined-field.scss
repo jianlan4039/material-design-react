@@ -1,0 +1,209 @@
+@use "../../tokens/md-comp-outlined-field";
+@use "../../builder/tokens-builder";
+@use "./field-outline";
+@use "./supporting-text";
+@use "./basic-field";
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, md-comp-outlined-field.$supported-tokens, outlined-field);
+}
+
+
+@mixin styles() {
+  & {
+    @include tokens-builder.tokens(md-comp-outlined-field.values(), outlined-field);
+    @include field-outline.theme((
+      label-text-size: var(--_label-text-populated-size),
+      label-text-line-height: var(--_label-text-populated-line-height),
+      outline-width: var(--_outline-width)
+    ));
+    @include basic-field.theme((
+      content-color: var(--_content-color),
+      label-text-color: var(--_label-text-color),
+      leading-content-color: var(--_leading-content-color),
+      trailing-content-color: var(--_trailing-content-color)
+    ));
+
+    position: relative;
+    block-size: 56px;
+    border-radius: var(--_container-shape);
+
+    .nd-field {
+      .nd-container__start {
+        padding-inline-start: 12px;
+      }
+
+      .nd-container__end {
+        padding-inline-end: 12px;
+      }
+
+      .nd-container__middle {
+        box-sizing: border-box;
+        padding-inline-start: var(--_leading-space);
+        padding-inline-end: var(--_trailing-space);
+        padding-block-start: var(--_top-space);
+        padding-block-end: var(--_bottom-space);
+
+        .nd-container__content {
+          opacity: 0;
+        }
+
+        .nd-field__label-wrapper {
+          .nd-field__label-wrapper__label.floating {
+            inset-block-start: calc(0px - var(--_label-text-populated-line-height) / 2);
+          }
+        }
+      }
+
+      &.with-leading-icon {
+        .nd-field__label-wrapper {
+          .nd-field__label-wrapper__label.floating {
+            inset-inline-start: calc(0px - (var(--_leading-space) + 24px - 4px));
+          }
+        }
+      }
+    }
+
+    // outlined-filed states
+    &.hover {
+      @include basic-field.theme((
+        content-color: var(--_hover-content-color),
+        label-text-color: var(--_hover-label-text-color),
+        leading-content-color: var(--_hover-leading-content-color),
+        trailing-content-color: var(--_hover-trailing-content-color)
+      ));
+
+      @include field-outline.theme((
+        outline-color: var(--_hover-outline-color),
+        outline-width: var(--_hover-outline-width)
+      ));
+
+      @include supporting-text.theme((
+        color: var(--_hover-supporting-text-color)
+      ))
+    }
+
+    &.focus {
+      @include field-outline.theme((
+        outline-color: var(--_focus-outline-color),
+        active-outline-width: var(--_focus-outline-width),
+        notch-size: 0
+      ));
+      @include supporting-text.theme((
+        color: var(--_focus-supporting-text-color)
+      ));
+      @include basic-field.theme((
+        trailing-content-color: var(--_focus-trailing-content-color)
+      ));
+    }
+
+    &.populated:not(.focus) {
+      @include field-outline.theme((
+        notch-size: 0
+      ));
+    }
+
+    &.error {
+      @include basic-field.theme((
+        content-color: var(--_error-content-color),
+        label-text-color: var(--_error-label-text-color),
+        leading-content-color: var(--_error-leading-content-color),
+        trailing-content-color: var(--_error-trailing-content-color)
+      ));
+      @include field-outline.theme((
+        outline-color: var(--_error-outline-color),
+      ));
+      @include supporting-text.theme((
+        color: var(--_error-supporting-text-color)
+      ));
+
+      &.hover {
+        @include basic-field.theme((
+          content-color: var(--_error-hover-content-color),
+          label-text-color: var(--_error-hover-label-text-color),
+          leading-content-color: var(--_error-hover-leading-content-color),
+          trailing-content-color: var(--_error-hover-trailing-content-color),
+        ));
+
+        @include field-outline.theme((
+          outline-color: var(--_error-hover-outline-color),
+        ));
+
+        @include supporting-text.theme((
+          color: var(--_error-hover-supporting-text-color)
+        ))
+      }
+
+      &.focus {
+        @include basic-field.theme((
+          content-color: var(--_error-focus-content-color),
+          label-text-color: var(--_error-focus-label-text-color),
+          leading-content-color: var(--_error-focus-leading-content-color),
+          trailing-content-color: var(--_error-focus-trailing-content-color),
+        ));
+
+        @include field-outline.theme((
+          outline-color: var(--_error-focus-outline-color),
+        ));
+
+        @include supporting-text.theme((
+          color: var(--_error-focus-supporting-text-color)
+        ))
+      }
+    }
+
+    &.disabled {
+      @include field-outline.theme((
+        outline-color: var(--_disabled-outline-color),
+        active-outline-width: var(--_disabled-outline-width)
+      ));
+      @include supporting-text.theme((
+        color: var(--_disabled-supporting-text-color)
+      ));
+      @include basic-field.theme((
+        content-color: var(--_disabled-content-color),
+        label-text-color: var(--_disabled-label-text-color),
+        leading-content-color: var(--_disabled-leading-content-color),
+        trailing-content-color: var(--_disabled-trailing-content-color)
+      ));
+
+      .nd-field-outline {
+        opacity: var(--_disabled-outline-opacity);
+      }
+
+      .nd-field-supporting-text {
+        .nd-field-supporting-text__content {
+          opacity: var(--_disabled-supporting-text-opacity);
+        }
+
+        .nd-field-supporting-text__trailing {
+          opacity: var(--_disabled-trailing-content-opacity);
+        }
+      }
+
+      .nd-field {
+        .nd-container__middle {
+          .nd-field__label-wrapper {
+            opacity: var(--_disabled-label-text-opacity);
+          }
+        }
+
+        .nd-container__start {
+          opacity: var(--_disabled-leading-content-opacity);
+        }
+
+        .nd-container__end {
+          opacity: var(--_disabled-trailing-content-opacity);
+        }
+
+        &.populated {
+          .nd-container__middle {
+            .nd-container__content {
+              opacity: var(--_disabled-content-opacity);
+            }
+          }
+        }
+      }
+    }
+  }
+}

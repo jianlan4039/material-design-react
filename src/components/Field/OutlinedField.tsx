@@ -1,11 +1,17 @@
-import React, {ReactNode} from 'react'
+import React, {ReactNode, useState} from 'react'
 import './OutlinedField.scss'
 import c from 'classnames'
 import Field, {FieldProps} from "./internal/Field";
+import FieldOutline from "./internal/FieldOutline";
+import SupportingText from "./internal/SupportingText";
 
 export interface OutlinedFieldProps extends FieldProps {
   children?: ReactNode
   focus?: boolean
+  supportingText?: string
+  supportingTextTrailing?: string
+  error?: boolean
+  disabled?: boolean
 }
 
 export default function OutlinedField(props: OutlinedFieldProps) {
@@ -15,27 +21,42 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     focus,
     populated,
     start,
+    supportingText,
+    supportingTextTrailing,
+    error,
+    disabled,
     ...rest
   } = props
 
-  console.log(start)
+  const [hover, setHover] = useState<boolean>(false)
+
+  const mouseOverHandler = () => {
+    if (disabled) {
+      return
+    }
+    setHover(true)
+  }
+
+  const mouseOutHandler = () => {
+    if (disabled) {
+      return
+    }
+    setHover(false)
+  }
 
   return (
-    <div className={'nd-outlined-field'}>
-      <div
-        className={c('nd-outlined-field__outline-wrapper', {
-          'indicator-active': focus,
-          'with-label': label,
-          'populated': populated
-        })}>
-        <div className={'nd-outline__start'}></div>
-        <div className={'nd-outline__notch'}>
-          <span className={'nd-outline__panel-inactive'}></span>
-          <span className={'nd-outline__panel-active'}></span>
-          <span className={'nd-outline__notch__label'}>{label}</span>
-        </div>
-        <div className={'nd-outline__end'}></div>
-      </div>
+    <div
+      className={c('nd-outlined-field', {
+        'focus': focus,
+        'populated': populated,
+        'hover': hover,
+        'error': error,
+        'disabled': disabled
+      })}
+      onMouseOver={mouseOverHandler}
+      onMouseOut={mouseOutHandler}
+    >
+      <FieldOutline label={label}></FieldOutline>
       <Field
         className={c({'with-leading-icon': start})}
         label={label}
@@ -45,6 +66,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       >
         {children}
       </Field>
+      <SupportingText trailing={supportingTextTrailing}>{supportingText}</SupportingText>
     </div>
   )
 }

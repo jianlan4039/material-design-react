@@ -1,0 +1,155 @@
+@use "../../builder/tokens-builder";
+
+$supported-tokens: (
+  'outline-color',
+  'outline-width',
+  'active-outline-width',
+  'label-text-size',
+  'label-text-line-height',
+  'notch-size',
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, $supported-tokens, field-outline)
+}
+
+@mixin styles() {
+  .nd-field-outline {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    border-radius: inherit;
+    border-color: var(--md-field-outline-outline-color, var(--_outline-color));
+
+    .nd-field-outline__start::after,
+    .nd-field-outline__end::after,
+    .nd-field-outline__notch > .nd-field-outline__panel-inactive::before,
+    .nd-field-outline__notch > .nd-field-outline__panel-inactive::after,
+    .nd-field-outline__notch > .nd-field-outline__panel-active,
+    .nd-field-outline__notch > .nd-field-outline__panel-active::after,
+    .nd-field-outline__notch > .nd-field-outline__panel-active::before {
+      transition-property: border-width, inline-size;
+      transition-duration: 150ms;
+      transition-timing-function: linear;
+    }
+
+    .nd-field-outline__start,
+    .nd-field-outline__end {
+      position: relative;
+      block-size: 100%;
+      border-color: inherit;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        border-color: inherit;
+        border-block-style: solid;
+      }
+
+      &::before {
+        border-width: var(--md-field-outline-outline-width, var(--_outline-width));
+      }
+
+      &::after {
+        border-width: var(--md-field-outline-active-outline-width, 0);
+      }
+    }
+
+    .nd-field-outline__start {
+      border-start-start-radius: inherit;
+      border-end-start-radius: inherit;
+      inline-size: 16px;
+
+      &::before,
+      &::after {
+        border-inline-start-style: solid;
+        border-inline-end-style: none;
+      }
+    }
+
+    .nd-field-outline__end {
+      border-start-end-radius: inherit;
+      border-end-end-radius: inherit;
+      display: flex;
+      flex-grow: 1;
+
+      &::before,
+      &::after {
+        border-inline-start-style: none;
+        border-inline-end-style: solid;
+      }
+    }
+
+    .nd-field-outline__notch {
+      position: relative;
+      display: flex;
+      block-size: 100%;
+      inline-size: fit-content;
+      border-color: inherit;
+
+      .nd-field-outline__notch__label {
+        opacity: 0;
+        font-size: var(--md-field-outline-label-text-size, var(--_label-text-size));
+        line-height: var(--md-field-outline-label-text-line-height, var(--_label-text-line-height));
+        padding-inline: 4px;
+      }
+
+      .nd-field-outline__panel-inactive,
+      .nd-field-outline__panel-active {
+        position: absolute;
+        inset: 0;
+        border-block-end-style: solid;
+        border-color: inherit;
+
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          inline-size: var(--md-field-outline-notch-size, 50%);
+          border-block-start-style: solid;
+          border-color: inherit;
+        }
+
+        &:before {
+          transform-origin: top left;
+          inset-block-start: 0;
+          inset-inline-start: 0;
+        }
+
+        &::after {
+          transform-origin: top right;
+          inset-block-start: 0;
+          inset-inline-end: 0;
+        }
+      }
+
+      .nd-field-outline__panel-inactive {
+        border-block-end-width: var(--md-field-outline-outline-width, var(--_outline-width));
+
+        &::before,
+        &::after {
+          border-block-start-width: var(--md-field-outline-outline-width, var(--_outline-width));
+        }
+      }
+
+      .nd-field-outline__panel-active {
+        border-block-end-width: var(--md-field-outline-active-outline-width, 0);
+
+        &::before,
+        &::after {
+          border-block-start-width: var(--md-field-outline-active-outline-width, 0);
+        }
+      }
+    }
+
+    &.with-label {
+      .nd-field-outline__start {
+        inline-size: 12px;
+      }
+    }
+  }
+}

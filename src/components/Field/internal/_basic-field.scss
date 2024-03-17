@@ -1,0 +1,83 @@
+@use "../../builder/tokens-builder";
+
+$supporting-tokens: (
+  'label-leading-space',
+  'label-text-font',
+  'label-text-size',
+  'label-text-line-height',
+  'label-text-weight',
+  'top-space',
+  'bottom-space',
+  'populated-label-text-size',
+  'populated-label-text-line-height',
+  'label-text-color',
+  'content-color',
+  'leading-content-color',
+  'trailing-content-color'
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, $supporting-tokens, field);
+}
+
+@mixin styles() {
+  & {
+    .nd-field__label-wrapper {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      inset-block-start: 0;
+      margin-inline-start: var(--md-field-label-leading-space, var(--_leading-space));
+      font-family: var(--md-field-label-text-font, var(--_label-text-font));
+      font-size: var(--md-field-font-text-size, var(--_label-text-size));
+      line-height: var(--md-field-label-text-line-height, var(--_label-text-line-height));
+      font-weight: var(--md-field-label-text-weight, var(--_label-text-weight));
+      color: var(--md-field-label-text-color, var(--_label-text-color));
+
+      .nd-field__label-wrapper__label.resting {
+        position: absolute;
+        inset-block-start: var(--md-field-top-space, var(--_top-space));
+        inset-inline-start: 0;
+      }
+
+      .nd-field__label-wrapper__label.floating {
+        position: absolute;
+        font-size: var(--md-field-populated-label-text-size, var(--_label-text-populated-size));
+        line-height: var(--md-field-populated-label-line-height, var(--_label-text-populated-line-height));
+        transform-origin: top left;
+      }
+
+      .nd-field__label-wrapper__label.hidden {
+        opacity: 0;
+      }
+    }
+
+    .nd-container__start,
+    .nd-container__end {
+      padding-block-start: var(--md-field-top-space, var(--_top-space));
+      padding-block-end: var(--md-field-bottom-space, var(--_bottom-space));
+      inline-size: calc(12px + 24px);
+      block-size: calc(var(--md-field-top-space, var(--_top-space)) + var(--md-field-bottom-space, var(--_bottom-space)) + 24px);
+      overflow: hidden;
+    }
+
+    .nd-container__start,
+    .nd-container__start > * {
+      color: var(--md-field-leading-content-color, var(--_content-color))
+    }
+
+    .nd-container__end,
+    .nd-container__end > * {
+      color: var(--md-field-trailing-content-color, var(--_content-color))
+    }
+
+    .nd-container__middle {
+      .nd-container__content {
+        color: var(--md-field-content-color, var(--_content-color));
+      }
+    }
+  }
+}

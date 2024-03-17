@@ -20,7 +20,10 @@ export const Default: Story = {
     return (
       <OutlinedTextField
         label={'Label'}
-        {...args}></OutlinedTextField>
+        supportingText={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, quasi.'}
+        placeholder={'input your name'}
+        {...args}
+        ></OutlinedTextField>
     )
   }
 }
@@ -40,6 +43,7 @@ export const TrailingIcon: Story = {
   render: (args) => {
     return (
       <OutlinedTextField
+        trailingIcon={<FilledIcon>home</FilledIcon>}
         label={'Label'}
         {...args}></OutlinedTextField>
     )

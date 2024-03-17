@@ -1,15 +1,25 @@
-import React, {ChangeEvent, MouseEvent as ReactMouseEvent, InputHTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {
+  ChangeEvent,
+  MouseEvent as ReactMouseEvent,
+  InputHTMLAttributes,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import OutlinedField from "../Field/OutlinedField";
 import './OutlinedTextField.scss'
+import InputWrapper, {InputWrapperProps} from "./internal/InputWrapper";
 
-export interface OutlinedTextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface OutlinedTextFieldProps extends InputWrapperProps {
   children?: ReactNode
-  prefix?: string
-  suffix?: string
   leadingIcon?: ReactNode
   trailingIcon?: ReactNode
   supportingText?: string
+  supportingTextTrailing?: string
   label?: string
+  error?: boolean
+  disabled?: boolean
 }
 
 export default function OutlinedTextField(props: OutlinedTextFieldProps) {
@@ -19,9 +29,13 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     suffix,
     leadingIcon,
     trailingIcon,
-    supportingText,
-    label,
     onChange,
+    error,
+    disabled,
+    placeholder,
+    label,
+    supportingText,
+    supportingTextTrailing,
     ...rest
   } = props
 
@@ -37,6 +51,9 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
   }
 
   const mouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+    if (disabled) {
+      return
+    }
     e.preventDefault()
     setFocus(true)
   }
@@ -75,15 +92,21 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
       <OutlinedField
         start={leadingIcon}
         end={trailingIcon}
-        label={label}
         populated={value || focus}
-        focus={focus} {...rest}
+        error={error}
+        disabled={disabled}
+        focus={focus}
+        label={label}
+        supportingText={supportingText}
+        supportingTextTrailing={supportingTextTrailing}
       >
-        <div className={'nd-input-wrapper'}>
-          {prefix && <span>{prefix}</span>}
-          <input ref={inputRef} onChange={inputChangeHandler} type="text"/>
-          {suffix && <span>{suffix}</span>}
-        </div>
+        <InputWrapper
+          ref={inputRef}
+          onChange={inputChangeHandler}
+          placeholder={placeholder}
+          disabled={disabled}
+          {...rest}
+        ></InputWrapper>
       </OutlinedField>
     </div>
   )

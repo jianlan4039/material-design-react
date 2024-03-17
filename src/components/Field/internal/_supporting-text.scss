@@ -1,0 +1,39 @@
+@use "../../builder/tokens-builder";
+
+$supporting-tokens: (
+  'color',
+  'font',
+  'leading-space',
+  'trailing-space',
+  'top-space',
+  'line-height',
+  'font-size',
+  'font-weight'
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, $supporting-tokens, supporting-text)
+}
+
+@mixin styles() {
+  & {
+    pointer-events: none;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    inset-block-end: 0;
+    inset-inline: 0;
+    transform: translateY(100%);
+    color: var(--md-supporing-text-color, var(--_supporting-text-color));
+    font-family: var(--md-supporing-text-font, var(--_supporting-text-font));
+    margin-inline-start: var(--md-supporing-text-leading-space, var(--_supporting-text-leading-space));
+    margin-inline-end: var(--md-supporing-text-trailing-space, var(--_supporting-text-trailing-space));
+    margin-block-start: var(--md-supporing-text-top-space, var(--_supporting-text-top-space));
+    line-height: var(--md-supporing-text-line-height, var(--_supporting-text-line-height));
+    font-size: var(--md-supporing-text-font-size, var(--_supporting-text-size));
+    font-weight: var(--md-supporing-text-font-weight, var(--_supporting-text-weight));
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

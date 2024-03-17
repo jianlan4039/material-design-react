@@ -1,48 +1,5 @@
+@use "basic-field";
 
 .nd-field {
-
-  .nd-field__label-wrapper {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    inset-block-start: 0;
-    margin-inline-start: var(--_leading-space);
-
-    .nd-field__label-wrapper__label {
-      font-family: var(--_label-text-font);
-      font-size: var(--_label-text-size);
-      line-height: var(--_label-text-line-height);
-      font-weight: var(--_label-text-weight);
-    }
-
-    .nd-field__label-wrapper__label.resting {
-      position: absolute;
-      inset-block-start: var(--_top-space);
-      inset-inline-start: 0;
-      color: var(--_content-color);
-    }
-
-    .nd-field__label-wrapper__label.floating {
-      position: absolute;
-      font-size: var(--_label-text-populated-size);
-      line-height: var(--_label-text-populated-line-height);
-      transform-origin: top left;
-    }
-
-    .nd-field__label-wrapper__label.hidden {
-      opacity: 0;
-    }
-  }
-
-  .nd-container__start,
-  .nd-container__end {
-    padding-block-start: var(--_top-space);
-    padding-block-end: var(--_bottom-space);
-    inline-size: calc(12px + 24px);
-    block-size: calc(var(--_top-space) + var(--_bottom-space) + 24px);
-    overflow: hidden;
-  }
+  @include basic-field.styles;
 }

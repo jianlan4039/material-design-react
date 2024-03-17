@@ -1,0 +1,5 @@
+@use "./input-wrapper";
+
+.nd-input-wrapper{
+  @include input-wrapper.styles;
+}
