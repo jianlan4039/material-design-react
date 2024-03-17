@@ -3,13 +3,10 @@ import './OutlinedField.scss'
 import c from 'classnames'
 import Field, {FieldProps} from "./internal/Field";
 import FieldOutline from "./internal/FieldOutline";
-import SupportingText from "./internal/SupportingText";
 
 export interface OutlinedFieldProps extends FieldProps {
   children?: ReactNode
   focus?: boolean
-  supportingText?: string
-  supportingTextTrailing?: string
   error?: boolean
   disabled?: boolean
 }
@@ -21,8 +18,6 @@ export default function OutlinedField(props: OutlinedFieldProps) {
     focus,
     populated,
     start,
-    supportingText,
-    supportingTextTrailing,
     error,
     disabled,
     ...rest
@@ -66,7 +61,6 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       >
         {children}
       </Field>
-      <SupportingText trailing={supportingTextTrailing}>{supportingText}</SupportingText>
     </div>
   )
 }

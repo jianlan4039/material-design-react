@@ -3,19 +3,19 @@ import './SupportingText.scss'
 import c from 'classnames'
 
 export interface SupportingTextProps {
-  children?: ReactNode
-  trailing?: ReactNode
+  content?: string
+  trailing?: string
 }
 
 export default function SupportingText(props: SupportingTextProps) {
   const {
-    children,
+    content,
     trailing,
   } = props
 
   return (
     <div className={'nd-field-supporting-text'}>
-      <div className={'nd-field-supporting-text__content'}>{children}</div>
+      <div className={'nd-field-supporting-text__content'}>{content}</div>
       {trailing && <div className={'nd-field-supporting-text__trailing'}>{trailing}</div>}
     </div>
   )

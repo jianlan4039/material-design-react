@@ -23,7 +23,7 @@ export default function Container(props: ContainerProps) {
     <div className={c('nd-container', className)} {...rest}>
       {start && <div className={'nd-container__start'}>{start}</div>}
       <div className={'nd-container__middle'}>
-      {middle}
+        {middle}
         {children && <div className={'nd-container__content'}>{children}</div>}
       </div>
       {end && <div className={'nd-container__end'}>{end}</div>}

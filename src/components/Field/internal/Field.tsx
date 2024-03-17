@@ -3,11 +3,14 @@ import Container, {ContainerProps} from "../../Container/Container";
 import './Field.scss'
 import c from 'classnames'
 import {EASING} from "../../internal/motion/animation";
+import SupportingText from "./SupportingText";
 
 export interface FieldProps extends ContainerProps {
   children?: ReactNode
   label?: string
   populated?: boolean
+  supportingText?: string
+  supportingTextTrailing?: string
 }
 
 export default function Field(props: FieldProps) {
@@ -16,6 +19,8 @@ export default function Field(props: FieldProps) {
     label,
     populated,
     className,
+    supportingTextTrailing,
+    supportingText,
     ...rest
   } = props
 
@@ -105,27 +110,29 @@ export default function Field(props: FieldProps) {
   }, [floatingLabelShow]);
 
   return (
-    <Container
-      className={c('nd-field', className, {'populated': populated})}
-      middle={label &&
-        <div className={'nd-field__label-wrapper'}>
+    <div className={c('nd-field', className, {'populated': populated})}>
+      <Container
+        middle={label &&
+          <div className={'nd-field__label-wrapper'}>
           <span
             ref={restingLabel}
             className={c('nd-field__label-wrapper__label resting', {'hidden': floatingLabelShow})}
           >
             {label}
           </span>
-          <span
-            ref={floatingLabel}
-            className={c('nd-field__label-wrapper__label floating', {'hidden': !floatingLabelShow})}
-          >
+            <span
+              ref={floatingLabel}
+              className={c('nd-field__label-wrapper__label floating', {'hidden': !floatingLabelShow})}
+            >
             {label}
           </span>
-        </div>
-      }
-      {...rest}
-    >
-      {children}
-    </Container>
+          </div>
+        }
+        {...rest}
+      >
+        {children}
+      </Container>
+      <SupportingText trailing={supportingTextTrailing} content={supportingText}></SupportingText>
+    </div>
   )
 }
