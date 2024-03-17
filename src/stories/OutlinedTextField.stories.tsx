@@ -20,7 +20,8 @@ export const Default: Story = {
     return (
       <OutlinedTextField
         label={'Label'}
-        supportingText={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, quasi.'}
+        supportingText={'Lorem ipsum'}
+        supportingTextTrailing={'5/10'}
         placeholder={'input your name'}
         {...args}
         ></OutlinedTextField>
