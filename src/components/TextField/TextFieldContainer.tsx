@@ -1,5 +1,4 @@
 import React, {HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode, useEffect, useRef} from 'react'
-import c from 'classnames'
 
 export interface TextFieldContainerProps extends HTMLAttributes<HTMLDivElement>{
   children?: ReactNode
@@ -36,7 +35,7 @@ export default function TextFieldContainer(props: TextFieldContainerProps) {
   return (
     <div
       ref={rootRef}
-      className={c('nd-text-field-container', className)}
+      className={className}
       {...rest}
     >
       {children}

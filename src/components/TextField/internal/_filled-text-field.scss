@@ -10,6 +10,9 @@
   & {
     @include tokens-builder.tokens(md-comp-filled-text-field.values(), filled-text-field);
     cursor: text;
+    position: relative;
+
+
 
     .nd-field {
       .nd-container__middle {
@@ -17,14 +20,14 @@
           @include input-wrapper.theme((
             font-color: var(--md-field-content-color)
           ));
-          //opacity: 0;
+          opacity: 0;
         }
       }
 
       &.populated {
         .nd-container__middle {
           .nd-container__content {
-            //opacity: 1;
+            opacity: 1;
           }
         }
       }
