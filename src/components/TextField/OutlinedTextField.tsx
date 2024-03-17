@@ -10,6 +10,7 @@ import React, {
 import OutlinedField from "../Field/OutlinedField";
 import './OutlinedTextField.scss'
 import InputWrapper, {InputWrapperProps} from "./internal/InputWrapper";
+import TextFieldContainer from "./TextFieldContainer";
 
 export interface OutlinedTextFieldProps extends InputWrapperProps {
   children?: ReactNode
@@ -39,7 +40,6 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     ...rest
   } = props
 
-  const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [focus, setFocus] = useState<boolean>(false)
@@ -54,40 +54,29 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     if (disabled) {
       return
     }
-    e.preventDefault()
     setFocus(true)
   }
 
-  useEffect(() => {
-    // 点击事件的处理函数
-    const handleClickOutside = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
-        // 如果点击发生在组件外部
-        setFocus(false)
-      }
-    };
+  const mouseDownOutsideHandler = (e: ReactMouseEvent) => {
+    if (disabled) {
+      return
+    }
+    setFocus(false)
+  }
 
-    // 添加点击事件监听器到document
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // 组件卸载时移除事件监听器
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [rootRef]); // 确保effect运行在组件挂载和卸载时
-
-  useEffect(() => {
-    if (inputRef.current) {
+  const clickHandler = (e: ReactMouseEvent) => {
+    if (inputRef.current && e.target !== inputRef.current) {
       inputRef.current.focus()
       inputRef.current.select()
     }
-  }, [focus]);
+  };
 
   return (
-    <div
-      ref={rootRef}
+    <TextFieldContainer
       className={'nd-outlined-text-field'}
       onMouseDown={mouseDownHandler}
+      onMouseDownOutside={mouseDownOutsideHandler}
+      onClick={clickHandler}
     >
       <OutlinedField
         start={leadingIcon}
@@ -105,9 +94,11 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
           onChange={inputChangeHandler}
           placeholder={placeholder}
           disabled={disabled}
+          prefix={prefix}
+          suffix={suffix}
           {...rest}
         ></InputWrapper>
       </OutlinedField>
-    </div>
+    </TextFieldContainer>
   )
 }

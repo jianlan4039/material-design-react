@@ -1,5 +1,6 @@
 @use '../../tokens/md-comp-filled-text-field';
 @use "../../builder/tokens-builder";
+@use "./input-wrapper";
 
 @mixin theme($tokens) {
   @include tokens-builder.theme($tokens, md-comp-filled-text-field.$supported-tokens, filled-text-field);
@@ -8,5 +9,25 @@
 @mixin styles() {
   & {
     @include tokens-builder.tokens(md-comp-filled-text-field.values(), filled-text-field);
+    cursor: text;
+
+    .nd-field {
+      .nd-container__middle {
+        .nd-container__content {
+          @include input-wrapper.theme((
+            font-color: var(--md-field-content-color)
+          ));
+          //opacity: 0;
+        }
+      }
+
+      &.populated {
+        .nd-container__middle {
+          .nd-container__content {
+            //opacity: 1;
+          }
+        }
+      }
+    }
   }
 }

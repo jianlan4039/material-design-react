@@ -1,0 +1,69 @@
+@use "../../tokens/md-comp-filled-field";
+@use "../../builder/background";
+@use "../../builder/tokens-builder";
+@use "./indicator";
+
+@mixin theme($tokens){
+  @include tokens-builder.theme($tokens, md-comp-filled-field.$supported-tokens, filled-field);
+}
+
+@mixin styles() {
+  & {
+    @include tokens-builder.tokens(md-comp-filled-field.values(), filled-field);
+    @include background.theme((
+      color: var(--_container-color)
+    ));
+    @include background.styles;
+    position: relative;
+    block-size: 56px;
+    border-radius: var(--_container-shape);
+
+    .nd-filled-field__indicator {
+      @include indicator.styles;
+    }
+
+    .nd-field {
+      block-size: 100%;
+      .nd-container__start {
+        color: var(--_leading-content-color);
+        padding-inline-start: 12px;
+        border-start-start-radius: inherit;
+      }
+
+      .nd-container__end {
+        color: var(--_trailing-content-color);
+        padding-inline-end: 12px;
+        border-start-end-radius: inherit;
+      }
+
+      .nd-container__middle {
+        box-sizing: border-box;
+        padding-block-start: var(--_top-space);
+        padding-block-end: var(--_bottom-space);
+        padding-inline-start: var(--_leading-space);
+        padding-inline-end: var(--_trailing-space);
+        display: flex;
+        align-items: end;
+
+        .nd-field__label-wrapper {
+          .nd-field__label-wrapper__label.floating{
+            inset-block-start: var(--_with-label-top-space);
+          }
+        }
+      }
+    }
+
+    &.with-label {
+      .nd-container__middle {
+        padding-block-start: var(--_with-label-top-space);
+        padding-block-end: var(--_with-label-bottom-space);
+      }
+    }
+
+    &.focus {
+      @include indicator.theme((
+
+      ))
+    }
+  }
+}

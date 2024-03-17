@@ -1,4 +1,4 @@
-import React, {forwardRef, InputHTMLAttributes, ReactNode} from 'react'
+import React, {forwardRef, InputHTMLAttributes, ReactNode, MouseEvent} from 'react'
 import './InputWrapper.scss'
 
 export interface InputWrapperProps extends InputHTMLAttributes<HTMLInputElement> {

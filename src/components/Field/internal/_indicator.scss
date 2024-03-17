@@ -1,0 +1,48 @@
+@use '../../builder/tokens-builder';
+
+$support-tokens: (
+  'inactive-height',
+  'inactive-color',
+  'active-height',
+  'active-color'
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, $support-tokens, indicator)
+}
+
+@mixin styles() {
+  & {
+    position: absolute;
+    inline-size: 100%;
+    block-size: 3px;
+    inset-block-end: 0;
+    pointer-events: none;
+    transition: border-width 150ms linear;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      border-block-end-style: solid;
+    }
+
+    &::before {
+      border-color: var(--md-indicator-inactive-color, var(--_active-indicator-color));
+      border-width: var(--md-indicator-inactive-height, var(--_active-indicator-height));
+    }
+
+    &::after {
+      transition: inherit;
+      border-color: var(--md-indicator-active-color, var(--_focus-active-indicator-color));
+      border-width: 0;
+    }
+
+    &.active {
+      &::after {
+        border-width: var(--md-indicator-active-height, var(--_focus-active-indicator-height));
+      }
+    }
+  }
+}

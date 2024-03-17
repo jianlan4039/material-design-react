@@ -7,7 +7,7 @@ import c from 'classnames'
 export interface FilledFieldProps extends Omit<FieldProps, "labelWrapper"> {
   children?: ReactNode
   label?: string
-  focus?: string
+  focus?: boolean
 }
 
 export default function FilledField(props: FilledFieldProps) {
@@ -22,7 +22,7 @@ export default function FilledField(props: FilledFieldProps) {
   return (
     <div className={c('nd-filled-field', className, {'with-label': label})}>
       <StateLayer></StateLayer>
-      <div className={'nd-filled-field__indicator'}></div>
+      <div className={c('nd-filled-field__indicator', {'active': focus})}></div>
       <Field label={label} {...rest}>
         {children}
       </Field>
