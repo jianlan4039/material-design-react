@@ -54,6 +54,9 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     if (disabled) {
       return
     }
+    if (e.target !== inputRef.current) {
+      e.preventDefault()
+    }
     setFocus(true)
   }
 
@@ -64,19 +67,18 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     setFocus(false)
   }
 
-  const clickHandler = (e: ReactMouseEvent) => {
-    if (inputRef.current && e.target !== inputRef.current) {
+  useEffect(() => {
+    if (inputRef.current && focus) {
       inputRef.current.focus()
       inputRef.current.select()
     }
-  };
+  }, [focus]);
 
   return (
     <TextFieldContainer
       className={'nd-outlined-text-field'}
       onMouseDown={mouseDownHandler}
       onMouseDownOutside={mouseDownOutsideHandler}
-      onClick={clickHandler}
     >
       <OutlinedField
         start={leadingIcon}

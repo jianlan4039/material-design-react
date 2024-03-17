@@ -45,9 +45,12 @@ export default function FilledTextField(props: FilledTextFieldProps) {
   const [value, setValue] = useState<any>(null)
   const [focus, setFocus] = useState<boolean>(false)
 
-  const mouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+  const mouseDownHandler = (e: ReactMouseEvent) => {
     if (disabled) {
       return
+    }
+    if (e.target !== inputRef.current) {
+      e.preventDefault()
     }
     setFocus(true)
   }
@@ -64,19 +67,18 @@ export default function FilledTextField(props: FilledTextFieldProps) {
     setFocus(false)
   }
 
-  const clickHandler = (e: ReactMouseEvent) => {
-    if (inputRef.current && e.target !== inputRef.current) {
+  useEffect(() => {
+    if (inputRef.current && focus) {
       inputRef.current.focus()
       inputRef.current.select()
     }
-  };
+  }, [focus]);
 
   return (
     <TextFieldContainer
       className={'nd-filled-text-field'}
       onMouseDown={mouseDownHandler}
       onMouseDownOutside={mouseDownOutsideHandler}
-      onClick={clickHandler}
     >
       <FilledField
         start={leadingIcon}
