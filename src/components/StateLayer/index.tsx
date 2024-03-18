@@ -1,4 +1,4 @@
-import React, {useRef, MouseEvent as ReactMouseEvent, useEffect} from 'react'
+import React, {useRef, useEffect} from 'react'
 import {EASING} from "../internal/motion/animation";
 import cln from "classnames";
 import './StateLayer.scss'

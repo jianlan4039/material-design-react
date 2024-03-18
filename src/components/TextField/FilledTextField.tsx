@@ -1,7 +1,6 @@
 import React, {
   ChangeEvent,
   MouseEvent as ReactMouseEvent,
-  FocusEvent,
   ReactNode, useEffect,
   useRef,
   useState
@@ -10,7 +9,6 @@ import FilledField from "../Field/FilledField";
 import './FilledTextField.scss'
 import InputWrapper, {InputWrapperProps} from "./internal/InputWrapper";
 import TextFieldContainer from "./TextFieldContainer";
-import FocusRing from "../Focus/FocusRing";
 
 export interface FilledTextFieldProps extends InputWrapperProps {
   children?: ReactNode
@@ -61,14 +59,14 @@ export default function FilledTextField(props: FilledTextFieldProps) {
     setValue(e.target.value)
   }
 
-  const mouseDownOutsideHandler = (e: ReactMouseEvent) => {
+  const mouseDownOutsideHandler = () => {
     if (disabled) {
       return
     }
     setFocus(false)
   }
 
-  const focusHandler = (e: FocusEvent) => {
+  const focusHandler = () => {
     if (disabled) {
       return
     }

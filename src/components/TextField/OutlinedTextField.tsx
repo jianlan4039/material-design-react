@@ -1,11 +1,10 @@
 import React, {
   ChangeEvent,
   MouseEvent as ReactMouseEvent,
-  InputHTMLAttributes,
   ReactNode,
   useEffect,
   useRef,
-  useState, FocusEvent
+  useState
 } from 'react'
 import OutlinedField from "../Field/OutlinedField";
 import './OutlinedTextField.scss'
@@ -60,14 +59,14 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     setFocus(true)
   }
 
-  const focusHandler = (e: FocusEvent) => {
+  const focusHandler = () => {
     if (disabled) {
       return
     }
     setFocus(true)
   }
 
-  const mouseDownOutsideHandler = (e: ReactMouseEvent) => {
+  const mouseDownOutsideHandler = () => {
     if (disabled) {
       return
     }
