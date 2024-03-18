@@ -2,11 +2,18 @@
 @use "toggled";
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-icon-button";
+@use "../../builder/background";
+@use "../../StateLayer/internal/state-layer";
+@use "./state";
 
 $tokens: md-comp-icon-button.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, icon-button);
+  @include state-layer.theme((
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: var(--_pressed-state-layer-color)
+  ));
   --_container-shape-start-start: var(--md-icon-button-container-shape-start-start, var(--_state-layer-shape));
   --_container-shape-start-end: var(--md-icon-button-container-shape-start-end, var(--_state-layer-shape));
   --_container-shape-end-end: var(--md-icon-button-container-shape-end-end, var(--_state-layer-shape));
@@ -21,8 +28,8 @@ $tokens: md-comp-icon-button.values();
   --_container-width: var(--md-icon-button-container-width, var(--_state-layer-width));
 
   @include shared.styles;
-
-  .nd-icon-button__button {
-    @include toggled.styles;
-  }
+  @include shared.styles;
+  @include background.styles;
+  @include state.styles;
+  @include toggled.styles;
 }
