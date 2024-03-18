@@ -2,30 +2,29 @@ import React, {ReactNode} from 'react'
 import Button, {ButtonProps} from "./content/Button";
 import './OutlinedIconButton.scss'
 import Outline from "../Outline/Outline";
-import FocusRing from "../Focus/FocusRing";
-import Elevation from "../Elevation";
-import StateLayer from "../StateLayer";
+import IconButtonContainer from "./IconButtonContainer";
 
 export interface OutlinedIconButtonProps extends ButtonProps {
   children?: ReactNode
+  toggled?: boolean
+  selected?: boolean
 }
 
 export default function OutlinedIconButton(props: OutlinedIconButtonProps) {
   const {
     children,
     disabled,
+    selected,
+    toggled,
     ...rest
   } = props
 
   return (
-    <div className={'nd-outlined-icon-button'}>
+    <IconButtonContainer className={'nd-outlined-icon-button'} toggled={toggled} selected={selected}>
       <Outline disabled={disabled}></Outline>
-      <FocusRing></FocusRing>
-      <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
       <Button disabled={disabled} {...rest}>
         {children}
       </Button>
-    </div>
+    </IconButtonContainer>
   )
 }

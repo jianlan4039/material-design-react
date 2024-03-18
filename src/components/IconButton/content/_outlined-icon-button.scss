@@ -3,6 +3,9 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-outlined-icon-button";
 @use "../../Outline/content/outline";
+@use "../../builder/background";
+@use "../../StateLayer/internal/state-layer";
+@use "./state";
 
 $tokens: md-comp-outlined-icon-button.values();
 
@@ -11,6 +14,10 @@ $tokens: md-comp-outlined-icon-button.values();
   @include outline.theme((
     color: var(--_outline-color),
     width: var(--_outline-width)
+  ));
+  @include state-layer.theme((
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: var(--_pressed-state-layer-color)
   ));
   --_container-shape-start-start: var(--md-outlined-icon-button-container-shape-start-start, var(--_container-shape));
   --_container-shape-start-end: var(--md-outlined-icon-button-container-shape-start-end, var(--_container-shape));
@@ -22,9 +29,9 @@ $tokens: md-comp-outlined-icon-button.values();
   --_toggle-selected-pressed-icon-color: var(--md-outlined-icon-button-toggle-selected-focus-icon-color, var(--_selected-pressed-icon-color));
   --_toggle-selected-hover-state-layer-color: var(--md-outlined-icon-button-toggle-hover-state-layer-color, var(--_selected-hover-state-layer-color));
   --_toggle-selected-pressed-state-layer-color: var(--md-outlined-icon-button-toggle-pressed-state-layer-color, var(--_selected-pressed-state-layer-color));
-  @include shared.styles;
 
-  .nd-icon-button__button {
-    @include toggled.styles;
-  }
+  @include shared.styles;
+  @include background.styles;
+  @include state.styles;
+  @include toggled.styles;
 }
