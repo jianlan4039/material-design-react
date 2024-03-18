@@ -78,7 +78,6 @@ export default function FilledTextField(props: FilledTextFieldProps) {
   useEffect(() => {
     if (inputRef.current && focus) {
       inputRef.current.focus()
-      inputRef.current.select()
     }
   }, [focus]);
 
@@ -95,6 +94,8 @@ export default function FilledTextField(props: FilledTextFieldProps) {
         populated={focus || value}
         focus={focus}
         supportingText={supportingText}
+        disabled={disabled}
+        error={error}
         supportingTextTrailing={supportingTextTrailing}
       >
         <InputWrapper

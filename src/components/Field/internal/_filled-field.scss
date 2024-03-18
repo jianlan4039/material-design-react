@@ -1,9 +1,13 @@
 @use "../../tokens/md-comp-filled-field";
 @use "../../builder/background";
 @use "../../builder/tokens-builder";
+@use "../../StateLayer/internal/state-layer";
+@use "./basic-field";
 @use "./indicator";
+@use "./supporting-text";
 
-@mixin theme($tokens){
+
+@mixin theme($tokens) {
   @include tokens-builder.theme($tokens, md-comp-filled-field.$supported-tokens, filled-field);
 }
 
@@ -12,6 +16,17 @@
     @include tokens-builder.tokens(md-comp-filled-field.values(), filled-field);
     @include background.theme((
       color: var(--_container-color)
+    ));
+    @include state-layer.theme((
+      hover-color: var(--_hover-state-layer-color),
+      pressed-color: transparent
+    ));
+    @include basic-field.theme((
+      leading-content-color: var(--_leading-content-color),
+      trailing-content-color: var(--_trailing-content-color)
+    ));
+    @include supporting-text.theme((
+      color: var(--_supporting-text-color)
     ));
     @include background.styles;
     position: relative;
@@ -24,14 +39,13 @@
 
     .nd-field {
       block-size: 100%;
+
       .nd-container__start {
-        color: var(--_leading-content-color);
         padding-inline-start: 12px;
         border-start-start-radius: inherit;
       }
 
       .nd-container__end {
-        color: var(--_trailing-content-color);
         padding-inline-end: 12px;
         border-start-end-radius: inherit;
       }
@@ -46,7 +60,7 @@
         align-items: end;
 
         .nd-field__label-wrapper {
-          .nd-field__label-wrapper__label.floating{
+          .nd-field__label-wrapper__label.floating {
             inset-block-start: var(--_with-label-top-space);
           }
         }
@@ -60,10 +74,134 @@
       }
     }
 
+    &.hover {
+      @include indicator.theme((
+        active-color: var(--_hover-active-indicator-color),
+        active-height: var(--_hover-active-indicator-height)
+      ));
+      @include basic-field.theme((
+        content-color: var(--_hover-content-color),
+        label-text-color: var(--_hover-label-text-color),
+        leading-content-color: var(--_hover-leading-content-color),
+        trailing-content-color: var(--_hover-supporting-text-color)
+      ));
+      @include supporting-text.theme((
+        color: var(--_hover-supporting-text-color),
+      ));
+    }
+
     &.focus {
       @include indicator.theme((
+        active-color: var(--_focus-active-indicator-color),
+        active-height: var(--_focus-active-indicator-height)
+      ));
+      @include basic-field.theme((
+        content-color: var(--_focus-content-color),
+        label-text-color: var(--_focus-label-text-color),
+        leading-content-color: var(--_focus-leading-content-color),
+        trailing-content-color: var(--_focus-supporting-text-color)
+      ));
+      @include supporting-text.theme((
+        color: var(--_focus-supporting-text-color),
+      ));
+    }
 
-      ))
+    &.error {
+      @include indicator.theme((
+        active-color: var(--_error-active-indicator-color),
+        inactive-color: var(--_error-active-indicator-color),
+      ));
+      @include basic-field.theme((
+        content-color: var(--_error-content-color),
+        label-text-color: var(--_error-label-text-color),
+        leading-content-color: var(--_error-leading-content-color),
+        trailing-content-color: var(--_error-trailing-content-color)
+      ));
+      @include supporting-text.theme((
+        color: var(--_error-supporting-text-color),
+      ));
+
+      &.hover {
+        @include indicator.theme((
+          active-color: var(--_error-hover-active-indicator-color)
+        ));
+        @include basic-field.theme((
+          content-color: var(--_error-hover-content-color),
+          label-text-color: var(--_error-hover-label-text-color),
+          leading-content-color: var(--_error-hover-leading-content-color),
+          trailing-content-color: var(--_error-hover-trailing-content-color)
+        ));
+        @include supporting-text.theme((
+          color: var(--_error-hover-supporting-text-color),
+        ));
+        @include state-layer.theme((
+          hover-color: var(--_error-hover-state-layer-color)
+        ));
+      }
+
+      &.focus {
+        @include indicator.theme((
+          active-color: var(--_error-focus-active-indicator-color)
+        ));
+        @include basic-field.theme((
+          content-color: var(--_error-focus-content-color),
+          label-text-color: var(--_error-focus-label-text-color),
+          leading-content-color: var(--_error-focus-leading-content-color),
+          trailing-content-color: var(--_error-focus-trailing-content-color)
+        ));
+        @include supporting-text.theme((
+          color: var(--_error-focus-supporting-text-color),
+        ));
+      }
+    }
+
+    &.disabled {
+      @include indicator.theme((
+        inactive-color: var(--_disabled-active-indicator-color),
+        inactive-height: var(--_disabled-active-indicator-height)
+      ));
+      @include basic-field.theme((
+        content-color: var(--_disabled-content-color),
+        label-text-color: var(--_disabled-label-text-color),
+        leading-content-color: var(--_disabled-leading-content-color),
+        trailing-content-color: var(--_disabled-trailing-content-color)
+      ));
+      @include background.theme((
+        color: var(--_disabled-container-color),
+        opacity: var(--_disabled-container-opacity)
+      ));
+      @include supporting-text.theme((
+        color: var(--_disabled-supporting-text-color),
+      ));
+
+      .nd-filled-field__indicator {
+        opacity: var(--_disabled-active-indicator-opacity);
+      }
+
+      .nd-field {
+        .nd-container {
+          .nd-container__start{
+            opacity: var(--_disabled-leading-content-opacity);
+          }
+
+          .nd-container__middle {
+            .nd-container__content {
+              opacity: var(--_disabled-container-opacity);
+            }
+
+            .nd-field__label-wrapper{
+              opacity: var(--_disabled-label-text-opacity);
+            }
+          }
+
+          .nd-container__end{
+            opacity: var(--_disabled-trailing-content-opacity);
+          }
+        }
+        .nd-supporting-text{
+          opacity: var(--_disabled-supporting-text-opacity);
+        }
+      }
     }
   }
 }
