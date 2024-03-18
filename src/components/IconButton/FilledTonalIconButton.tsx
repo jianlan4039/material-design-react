@@ -1,29 +1,28 @@
 import React, {ReactNode} from 'react'
 import Button, {ButtonProps} from "./content/Button";
 import './FilledTonalIconButton.scss'
-import FocusRing from "../Focus/FocusRing";
-import Elevation from "../Elevation";
-import StateLayer from "../StateLayer";
+import IconButtonContainer from "./IconButtonContainer";
 
 export interface FilledTonalIconButtonProps extends ButtonProps {
   children?: ReactNode
+  toggled?: boolean
+  selected?: boolean
 }
 
 export default function FilledTonalIconButton(props: FilledTonalIconButtonProps) {
   const {
     children,
     disabled,
+    toggled,
+    selected,
     ...rest
   } = props
 
   return (
-    <div className={'nd-filled-tonal-icon-button'}>
-      <FocusRing></FocusRing>
-      <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
+    <IconButtonContainer className={'nd-filled-tonal-icon-button'} toggled={toggled} selected={selected}>
       <Button {...rest}>
         {children}
       </Button>
-    </div>
+    </IconButtonContainer>
   )
 }
