@@ -77,7 +77,6 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
   useEffect(() => {
     if (inputRef.current && focus) {
       inputRef.current.focus()
-      inputRef.current.select()
     }
   }, [focus]);
 

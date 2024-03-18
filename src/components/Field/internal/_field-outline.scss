@@ -95,7 +95,6 @@ $supported-tokens: (
         opacity: 0;
         font-size: var(--md-field-outline-label-text-size, var(--_label-text-size));
         line-height: var(--md-field-outline-label-text-line-height, var(--_label-text-line-height));
-        padding-inline: 4px;
       }
 
       .nd-field-outline__panel-inactive,
@@ -149,6 +148,9 @@ $supported-tokens: (
     &.with-label {
       .nd-field-outline__start {
         inline-size: 12px;
+      }
+      .nd-field-outline__notch__label{
+        padding-inline: 4px;
       }
     }
   }
