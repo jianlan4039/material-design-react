@@ -135,14 +135,14 @@ const StateLayer = (props: StateLayerProps) => {
       surfaceElement.current.parentElement.addEventListener('mouseup', mouseUpHandler)
     }
 
-    // return () => {
-    //   if (surfaceElement.current && surfaceElement.current.parentElement) {
-    //     surfaceElement.current.parentElement.removeEventListener('mouseover', mouseOverHandler)
-    //     surfaceElement.current.parentElement.removeEventListener('mouseout', mouseOutHandler)
-    //     surfaceElement.current.parentElement.removeEventListener('mousedown', mouseDownHandler)
-    //     surfaceElement.current.parentElement.removeEventListener('mouseup', mouseUpHandler)
-    //   }
-    // }
+    return () => {
+      if (surfaceElement.current && surfaceElement.current.parentElement) {
+        surfaceElement.current.parentElement.removeEventListener('mouseover', mouseOverHandler)
+        surfaceElement.current.parentElement.removeEventListener('mouseout', mouseOutHandler)
+        surfaceElement.current.parentElement.removeEventListener('mousedown', mouseDownHandler)
+        surfaceElement.current.parentElement.removeEventListener('mouseup', mouseUpHandler)
+      }
+    }
   }, [surfaceElement.current]);
 
   return <span ref={surfaceElement} className={cln('nd-state-layer', {'disabled': disabled})}></span>
