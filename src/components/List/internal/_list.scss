@@ -1,0 +1,25 @@
+@use "../../tokens/md-comp-list";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, md-comp-list.$supported-tokens, list)
+}
+
+@mixin styles() {
+  .list {
+    @include tokens-builder.tokens(md-comp-list.values(), list);
+    @include background.theme((
+      color: var(--_container-color)
+    ));
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    padding-block: 8px;
+    list-style: none;
+    padding-inline: 0;
+    margin: 0;
+    @include background.styles;
+  }
+}

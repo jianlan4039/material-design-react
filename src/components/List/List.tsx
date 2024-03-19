@@ -1,8 +1,7 @@
-import React, {ReactNode} from 'react'
-import ListContent from "./content/ListContent";
+import React, {HTMLAttributes, ReactNode} from 'react'
 import './List.scss'
 
-export interface ListProps {
+export interface ListProps extends HTMLAttributes<HTMLUListElement>{
   children?: ReactNode
 }
 
@@ -13,10 +12,8 @@ export default function List(props: ListProps) {
   } = props
 
   return (
-    <div className={'nd-list'}>
-      <ListContent>
-        {children}
-      </ListContent>
-    </div>
+    <ul className={'list'} {...rest}>
+      {children}
+    </ul>
   )
 }

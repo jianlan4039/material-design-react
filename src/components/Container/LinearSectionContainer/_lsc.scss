@@ -1,0 +1,29 @@
+@use "../../builder/tokens-builder";
+
+$support-tokens: (
+  'block-size',
+  'inline-size',
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, $support-tokens, lsc)
+}
+
+@mixin styles() {
+  .lsc {
+    display: grid;
+    grid-template-columns: min-content 8fr min-content;
+
+    .lsc__start {
+      grid-column: 1 / 2;
+    }
+
+    .lsc__middle{
+      grid-column: 2 / 3;
+    }
+
+    .lsc__end{
+      grid-column: 3 / 4;
+    }
+  }
+}

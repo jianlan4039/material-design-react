@@ -1,7 +1,3 @@
-@use "../tokens/md-comp-list";
-@use "../builder/tokens-builder";
+@use "./internal/list";
 
-.nd-list {
-  @include tokens-builder.tokens(md-comp-list.values(), list);
-  
-}
+@include list.styles;

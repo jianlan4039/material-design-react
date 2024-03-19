@@ -1,34 +1,39 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React from "react";
-import List from "../components/List/List";
 import ListItem from "../components/List/ListItem";
 import {FilledIcon} from "../icons";
+import List from "../components/List/List";
 
-const meta: Meta<typeof List> = {
-  component: List,
-  title: 'Container/List',
+const meta: Meta<typeof ListItem> = {
+  component: ListItem,
+  title: 'Container/ListItem',
   parameters: {
-    layout: 'centered'
+    // layout: 'centered'
   },
   tags: ['autodocs']
 }
 
 export default meta;
-type Story = StoryObj<typeof List>;
+type Story = StoryObj<typeof ListItem>;
 
 export const Default: Story = {
-  render: (args) => {
+  render: ({
+             label = 'Label',
+             supportingText = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid commodi earum eos esse perferendis provident quibusdam repudiandae sunt temporibus.',
+             ...rest
+           }) => {
 
     return (
-      <List {...args}>
+      <List style={{maxWidth: '300px'}}>
         <ListItem
-          disabled
-          label={'Item 1'}
-          leading={<FilledIcon>home</FilledIcon>}
-          trailing={<FilledIcon>check</FilledIcon>}
-          supportingText={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, pariatur.'}
+          start={<FilledIcon>home</FilledIcon>}
+          end={<FilledIcon>check</FilledIcon>}
+          label={label}
+          supportingText={supportingText}
+          {...rest}
         ></ListItem>
       </List>
     )
   }
 }
+

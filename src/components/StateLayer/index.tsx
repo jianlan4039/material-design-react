@@ -143,7 +143,7 @@ const StateLayer = (props: StateLayerProps) => {
         surfaceElement.current.parentElement.removeEventListener('mouseup', mouseUpHandler)
       }
     }
-  }, [surfaceElement.current]);
+  }, [surfaceElement.current, disabled]);
 
   return <span ref={surfaceElement} className={cln('nd-state-layer', {'disabled': disabled})}></span>
 }

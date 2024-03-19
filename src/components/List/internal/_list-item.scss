@@ -1,0 +1,95 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-list-item";
+
+$support-tokens: (
+);
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .list-item {
+    @include tokens-builder.tokens(md-comp-list-item.values(), list-item);
+    position: relative;
+
+    .lsc {
+      min-block-size: var(--_one-line-container-height);
+
+      .lsc__start,
+      .lsc__middle,
+      .lsc__end {
+        padding-block-start: var(--_top-space);
+        padding-block-end: var(--_bottom-space);
+        box-sizing: border-box;
+        display: flex;
+        block-size: 100%;
+      }
+
+      .lsc__start,
+      .lsc__end {
+        align-items: center;
+      }
+
+      .lsc__start,
+      .lsc__start > * {
+        color: var(--_leading-icon-color);
+      }
+
+      .lsc__end,
+      .lsc__end > * {
+        color: var(--_trailing-icon-color);
+      }
+
+      .lsc__start,
+      .lsc__middle {
+        padding-inline-start: var(--_leading-space);
+      }
+
+      .lsc__middle,
+      .lsc__end {
+        padding-inline-end: var(--_trailing-space);
+      }
+
+      .lsc__middle {
+        flex-direction: column;
+        justify-content: center;
+
+        .list-item__label {
+          color: var(--_label-text-color);
+          font-family: var(--_label-text-font);
+          line-height: var(--_label-text-line-height);
+          font-size: var(--_label-text-size);
+          font-weight: var(--_label-text-weight);
+          max-block-size: var(--_label-text-line-height);
+        }
+
+        .list-item__spt-txt {
+          color: var(--_supporting-text-color);
+          font-family: var(--_supporting-text-font);
+          line-height: var(--_supporting-text-line-height);
+          font-size: var(--_supporting-text-size);
+          font-weight: var(--_supporting-text-weight);
+          max-block-size: calc(var(--_supporting-text-line-height) * 2);
+          word-break: break-word;
+          overflow: hidden;
+        }
+      }
+    }
+
+    &.two-line-height {
+      .lsc {
+        min-block-size: var(--_two-line-container-height);
+      }
+    }
+
+    &.top-layout {
+      .lsc {
+        .lsc__start,
+        .lsc__end {
+          align-items: start;
+        }
+      }
+    }
+  }
+}

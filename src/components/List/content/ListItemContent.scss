@@ -1,5 +1,0 @@
-@use "./internal/list-item";
-
-.nd-list-item {
-  @include list-item.styles;
-}
