@@ -1,11 +1,8 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-list-item";
 
-$support-tokens: (
-);
-
 @mixin theme($tokens) {
-
+  @include tokens-builder.theme($tokens, md-comp-list-item.$supported-tokens, list-item)
 }
 
 @mixin styles() {

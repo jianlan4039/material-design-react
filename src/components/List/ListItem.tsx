@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import LinearSectionContainer, {
   LinearSectionContainerProps
 } from "../Container/LinearSectionContainer/LinearSectionContainer";
