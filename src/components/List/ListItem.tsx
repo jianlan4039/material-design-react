@@ -10,6 +10,8 @@ export interface ListItemProps extends LinearSectionContainerProps {
   label?: string
   supportingText?: string
   disabled?: boolean
+  url?: string
+  interactive?: boolean
 }
 
 export default function ListItem(props: ListItemProps) {
@@ -20,6 +22,8 @@ export default function ListItem(props: ListItemProps) {
     label,
     supportingText,
     disabled,
+    url,
+    interactive,
     ...rest
   } = props
 
@@ -45,7 +49,7 @@ export default function ListItem(props: ListItemProps) {
         'disabled': disabled
       })}
     >
-      <StateLayer disabled={disabled}></StateLayer>
+      {(url || interactive) && <StateLayer disabled={disabled}></StateLayer>}
       <LinearSectionContainer
         start={start}
         end={end}
