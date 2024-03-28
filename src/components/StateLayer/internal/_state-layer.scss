@@ -20,7 +20,8 @@ $tokens: md-comp-ripple.values();
   border-radius: inherit;
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
-  z-index: -1;
+  pointer-events: none;
+  //z-index: -1;
 
   &.disabled {
     display: none;
@@ -31,7 +32,8 @@ $tokens: md-comp-ripple.values();
     content: '';
     position: absolute;
     opacity: 0;
-    z-index: -1;
+    pointer-events: none;
+    //z-index: -1;
   }
 
   &::before {

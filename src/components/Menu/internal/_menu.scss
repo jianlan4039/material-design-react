@@ -1,5 +1,4 @@
 @use "../../Elevation/internal/elevation";
-@use "../../List/internal/list";
 @use "../../tokens/md-comp-menu";
 @use "../../builder/tokens-builder";
 
@@ -13,23 +12,27 @@
     @include elevation.theme((
       level: var(--_container-elevation)
     ));
-    @include list.theme((
-      'container-color': transparent
-    ));
     position: absolute;
     opacity: 0;
     border-radius: var(--_container-shape);
     background: var(--_container-color);
+    pointer-events: none;
 
-    .list {
-
-      box-sizing: border-box;
+    .menu__list {
       border-radius: inherit;
-      //block-size: 100%;
+      list-style: none;
+      padding-inline: 0;
+      margin: 0;
+    }
+
+    &.hidden:not(.open) {
+      display: none;
     }
 
     &.open {
+      display: block;
       opacity: 1;
+      pointer-events: auto;
     }
   }
 }

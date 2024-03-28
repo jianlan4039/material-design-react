@@ -27,6 +27,8 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
     ...rest
   } = props
 
+  const openDirection = menuAlignCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
+
   const itemRefs = useRef<HTMLElement[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null)
@@ -37,8 +39,6 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
 
   const [menuOffsetStyle, setMenuOffsetStyle] = useState<CSSProperties>();
   const [open, setOpen] = useState<boolean>(false);
-
-  const openDirection = menuAlignCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
 
   const getChildren = () => {
     return items?.map((itemProps, index) => {
@@ -66,7 +66,8 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
   const alignMenuAgainstAnchor = (anchor: HTMLElement, menu: HTMLElement, anchorCorner: Corner, menuCorner: Corner) => {
     const {height: anchorHeight, width: anchorWidth} = anchor?.getBoundingClientRect()
     const {top: menuTop, left: menuLeft, height: menuHeight, width: menuWidth} = menu?.getBoundingClientRect()
-    const {offsetLeft: anchorLeft, offsetTop: anchorTop} = anchor
+    const {offsetLeft: anchorLeft, offsetTop: anchorTop, offsetParent} = anchor
+    const parentHeight: number = offsetParent?.getBoundingClientRect().height ?? window.innerHeight
     const {innerHeight, innerWidth} = window
 
     const anchorCorners = {
@@ -93,13 +94,13 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
         break
       case Corner.END_START:
         menuPosition = {
-          bottom: y,
+          bottom: parentHeight - y,
           left: x
         }
         break
       case Corner.END_END:
         menuPosition = {
-          bottom: y,
+          bottom: parentHeight - y,
           left: x - menuWidth
         }
         break
@@ -124,7 +125,14 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
       }
     }
 
-    return menuPosition
+    const positionStyle: CSSProperties = {left: `${menuPosition.left}px`}
+    if (menuPosition.top !== undefined) {
+      positionStyle.top = `${menuPosition.top}px`
+    } else {
+      positionStyle.bottom = `${menuPosition.bottom}px`
+    }
+
+    return positionStyle
   }
 
   const animateOpen = (rootEl: HTMLElement, list: HTMLElement) => {
@@ -217,14 +225,7 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
 
   useEffect(() => {
     if (menuRef.current && anchorEl) {
-      const menuOffsetPosition = alignMenuAgainstAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner)
-      const positionStyle: CSSProperties = {left: `${menuOffsetPosition.left}px`}
-      if (menuOffsetPosition.top !== undefined) {
-        positionStyle.top = `${menuOffsetPosition.top}px`
-      } else {
-        positionStyle.bottom = `${menuOffsetPosition.bottom}px`
-      }
-      setMenuOffsetStyle(positionStyle)
+      setMenuOffsetStyle(alignMenuAgainstAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner))
     }
   }, [menuRef, anchorEl, anchorAlignCorner, menuAlignCorner]);
 
@@ -257,9 +258,9 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
       })}
     >
       <Elevation></Elevation>
-      <List ref={listRef} {...rest}>
+      <ul className={'menu__list'} ref={listRef} {...rest}>
         {getChildren()}
-      </List>
+      </ul>
     </div>
   )
 })
