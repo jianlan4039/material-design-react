@@ -1,19 +1,21 @@
-import React, {HTMLAttributes, ReactNode} from 'react'
+import React, {forwardRef, HTMLAttributes, HTMLProps, ReactNode} from 'react'
 import './List.scss'
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement>{
   children?: ReactNode
 }
 
-export default function List(props: ListProps) {
+const List = forwardRef<HTMLUListElement, ListProps>((props, ref) => {
   const {
     children,
     ...rest
   } = props
 
   return (
-    <ul className={'list'} {...rest}>
+    <ul ref={ref} className={'list'} {...rest}>
       {children}
     </ul>
   )
-}
+})
+
+export default List

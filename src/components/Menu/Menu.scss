@@ -1,33 +1,3 @@
-@use "../tokens";
-@use "../builder/tokens-builder";
-@use "../builder/background";
-@use "../Elevation/internal/elevation";
+@use "./internal/menu";
 
-.nd-menu {
-  @include tokens-builder.tokens(tokens.md-comp-menu-values(), menu);
-  @include elevation.theme((
-    level: var(--_container-elevation),
-    shadow-color: var(--_container-shadow-color)
-  ));
-  @include background.styles;
-  position: absolute;
-  border-radius: 4px;
-  padding: 0;
-  list-style: none;
-  display: none;
-  opacity: 0;
-
-  &.preparing {
-    display: block;
-    opacity: 0;
-
-    .nd-menu-content {
-      overflow: hidden;
-    }
-  }
-
-  &.prepared {
-    display: block;
-    opacity: 1;
-  }
-}
+@include menu.styles;

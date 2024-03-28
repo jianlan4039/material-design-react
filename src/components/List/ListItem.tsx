@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {forwardRef, HTMLProps, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import LinearSectionContainer, {
   LinearSectionContainerProps
 } from "../Container/LinearSectionContainer/LinearSectionContainer";
@@ -14,7 +14,11 @@ export interface ListItemProps extends LinearSectionContainerProps {
   interactive?: boolean
 }
 
-export default function ListItem(props: ListItemProps) {
+export interface ListItemHandle extends HTMLProps<HTMLLIElement>{
+  root?: HTMLElement | null
+}
+
+const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   const {
     children,
     start,
@@ -29,6 +33,10 @@ export default function ListItem(props: ListItemProps) {
 
   const rootRef = useRef<HTMLLIElement>(null);
   const [isTopLayout, setIsTopLayout] = useState<boolean>(false)
+
+  useImperativeHandle(ref, () => ({
+    root: rootRef.current
+  }))
 
   useEffect(() => {
     if (rootRef.current) {
@@ -55,9 +63,11 @@ export default function ListItem(props: ListItemProps) {
         end={end}
         {...rest}
       >
-        <span className={'list-item__label'}>{label}</span>
-        <div className={'list-item__spt-txt'}>{supportingText}</div>
+        <div className={'list-item__label'}>{label}</div>
+        {supportingText && <div className={'list-item__spt-txt'}>{supportingText}</div>}
       </LinearSectionContainer>
     </li>
   )
-}
+})
+
+export default ListItem
