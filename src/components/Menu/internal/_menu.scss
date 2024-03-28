@@ -1,9 +1,35 @@
+@use "../../Elevation/internal/elevation";
+@use "../../List/internal/list";
+@use "../../tokens/md-comp-menu";
+@use "../../builder/tokens-builder";
+
 @mixin theme($tokens) {
 
 }
 
 @mixin styles() {
   .menu {
+    @include tokens-builder.tokens(md-comp-menu.values(), menu);
+    @include elevation.theme((
+      level: var(--_container-elevation)
+    ));
+    @include list.theme((
+      'container-color': transparent
+    ));
     position: absolute;
+    opacity: 0;
+    border-radius: var(--_container-shape);
+    background: var(--_container-color);
+
+    .list {
+
+      box-sizing: border-box;
+      border-radius: inherit;
+      //block-size: 100%;
+    }
+
+    &.open {
+      opacity: 1;
+    }
   }
 }
