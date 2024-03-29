@@ -8,7 +8,7 @@ const meta: Meta<typeof Menu> = {
   component: Menu,
   title: 'Container/Menu',
   parameters: {
-    layout: 'centered'
+    // layout: 'centered'
   },
   tags: ['autodocs']
 }
@@ -22,7 +22,20 @@ export const Default: Story = {
       {label: 'Item One'},
       {label: 'Item two'},
       {label: 'Item three'},
-      {label: 'Item four'},
+      {
+        label: 'Item four',
+        subMenu: [
+          {label: 'Item five'},
+          {label: 'Item six'},
+          {
+            label: 'Item seven',
+            subMenu: [
+              {label: 'item eight'},
+              {label: 'item nine'},
+            ]
+          },
+        ]
+      },
     ]
 
     const [open, setOpen] = useState(false)

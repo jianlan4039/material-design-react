@@ -1,22 +1,36 @@
-import React, {CSSProperties, forwardRef, useEffect, useId, useRef, useState} from 'react'
-import List from "../List/List";
+import React, {
+  CSSProperties,
+  forwardRef, HTMLAttributes,
+  HTMLProps,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useRef,
+  useState
+} from 'react'
 import {BaseProps} from "../internal/common/BaseProps";
 import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
-import c from 'classnames'
-import './Menu.scss'
 import Elevation from "../Elevation";
+import './Menu.scss'
+import c from 'classnames'
+import {alignAnchor} from "./locate";
 
-export interface MenuProps extends BaseProps {
+export interface MenuProps extends BaseProps, HTMLAttributes<HTMLUListElement> {
   items?: MenuItemProps[]
   open?: boolean
   anchorEl?: HTMLElement
   menuAlignCorner?: Corner
   anchorAlignCorner?: Corner
+  quick?: boolean
 }
 
-const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
+export interface MenuHandle extends HTMLProps<HTMLDivElement> {
+  root?: HTMLElement | null
+}
+
+const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const {
     items,
     style,
@@ -24,6 +38,8 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
     anchorAlignCorner = Corner.END_START,
     menuAlignCorner = Corner.START_START,
     anchorEl,
+    className,
+    quick = false,
     ...rest
   } = props
 
@@ -41,7 +57,7 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const getChildren = () => {
-    return items?.map((itemProps, index) => {
+    return items?.map((item) => {
       const menuItemRef = useRef<MenuItemHandle>(null);
       const id = useId()
 
@@ -55,84 +71,12 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
         <MenuItem
           key={id}
           ref={menuItemRef}
-          interactive
-          {...itemProps}
+          subMenu={item.subMenu}
+          style={style}
+          {...item}
         ></MenuItem>
       )
     })
-  }
-
-  //当且仅当position为absolute且有一个外部容器，其position不为static时有效。
-  const alignMenuAgainstAnchor = (anchor: HTMLElement, menu: HTMLElement, anchorCorner: Corner, menuCorner: Corner) => {
-    const {height: anchorHeight, width: anchorWidth} = anchor?.getBoundingClientRect()
-    const {top: menuTop, left: menuLeft, height: menuHeight, width: menuWidth} = menu?.getBoundingClientRect()
-    const {offsetLeft: anchorLeft, offsetTop: anchorTop, offsetParent} = anchor
-    const parentHeight: number = offsetParent?.getBoundingClientRect().height ?? window.innerHeight
-    const {innerHeight, innerWidth} = window
-
-    const anchorCorners = {
-      [Corner.START_START]: {x: anchorLeft, y: anchorTop},
-      [Corner.START_END]: {x: anchorLeft + anchorWidth, y: anchorTop},
-      [Corner.END_START]: {x: anchorLeft, y: anchorTop + anchorHeight},
-      [Corner.END_END]: {x: anchorLeft + anchorWidth, y: anchorTop + anchorHeight},
-    }
-
-    let menuPosition: { top?: number, left?: number, bottom?: number } = {}
-    const {y, x} = anchorCorners[anchorCorner]
-    switch (menuCorner) {
-      case Corner.START_START:
-        menuPosition = {
-          top: y,
-          left: x
-        }
-        break
-      case Corner.START_END:
-        menuPosition = {
-          top: y,
-          left: x - menuWidth
-        }
-        break
-      case Corner.END_START:
-        menuPosition = {
-          bottom: parentHeight - y,
-          left: x
-        }
-        break
-      case Corner.END_END:
-        menuPosition = {
-          bottom: parentHeight - y,
-          left: x - menuWidth
-        }
-        break
-    }
-
-    if (menuPosition.top && menuPosition.top + menuTop > innerHeight) {
-      const offsetTop = menuTop + menuPosition.top
-      if (offsetTop + menuHeight > innerHeight || offsetTop < 0) {
-        menuPosition.top = 0
-      }
-    }
-    if (menuPosition.bottom) {
-      const offsetBottom = innerHeight - menuTop - menuHeight + menuPosition.bottom
-      if (offsetBottom > innerHeight || offsetBottom < 0) {
-        menuPosition.bottom = 0
-      }
-    }
-    if (menuPosition.left) {
-      const offsetLeft = menuLeft + menuPosition.left
-      if (offsetLeft < 0 || offsetLeft > innerWidth) {
-        menuPosition.left = 0
-      }
-    }
-
-    const positionStyle: CSSProperties = {left: `${menuPosition.left}px`}
-    if (menuPosition.top !== undefined) {
-      positionStyle.top = `${menuPosition.top}px`
-    } else {
-      positionStyle.bottom = `${menuPosition.bottom}px`
-    }
-
-    return positionStyle
   }
 
   const animateOpen = (rootEl: HTMLElement, list: HTMLElement) => {
@@ -223,9 +167,17 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
     })
   }
 
+  const openMenu = () => {
+    setOpen(true)
+  }
+
+  const closeMenu = () => {
+    setOpen(false)
+  }
+
   useEffect(() => {
     if (menuRef.current && anchorEl) {
-      setMenuOffsetStyle(alignMenuAgainstAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner))
+      setMenuOffsetStyle(alignAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner))
     }
   }, [menuRef, anchorEl, anchorAlignCorner, menuAlignCorner]);
 
@@ -233,27 +185,35 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
     if (OPEN) {
       !open && setOpen(true)
     } else {
-      open && menuRef.current && listRef.current && animateClose(menuRef.current, listRef.current)
+      if (open && menuRef.current && listRef.current) {
+        !quick ? animateClose(menuRef.current, listRef.current) : closeMenu()
+      }
     }
   }, [OPEN]);
 
   useEffect(() => {
-    if (open) {
-      menuRef.current && listRef.current && animateOpen(menuRef.current, listRef.current)
+    if (open && menuRef.current && listRef.current) {
+      !quick ? animateOpen(menuRef.current, listRef.current) : openMenu()
     } else {
-      rootHeightAnimation.current?.cancel()
-      rootOpacityAnimation.current?.cancel()
-      childrenAnimations.current.forEach(childAnimation => {
-        childAnimation.cancel()
-      })
+      if (!quick) {
+        rootHeightAnimation.current?.cancel()
+        rootOpacityAnimation.current?.cancel()
+        childrenAnimations.current.forEach(childAnimation => {
+          childAnimation.cancel()
+        })
+      }
     }
   }, [open]);
+
+  useImperativeHandle(ref, () => ({
+    root: menuRef.current
+  }))
 
   return (
     <div
       ref={menuRef}
       style={{...style, ...menuOffsetStyle}}
-      className={c('menu', {
+      className={c('menu', className, {
         'open': open
       })}
     >

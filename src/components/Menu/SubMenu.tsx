@@ -1,19 +1,34 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef} from 'react'
+import {Corner} from "../internal/alignment/geometry";
+import './SubMenu.scss'
+import Menu, {MenuHandle, MenuProps} from "./Menu";
 
-export interface SubMenuProps {
-  children?: ReactNode
+export interface SubMenuProps extends MenuProps {
 }
 
-const SubMenu = forwardRef<HTMLDivElement, SubMenuProps>((props, ref) => {
+const SubMenu = forwardRef<MenuHandle, SubMenuProps>((props, ref) => {
   const {
-    children,
+    anchorEl,
+    items,
+    open,
+    style,
     ...rest
   } = props
 
   return (
-    <div ref={ref}>
-      {children}
-    </div>
+    <Menu
+      ref={ref}
+      anchorEl={anchorEl}
+      items={items}
+      className={'sub-menu'}
+      menuAlignCorner={Corner.START_START}
+      anchorAlignCorner={Corner.START_END}
+      open={open}
+      style={style}
+      quick={true}
+      {...rest}
+    >
+    </Menu>
   )
 })
 

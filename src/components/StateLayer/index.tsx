@@ -5,11 +5,15 @@ import './StateLayer.scss'
 
 export interface StateLayerProps {
   disabled?: boolean
+  forceHover?: boolean
+  forcePressed?: boolean
 }
 
 const StateLayer = (props: StateLayerProps) => {
   const {
     disabled,
+    forceHover,
+    forcePressed,
   } = props
 
   const PRESS_GROW_MS = 450;
@@ -145,7 +149,16 @@ const StateLayer = (props: StateLayerProps) => {
     }
   }, [surfaceElement.current, disabled]);
 
-  return <span ref={surfaceElement} className={cln('nd-state-layer', {'disabled': disabled})}></span>
+  return (
+    <span
+      ref={surfaceElement}
+      className={cln('nd-state-layer', {
+        'disabled': disabled,
+        'force-hover': forceHover,
+        'force-pressed': forcePressed
+      })}
+    ></span>
+  )
 }
 
 export default StateLayer

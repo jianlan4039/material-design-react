@@ -59,6 +59,7 @@
           font-size: var(--_label-text-size);
           font-weight: var(--_label-text-weight);
           max-block-size: var(--_label-text-line-height);
+          white-space: nowrap;
         }
 
         .list-item__spt-txt {

@@ -1,12 +1,12 @@
-import React, {forwardRef, HTMLProps, useEffect, useImperativeHandle, useRef, useState} from 'react'
+import React, {forwardRef, HTMLAttributes, HTMLProps, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import LinearSectionContainer, {
   LinearSectionContainerProps
 } from "../Container/LinearSectionContainer/LinearSectionContainer";
 import './ListItem.scss'
 import c from 'classnames'
-import StateLayer from "../StateLayer";
+import StateLayer, {StateLayerProps} from "../StateLayer";
 
-export interface ListItemProps extends LinearSectionContainerProps {
+export interface ListItemProps extends LinearSectionContainerProps, HTMLAttributes<HTMLLIElement>, StateLayerProps {
   label?: string
   supportingText?: string
   disabled?: boolean
@@ -28,6 +28,9 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
     disabled,
     url,
     interactive,
+    className,
+    forcePressed,
+    forceHover,
     ...rest
   } = props
 
@@ -51,13 +54,13 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   return (
     <li
       ref={rootRef}
-      className={c('list-item', {
+      className={c('list-item', className, {
         'two-line-height': supportingText,
         'top-layout': isTopLayout,
         'disabled': disabled
       })}
     >
-      {(url || interactive) && <StateLayer disabled={disabled}></StateLayer>}
+      {(url || interactive) && <StateLayer disabled={disabled} forceHover={forceHover} forcePressed={forcePressed}></StateLayer>}
       <LinearSectionContainer
         start={start}
         end={end}
@@ -66,6 +69,7 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
         <div className={'list-item__label'}>{label}</div>
         {supportingText && <div className={'list-item__spt-txt'}>{supportingText}</div>}
       </LinearSectionContainer>
+      {children}
     </li>
   )
 })

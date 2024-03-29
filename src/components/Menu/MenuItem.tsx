@@ -1,17 +1,20 @@
-import React, {forwardRef, HTMLProps, ReactNode, useEffect, useImperativeHandle, useRef} from 'react'
+import React, {forwardRef, HTMLProps, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import ListItem, {ListItemProps, ListItemHandle} from "../List/ListItem";
-import {EASING} from "../internal/motion/animation";
+import SubMenu from "./SubMenu";
+import {outsideHandler} from "../internal/common/handlers";
+import {MenuHandle} from "./Menu";
 
-export interface MenuItemProps extends ListItemProps {
+export interface MenuItemProps extends Omit<ListItemProps, 'supportingText' | 'interactive'> {
   children?: ReactNode
   duration?: number
   delay?: number
   easing?: string
   show?: boolean
+  subMenu?: MenuItemProps[]
 }
 
-export interface MenuItemHandle extends HTMLProps<ListItemHandle>{
-  root?: HTMLElement | null
+export interface MenuItemHandle extends HTMLProps<HTMLDivElement> {
+  root?: HTMLDivElement | null
 }
 
 const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
@@ -21,46 +24,70 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     delay,
     easing,
     show,
+    subMenu,
+    //style仅仅中转给submenu，因为submenu的自定义样式必须保持与menu一致
+    style,
     ...rest
   } = props
 
-  const itemRef = useRef<ListItemHandle>(null);
+  const listItemRef = useRef<ListItemHandle>(null);
+  const menuItemRef = useRef<HTMLDivElement>(null);
+  const subMenuRef = useRef<MenuHandle>(null);
 
-  const animateShow = (el: HTMLElement, duration: number, delay: number, easing: string = EASING.STANDARD) => {
-    const animation = el.animate({
-      opacity: ['0', '1']
-    }, {duration: duration, delay: delay, easing: easing, fill: 'backwards'})
+  const [anchor, setAnchor] = useState<HTMLElement>()
+  const [open, setOpen] = useState<boolean>(false)
+
+  const mouseOverHandler = () => {
+    setOpen(true)
   }
 
-  const animateHidden = (el: HTMLElement, duration: number, delay: number, easing: string = EASING.STANDARD) => {
-    const animation = el.animate({
-      opacity: ['1', '0']
-    }, {duration: duration, delay: delay, easing: easing})
-  }
-
-  const toggleShown = (toggle?: boolean) => {
-
+  const mouseOutHandler = () => {
+    setOpen(false)
   }
 
   useImperativeHandle(ref, () => ({
-    root: itemRef.current?.root
+    root: menuItemRef.current
   }))
 
   useEffect(() => {
-    const itemEl = itemRef.current?.root
-    if (itemEl && show === true && duration && delay) {
-      animateShow(itemEl, duration, delay, easing)
-    } else if (itemEl && show === false && duration && delay) {
-      animateHidden(itemEl, duration, delay, easing)
-    } else {
-
+    if (listItemRef.current && listItemRef.current && listItemRef.current.root) {
+      setAnchor(listItemRef.current.root)
     }
-  }, [show, itemRef]);
+  }, [listItemRef]);
+
+  useEffect(() => {
+    if (menuItemRef.current && menuItemRef.current) {
+      subMenu && outsideHandler(menuItemRef.current, () => {
+        setOpen(false)
+      })
+    }
+  }, [subMenuRef]);
 
   return (
-    <ListItem ref={itemRef} {...rest}>
-      {children}
-    </ListItem>
+    <div
+      ref={menuItemRef}
+      className={'menu-item'}
+      onMouseOver={mouseOverHandler}
+      onMouseOut={mouseOutHandler}
+    >
+      <ListItem
+        ref={listItemRef}
+        interactive={true}
+        forceHover={open}
+        {...rest}
+      >
+      </ListItem>
+      {
+        subMenu &&
+        <SubMenu
+          ref={subMenuRef}
+          items={subMenu}
+          anchorEl={anchor}
+          style={style}
+          open={open}
+        ></SubMenu>
+      }
+    </div>
   )
 })
 

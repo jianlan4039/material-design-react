@@ -1,4 +1,4 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, useImperativeHandle, useRef, MouseEvent} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode, useImperativeHandle, useRef} from 'react'
 import Divider from "../../Divider/Divider";
 import c from 'classnames'
 

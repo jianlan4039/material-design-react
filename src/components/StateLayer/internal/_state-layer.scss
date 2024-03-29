@@ -23,10 +23,6 @@ $tokens: md-comp-ripple.values();
   pointer-events: none;
   //z-index: -1;
 
-  &.disabled {
-    display: none;
-  }
-
   &::before,
   &::after {
     content: '';
@@ -42,19 +38,24 @@ $tokens: md-comp-ripple.values();
     transition: opacity 15ms linear, background-color 15ms linear;
   }
 
-  &.hover::before {
-    opacity: var(--_hover-opacity);
-  }
-
   &::after {
     background: radial-gradient(closest-side, var(--_pressed-color) max(calc(100% - 70px), 65%), transparent 100%);
     transform-origin: center center;
     transition: opacity 375ms linear;
   }
 
-  &.pressed::after {
+  &.hover::before,
+  &.force-hover::before {
+    opacity: var(--_hover-opacity);
+  }
+
+  &.pressed::after,
+  &.force-pressed::after {
     opacity: var(--_pressed-opacity);
     transition-duration: 105ms;
   }
 
+  &.disabled {
+    display: none;
+  }
 }
