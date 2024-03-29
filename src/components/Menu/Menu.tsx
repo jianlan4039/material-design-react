@@ -55,6 +55,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   const [menuOffsetStyle, setMenuOffsetStyle] = useState<CSSProperties>();
   const [open, setOpen] = useState<boolean>(false);
+  const [isAligned, setIsAligned] = useState(false)
 
   const getChildren = () => {
     return items?.map((item) => {
@@ -178,6 +179,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   useEffect(() => {
     if (menuRef.current && anchorEl) {
       setMenuOffsetStyle(alignAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner))
+      setIsAligned(true)
     }
   }, [menuRef, anchorEl, anchorAlignCorner, menuAlignCorner]);
 
@@ -214,7 +216,8 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       ref={menuRef}
       style={{...style, ...menuOffsetStyle}}
       className={c('menu', className, {
-        'open': open
+        'open': open,
+        'aligned': isAligned
       })}
     >
       <Elevation></Elevation>
