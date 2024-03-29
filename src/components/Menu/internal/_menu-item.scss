@@ -1,9 +1,14 @@
-@mixin theme($tokens){
+@mixin theme($tokens) {
 
 }
 
-@mixin styles(){
-  .menu-item{
+@mixin styles() {
+  .menu-item {
     position: relative;
+    cursor: pointer;
+
+    &.hidden {
+      opacity: 0;
+    }
   }
 }
