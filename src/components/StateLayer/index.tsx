@@ -28,7 +28,7 @@ const StateLayer = (props: StateLayerProps) => {
   let rippleScale = '';
   let initialSize = 0;
 
-  const surfaceElement = useRef<HTMLSpanElement>(null);
+  const surfaceRef = useRef<HTMLSpanElement>(null);
   const growAnimation = useRef<Animation>();
   let pageX: number, pageY: number
 
@@ -75,7 +75,7 @@ const StateLayer = (props: StateLayerProps) => {
     const {startPoint, endPoint} = getTranslationCoordinates(rect);
     const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
     const translateEnd = `${endPoint.x}px, ${endPoint.y}px`;
-    growAnimation.current = surfaceElement.current?.animate(
+    growAnimation.current = surfaceRef.current?.animate(
       {
         top: [0, 0],
         left: [0, 0],
@@ -99,59 +99,61 @@ const StateLayer = (props: StateLayerProps) => {
     if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
       return
     }
-    await new Promise(resolve => {
+    return await new Promise(resolve => {
       setTimeout(resolve, MINIMUM_PRESS_MS - pressAnimationPlayState);
     });
   }
 
-  useEffect(() => {
-    const mouseOverHandler = () => {
-      if (!disabled) {
-        surfaceElement.current!.classList.toggle('hover', true)
-      }
+  const mouseOverHandler = () => {
+    if (!disabled) {
+      surfaceRef.current!.classList.toggle('hover', true)
     }
+  }
 
-    const mouseOutHandler = () => {
-      if (!disabled) {
-        surfaceElement.current!.classList.toggle('hover', false)
-        surfaceElement.current!.classList.toggle('pressed', false)
-      }
+  const mouseOutHandler = () => {
+    if (!disabled) {
+      surfaceRef.current!.classList.toggle('hover', false)
+      surfaceRef.current!.classList.toggle('pressed', false)
     }
+  }
 
-    const mouseDownHandler = (e: MouseEvent) => {
-      if (!disabled && surfaceElement.current) {
-        startPressAnimation(e, surfaceElement.current.getBoundingClientRect()).then(() => {
-          surfaceElement.current!.classList.toggle('pressed', true)
+  const mouseDownHandler = (e: MouseEvent) => {
+    if (!disabled && surfaceRef.current) {
+      endPressAnimation().then(() => {
+        surfaceRef.current && startPressAnimation(e, surfaceRef.current.getBoundingClientRect()).then(() => {
+          surfaceRef.current!.classList.toggle('pressed', true)
         })
-      }
+      })
     }
+  }
 
-    const mouseUpHandler = () => {
-      if (!disabled) {
-        surfaceElement.current!.classList.toggle('pressed', false)
-      }
+  const mouseUpHandler = () => {
+    if (!disabled) {
+      surfaceRef.current!.classList.toggle('pressed', false)
     }
+  }
 
-    if (surfaceElement.current && surfaceElement.current.parentElement) {
-      surfaceElement.current.parentElement.addEventListener('mouseover', mouseOverHandler)
-      surfaceElement.current.parentElement.addEventListener('mouseout', mouseOutHandler)
-      surfaceElement.current.parentElement.addEventListener('mousedown', mouseDownHandler)
-      surfaceElement.current.parentElement.addEventListener('mouseup', mouseUpHandler)
+  useEffect(() => {
+    if (surfaceRef.current && surfaceRef.current.parentElement) {
+      surfaceRef.current.parentElement.addEventListener('mouseover', mouseOverHandler)
+      surfaceRef.current.parentElement.addEventListener('mouseout', mouseOutHandler)
+      surfaceRef.current.parentElement.addEventListener('mousedown', mouseDownHandler)
+      surfaceRef.current.parentElement.addEventListener('mouseup', mouseUpHandler)
     }
 
     return () => {
-      if (surfaceElement.current && surfaceElement.current.parentElement) {
-        surfaceElement.current.parentElement.removeEventListener('mouseover', mouseOverHandler)
-        surfaceElement.current.parentElement.removeEventListener('mouseout', mouseOutHandler)
-        surfaceElement.current.parentElement.removeEventListener('mousedown', mouseDownHandler)
-        surfaceElement.current.parentElement.removeEventListener('mouseup', mouseUpHandler)
+      if (surfaceRef.current && surfaceRef.current.parentElement) {
+        surfaceRef.current.parentElement.removeEventListener('mouseover', mouseOverHandler)
+        surfaceRef.current.parentElement.removeEventListener('mouseout', mouseOutHandler)
+        surfaceRef.current.parentElement.removeEventListener('mousedown', mouseDownHandler)
+        surfaceRef.current.parentElement.removeEventListener('mouseup', mouseUpHandler)
       }
     }
-  }, [surfaceElement.current, disabled]);
+  }, [surfaceRef.current, disabled]);
 
   return (
     <span
-      ref={surfaceElement}
+      ref={surfaceRef}
       className={cln('nd-state-layer', {
         'disabled': disabled,
         'force-hover': forceHover,
