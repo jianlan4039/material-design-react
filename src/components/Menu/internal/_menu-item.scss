@@ -1,14 +1,32 @@
+@use "../../tokens/md-comp-menu-item";
+@use "../../builder/tokens-builder";
+
 @mixin theme($tokens) {
 
 }
 
 @mixin styles() {
   .menu-item {
+    @include tokens-builder.tokens(md-comp-menu-item.values(), menu-list);
     position: relative;
     cursor: pointer;
 
+    .lsc{
+      .lsc__end{
+        padding-inline-end: 12px;
+      }
+    }
+
     &.hidden {
       opacity: 0;
+    }
+
+    &.selected {
+      background: var(--_selected-container-color);
+
+      .list-item__label {
+        color: var(--_selected-label-text-color);
+      }
     }
   }
 }
