@@ -1,12 +1,19 @@
-import React, {forwardRef, useRef} from 'react'
+import React, {CSSProperties, forwardRef, HTMLProps, useEffect, useId, useRef, useState, MouseEvent} from 'react'
 import {Corner} from "../internal/alignment/geometry";
+import {MenuHandle, MenuProps} from "./Menu";
+import MenuItem from "./MenuItem";
+import {alignAnchor} from "./locate";
+import Elevation from "../Elevation";
+import c from "classnames";
 import './SubMenu.scss'
-import Menu, {MenuHandle, MenuProps} from "./Menu";
 
 export interface SubMenuProps extends MenuProps {
 }
 
-const SubMenu = forwardRef<MenuHandle, SubMenuProps>((props, ref) => {
+export interface SubMenuHandle extends MenuHandle {
+}
+
+const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
   const {
     anchorEl,
     items,
@@ -15,20 +22,48 @@ const SubMenu = forwardRef<MenuHandle, SubMenuProps>((props, ref) => {
     ...rest
   } = props
 
+  const rootRef = useRef<HTMLMenuElement>(null)
+  const [offsetStyles, setOffsetStyles] = useState<CSSProperties>()
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+
+  const getChildren = () => {
+    return items?.map((item) => {
+      const id = useId()
+
+      return (
+        <MenuItem
+          key={id}
+          style={style}
+          start={item.leadingIcon}
+          end={item.trailingIcon}
+          customOpenIcon={item.customOpenIcon}
+          label={item.label}
+          subMenu={item.subMenu}
+          value={item.value}
+        ></MenuItem>
+      )
+    })
+  }
+
+  useEffect(() => {
+    setIsVisible(Boolean(open))
+    if (anchorEl && rootRef.current) {
+      setOffsetStyles(alignAnchor(anchorEl, rootRef.current, Corner.START_END, Corner.START_START))
+    }
+  }, [open]);
+
   return (
-    <Menu
-      ref={ref}
-      anchorEl={anchorEl}
-      items={items}
-      className={'sub-menu'}
-      menuAlignCorner={Corner.START_START}
-      anchorAlignCorner={Corner.START_END}
-      open={open}
-      style={style}
-      quick={true}
-      {...rest}
+    <menu
+      ref={rootRef}
+      className={c('sub-menu menu', {
+        'visible': isVisible,
+        'hidden': !isVisible,
+      })}
+      style={{...style, ...offsetStyles}}
     >
-    </Menu>
+      <Elevation></Elevation>
+      {getChildren()}
+    </menu>
   )
 })
 

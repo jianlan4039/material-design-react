@@ -1,6 +1,6 @@
 import React, {HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
 import './SegmentedButtonContainer.scss'
-import {MultiSelectionContext} from "../internal/context/SelectionContext";
+import { MultiSelectionContext } from './internal/context'
 
 export interface SegmentedButtonContainerProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode

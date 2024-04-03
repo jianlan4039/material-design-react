@@ -1,6 +1,6 @@
 import React, {
   CSSProperties,
-  forwardRef, HTMLAttributes,
+  forwardRef,
   HTMLProps,
   useEffect,
   useId,
@@ -8,22 +8,26 @@ import React, {
   useRef,
   useState
 } from 'react'
-import {BaseProps} from "../internal/common/BaseProps";
-import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
+import MenuItem, {MenuItemHandle} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
 import Elevation from "../Elevation";
+import {alignAnchor} from "./locate";
+import {Option, OptionValue} from "./internal/MenuTypes";
+import {SelectionContextProvider} from "../internal/context/SelectionContext";
+import {BaseProps} from "../internal/common/BaseProps";
 import './Menu.scss'
 import c from 'classnames'
-import {alignAnchor} from "./locate";
 
-export interface MenuProps extends BaseProps, HTMLAttributes<HTMLUListElement> {
-  items?: MenuItemProps[]
+export interface MenuProps extends BaseProps {
+  items?: Option[]
   open?: boolean
   anchorEl?: HTMLElement
   menuAlignCorner?: Corner
   anchorAlignCorner?: Corner
   quick?: boolean
+  onChange?: (value: OptionValue[]) => void
+  multiple?: boolean
 }
 
 export interface MenuHandle extends HTMLProps<HTMLDivElement> {
@@ -40,7 +44,8 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     anchorEl,
     className,
     quick = false,
-    ...rest
+    onChange,
+    multiple = false
   } = props
 
   const openDirection = menuAlignCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
@@ -52,8 +57,8 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const [menuOffsetStyle, setMenuOffsetStyle] = useState<CSSProperties>();
   const [isVisible, setIsVisible] = useState<boolean | undefined>();
   const [isAnimating, setIsAnimating] = useState(false)
-  const childrenHiddenBuffer = useRef<React.Dispatch<React.SetStateAction<boolean>>[]>([]);
   const animationBuffer = useRef<Animation[]>([])
+  const [options, setOptions] = useState<OptionValue[]>([])
 
   const getChildren = () => {
     return items?.map((item) => {
@@ -70,9 +75,13 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
         <MenuItem
           key={id}
           ref={menuItemRef}
-          subMenu={item.subMenu}
           style={style}
-          {...item}
+          start={item.leadingIcon}
+          end={item.trailingIcon}
+          customOpenIcon={item.customOpenIcon}
+          label={item.label}
+          subMenu={item.subMenu}
+          value={item.value}
         ></MenuItem>
       )
     })
@@ -189,6 +198,9 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     if (open && !isVisible) {
       setIsVisible(true)
       setIsAnimating(true)
+      if (menuRef.current && anchorEl) {
+        setMenuOffsetStyle(alignAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner))
+      }
     } else if (!open && isVisible) {
       setIsAnimating(true)
     }
@@ -211,28 +223,36 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     } catch (e) {
       console.warn(e)
     }
-  }, [isAnimating]);
+  }, [isAnimating])
 
+  useEffect(() => {
+    onChange?.(options)
+  }, [options]);
 
   useImperativeHandle(ref, () => ({
     root: menuRef.current
   }))
 
   return (
-    <div
-      ref={menuRef}
-      style={{...style, ...menuOffsetStyle}}
-      className={c('menu', className, {
-        'visible': isVisible === true,
-        'hidden': isVisible === false,
-        // 'animating': isAnimating
-      })}
+    <SelectionContextProvider
+      multiple={false}
+      options={options}
+      setOption={setOptions}
     >
-      <Elevation></Elevation>
-      <ul className={'menu__list'} ref={listRef} {...rest}>
-        {getChildren()}
-      </ul>
-    </div>
+      <div
+        ref={menuRef}
+        style={{...style, ...menuOffsetStyle}}
+        className={c('menu', className, {
+          'visible': isVisible === true,
+          'hidden': isVisible === false
+        })}
+      >
+        <Elevation></Elevation>
+        <ul ref={listRef} className={'menu__list'}>
+          {getChildren()}
+        </ul>
+      </div>
+    </SelectionContextProvider>
   )
 })
 

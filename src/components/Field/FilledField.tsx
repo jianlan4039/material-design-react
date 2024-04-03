@@ -12,7 +12,7 @@ export interface FilledFieldProps extends Omit<FieldProps, "labelWrapper"> {
   error?: boolean
 }
 
-export default function FilledField(props: FilledFieldProps) {
+const FilledField = StateLayer<FilledFieldProps>((props: FilledFieldProps) => {
   const {
     children,
     label,
@@ -51,11 +51,12 @@ export default function FilledField(props: FilledFieldProps) {
       onMouseOver={mouseOverHandler}
       onMouseOut={mouseOutHandler}
     >
-      <StateLayer disabled={disabled}></StateLayer>
       <div className={c('nd-filled-field__indicator', {'active': focus})}></div>
       <Field label={label} {...rest}>
         {children}
       </Field>
     </div>
   )
-}
+})
+
+export default FilledField

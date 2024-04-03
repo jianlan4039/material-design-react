@@ -10,6 +10,7 @@
     @include tokens-builder.tokens(md-comp-menu-item.values(), menu-list);
     position: relative;
     cursor: pointer;
+    z-index: 1;
 
     .lsc{
       .lsc__end{

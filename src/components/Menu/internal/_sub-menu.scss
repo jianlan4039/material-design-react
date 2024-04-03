@@ -5,5 +5,8 @@
 @mixin styles() {
   .sub-menu {
     position: absolute;
+    list-style: none;
+    padding-inline: 0;
+    margin: 0;
   }
 }

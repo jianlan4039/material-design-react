@@ -44,18 +44,12 @@ $tokens: md-comp-ripple.values();
     transition: opacity 375ms linear;
   }
 
-  &.hover::before,
-  &.force-hover::before {
+  &.hover:not(.disabled)::before {
     opacity: var(--_hover-opacity);
   }
 
-  &.pressed::after,
-  &.force-pressed::after {
+  &.pressed:not(.disabled)::after {
     opacity: var(--_pressed-opacity);
     transition-duration: 105ms;
-  }
-
-  &.disabled {
-    display: none;
   }
 }

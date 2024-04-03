@@ -87,7 +87,6 @@
       @include field-outline.theme((
         outline-color: var(--_focus-outline-color),
         active-outline-width: var(--_focus-outline-width),
-        notch-size: 0
       ));
       @include supporting-text.theme((
         color: var(--_focus-supporting-text-color)
@@ -97,7 +96,7 @@
       ));
     }
 
-    &.populated:not(.focus) {
+    &.populated {
       @include field-outline.theme((
         notch-size: 0
       ));

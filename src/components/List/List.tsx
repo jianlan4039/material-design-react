@@ -1,7 +1,7 @@
-import React, {forwardRef, HTMLAttributes, HTMLProps, ReactNode} from 'react'
+import React, {forwardRef, HTMLAttributes, OlHTMLAttributes, ReactNode} from 'react'
 import './List.scss'
 
-export interface ListProps extends HTMLAttributes<HTMLUListElement>{
+export interface ListProps extends OlHTMLAttributes<HTMLOListElement>{
   children?: ReactNode
 }
 

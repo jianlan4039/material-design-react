@@ -1,10 +1,5 @@
 import {createContext} from "react";
-
-export interface MultiSelection {
-  multiple: boolean
-  options?: Array<any>
-  setOption?: (option: any) => void
-}
+import {MultiSelection} from "../../internal/context/SelectionContext";
 
 export const MultiSelectionContext = createContext<MultiSelection>({
   multiple: false

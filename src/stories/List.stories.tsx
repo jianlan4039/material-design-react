@@ -30,6 +30,7 @@ export const Default: Story = {
           end={<FilledIcon>check</FilledIcon>}
           label={label}
           supportingText={supportingText}
+          interactive={true}
           {...rest}
         ></ListItem>
       </List>

@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
 import {MenuItemProps} from "../components/Menu/MenuItem";
 import ElevatedButton from "../components/Button/ElevatedButton";
+import {Option, OptionValue} from "../components/Menu/internal/MenuTypes";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
@@ -18,20 +19,20 @@ type Story = StoryObj<typeof Menu>;
 
 export const Default: Story = {
   render: (args) => {
-    const items: MenuItemProps[] = [
-      {label: 'Item One'},
-      {label: 'Item two'},
-      {label: 'Item three'},
+    const items = [
+      {label: 'Item One', value: '1'},
+      {label: 'Item two', value: '2'},
+      {label: 'Item three', value: '3'},
       {
         label: 'Item four',
         subMenu: [
-          {label: 'Item five'},
-          {label: 'Item six'},
+          {label: 'Item five', value: '5'},
+          {label: 'Item six', value: '6'},
           {
             label: 'Item seven',
             subMenu: [
-              {label: 'item eight'},
-              {label: 'item nine'},
+              {label: 'item eight', value: '8'},
+              {label: 'item nine', value: '9'},
             ]
           },
         ]
@@ -46,6 +47,10 @@ export const Default: Story = {
       setOpen(!open)
     }
 
+    const changeHandler = (value: OptionValue[]) => {
+      console.log(value)
+    }
+
     useEffect(() => {
       if (btnRef.current) {
         setAnchor(btnRef.current)
@@ -56,7 +61,7 @@ export const Default: Story = {
       <div style={{position: 'relative'}}>
         {/*<ElevatedButton onClick={clickHandler}>Open</ElevatedButton>*/}
         <button ref={btnRef} onClick={clickHandler}>Open</button>
-        <Menu open={open} items={items} anchorEl={anchor} style={{minWidth: '300px'}} {...args}></Menu>
+        <Menu open={open} items={items} anchorEl={anchor} style={{minWidth: '300px'}} onChange={changeHandler}></Menu>
       </div>
     )
   }

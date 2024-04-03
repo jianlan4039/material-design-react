@@ -1,0 +1,24 @@
+@mixin theme($tokens){
+
+}
+
+@mixin styles(){
+  .select {
+    position: relative;
+    cursor: text;
+
+    .select-field-slot{
+      display: contents;
+    }
+
+    select {
+      opacity: 0;
+      min-inline-size: 200px;
+      cursor: text;
+    }
+
+    .menu {
+      inline-size: 100%;
+    }
+  }
+}

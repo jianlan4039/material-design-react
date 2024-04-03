@@ -4,14 +4,14 @@ import cln from "classnames";
 import SegmentedButtonContent, {SegmentedButtonContentProps} from "./content/SegmentedButtonContent";
 import StateLayer from "../StateLayer";
 import Outline from "../Outline/Outline";
-import {MultiSelectionContext} from "../internal/context/SelectionContext";
+import {MultiSelectionContext} from "./internal/context";
 
 export interface SegmentedButtonProps extends SegmentedButtonContentProps {
   children?: ReactNode
   ndId?: string
 }
 
-export default function SegmentedButton(props: SegmentedButtonProps) {
+const SegmentedButton = StateLayer<SegmentedButtonProps>((props: SegmentedButtonProps) => {
   const {
     children,
     ndId,
@@ -40,8 +40,9 @@ export default function SegmentedButton(props: SegmentedButtonProps) {
       })}
     >
       <Outline disabled={disabled}></Outline>
-      <StateLayer disabled={disabled}></StateLayer>
       <SegmentedButtonContent disabled={disabled} {...rest}>{children}</SegmentedButtonContent>
     </div>
   )
-}
+})
+
+export default SegmentedButton
