@@ -18,6 +18,7 @@ import {SelectionContextProvider} from "../internal/context/SelectionContext";
 import {BaseProps} from "../internal/common/BaseProps";
 import './Menu.scss'
 import c from 'classnames'
+import {outsideHandler} from "../internal/common/handlers";
 
 export interface MenuProps extends BaseProps {
   items?: MenuItemProps[]
@@ -221,7 +222,14 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     if (menuRef.current && anchorEl) {
       setMenuOffsetStyle(alignAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner, offsetX, offsetY))
       setIsVisible(false)
+
+      if (!stayOpenOnOutsideClick) {
+        outsideHandler(menuRef.current, () => {
+          closeMenu()
+        })
+      }
     }
+
   }, [menuRef, anchorEl, anchorAlignCorner, menuAlignCorner]);
 
   useEffect(() => {
