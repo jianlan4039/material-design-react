@@ -40,6 +40,7 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
           label={item.label}
           subMenu={item.subMenu}
           value={item.value}
+          selected={item.selected}
         ></MenuItem>
       )
     })

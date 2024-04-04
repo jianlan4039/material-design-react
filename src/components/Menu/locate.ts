@@ -1,17 +1,17 @@
 import {Corner} from "../internal/alignment/geometry";
 import {CSSProperties} from "react";
 
-export const alignAnchor = (anchor: HTMLElement, self: HTMLElement, anchorCorner: Corner, selfCorner: Corner) => {
+export const alignAnchor = (anchor: HTMLElement, self: HTMLElement, anchorCorner: Corner, selfCorner: Corner, offsetX: number = 0, offsetY: number = 0) => {
   const {height: anchorHeight, width: anchorWidth} = anchor?.getBoundingClientRect()
   const {width: menuWidth} = self?.getBoundingClientRect()
   const {offsetLeft: anchorLeft, offsetTop: anchorTop, offsetParent} = anchor
   const parentHeight: number = offsetParent?.getBoundingClientRect().height ?? window.innerHeight
 
   const anchorCorners = {
-    [Corner.START_START]: {x: anchorLeft, y: anchorTop},
-    [Corner.START_END]: {x: anchorLeft + anchorWidth, y: anchorTop},
-    [Corner.END_START]: {x: anchorLeft, y: anchorTop + anchorHeight},
-    [Corner.END_END]: {x: anchorLeft + anchorWidth, y: anchorTop + anchorHeight},
+    [Corner.START_START]: {x: anchorLeft + offsetX, y: anchorTop + offsetY},
+    [Corner.START_END]: {x: anchorLeft + anchorWidth + offsetX, y: anchorTop + offsetY},
+    [Corner.END_START]: {x: anchorLeft + offsetX, y: anchorTop + anchorHeight + offsetY},
+    [Corner.END_END]: {x: anchorLeft + anchorWidth + offsetX, y: anchorTop + anchorHeight + offsetY},
   }
 
   let menuPosition: { top?: number, left?: number, bottom?: number } = {}

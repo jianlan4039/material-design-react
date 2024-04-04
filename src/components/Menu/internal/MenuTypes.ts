@@ -9,4 +9,5 @@ export interface Option {
   subMenu?: Option[]
   value?: OptionValue
   customOpenIcon?: ReactNode
+  selected?: boolean
 }

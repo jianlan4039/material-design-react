@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
-  MouseEvent, HTMLAttributes, LiHTMLAttributes, useContext
+  MouseEvent, LiHTMLAttributes, useContext
 } from 'react'
 import ListItem, {ListItemHandle} from "../List/ListItem";
 import SubMenu from "./SubMenu";
@@ -22,6 +22,7 @@ export interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
   start?: ReactNode
   end?: ReactNode
   label?: string
+  selected?: boolean
 }
 
 export interface MenuItemHandle {
@@ -39,11 +40,13 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     end,
     start,
     onMouseOver,
-    onMouseOut,
     onMouseDown,
+    onMouseEnter,
+    onMouseLeave,
     onClick,
     label,
     value,
+    selected,
     ...rest
   } = props
 
@@ -52,35 +55,43 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   const closeTimeoutIdRef = useRef<NodeJS.Timeout>();
 
   const [anchor, setAnchor] = useState<HTMLDivElement>()
-  const [open, setOpen] = useState<boolean>(false)
-  const {multiple = false, options = [], setOption} = useContext(SelectionContext)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const {multiple = false, list = [], setList} = useContext(SelectionContext)
 
-  const mouseOverHandler = (e: MouseEvent) => {
+  const mouseOverHandler = (e: MouseEvent<HTMLLIElement>) => {
+    onMouseOver?.(e)
     e.stopPropagation()
   }
 
-  const mouseEnterHandler = (e: MouseEvent) => {
+  const mouseEnterHandler = (e: MouseEvent<HTMLLIElement>) => {
+    onMouseEnter?.(e)
     clearTimeout(closeTimeoutIdRef.current)
-    setOpen(Boolean(subMenu) && true)
+    setIsOpen(Boolean(subMenu) && true)
   }
 
-  const mouseLeaveHandler = (e: MouseEvent) => {
+  const mouseLeaveHandler = (e: MouseEvent<HTMLLIElement>) => {
+    onMouseLeave?.(e)
     e.preventDefault()
     closeTimeoutIdRef.current = setTimeout(() => {
-      setOpen(false)
+      setIsOpen(false)
     }, 500)
   }
 
-  const mouseDownHandler = (e: MouseEvent) => {
+  const mouseDownHandler = (e: MouseEvent<HTMLLIElement>) => {
+    onMouseDown?.(e)
     e.stopPropagation()
   }
 
   const mouseClickHandler = (e: MouseEvent<HTMLLIElement>) => {
     onClick?.(e)
+    onSelected()
+  }
+
+  const onSelected = () => {
     if (multiple) {
-      !subMenu && setOption?.([...options, value])
+      !subMenu && setList?.([...list, value])
     } else {
-      !subMenu && setOption?.([value])
+      !subMenu && setList?.([value])
     }
   }
 
@@ -97,7 +108,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   useEffect(() => {
     if (listItemRef.current && listItemRef.current.root) {
       subMenu && outsideHandler(listItemRef.current.root, () => {
-        setOpen(false)
+        setIsOpen(false)
       })
     }
   }, [subMenuRef]);
@@ -105,7 +116,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   return (
     <ListItem
       ref={listItemRef}
-      className={`menu-item ${open ? 'selected' : ''}`}
+      className={`menu-item ${selected || isOpen ? 'selected' : ''}`}
       label={label}
       start={start}
       end={subMenu ? customOpenIcon ? customOpenIcon :
@@ -127,7 +138,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
           items={subMenu}
           anchorEl={anchor}
           style={style}
-          open={open}
+          open={isOpen}
         ></SubMenu>
       }
     </ListItem>

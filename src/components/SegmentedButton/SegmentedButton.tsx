@@ -20,16 +20,16 @@ const SegmentedButton = StateLayer<SegmentedButtonProps>((props: SegmentedButton
   } = props
 
   const id = ndId ?? useId()
-  const {options, setOption, multiple} = useContext(MultiSelectionContext)
+  const {list, setList, multiple} = useContext(MultiSelectionContext)
   const [selected, setSelected] = useState<boolean>(false)
 
   const clickHandler = () => {
-    setOption?.(id)
+    setList?.(id)
   }
 
   useEffect(() => {
-    setSelected(options?.includes(id) ?? false)
-  }, [options]);
+    setSelected(list?.includes(id) ?? false)
+  }, [list]);
 
   return (
     <div

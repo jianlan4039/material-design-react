@@ -50,7 +50,7 @@ export default function SegmentedButtonContainer(props: SegmentedButtonContainer
 
   return (
     <div ref={ref} className={'nd-segmented-button-container'} {...rest}>
-      <MultiSelectionContext.Provider value={{multiple: multiple, options: options, setOption: onOptionSet}}>
+      <MultiSelectionContext.Provider value={{multiple: multiple, list: options, setList: onOptionSet}}>
         {children}
       </MultiSelectionContext.Provider>
     </div>
