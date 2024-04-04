@@ -3,7 +3,7 @@ import Rect, {createContext, ReactNode} from "react";
 export interface MultiSelection {
   multiple: boolean
   list?: Array<any>
-  setList?: (option: any) => void
+  setList?: (list: any, option?: any) => void
 }
 
 export const SelectionContext = createContext<MultiSelection>({

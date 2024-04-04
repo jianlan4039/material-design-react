@@ -6,8 +6,7 @@ import {Option, OptionValue} from "../components/Menu/internal/MenuTypes";
 const meta: Meta<typeof Menu> = {
   component: Menu,
   title: 'Container/Menu',
-  parameters: {
-  },
+  parameters: {},
   tags: ['autodocs']
 }
 
@@ -19,7 +18,7 @@ export const Default: Story = {
     const items = [
       {label: 'Item One', value: '1'},
       {label: 'Item two', value: '2'},
-      {label: 'Item three', value: '3'},
+      {label: 'Item three', value: '3' },
       {
         label: 'Item four',
         subMenu: [

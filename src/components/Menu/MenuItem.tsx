@@ -23,6 +23,7 @@ export interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
   end?: ReactNode
   label?: string
   selected?: boolean
+  keepOpen?: boolean
 }
 
 export interface MenuItemHandle {
@@ -47,6 +48,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     label,
     value,
     selected,
+    keepOpen,
     ...rest
   } = props
 
@@ -91,7 +93,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     if (multiple) {
       !subMenu && setList?.([...list, value])
     } else {
-      !subMenu && setList?.([value])
+      !subMenu && setList?.([value], {close: !keepOpen})
     }
   }
 

@@ -34,13 +34,7 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
         <MenuItem
           key={id}
           style={style}
-          start={item.leadingIcon}
-          end={item.trailingIcon}
-          customOpenIcon={item.customOpenIcon}
-          label={item.label}
-          subMenu={item.subMenu}
-          value={item.value}
-          selected={item.selected}
+          {...item}
         ></MenuItem>
       )
     })
