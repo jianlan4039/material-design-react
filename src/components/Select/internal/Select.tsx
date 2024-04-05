@@ -4,8 +4,9 @@ import {Corner} from "../../internal/alignment/geometry";
 import {MenuItemProps} from "../../Menu/MenuItem";
 import {BaseElement} from "../../internal/common/BaseElement";
 import './Select.scss'
-import {Option, OptionValue} from "../../Menu/internal/MenuTypes";
+import {Option, OptionValue} from "../../Menu/internal/menuTypes";
 import {FieldProps} from "../../Field/internal/Field";
+import {outsideHandler} from "../../internal/common/handlers";
 
 export interface SelectProps extends BaseElement {
   children?: ReactNode
@@ -29,6 +30,7 @@ function Select<R extends HTMLDivElement, T extends SelectProps>(Field: Componen
     const fieldRef = useRef<HTMLDivElement>(null);
     const [anchor, setAnchor] = useState<HTMLElement>()
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isFocus, setIsFocus] = useState<boolean>(false)
     const [value, setValue] = useState<OptionValue>()
     const [showLabel, setShowLabel] = useState<string>()
 
@@ -46,17 +48,29 @@ function Select<R extends HTMLDivElement, T extends SelectProps>(Field: Componen
       option && setShowLabel(option.label)
     }
 
+    const mouseDownHandler = () => {
+      setIsFocus(true)
+    }
+
     useEffect(() => {
+      let cleanHandler: () => void;
+
       if (fieldRef.current) {
         setAnchor(fieldRef.current)
+        cleanHandler = outsideHandler(fieldRef.current, () => {
+          setIsFocus(false)
+        })
+      }
+      return () => {
+        cleanHandler?.()
       }
     }, [fieldRef])
 
     return (
-      <div ref={ref} className={`select`}>
+      <div ref={ref} className={`select`} onMouseDown={mouseDownHandler}>
         <Field
           ref={fieldRef}
-          focus={isOpen}
+          focus={isFocus}
           label={label}
           populated={Boolean(label && (isOpen || value))}
           onClick={clickHandler}

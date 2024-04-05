@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React from "react";
 import FilledSelect from "../components/Select/FilledSelect";
-import {OptionValue} from "../components/Menu/internal/MenuTypes";
+import {OptionValue} from "../components/Menu/internal/menuTypes";
 
 const meta: Meta<typeof FilledSelect> = {
   component: FilledSelect,

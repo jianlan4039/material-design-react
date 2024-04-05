@@ -2,7 +2,7 @@ import React, {CSSProperties, forwardRef, HTMLProps, useEffect, useId, useRef, u
 import {Corner} from "../internal/alignment/geometry";
 import {MenuHandle, MenuProps} from "./Menu";
 import MenuItem from "./MenuItem";
-import {alignAnchor} from "./locate";
+import {alignAnchor} from "./internal/locate";
 import Elevation from "../Elevation";
 import c from "classnames";
 import './SubMenu.scss'

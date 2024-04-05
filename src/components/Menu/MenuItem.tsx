@@ -11,7 +11,7 @@ import ListItem, {ListItemHandle} from "../List/ListItem";
 import SubMenu from "./SubMenu";
 import {outsideHandler} from "../internal/common/handlers";
 import {MenuHandle} from "./Menu";
-import {Option} from "./internal/MenuTypes";
+import {Option} from "./internal/menuTypes";
 import './MenuItem.scss'
 import {SelectionContext} from "../internal/context/SelectionContext";
 

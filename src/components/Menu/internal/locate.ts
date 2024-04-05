@@ -1,4 +1,4 @@
-import {Corner} from "../internal/alignment/geometry";
+import {Corner} from "../../internal/alignment/geometry";
 import {CSSProperties} from "react";
 
 export const alignAnchor = (anchor: HTMLElement, self: HTMLElement, anchorCorner: Corner, selfCorner: Corner, offsetX: number = 0, offsetY: number = 0) => {
@@ -50,5 +50,10 @@ export const alignAnchor = (anchor: HTMLElement, self: HTMLElement, anchorCorner
     positionStyle.bottom = `${menuPosition.bottom}px`
   }
 
+  return positionStyle
+}
+
+export const setPosition = (x: number, y: number) => {
+  const positionStyle: CSSProperties = {position: 'fixed', left: `${x}px`, top: `${y}px`}
   return positionStyle
 }

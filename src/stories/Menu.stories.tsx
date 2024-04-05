@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React, {useEffect, useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
-import {Option, OptionValue} from "../components/Menu/internal/MenuTypes";
+import {Option, OptionValue} from "../components/Menu/internal/menuTypes";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,

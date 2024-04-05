@@ -12,8 +12,8 @@ import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
 import Elevation from "../Elevation";
-import {alignAnchor} from "./locate";
-import {OptionValue} from "./internal/MenuTypes";
+import {alignAnchor, setPosition} from "./internal/locate";
+import {OptionValue} from "./internal/menuTypes";
 import {SelectionContextProvider} from "../internal/context/SelectionContext";
 import {BaseElement} from "../internal/common/BaseElement";
 import './Menu.scss'
@@ -33,6 +33,7 @@ export interface MenuProps extends BaseElement {
   stayOpenOnOutsideClick?: boolean
   keepOpen?: boolean
   multiple?: boolean
+  position?: 'absolute' | 'fixed'
   onOpening?: () => void
   onOpened?: () => void
   onClosing?: () => void
@@ -59,6 +60,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     stayOpenOnOutsideClick,
     keepOpen = false,
     multiple = false,
+    position = 'absolute',
     onOpening,
     onOpened,
     onClosing,
@@ -75,6 +77,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   const [isVisible, setIsVisible] = useState<boolean | undefined>();
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const animationBuffer = useRef<Animation[]>([])
   const [selectedList, setSelectedList] = useState<OptionValue[]>([])
@@ -196,12 +199,6 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     })
   }
 
-  const closeMenu = () => {
-    open && animateClose().then(() => {
-      setIsVisible(false)
-    })
-  }
-
   const setListWithOption = (list: OptionValue[], option?: MenuItemProps) => {
     setSelectedList(list)
     if (list.length > 1) {
@@ -212,7 +209,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       onChange?.(list[0], option)
     }
     if (!keepOpen && !option?.keepOpen) {
-      closeMenu()
+      setIsOpen(false)
     }
   }
 
@@ -225,41 +222,59 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   }
 
   useEffect(() => {
-    if (menuRef.current && anchorEl) {
-      setMenuOffsetStyle(alignAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner, offsetX, offsetY))
-      setIsVisible(false)
+    let outsideHandlerCleaner:() => void;
+    const clickHandler = (e: MouseEvent) => {
+      setMenuOffsetStyle(setPosition(e.pageX, e.pageY))
+    }
 
+    if (menuRef.current && anchorEl) {
+      if (position === 'absolute') {
+        setMenuOffsetStyle(alignAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner, offsetX, offsetY))
+      } else {
+        document.addEventListener('click', clickHandler)
+      }
+
+      setIsVisible(false)
       if (!stayOpenOnOutsideClick) {
-        outsideHandler(menuRef.current, () => {
-          closeMenu()
+        outsideHandlerCleaner = outsideHandler(menuRef.current, () => {
+          setIsOpen(false)
         })
       }
+    }
+
+    return () => {
+      outsideHandlerCleaner?.()
+      document.removeEventListener('click', clickHandler)
     }
 
   }, [menuRef, anchorEl, anchorAlignCorner, menuAlignCorner]);
 
   useEffect(() => {
-    if (open && !isVisible) {
-      setIsVisible(true)
-      setIsAnimating(true)
-    } else if (!open && isVisible) {
-      setIsAnimating(true)
-    }
+    setIsOpen(Boolean(open))
   }, [open]);
 
   useEffect(() => {
+    if (isOpen && !isVisible) {
+      setIsVisible(true)
+      setIsAnimating(true)
+    } else if (!isOpen && isVisible) {
+      setIsAnimating(true)
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     clearAnimations()
-    if (open && isAnimating && isVisible) {
+    if (isOpen && isAnimating && isVisible) {
       animateOpen().then(() => {
         setIsAnimating(false)
       })
-    } else if (!open && isAnimating && isVisible) {
+    } else if (!isOpen && isAnimating && isVisible) {
       animateClose().then(() => {
         setIsAnimating(false)
         setIsVisible(false)
       })
     }
-  }, [isAnimating, open])
+  }, [isAnimating, isOpen])
 
   useImperativeHandle(ref, () => ({
     root: menuRef.current
