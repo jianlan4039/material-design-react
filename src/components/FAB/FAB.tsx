@@ -1,29 +1,32 @@
-import React, {ReactNode} from 'react'
-import Button from "./content/Button";
+import React, {forwardRef, ReactNode} from 'react'
+import Button, {ButtonProps} from "./content/Button";
 import Elevation from "../Elevation";
-import StateLayer from "../StateLayer";
 import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import './FAB.scss'
+import {StateElement} from "../internal/common/StateElement";
+import StateLayer from "../StateLayer";
 
-export interface FABProps {
+export interface FABProps extends ButtonProps {
   children?: ReactNode
   size?: 'small' | "large" | "default"
   variant?: 'surface' | 'primary' | 'secondary' | 'tertiary'
   lowered?: boolean
 }
 
-export default function FAB(props: FABProps) {
+const FAB = StateLayer<HTMLDivElement, FABProps>(forwardRef<HTMLDivElement, FABProps>((props, ref) => {
   const {
     children,
     size,
     variant,
     lowered,
+    stateLayer,
     ...rest
   } = props
 
   return (
     <div
+      ref={ref}
       className={cln('nd-fab', {
         [`${size}`]: size,
         [`nd-fab--${variant}`]: variant,
@@ -32,10 +35,12 @@ export default function FAB(props: FABProps) {
     >
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      <StateLayer></StateLayer>
-      <Button>
+      {stateLayer}
+      <Button {...rest}>
         {children}
       </Button>
     </div>
   )
-}
+}))
+
+export default FAB

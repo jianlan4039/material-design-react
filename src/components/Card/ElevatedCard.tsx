@@ -5,22 +5,25 @@ import StateLayer from "../StateLayer";
 import cln from "classnames";
 import './ElevatedCard.scss'
 import FocusRing from "../Focus/FocusRing";
+import {StateElement} from "../internal/common/StateElement";
 
 
-export interface ElevatedCardProps extends CardContentProps {
+export interface ElevatedCardProps extends CardContentProps, StateElement{
   children?: ReactNode
 }
 
-const ElevatedCard = forwardRef((props: ElevatedCardProps, ref) => {
+const ElevatedCard = StateLayer<HTMLDivElement, ElevatedCardProps>(forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) => {
   const {
     children,
     style,
     disabled,
+    stateLayer,
     ...rest
   } = props
 
   return (
     <div
+      ref={ref}
       className={cln('nd-elevated-card', {
         'nd-disabled': disabled
       })}
@@ -28,10 +31,10 @@ const ElevatedCard = forwardRef((props: ElevatedCardProps, ref) => {
     >
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
+      {stateLayer}
       <CardContent disabled={disabled} {...rest}>{children}</CardContent>
     </div>
   )
-})
+}))
 
 export default ElevatedCard

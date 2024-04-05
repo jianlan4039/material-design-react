@@ -5,21 +5,24 @@ import StateLayer from "../StateLayer";
 import cln from "classnames";
 import './FilledCard.scss'
 import FocusRing from "../Focus/FocusRing";
+import {StateElement} from "../internal/common/StateElement";
 
-export interface FilledCardProps extends CardContentProps {
+export interface FilledCardProps extends CardContentProps, StateElement {
   children?: ReactNode
 }
 
-const FilledCard = forwardRef((props: FilledCardProps, ref) => {
+const FilledCard = StateLayer<HTMLDivElement, FilledCardProps>(forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCardProps, ref) => {
   const {
     children,
     style,
     disabled,
+    stateLayer,
     ...rest
   } = props
 
   return (
     <div
+      ref={ref}
       className={cln('nd-filled-card', {
         'nd-disabled': disabled
       })}
@@ -27,10 +30,10 @@ const FilledCard = forwardRef((props: FilledCardProps, ref) => {
     >
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
+      {stateLayer}
       <CardContent disabled={disabled} {...rest}>{children}</CardContent>
     </div>
   )
-})
+}))
 
 export default FilledCard

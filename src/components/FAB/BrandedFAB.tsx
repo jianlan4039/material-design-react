@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import cln from "classnames";
 import FocusRing from "../Focus/FocusRing";
 import Elevation from "../Elevation";
@@ -12,13 +12,14 @@ export interface BrandedFABProps extends Omit<FABProps, 'variant'>, ButtonProps 
   large?: boolean
 }
 
-export default function BrandedFAB(props: BrandedFABProps) {
+const BrandedFAB = StateLayer<HTMLDivElement, BrandedFABProps>(forwardRef<HTMLDivElement, BrandedFABProps>((props, ref) => {
   const {
     children,
     label,
     icon,
     large,
     lowered,
+    stateLayer,
     ...rest
   } = props
 
@@ -31,10 +32,12 @@ export default function BrandedFAB(props: BrandedFABProps) {
     >
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      <StateLayer></StateLayer>
-      <Button icon={icon} label={label}>
+      {stateLayer}
+      <Button icon={icon} label={label} {...rest}>
         {children}
       </Button>
     </div>
   )
-}
+}))
+
+export default BrandedFAB
