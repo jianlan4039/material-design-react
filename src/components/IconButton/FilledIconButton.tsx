@@ -1,7 +1,7 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import Button, {ButtonProps} from "./content/Button";
-import './FilledIconButton.scss'
 import IconButtonContainer from "./IconButtonContainer";
+import './FilledIconButton.scss'
 
 export interface FilledIconButtonProps extends ButtonProps {
   children?: ReactNode
@@ -9,7 +9,7 @@ export interface FilledIconButtonProps extends ButtonProps {
   selected?: boolean
 }
 
-export default function FilledIconButton(props: FilledIconButtonProps) {
+const FilledIconButton = forwardRef<HTMLButtonElement, FilledIconButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -20,9 +20,11 @@ export default function FilledIconButton(props: FilledIconButtonProps) {
 
   return (
     <IconButtonContainer className={'nd-filled-icon-button'} toggled={toggled} selected={selected}>
-      <Button disabled={disabled} {...rest}>
+      <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>
     </IconButtonContainer>
   )
-}
+})
+
+export default FilledIconButton

@@ -10,7 +10,7 @@ export interface FilledTonalButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-const FilledTonalButton = StateLayer<HTMLDivElement, FilledTonalButtonProps>(forwardRef<HTMLDivElement, FilledTonalButtonProps>((props, ref) => {
+const FilledTonalButton = StateLayer<HTMLButtonElement, FilledTonalButtonProps>(forwardRef<HTMLButtonElement, FilledTonalButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -19,11 +19,14 @@ const FilledTonalButton = StateLayer<HTMLDivElement, FilledTonalButtonProps>(for
   } = props
 
   return (
-    <div ref={ref} className={cln('nd-filled-tonal-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-filled-tonal-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <CommonButton {...rest}>
+      <CommonButton
+        ref={ref}
+        {...rest}
+      >
         {children}
       </CommonButton>
     </div>

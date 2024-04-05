@@ -2,6 +2,7 @@ import {Meta, StoryObj} from "@storybook/react";
 import React, {useEffect, useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
 import {Option, OptionValue} from "../components/Menu/internal/menuTypes";
+import ElevatedButton from "../components/Button/ElevatedButton";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
@@ -18,7 +19,7 @@ export const Default: Story = {
     const items = [
       {label: 'Item One', value: '1'},
       {label: 'Item two', value: '2'},
-      {label: 'Item three', value: '3' },
+      {label: 'Item three', value: '3'},
       {
         label: 'Item four',
         subMenu: [
@@ -47,8 +48,8 @@ export const Default: Story = {
       setOpen(false)
     }
 
-    const changeHandler = (value: OptionValue[]) => {
-
+    const changeHandler = (value: OptionValue) => {
+      console.log(value)
     }
 
     useEffect(() => {
@@ -59,7 +60,7 @@ export const Default: Story = {
 
     return (
       <div style={{position: 'relative'}}>
-        <button ref={btnRef} onClick={clickHandler}>Open</button>
+        <ElevatedButton ref={btnRef} onClick={clickHandler}>Open</ElevatedButton>
         <Menu
           open={open}
           items={items}

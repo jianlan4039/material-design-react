@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, ReactNode} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode} from 'react'
 import cln from "classnames";
 import FocusRing from "../../Focus/FocusRing";
 import Elevation from "../../Elevation";
@@ -12,7 +12,7 @@ export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButton
   trailingIcon?: ReactNode
 }
 
-export default function CommonButton(props: CommonButtonProps) {
+const CommonButton = StateLayer<HTMLButtonElement, CommonButtonProps>(forwardRef<HTMLButtonElement, CommonButtonProps>((props, ref) => {
   const {
     children,
     icon,
@@ -23,6 +23,7 @@ export default function CommonButton(props: CommonButtonProps) {
 
   return (
     <button
+      ref={ref}
       className={cln('nd-button', {
         'nd-button--has-icon': icon,
         'nd-button--has-trailing-icon': trailingIcon
@@ -35,4 +36,6 @@ export default function CommonButton(props: CommonButtonProps) {
       <span className={'nd-button__trailing-icon-slot'}>{trailingIcon}</span>
     </button>
   )
-}
+}))
+
+export default CommonButton

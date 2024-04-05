@@ -10,7 +10,7 @@ export interface ElevatedButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-const ElevatedButton = StateLayer<HTMLDivElement, ElevatedButtonProps>(forwardRef<HTMLDivElement, ElevatedButtonProps>((props, ref) => {
+const ElevatedButton = StateLayer<HTMLButtonElement, ElevatedButtonProps>(forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -19,11 +19,11 @@ const ElevatedButton = StateLayer<HTMLDivElement, ElevatedButtonProps>(forwardRe
   } = props
 
   return (
-    <div ref={ref} className={cln('nd-elevated-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-elevated-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <CommonButton disabled={disabled} {...rest}>
+      <CommonButton ref={ref} disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>

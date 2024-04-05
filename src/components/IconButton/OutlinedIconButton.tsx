@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import Button, {ButtonProps} from "./content/Button";
 import './OutlinedIconButton.scss'
 import Outline from "../Outline/Outline";
@@ -10,7 +10,7 @@ export interface OutlinedIconButtonProps extends ButtonProps {
   selected?: boolean
 }
 
-export default function OutlinedIconButton(props: OutlinedIconButtonProps) {
+const OutlinedIconButton = forwardRef<HTMLButtonElement, OutlinedIconButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -22,9 +22,11 @@ export default function OutlinedIconButton(props: OutlinedIconButtonProps) {
   return (
     <IconButtonContainer className={'nd-outlined-icon-button'} toggled={toggled} selected={selected}>
       <Outline disabled={disabled}></Outline>
-      <Button disabled={disabled} {...rest}>
+      <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>
     </IconButtonContainer>
   )
-}
+})
+
+export default OutlinedIconButton

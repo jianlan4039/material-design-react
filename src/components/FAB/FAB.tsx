@@ -14,7 +14,7 @@ export interface FABProps extends ButtonProps {
   lowered?: boolean
 }
 
-const FAB = StateLayer<HTMLDivElement, FABProps>(forwardRef<HTMLDivElement, FABProps>((props, ref) => {
+const FAB = StateLayer<HTMLButtonElement, FABProps>(forwardRef<HTMLButtonElement, FABProps>((props, ref) => {
   const {
     children,
     size,
@@ -26,7 +26,6 @@ const FAB = StateLayer<HTMLDivElement, FABProps>(forwardRef<HTMLDivElement, FABP
 
   return (
     <div
-      ref={ref}
       className={cln('nd-fab', {
         [`${size}`]: size,
         [`nd-fab--${variant}`]: variant,
@@ -36,7 +35,7 @@ const FAB = StateLayer<HTMLDivElement, FABProps>(forwardRef<HTMLDivElement, FABP
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <Button {...rest}>
+      <Button ref={ref} {...rest}>
         {children}
       </Button>
     </div>

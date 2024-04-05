@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import Button, {ButtonProps} from "./content/Button";
 import './FilledTonalIconButton.scss'
 import IconButtonContainer from "./IconButtonContainer";
@@ -9,7 +9,7 @@ export interface FilledTonalIconButtonProps extends ButtonProps {
   selected?: boolean
 }
 
-export default function FilledTonalIconButton(props: FilledTonalIconButtonProps) {
+const FilledTonalIconButton = forwardRef<HTMLButtonElement, FilledTonalIconButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -20,9 +20,11 @@ export default function FilledTonalIconButton(props: FilledTonalIconButtonProps)
 
   return (
     <IconButtonContainer className={'nd-filled-tonal-icon-button'} toggled={toggled} selected={selected}>
-      <Button {...rest}>
+      <Button ref={ref} {...rest}>
         {children}
       </Button>
     </IconButtonContainer>
   )
-}
+})
+
+export default FilledTonalIconButton

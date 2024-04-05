@@ -12,7 +12,7 @@ export interface BrandedFABProps extends Omit<FABProps, 'variant'>, ButtonProps 
   large?: boolean
 }
 
-const BrandedFAB = StateLayer<HTMLDivElement, BrandedFABProps>(forwardRef<HTMLDivElement, BrandedFABProps>((props, ref) => {
+const BrandedFAB = StateLayer<HTMLButtonElement, BrandedFABProps>(forwardRef<HTMLButtonElement, BrandedFABProps>((props, ref) => {
   const {
     children,
     label,
@@ -33,7 +33,7 @@ const BrandedFAB = StateLayer<HTMLDivElement, BrandedFABProps>(forwardRef<HTMLDi
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <Button icon={icon} label={label} {...rest}>
+      <Button ref={ref} icon={icon} label={label} {...rest}>
         {children}
       </Button>
     </div>

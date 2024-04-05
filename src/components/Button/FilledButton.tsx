@@ -10,7 +10,7 @@ export interface FilledButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-const FilledButton = StateLayer<HTMLDivElement, FilledButtonProps>(forwardRef<HTMLDivElement, FilledButtonProps>((props, ref) => {
+const FilledButton = StateLayer<HTMLButtonElement, FilledButtonProps>(forwardRef<HTMLButtonElement, FilledButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -19,11 +19,11 @@ const FilledButton = StateLayer<HTMLDivElement, FilledButtonProps>(forwardRef<HT
   } = props
 
   return (
-    <div ref={ref} className={cln('nd-filled-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-filled-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <CommonButton disabled={disabled} {...rest}>
+      <CommonButton ref={ref} disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>

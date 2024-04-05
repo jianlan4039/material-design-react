@@ -1,4 +1,4 @@
-import React, {ButtonHTMLAttributes, ReactNode} from 'react'
+import React, {ButtonHTMLAttributes, forwardRef, ReactNode} from 'react'
 import {StateElement} from "../../internal/common/StateElement";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, StateElement {
@@ -7,7 +7,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, St
   icon?: ReactNode
 }
 
-export default function Button(props: ButtonProps) {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>((props: ButtonProps) => {
   const {
     children,
     label,
@@ -21,4 +21,6 @@ export default function Button(props: ButtonProps) {
       <span className={'nd-fab__label-slot'}>{label}</span>
     </button>
   )
-}
+})
+
+export default Button

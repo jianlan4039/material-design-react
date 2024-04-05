@@ -11,7 +11,7 @@ export interface OutlinedButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-const OutlinedButton = StateLayer<HTMLDivElement, OutlinedButtonProps>(forwardRef<HTMLDivElement, OutlinedButtonProps>((props, ref) => {
+const OutlinedButton = StateLayer<HTMLButtonElement, OutlinedButtonProps>(forwardRef<HTMLButtonElement, OutlinedButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -20,12 +20,12 @@ const OutlinedButton = StateLayer<HTMLDivElement, OutlinedButtonProps>(forwardRe
   } = props
 
   return (
-    <div ref={ref} className={cln('nd-outlined-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-outlined-button', {'nd-disabled': disabled})}>
       <Outline disabled={disabled}></Outline>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <CommonButton disabled={disabled} {...rest}>
+      <CommonButton ref={ref} disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>
