@@ -1,21 +1,23 @@
-import React, {ReactNode, useContext, useEffect, useId, useState} from 'react'
+import React, {forwardRef, ReactNode, useContext, useEffect, useId, useState} from 'react'
 import './SegmentedButton.scss'
 import cln from "classnames";
 import SegmentedButtonContent, {SegmentedButtonContentProps} from "./content/SegmentedButtonContent";
 import StateLayer from "../StateLayer";
 import Outline from "../Outline/Outline";
 import {MultiSelectionContext} from "./internal/context";
+import {StateElement} from "../internal/common/StateElement";
 
-export interface SegmentedButtonProps extends SegmentedButtonContentProps {
+export interface SegmentedButtonProps extends SegmentedButtonContentProps, StateElement{
   children?: ReactNode
   ndId?: string
 }
 
-const SegmentedButton = StateLayer<SegmentedButtonProps>((props: SegmentedButtonProps) => {
+const SegmentedButton = StateLayer<HTMLDivElement, SegmentedButtonProps>(forwardRef<HTMLDivElement, SegmentedButtonProps>((props, ref) => {
   const {
     children,
     ndId,
     disabled,
+    stateLayer,
     ...rest
   } = props
 
@@ -33,6 +35,7 @@ const SegmentedButton = StateLayer<SegmentedButtonProps>((props: SegmentedButton
 
   return (
     <div
+      ref={ref}
       onClick={clickHandler}
       className={cln('nd-segmented-button', {
         'nd-selected': selected,
@@ -40,9 +43,10 @@ const SegmentedButton = StateLayer<SegmentedButtonProps>((props: SegmentedButton
       })}
     >
       <Outline disabled={disabled}></Outline>
+      {stateLayer}
       <SegmentedButtonContent disabled={disabled} {...rest}>{children}</SegmentedButtonContent>
     </div>
   )
-})
+}))
 
 export default SegmentedButton
