@@ -1,9 +1,10 @@
 import {Meta, StoryObj} from "@storybook/react";
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import Dialog from "../components/Dialog/Dialog";
 import {FilledIcon} from "../icons";
 import TextButton from "../components/Button/TextButton";
 import ElevatedButton from "../components/Button/ElevatedButton";
+import FilledButton from "../components/Button/FilledButton";
 
 const meta: Meta<typeof Dialog> = {
   component: Dialog,
@@ -19,8 +20,19 @@ type Story = StoryObj<typeof Dialog>;
 
 export const Default: Story = {
   render: ({icon, headline, supportingText, actions, ...rest}) => {
+
+    const [isShow, setIsShow] = useState(false)
+    const clickHandler = () => {
+      setIsShow(!isShow)
+    }
+
+    const closeHandler = () => {
+      setIsShow(false)
+    }
+
     return (
       <>
+        <FilledButton onClick={clickHandler}>Show Dialog</FilledButton>
         <Dialog
           icon={<FilledIcon>home</FilledIcon>}
           headline={'Headline'}
@@ -31,7 +43,8 @@ export const Default: Story = {
               <TextButton>Confirm</TextButton>
             </>
           }
-          {...rest}
+          show={isShow}
+          onClose={closeHandler}
         >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet blanditiis deserunt eveniet fugiat
           magnam molestiae neque nesciunt nostrum odit placeat porro provident quasi quibusdam quidem repudiandae, rerum

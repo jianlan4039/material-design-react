@@ -12,7 +12,7 @@ export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButton
   trailingIcon?: ReactNode
 }
 
-const CommonButton = StateLayer<HTMLButtonElement, CommonButtonProps>(forwardRef<HTMLButtonElement, CommonButtonProps>((props, ref) => {
+const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, ref) => {
   const {
     children,
     icon,
@@ -36,6 +36,6 @@ const CommonButton = StateLayer<HTMLButtonElement, CommonButtonProps>(forwardRef
       <span className={'nd-button__trailing-icon-slot'}>{trailingIcon}</span>
     </button>
   )
-}))
+})
 
 export default CommonButton
