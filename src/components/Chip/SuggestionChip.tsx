@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import Button, {ButtonProps} from "./content/Button";
 import Outline from "../Outline/Outline";
 import FocusRing from "../Focus/FocusRing";
@@ -10,7 +10,7 @@ export interface SuggestionChipProps extends ButtonProps {
   children?: ReactNode
 }
 
-export default function SuggestionChip(props: SuggestionChipProps) {
+const SuggestionChip = forwardRef<HTMLButtonElement>((props: SuggestionChipProps, ref) => {
   const {
     children,
     disabled,
@@ -27,9 +27,11 @@ export default function SuggestionChip(props: SuggestionChipProps) {
     >
       {elevated ? <Elevation></Elevation> : <Outline></Outline>}
       <FocusRing></FocusRing>
-      <Button disabled={disabled} {...rest}>
+      <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>
     </div>
   )
-}
+})
+
+export default SuggestionChip

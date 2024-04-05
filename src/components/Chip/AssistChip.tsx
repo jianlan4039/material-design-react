@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import Button, {ButtonProps} from "./content/Button";
 import Outline from "../Outline/Outline";
 import './AssistChip.scss'
@@ -10,7 +10,7 @@ export interface AssistChipProps extends ButtonProps {
   children?: ReactNode
 }
 
-export default function AssistChip(props: AssistChipProps) {
+const AssistChip = forwardRef<HTMLButtonElement, AssistChipProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -27,9 +27,11 @@ export default function AssistChip(props: AssistChipProps) {
     >
       {elevated ? <Elevation></Elevation> : <Outline></Outline>}
       <FocusRing></FocusRing>
-      <Button disabled={disabled} {...rest}>
+      <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>
     </div>
   )
-}
+})
+
+export default AssistChip

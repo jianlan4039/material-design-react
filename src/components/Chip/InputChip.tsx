@@ -27,11 +27,12 @@ const InputChip = StateLayer<HTMLDivElement, InputChipProps>(forwardRef<HTMLDivE
       })}
     >
       <Outline></Outline>
-      <Button disabled={disabled} {...rest}>
+      <Button disabled={disabled}>
         {children}
       </Button>
       <button
         className={'nd-input-chip__trail'}
+        {...rest}
       >
         {stateLayer}
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">

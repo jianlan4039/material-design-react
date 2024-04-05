@@ -11,7 +11,7 @@ export interface FilterChipProps extends ButtonProps {
   selected?: boolean
 }
 
-const FilterChip = forwardRef((props: FilterChipProps, ref) => {
+const FilterChip = forwardRef<HTMLButtonElement>((props: FilterChipProps, ref) => {
   const {
     children,
     selected: _slc,
@@ -43,6 +43,7 @@ const FilterChip = forwardRef((props: FilterChipProps, ref) => {
       {elevated ? <Elevation></Elevation> : !select && <Outline></Outline>}
       <FocusRing></FocusRing>
       <Button
+        ref={ref}
         icon={select && <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
           <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
         </svg>
