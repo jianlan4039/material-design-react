@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import './ElevatedButton.scss'
 import cln from "classnames";
 import StateLayer from "../StateLayer";
@@ -10,21 +10,24 @@ export interface ElevatedButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-export default function ElevatedButton(props: ElevatedButtonProps) {
+const ElevatedButton = StateLayer<HTMLDivElement, ElevatedButtonProps>(forwardRef<HTMLDivElement, ElevatedButtonProps>((props, ref) => {
   const {
     children,
     disabled,
+    stateLayer,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-elevated-button', {'nd-disabled': disabled})}>
+    <div ref={ref} className={cln('nd-elevated-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
+      {stateLayer}
       <CommonButton disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>
   )
-}
+}))
+
+export default ElevatedButton

@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import FocusRing from "../Focus/FocusRing";
 import Elevation from "../Elevation";
 import StateLayer from "../StateLayer";
@@ -10,21 +10,24 @@ export interface FilledTonalButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-export default function FilledTonalButton(props: FilledTonalButtonProps) {
+const FilledTonalButton = StateLayer<HTMLDivElement, FilledTonalButtonProps>(forwardRef<HTMLDivElement, FilledTonalButtonProps>((props, ref) => {
   const {
     children,
     disabled,
+    stateLayer,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-filled-tonal-button', {'nd-disabled': disabled})}>
+    <div ref={ref} className={cln('nd-filled-tonal-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
+      {stateLayer}
       <CommonButton {...rest}>
         {children}
       </CommonButton>
     </div>
   )
-}
+}))
+
+export default FilledTonalButton

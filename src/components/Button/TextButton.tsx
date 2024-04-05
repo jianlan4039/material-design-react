@@ -10,23 +10,24 @@ export interface TextButtonProps extends CommonButtonProps {
   children?: ReactNode
 }
 
-const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>((props, ref) => {
+const TextButton = StateLayer<HTMLDivElement, TextButtonProps>(forwardRef<HTMLDivElement, TextButtonProps>((props, ref) => {
   const {
     children,
     disabled,
+    stateLayer,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-text-button', {'nd-disabled': disabled})}>
+    <div ref={ref} className={cln('nd-text-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      <StateLayer disabled={disabled}></StateLayer>
+      {stateLayer}
       <CommonButton disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>
   )
-})
+}));
 
 export default TextButton
