@@ -1,6 +1,6 @@
 import {CSSProperties} from "react";
 
-export interface BaseProps {
+export interface BaseElement {
   className?: string;
   style?: CSSProperties
 }

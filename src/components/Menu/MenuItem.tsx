@@ -90,10 +90,15 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   }
 
   const onSelected = () => {
+    if (!value) {
+      return
+    }
     if (multiple) {
-      !subMenu && setList?.([...list, value])
+      const index = list.indexOf(value)
+      index >= 0 ? list.splice(index, 1) : list.push(value)
+      !subMenu && setList?.([...list], props)
     } else {
-      !subMenu && setList?.([value], {close: !keepOpen})
+      !subMenu && setList?.([value], props)
     }
   }
 

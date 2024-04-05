@@ -17,4 +17,9 @@
     inline-size: fit-content;
     box-sizing: border-box;
   }
+
+  .nd-container__middle{
+    flex-grow: 10;
+    justify-content: start;
+  }
 }

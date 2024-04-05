@@ -1,54 +1,81 @@
-import React, {forwardRef, ReactNode, useEffect, useId, useRef, useState} from 'react'
-import Menu from "../../Menu/Menu";
+import React, {ComponentType, forwardRef, HTMLAttributes, ReactNode, useEffect, useId, useRef, useState} from 'react'
+import Menu, {MenuProps} from "../../Menu/Menu";
 import {Corner} from "../../internal/alignment/geometry";
 import {MenuItemProps} from "../../Menu/MenuItem";
-import {BaseProps} from "../../internal/common/BaseProps";
+import {BaseElement} from "../../internal/common/BaseElement";
 import './Select.scss'
-import {Option} from "../../Menu/internal/MenuTypes";
+import {Option, OptionValue} from "../../Menu/internal/MenuTypes";
+import {FieldProps} from "../../Field/internal/Field";
 
-export interface SelectProps extends BaseProps {
+export interface SelectProps extends BaseElement {
   children?: ReactNode
-  options?: Option[]
-  open?: boolean
+  items?: MenuItemProps[]
+  label?: string
+  onChange?: (value: OptionValue) => void
+  multiple?: boolean
 }
 
-const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
-  const {
-    children,
-    options,
-    open,
-    className,
-    ...rest
-  } = props
+function Select<R extends HTMLDivElement, T extends SelectProps>(Field: ComponentType<FieldProps>) {
+  return forwardRef<R, T>((props, ref) => {
+    const {
+      items,
+      label,
+      onChange,
+      multiple,
+      ...rest
+    } = props
 
-  const fieldRef = useRef<HTMLDivElement>(null);
+    const id = useId()
+    const fieldRef = useRef<HTMLDivElement>(null);
+    const [anchor, setAnchor] = useState<HTMLElement>()
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [value, setValue] = useState<OptionValue>()
+    const [showLabel, setShowLabel] = useState<string>()
 
-  const [anchor, setAnchor] = useState<HTMLElement>()
-
-  const valueChangeHandler = (value: any) => {
-
-  }
-
-  useEffect(() => {
-    if (fieldRef.current) {
-      setAnchor(anchor)
+    const clickHandler = () => {
+      setIsOpen(!isOpen)
     }
-  }, [fieldRef])
 
-  return (
-    <div className={`select ${className}`} ref={ref} {...rest}>
-      <div ref={fieldRef} className={'select-field-slot'}>
-        {children}
+    const closeHandler = () => {
+      setIsOpen(false)
+    }
+
+    const changeHandler = (value: OptionValue, option?: MenuItemProps) => {
+      setValue(value)
+      onChange?.(value)
+      option && setShowLabel(option.label)
+    }
+
+    useEffect(() => {
+      if (fieldRef.current) {
+        setAnchor(fieldRef.current)
+      }
+    }, [fieldRef])
+
+    return (
+      <div ref={ref} className={`select`}>
+        <Field
+          ref={fieldRef}
+          focus={isOpen}
+          label={label}
+          populated={Boolean(label && (isOpen || value))}
+          onClick={clickHandler}
+        >
+          <label>{showLabel}</label>
+        </Field>
+        <Menu
+          open={isOpen}
+          anchorEl={anchor}
+          menuAlignCorner={Corner.START_START}
+          anchorAlignCorner={Corner.END_START}
+          items={items}
+          onClosed={closeHandler}
+          onChange={changeHandler}
+          multiple={multiple}
+        ></Menu>
       </div>
-      <Menu
-        open={open}
-        anchorEl={anchor}
-        menuAlignCorner={Corner.START_START}
-        anchorAlignCorner={Corner.END_START}
-        items={options}
-      ></Menu>
-    </div>
-  )
-})
+    )
+  })
+}
 
 export default Select;

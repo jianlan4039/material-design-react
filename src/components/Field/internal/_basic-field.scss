@@ -21,7 +21,14 @@ $supporting-tokens: (
 }
 
 @mixin styles() {
-  & {
+  .nd-field {
+    font-family: var(--md-field-label-text-font, var(--_label-text-font));
+    font-size: var(--md-field-font-text-size, var(--_label-text-size));
+    line-height: var(--md-field-label-text-line-height, var(--_label-text-line-height));
+    font-weight: var(--md-field-label-text-weight, var(--_label-text-weight));
+    color: var(--md-field-label-text-color, var(--_label-text-color));
+    min-width: inherit;
+
     .nd-field__label-wrapper {
       position: absolute;
       inset: 0;
@@ -31,11 +38,7 @@ $supporting-tokens: (
       align-items: center;
       inset-block-start: 0;
       margin-inline-start: var(--md-field-label-leading-space, var(--_leading-space));
-      font-family: var(--md-field-label-text-font, var(--_label-text-font));
-      font-size: var(--md-field-font-text-size, var(--_label-text-size));
-      line-height: var(--md-field-label-text-line-height, var(--_label-text-line-height));
-      font-weight: var(--md-field-label-text-weight, var(--_label-text-weight));
-      color: var(--md-field-label-text-color, var(--_label-text-color));
+
 
       .nd-field__label-wrapper__label.resting {
         position: absolute;
@@ -55,28 +58,32 @@ $supporting-tokens: (
       }
     }
 
-    .nd-container__start,
-    .nd-container__end {
-      padding-block-start: var(--md-field-top-space, var(--_top-space));
-      padding-block-end: var(--md-field-bottom-space, var(--_bottom-space));
-      inline-size: calc(12px + 24px);
-      block-size: calc(var(--md-field-top-space, var(--_top-space)) + var(--md-field-bottom-space, var(--_bottom-space)) + 24px);
-      overflow: hidden;
-    }
+    .nd-container {
+      min-width: inherit;
 
-    .nd-container__start,
-    .nd-container__start > * {
-      color: var(--md-field-leading-content-color, var(--_content-color))
-    }
+      .nd-container__start,
+      .nd-container__end {
+        padding-block-start: var(--md-field-top-space, var(--_top-space));
+        padding-block-end: var(--md-field-bottom-space, var(--_bottom-space));
+        inline-size: calc(12px + 24px);
+        block-size: calc(var(--md-field-top-space, var(--_top-space)) + var(--md-field-bottom-space, var(--_bottom-space)) + 24px);
+        overflow: hidden;
+      }
 
-    .nd-container__end,
-    .nd-container__end > * {
-      color: var(--md-field-trailing-content-color, var(--_content-color))
-    }
+      .nd-container__start,
+      .nd-container__start > * {
+        color: var(--md-field-leading-content-color, var(--_content-color))
+      }
 
-    .nd-container__middle {
-      .nd-container__content {
-        color: var(--md-field-content-color, var(--_content-color));
+      .nd-container__end,
+      .nd-container__end > * {
+        color: var(--md-field-trailing-content-color, var(--_content-color))
+      }
+
+      .nd-container__middle {
+        .nd-container__content {
+          color: var(--md-field-content-color, var(--_content-color));
+        }
       }
     }
   }

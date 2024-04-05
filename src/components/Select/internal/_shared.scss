@@ -1,24 +1,29 @@
-@mixin theme($tokens){
+@mixin theme($tokens) {
 
 }
 
-@mixin styles(){
+@mixin styles() {
   .select {
     position: relative;
     cursor: text;
-
-    .select-field-slot{
-      display: contents;
-    }
-
-    select {
-      opacity: 0;
-      min-inline-size: 200px;
-      cursor: text;
-    }
+    min-width: 210px;
 
     .menu {
       inline-size: 100%;
+    }
+
+    .nd-field {
+      .nd-container__content {
+        opacity: 0;
+      }
+
+      &.populated {
+        .nd-container__middle {
+          .nd-container__content {
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 }

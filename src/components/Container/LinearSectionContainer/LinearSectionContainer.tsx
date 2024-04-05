@@ -1,9 +1,9 @@
 import React, {forwardRef, HTMLAttributes, ReactNode} from 'react'
 import './LinearSectionContainer.scss'
 import c from 'classnames'
-import {BaseProps} from "../../internal/common/BaseProps";
+import {BaseElement} from "../../internal/common/BaseElement";
 
-export interface LinearSectionContainerProps extends BaseProps {
+export interface LinearSectionContainerProps extends BaseElement {
   children?: ReactNode
   start?: ReactNode
   end?: ReactNode

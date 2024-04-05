@@ -17,12 +17,12 @@ type Story = StoryObj<typeof OutlinedSelect>;
 export const Default: Story = {
   render: (args) => {
     const options = [
-      {label: 'Item One'},
-      {label: 'Item Two'},
-      {label: 'Item Three'},
+      {label: 'Item One', value: 'Apple'},
+      {label: 'Item Two', value: 'Item Two'},
+      {label: 'Item Three', value: '3'},
     ]
     return (
-      <OutlinedSelect label={'label'} options={options}></OutlinedSelect>
+      <OutlinedSelect label={'label'} items={options}></OutlinedSelect>
     )
   }
 }

@@ -11,8 +11,9 @@ import LinearSectionContainer from "../Container/LinearSectionContainer/LinearSe
 import './ListItem.scss'
 import c from 'classnames'
 import StateLayer from "../StateLayer";
+import {StateElement} from "../internal/common/StateElement";
 
-export interface ListItemProps extends HTMLAttributes<HTMLLIElement>, LiHTMLAttributes<HTMLLIElement> {
+export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement>, StateElement {
   label?: string
   supportingText?: string
   disabled?: boolean
@@ -27,7 +28,7 @@ export interface ListItemHandle extends HTMLAttributes<HTMLLIElement> {
   body?: HTMLDivElement | null
 }
 
-const ListItem = StateLayer<ListItemProps>(forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
+const ListItem = StateLayer<ListItemHandle,ListItemProps>(forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   const {
     children,
     start,
@@ -38,6 +39,7 @@ const ListItem = StateLayer<ListItemProps>(forwardRef<ListItemHandle, ListItemPr
     url,
     interactive = true,
     className,
+    stateLayer,
     ...rest
   } = props
 
@@ -70,6 +72,7 @@ const ListItem = StateLayer<ListItemProps>(forwardRef<ListItemHandle, ListItemPr
       })}
       {...rest}
     >
+      {stateLayer}
       <LinearSectionContainer
         ref={contentRef}
         start={start}

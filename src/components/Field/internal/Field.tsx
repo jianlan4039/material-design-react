@@ -1,19 +1,22 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react'
+import React, {forwardRef, HTMLProps, ReactNode, useEffect, useRef, useState} from 'react'
 import Container, {ContainerProps} from "../../Container/Container";
 import './Field.scss'
 import c from 'classnames'
 import {EASING} from "../../internal/motion/animation";
 import SupportingText from "./SupportingText";
 
-export interface FieldProps extends ContainerProps {
+export interface FieldProps extends HTMLProps<HTMLDivElement>{
   children?: ReactNode
   label?: string
   populated?: boolean
   supportingText?: string
   supportingTextTrailing?: string
+  focus?: boolean
+  disabled?: boolean,
+  error?: boolean
 }
 
-export default function Field(props: FieldProps) {
+const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
   const {
     children,
     label,
@@ -110,7 +113,7 @@ export default function Field(props: FieldProps) {
   }, [floatingLabelShow]);
 
   return (
-    <div className={c('nd-field', className, {'populated': populated})}>
+    <div ref={ref} className={c('nd-field', className, {'populated': populated})}>
       <Container
         middle={label &&
           <div className={'nd-field__label-wrapper'}>
@@ -135,4 +138,6 @@ export default function Field(props: FieldProps) {
       <SupportingText trailing={supportingTextTrailing} content={supportingText}></SupportingText>
     </div>
   )
-}
+})
+
+export default Field

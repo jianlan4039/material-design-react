@@ -1,6 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React from "react";
 import FilledSelect from "../components/Select/FilledSelect";
+import {OptionValue} from "../components/Menu/internal/MenuTypes";
 
 const meta: Meta<typeof FilledSelect> = {
   component: FilledSelect,
@@ -16,17 +17,24 @@ type Story = StoryObj<typeof FilledSelect>;
 
 export const Default: Story = {
   render: (args) => {
+
     const options = [
       {label: 'Item One', value: 'item_one'},
       {label: 'Item Two', value: 'item_two'},
       {
         label: 'Item Three', value: 'item_three', subMenu: [
-          {label: 'Item Four'}
+          {label: 'Item Four', value: 'item_four'}
         ]
       },
     ]
+
+    const valueChangeHandler = (value: OptionValue) => {
+      console.log(value)
+    }
+
+
     return (
-      <FilledSelect label={'Label'} options={options}></FilledSelect>
+      <FilledSelect label={'Label'} items={options} onChange={valueChangeHandler}></FilledSelect>
     )
   }
 }

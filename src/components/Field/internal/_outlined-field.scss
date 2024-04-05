@@ -10,7 +10,7 @@
 
 
 @mixin styles() {
-  & {
+  .nd-outlined-field {
     @include tokens-builder.tokens(md-comp-outlined-field.values(), outlined-field);
     @include field-outline.theme((
       label-text-size: var(--_label-text-populated-size),
@@ -27,6 +27,7 @@
     position: relative;
     block-size: 56px;
     border-radius: var(--_container-shape);
+    min-width: inherit;
 
     .nd-field {
       .nd-container__start {

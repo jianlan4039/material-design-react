@@ -15,19 +15,19 @@ import Elevation from "../Elevation";
 import {alignAnchor} from "./locate";
 import {OptionValue} from "./internal/MenuTypes";
 import {SelectionContextProvider} from "../internal/context/SelectionContext";
-import {BaseProps} from "../internal/common/BaseProps";
+import {BaseElement} from "../internal/common/BaseElement";
 import './Menu.scss'
 import c from 'classnames'
 import {outsideHandler} from "../internal/common/handlers";
 
-export interface MenuProps extends BaseProps {
+export interface MenuProps extends BaseElement {
   items?: MenuItemProps[]
   open?: boolean
   anchorEl?: HTMLElement
   menuAlignCorner?: Corner
   anchorAlignCorner?: Corner
   quick?: boolean
-  onChange?: (value: OptionValue[]) => void
+  onChange?: (value: OptionValue, option?: MenuItemProps) => void
   offsetX?: number
   offsetY?: number
   stayOpenOnOutsideClick?: boolean
@@ -56,7 +56,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     onChange,
     offsetY,
     offsetX,
-    stayOpenOnOutsideClick = false,
+    stayOpenOnOutsideClick,
     keepOpen = false,
     multiple = false,
     onOpening,
@@ -197,15 +197,21 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   }
 
   const closeMenu = () => {
-    animateClose().then(() => {
+    open && animateClose().then(() => {
       setIsVisible(false)
     })
   }
 
-  const setListWithOption = (list: OptionValue[], option: { close?: boolean }) => {
+  const setListWithOption = (list: OptionValue[], option?: MenuItemProps) => {
     setSelectedList(list)
-    onChange?.(list)
-    if (!keepOpen && option && option.close) {
+    if (list.length > 1) {
+      const value: string[] = []
+      list.forEach(i => i && value.push(i.toString()))
+      onChange?.(value, option);
+    } else {
+      onChange?.(list[0], option)
+    }
+    if (!keepOpen && !option?.keepOpen) {
       closeMenu()
     }
   }

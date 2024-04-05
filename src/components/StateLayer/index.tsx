@@ -9,17 +9,19 @@ import React, {
 import {EASING} from "../internal/motion/animation";
 import cln from "classnames";
 import './StateLayer.scss'
+import {StateElement} from "../internal/common/StateElement";
 
 export interface StateLayerProps {
   interactive?: boolean
 }
 
 
-function StateLayer<T extends HTMLAttributes<Element>>(Parent: ComponentType<T>) {
-  return forwardRef<T, T & StateLayerProps>((props, ref) => {
+function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent: ComponentType<T>) {
+  return forwardRef<R, T & StateLayerProps>((props, ref) => {
     const {
       interactive = true,
       children,
+      stateLayer,
       onMouseDown,
       onMouseUp,
       onMouseOver,
@@ -149,20 +151,22 @@ function StateLayer<T extends HTMLAttributes<Element>>(Parent: ComponentType<T>)
 
     return (
       <Parent
+        ref={ref}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
         onMouseDown={mouseDownHandler}
         onMouseUp={mouseUpHandler}
-        ref={ref}
+        stateLayer={
+          interactive && <span
+            ref={surfaceRef}
+            className={cln('nd-state-layer', {
+              'hover': isHover,
+              'pressed': isPressed
+            })}
+          ></span>
+        }
         {...rest as T}
       >
-        {interactive && <span
-          ref={surfaceRef}
-          className={cln('nd-state-layer', {
-            'hover': isHover,
-            'pressed': isPressed
-          })}
-        ></span>}
         {children}
       </Parent>
     )

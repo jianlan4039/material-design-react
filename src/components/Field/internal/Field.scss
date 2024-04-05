@@ -1,5 +1,3 @@
 @use "basic-field";
 
-.nd-field {
-  @include basic-field.styles;
-}
+@include basic-field.styles;

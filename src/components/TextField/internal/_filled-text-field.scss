@@ -11,8 +11,7 @@
     @include tokens-builder.tokens(md-comp-filled-text-field.values(), filled-text-field);
     cursor: text;
     position: relative;
-
-
+    min-width: 210px;
 
     .nd-field {
       .nd-container__middle {

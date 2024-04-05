@@ -1,18 +1,14 @@
-import React, {ReactNode, useState} from 'react'
+import React, {forwardRef, ReactNode, useState} from 'react'
 import Field, {FieldProps} from "./internal/Field";
 import StateLayer from "../StateLayer";
 import './FilledField.scss'
 import c from 'classnames'
+import {StateElement} from "../internal/common/StateElement";
 
-export interface FilledFieldProps extends Omit<FieldProps, "labelWrapper"> {
-  children?: ReactNode
-  label?: string
-  focus?: boolean
-  disabled?: boolean,
-  error?: boolean
+export interface FilledFieldProps extends Omit<FieldProps, "labelWrapper">, StateElement {
 }
 
-const FilledField = StateLayer<FilledFieldProps>((props: FilledFieldProps) => {
+const FilledField = StateLayer<HTMLDivElement, FilledFieldProps>(forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledFieldProps, ref) => {
   const {
     children,
     label,
@@ -20,6 +16,7 @@ const FilledField = StateLayer<FilledFieldProps>((props: FilledFieldProps) => {
     focus,
     disabled,
     error,
+    stateLayer,
     ...rest
   } = props
 
@@ -41,6 +38,7 @@ const FilledField = StateLayer<FilledFieldProps>((props: FilledFieldProps) => {
 
   return (
     <div
+      ref={ref}
       className={c('nd-filled-field', className, {
         'with-label': label,
         'hover': hover,
@@ -51,12 +49,13 @@ const FilledField = StateLayer<FilledFieldProps>((props: FilledFieldProps) => {
       onMouseOver={mouseOverHandler}
       onMouseOut={mouseOutHandler}
     >
+      {stateLayer}
       <div className={c('nd-filled-field__indicator', {'active': focus})}></div>
       <Field label={label} {...rest}>
         {children}
       </Field>
     </div>
   )
-})
+}))
 
 export default FilledField

@@ -12,7 +12,7 @@
 }
 
 @mixin styles() {
-  & {
+  .nd-filled-field {
     @include tokens-builder.tokens(md-comp-filled-field.values(), filled-field);
     @include background.theme((
       color: var(--_container-color)
@@ -32,6 +32,7 @@
     position: relative;
     block-size: 56px;
     border-radius: var(--_container-shape);
+    min-width: inherit;
 
     .nd-filled-field__indicator {
       @include indicator.styles;
@@ -180,7 +181,7 @@
 
       .nd-field {
         .nd-container {
-          .nd-container__start{
+          .nd-container__start {
             opacity: var(--_disabled-leading-content-opacity);
           }
 
@@ -189,16 +190,17 @@
               opacity: var(--_disabled-container-opacity);
             }
 
-            .nd-field__label-wrapper{
+            .nd-field__label-wrapper {
               opacity: var(--_disabled-label-text-opacity);
             }
           }
 
-          .nd-container__end{
+          .nd-container__end {
             opacity: var(--_disabled-trailing-content-opacity);
           }
         }
-        .nd-supporting-text{
+
+        .nd-supporting-text {
           opacity: var(--_disabled-supporting-text-opacity);
         }
       }

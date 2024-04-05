@@ -1,17 +1,13 @@
-import React, {ReactNode, useState} from 'react'
+import React, {forwardRef, ReactNode, useState} from 'react'
 import './OutlinedField.scss'
 import c from 'classnames'
 import Field, {FieldProps} from "./internal/Field";
 import FieldOutline from "./internal/FieldOutline";
 
 export interface OutlinedFieldProps extends FieldProps {
-  children?: ReactNode
-  focus?: boolean
-  error?: boolean
-  disabled?: boolean
 }
 
-export default function OutlinedField(props: OutlinedFieldProps) {
+const OutlinedField = forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref) => {
   const {
     children,
     label,
@@ -41,6 +37,7 @@ export default function OutlinedField(props: OutlinedFieldProps) {
 
   return (
     <div
+      ref={ref}
       className={c('nd-outlined-field', {
         'focus': focus,
         'populated': populated,
@@ -63,4 +60,6 @@ export default function OutlinedField(props: OutlinedFieldProps) {
       </Field>
     </div>
   )
-}
+})
+
+export default OutlinedField

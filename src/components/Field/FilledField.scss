@@ -1,5 +1,3 @@
 @use "./internal/filled-field";
 
-.nd-filled-field {
-  @include filled-field.styles;
-}
+@include filled-field.styles;
