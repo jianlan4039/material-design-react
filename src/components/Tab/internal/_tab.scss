@@ -1,0 +1,74 @@
+@use "../../builder/tokens-builder";
+
+$support-tokens: (
+  'font-size',
+  'font-weight',
+  'font-color',
+  'font-line-height',
+  'font-family'
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, $support-tokens, tab);
+}
+
+@mixin styles() {
+  .tab {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-grow: 10;
+
+    .tab__indicator {
+      position: absolute;
+      opacity: 0;
+      z-index: -10;
+      inset: auto 0 0 0;
+      inline-size: 100%;
+
+      &.tab__indicator--active {
+        opacity: 1;
+        z-index: 1;
+      }
+    }
+
+    .tab__presentation {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--md-tab-font-size);
+      font-weight: var(--md-tab-font-weight);
+      color: var(--md-tab-font-color);
+      line-height: var(--md-tab-font-line-height);
+      font-family: var(--md-tab-font-family);
+
+      .tab__presentation__icon {
+        color: var(--_icon-color);
+        block-size: var(--_icon-size);
+        inline-size: var(--_icon-size);
+      }
+
+      .tab__presentation__text {
+        white-space: nowrap;
+      }
+
+      .tab__presentation__icon,
+      .tab__presentation__text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &.tab__presentation--inline {
+        flex-direction: row;
+        gap: 8px;
+      }
+    }
+
+    &.tab--with-icon:not(:has(.tab__presentation--inline)) {
+      block-size: 64px;
+    }
+  }
+}

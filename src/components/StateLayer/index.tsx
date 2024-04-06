@@ -134,14 +134,14 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
       setIsPressed(false)
     }
 
-    const mouseOverHandler = (e: ReactMouseEvent) => {
+    const mouseEnterHandler = (e: ReactMouseEvent) => {
       onMouseOver?.(e)
       if (interactive) {
         setIsHover(true)
       }
     }
 
-    const mouseOutHandler = (e: ReactMouseEvent) => {
+    const mouseLeaveHandler = (e: ReactMouseEvent) => {
       onMouseOut?.(e)
       if (interactive) {
         setIsHover(false)
@@ -152,8 +152,8 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
     return (
       <Parent
         ref={ref}
-        onMouseOver={mouseOverHandler}
-        onMouseOut={mouseOutHandler}
+        onMouseEnter={mouseEnterHandler}
+        onMouseLeave={mouseLeaveHandler}
         onMouseDown={mouseDownHandler}
         onMouseUp={mouseUpHandler}
         stateLayer={

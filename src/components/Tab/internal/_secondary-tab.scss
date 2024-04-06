@@ -1,0 +1,123 @@
+@use "../../tokens/md-comp-secondary-tab";
+@use "../../builder/tokens-builder";
+@use "../../StateLayer/internal/state-layer";
+@use "./tab";
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, md-comp-secondary-tab.$supported-tokens, secondary-tab);
+}
+
+@mixin styles() {
+  @include tab.styles;
+  .secondary-tab {
+    @include tokens-builder.tokens(md-comp-secondary-tab.values(), secondary-tab);
+    @include tab.theme((
+      font-size: var(--_label-text-size),
+      font-weight: var(--_label-text-weight),
+      font-line-height: var(--_label-text-line-height),
+      font-color: var(--_label-text-color),
+      font-family: var(--_label-text-font)
+    ));
+    @include state-layer.theme((
+      hover-color: var(--_hover-state-layer-color),
+      pressed-color: var(--_pressed-state-layer-color)
+    ));
+    background: var(--_container-color);
+    min-block-size: var(--_container-height);
+    border-radius: var(--_container-shape);
+    cursor: pointer;
+    position: relative;
+
+    .tab__presentation {
+      inline-size: fit-content;
+      block-size: inherit;
+    }
+
+    .secondary-tab__indicator {
+      block-size: var(--_active-indicator-height);
+      background: var(--_active-indicator-color);
+      border-radius: var(--_active-indicator-shape);
+      inline-size: 100%;
+    }
+
+    &.secondary-tab--focus {
+      .tab__presentation {
+        .tab__presentation__icon {
+          color: var(--_focus-icon-color);
+        }
+
+        .tab__presentation__text {
+          color: var(--_focus-label-text-color)
+        }
+      }
+    }
+
+    &.secondary-tab--hover {
+      .tab__presentation {
+        .tab__presentation__icon {
+          color: var(--_hover-icon-color);
+        }
+
+        .tab__presentation__text {
+          color: var(--_hover-label-text-color)
+        }
+      }
+    }
+
+    &.secondary-tab--pressed {
+      .tab__presentation {
+        .tab__presentation__icon {
+          color: var(--_pressed-icon-color);
+        }
+
+        .tab__presentation__text {
+          color: var(--_pressed-label-text-color)
+        }
+      }
+    }
+
+    &.secondary-tab--active {
+      @include state-layer.theme((
+        hover-color: var(--_active-hover-state-layer-color),
+        pressed-color: var(--_active-pressed-state-layer-color)
+      ));
+
+      &.secondary-tab--focus {
+        .tab__presentation {
+          .tab__presentation__icon {
+            color: var(--_active-focus-icon-color);
+          }
+
+          .tab__presentation__text {
+            color: var(--_active-focus-label-text-color)
+          }
+        }
+      }
+
+      &.secondary-tab--hover {
+        .tab__presentation {
+          .tab__presentation__icon {
+            color: var(--_active-hover-icon-color);
+          }
+
+          .tab__presentation__text {
+            color: var(--_active-hover-label-text-color)
+          }
+        }
+      }
+
+      &.secondary-tab--pressed {
+        .tab__presentation {
+          .tab__presentation__icon {
+            color: var(--_active-pressed-icon-color);
+          }
+
+          .tab__presentation__text {
+            color: var(--_active-pressed-label-text-color)
+          }
+        }
+      }
+    }
+
+  }
+}

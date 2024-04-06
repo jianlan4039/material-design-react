@@ -7,7 +7,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, St
   icon?: ReactNode
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>((props: ButtonProps) => {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     children,
     label,
@@ -16,7 +16,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props: ButtonProps) =
   } = props
 
   return (
-    <button className={'nd-fab__button'} {...rest}>
+    <button ref={ref} className={'nd-fab__button'} {...rest}>
       <span className={'nd-fab__icon-slot'}>{icon || children}</span>
       <span className={'nd-fab__label-slot'}>{label}</span>
     </button>
