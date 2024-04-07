@@ -1,6 +1,5 @@
 import React, {forwardRef, ReactNode} from 'react'
 import FocusRing from "../Focus/FocusRing";
-import Elevation from "../Elevation";
 import StateLayer from "../StateLayer";
 import CommonButton, {CommonButtonProps} from "./content/CommonButton";
 import cln from "classnames";
@@ -21,7 +20,6 @@ const TextButton = StateLayer<HTMLButtonElement, TextButtonProps>(forwardRef<HTM
   return (
     <div className={cln('nd-text-button', {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
-      <Elevation></Elevation>
       {stateLayer}
       <CommonButton ref={ref} disabled={disabled} {...rest}>
         {children}

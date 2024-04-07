@@ -1,0 +1,38 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/_nd-comp-plain-tooltip";
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, nd-comp-plain-tooltip.$supported-tokens, plain-tooltip)
+}
+
+@mixin styles() {
+  .tooltip__host {
+    position: relative;
+    inline-size: fit-content;
+    block-size: fit-content;
+  }
+
+  .tooltip--plain {
+    @include tokens-builder.tokens(nd-comp-plain-tooltip.values(), plain-tooltip);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    background: var(--_container-color);
+    color: var(--_supporting-text-color);
+    border-radius: var(--_container-shape);
+    padding-inline: 8px;
+    min-block-size: 24px;
+    min-inline-size: 200px;
+    max-inline-size: 400px;
+    opacity: 0;
+
+    &.tooltip--plain--hidden {
+      display: none;
+      opacity: 0;
+    }
+
+    &.tooltip--plain--visible {
+      opacity: 1;
+    }
+  }
+}

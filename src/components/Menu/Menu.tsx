@@ -12,7 +12,7 @@ import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
 import Elevation from "../Elevation";
-import {alignAnchor, setPosition} from "./internal/locate";
+import {alignToAnchor, setPosition} from "../internal/alignment/locate";
 import {OptionValue} from "./internal/menuTypes";
 import {SelectionContextProvider} from "../internal/context/SelectionContext";
 import {BaseElement} from "../internal/common/BaseElement";
@@ -24,8 +24,8 @@ export interface MenuProps extends BaseElement {
   items?: MenuItemProps[]
   open?: boolean
   anchorEl?: HTMLElement
-  menuAlignCorner?: Corner
-  anchorAlignCorner?: Corner
+  menuCorner?: Corner
+  anchorCorner?: Corner
   quick?: boolean
   onChange?: (value: OptionValue, option?: MenuItemProps) => void
   offsetX?: number
@@ -49,8 +49,8 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     items,
     style,
     open,
-    anchorAlignCorner = Corner.END_START,
-    menuAlignCorner = Corner.START_START,
+    anchorCorner = Corner.END_START,
+    menuCorner = Corner.START_START,
     anchorEl,
     className,
     quick = false,
@@ -67,7 +67,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     onClosed,
   } = props
 
-  const openDirection = menuAlignCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
+  const openDirection = menuCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
 
   const itemRefs = useRef<HTMLElement[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -229,7 +229,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
     if (menuRef.current && anchorEl) {
       if (position === 'absolute') {
-        setMenuOffsetStyle(alignAnchor(anchorEl, menuRef.current, anchorAlignCorner, menuAlignCorner, offsetX, offsetY))
+        setMenuOffsetStyle(alignToAnchor(anchorEl, menuRef.current, anchorCorner, menuCorner, offsetX, offsetY))
       } else {
         document.addEventListener('click', clickHandler)
       }
@@ -247,7 +247,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       document.removeEventListener('click', clickHandler)
     }
 
-  }, [menuRef, anchorEl, anchorAlignCorner, menuAlignCorner]);
+  }, [menuRef, anchorEl, anchorCorner, menuCorner]);
 
   useEffect(() => {
     setIsOpen(Boolean(open))

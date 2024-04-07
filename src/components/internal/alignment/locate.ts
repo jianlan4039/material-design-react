@@ -1,7 +1,7 @@
-import {Corner} from "../../internal/alignment/geometry";
+import {Corner} from "./geometry";
 import {CSSProperties} from "react";
 
-export const alignAnchor = (anchor: HTMLElement, self: HTMLElement, anchorCorner: Corner, selfCorner: Corner, offsetX: number = 0, offsetY: number = 0) => {
+export const alignToAnchor = (anchor: HTMLElement, self: HTMLElement, anchorCorner: Corner, selfCorner: Corner, offsetX: number = 0, offsetY: number = 0) => {
   const {height: anchorHeight, width: anchorWidth} = anchor?.getBoundingClientRect()
   const {width: menuWidth} = self?.getBoundingClientRect()
   const {offsetLeft: anchorLeft, offsetTop: anchorTop, offsetParent} = anchor

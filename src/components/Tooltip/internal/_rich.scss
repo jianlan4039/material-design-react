@@ -1,0 +1,71 @@
+@use "../../tokens/_nd-comp-rich-tooltip";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../StateLayer/internal/state-layer";
+@use "../../Elevation/internal/elevation";
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, nd-comp-rich-tooltip.$supported-tokens, rich-tooltip);
+}
+
+@mixin styles() {
+  .tooltip__host {
+    position: absolute;
+    inline-size: fit-content;
+    block-size: fit-content;
+  }
+  .tooltip--rich {
+    @include tokens-builder.tokens(nd-comp-rich-tooltip.values(), rich-tooltip);
+    @include elevation.theme((
+      level: var(--_container-elevation),
+      shadow-color: var(--_shadow-color)
+    ));
+    @include state-layer.theme((
+      hover-color: var(--_hover-state-layer-color),
+      pressed-color: var(--_pressed-state-layer-color)
+    ));
+    @include background.theme((
+      color: var(--_container-color)
+    ));
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    opacity: 0;
+    border-radius: var(--_container-shape);
+    min-inline-size: 300px;
+    max-inline-size: 600px;
+    @include background.styles;
+
+    .tooltip--rich__subhead {
+      font-family: var(--_subhead-font);
+      line-height: var(--_subhead-line-height);
+      font-size: var(--_subhead-font-size);
+      font-weight: var(--_subhead-font-weight);
+      color: var(--_subhead-color);
+      padding: 12px 12px 4px;
+    }
+
+    .tooltip--rich__supporting-text {
+      font-family: var(--_supporting-text-font);
+      line-height: var(--_supporting-text-line-height);
+      font-size: var(--_supporting-text-size);
+      font-weight: var(--_supporting-text-weight);
+      color: var(--_supporting-text-color);
+      padding: 0 12px 0;
+    }
+
+    .tooltip--rich__actions {
+      padding: 12px 12px 8px;
+    }
+
+    &.tooltip--rich--hidden{
+      display: none;
+    }
+
+    &.tooltip--rich--visible {
+      display: flex;
+      opacity: 1;
+    }
+  }
+}

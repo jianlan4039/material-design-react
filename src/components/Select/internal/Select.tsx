@@ -80,8 +80,8 @@ function Select<R extends HTMLDivElement, T extends SelectProps>(Field: Componen
         <Menu
           open={isOpen}
           anchorEl={anchor}
-          menuAlignCorner={Corner.START_START}
-          anchorAlignCorner={Corner.END_START}
+          menuCorner={Corner.START_START}
+          anchorCorner={Corner.END_START}
           items={items}
           onClosed={closeHandler}
           onChange={changeHandler}

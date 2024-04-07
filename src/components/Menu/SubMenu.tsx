@@ -2,7 +2,7 @@ import React, {CSSProperties, forwardRef, HTMLProps, useEffect, useId, useRef, u
 import {Corner} from "../internal/alignment/geometry";
 import {MenuHandle, MenuProps} from "./Menu";
 import MenuItem from "./MenuItem";
-import {alignAnchor} from "./internal/locate";
+import {alignToAnchor} from "../internal/alignment/locate";
 import Elevation from "../Elevation";
 import c from "classnames";
 import './SubMenu.scss'
@@ -43,7 +43,7 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
   useEffect(() => {
     setIsVisible(Boolean(open))
     if (anchorEl && rootRef.current) {
-      setOffsetStyles(alignAnchor(anchorEl, rootRef.current, Corner.START_END, Corner.START_START))
+      setOffsetStyles(alignToAnchor(anchorEl, rootRef.current, Corner.START_END, Corner.START_START))
     }
   }, [open]);
 
