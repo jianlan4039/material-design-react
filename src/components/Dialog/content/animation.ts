@@ -61,7 +61,7 @@ export const DIALOG_DEFAULT_OPEN_ANIMATION: DialogAnimation = {
       // Container grow
       // Note: current spec says to grow from 0dp->100% and shrink from
       // 100%->35%. We change this to 35%->100% to simplify the animation that
-      // is supposed to clip content as it grows. From 0dp it's possible to see
+      // is supposed to clip internal as it grows. From 0dp it's possible to see
       // text/actions appear before the container has fully grown.
       [{'height': '35%'}, {'height': '100%'}],
       {duration: 500, easing: EASING.EMPHASIZED, pseudoElement: '::before'},

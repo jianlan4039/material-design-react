@@ -77,8 +77,7 @@ $supported-tokens: (
   'track-shape',
   'track-width',
   'with-icon-handle-height',
-  'with-icon-handle-width',
-  // go/keep-sorted end
+  'with-icon-handle-width', // go/keep-sorted end
 );
 
 $unsupported-tokens: (
@@ -86,8 +85,7 @@ $unsupported-tokens: (
   'focus-state-layer-color',
   'focus-state-layer-opacity',
   'selected-focus-state-layer-color',
-  'selected-focus-state-layer-opacity',
-  // go/keep-sorted end
+  'selected-focus-state-layer-opacity', // go/keep-sorted end
 );
 
 $_default: (
@@ -98,7 +96,7 @@ $_default: (
 
 @function values($deps: $_default, $exclude-hardcoded-values: false) {
   $tokens: values.validate(
-    md-comp-switch.values($deps, $exclude-hardcoded-values),
+      md-comp-switch.values($deps, $exclude-hardcoded-values),
     $supported-tokens: $supported-tokens,
     $unsupported-tokens: $unsupported-tokens,
     $renamed-tokens: (

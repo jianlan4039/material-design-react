@@ -1,6 +1,6 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-outlined-button";
-@use "../../Outline/content/outline";
+@use "../../Outline/internal/outline";
 @use "shared";
 
 $tokens: md-comp-outlined-button.values();

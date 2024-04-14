@@ -152,8 +152,8 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
     return (
       <Parent
         ref={ref}
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
+        onMouseOver={mouseEnterHandler}
+        onMouseOut={mouseLeaveHandler}
         onMouseDown={mouseDownHandler}
         onMouseUp={mouseUpHandler}
         stateLayer={

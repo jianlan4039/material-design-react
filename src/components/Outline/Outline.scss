@@ -1,4 +1,4 @@
-@use "content/outline";
+@use "internal/outline";
 
 .nd-outline{
   @include outline.styles;

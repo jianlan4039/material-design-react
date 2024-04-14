@@ -1,7 +1,7 @@
 @use "../../builder/tokens-builder";
 @use "../../builder/background";
 @use "../../tokens/md-comp-outlined-segmented-button";
-@use "../../Outline/content/outline";
+@use "../../Outline/internal/outline";
 @use "../../StateLayer/internal/state-layer";
 
 $tokens: md-comp-outlined-segmented-button.values();
