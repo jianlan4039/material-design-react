@@ -111,7 +111,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       }
     }
 
-    &:focus-visible {
+    &:not(.switch--disabled):focus-visible {
       @include outline.theme((
         color: var(--_focus-track-outline-color)
       ));
@@ -129,7 +129,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       }
     }
 
-    &:hover {
+    &:not(.switch--disabled):hover {
       @include outline.theme((
         color: var(--_hover-track-outline-color)
       ));
@@ -147,7 +147,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       }
     }
 
-    &:active {
+    &:not(.switch--disabled):active {
       @include outline.theme((
         color: var(---pressed-track-outline-color)
       ));
@@ -207,7 +207,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
         color: var(--_selected-icon-color);
       }
 
-      &:focus-visible {
+      &:not(.switch--disabled):focus-visible {
         &::before {
           background-color: var(--_selected-focus-track-color);
         }
@@ -221,7 +221,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
         }
       }
 
-      &:hover {
+      &:not(.switch--disabled):hover {
         &::before {
           background-color: var(--_selected-hover-track-color);
         }
@@ -235,7 +235,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
         }
       }
 
-      &:active {
+      &:not(.switch--disabled):active {
         &::before {
           background-color: var(--_selected-pressed-track-color);
         }
@@ -259,11 +259,13 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 
     &.switch--disabled {
       @include outline.theme((
-        color: var(--_disabled-track-outline-color)
+        color: var(--_disabled-track-outline-color),
+        opacity: var(--_disabled-track-opacity)
       ));
 
       &::before {
         background-color: var(--_disabled-track-color);
+        opacity: var(--_disabled-track-opacity)
       }
 
       .switch__handle-container {
@@ -285,12 +287,15 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       }
 
       &.switch--checked {
+        @include outline.theme((
+          color: transparent
+        ));
+
         &::before {
           background-color: var(--_disabled-selected-track-color);
         }
 
         .switch__handle-container {
-
           .switch__handle {
 
             &::before {

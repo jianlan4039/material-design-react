@@ -28,7 +28,7 @@ export interface ListItemHandle extends HTMLAttributes<HTMLLIElement> {
   body?: HTMLDivElement | null
 }
 
-const ListItem = StateLayer<ListItemHandle,ListItemProps>(forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
+const ListItem = StateLayer<ListItemHandle, ListItemProps>(forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   const {
     children,
     start,
@@ -72,7 +72,7 @@ const ListItem = StateLayer<ListItemHandle,ListItemProps>(forwardRef<ListItemHan
       })}
       {...rest}
     >
-      {stateLayer}
+      {interactive && stateLayer}
       <LinearSectionContainer
         ref={contentRef}
         start={start}

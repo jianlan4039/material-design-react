@@ -12,14 +12,14 @@ import './StateLayer.scss'
 import {StateElement} from "../internal/common/StateElement";
 
 export interface StateLayerProps {
-  interactive?: boolean
+  // disabled?: boolean
 }
 
 
 function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent: ComponentType<T>) {
   return forwardRef<R, T & StateLayerProps>((props, ref) => {
     const {
-      interactive = true,
+      // disabled = true,
       children,
       stateLayer,
       onMouseDown,
@@ -121,7 +121,7 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
 
     const mouseDownHandler = (e: ReactMouseEvent) => {
       onMouseDown?.(e)
-      if (interactive && surfaceRef.current) {
+      if (surfaceRef.current) {
         endPressAnimation()
         startPressAnimation(e, surfaceRef.current.getBoundingClientRect()).then(() => {
           setIsPressed(true)
@@ -136,17 +136,17 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
 
     const mouseEnterHandler = (e: ReactMouseEvent) => {
       onMouseOver?.(e)
-      if (interactive) {
-        setIsHover(true)
-      }
+      // if (disabled) {
+      setIsHover(true)
+      // }
     }
 
     const mouseLeaveHandler = (e: ReactMouseEvent) => {
       onMouseOut?.(e)
-      if (interactive) {
-        setIsHover(false)
-        setIsPressed(false)
-      }
+      // if (disabled) {
+      setIsHover(false)
+      setIsPressed(false)
+      // }
     }
 
     return (
@@ -157,7 +157,7 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
         onMouseDown={mouseDownHandler}
         onMouseUp={mouseUpHandler}
         stateLayer={
-          interactive && <span
+          <span
             ref={surfaceRef}
             className={cln('nd-state-layer', {
               'hover': isHover,

@@ -19,8 +19,19 @@ export const Default: Story = {
   render: (args) => {
     return (
       <Switch
+        {...args}
+      ></Switch>
+    )
+  }
+}
+
+export const CheckIocnAndUncheckedIcon: Story = {
+  render: (args) => {
+    return (
+      <Switch
         icon={<FilledIcon>check</FilledIcon>}
         uncheckedIcon={<FilledIcon>close</FilledIcon>}
+        {...args}
       ></Switch>
     )
   }

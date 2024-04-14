@@ -26,6 +26,7 @@ const Switch = StateLayer<HTMLElement, SwitchProps>(forwardRef<HTMLDivElement, S
     icon,
     uncheckedIcon,
     disabled,
+
   } = props
 
   const [checked, setChecked] = useState<boolean>(Boolean(_checked))
@@ -62,7 +63,7 @@ const Switch = StateLayer<HTMLElement, SwitchProps>(forwardRef<HTMLDivElement, S
         onChange={changeHandler}
       />
       <div className={'switch__handle-container'}>
-        <div className={'switch__handle__state'}>{stateLayer}</div>
+        {!disabled && <div className={'switch__handle__state'}>{stateLayer}</div>}
         <span
           ref={handleRef}
           className={c('switch__handle', {
