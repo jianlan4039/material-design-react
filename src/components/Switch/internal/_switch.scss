@@ -16,7 +16,9 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
     @include tokens-builder.tokens(md-comp-switch.values(), switch);
     @include state-layer.theme((
       hover-color: var(--_hover-state-layer-color),
-      pressed-color: var(--_pressed-state-layer-color)
+      pressed-color: var(--_pressed-state-layer-color),
+      hover-opacity: var(--_hover-state-layer-opacity),
+      pressed-opacity: var(--_pressed-state-layer-opacity)
     ));
     @include outline.theme((
       width: var(--_track-outline-width),
