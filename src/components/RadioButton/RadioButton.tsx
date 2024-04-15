@@ -43,6 +43,9 @@ const RadioButton = StateLayer<HTMLInputElement, RadioButtonProps>(forwardRef<HT
   );
 
   const clickHandler = () => {
+    if (disabled) {
+      return
+    }
     setList?.([value])
   }
 
@@ -57,7 +60,8 @@ const RadioButton = StateLayer<HTMLInputElement, RadioButtonProps>(forwardRef<HT
   return (
     <div
       className={c("radio-button", {
-        'radio-button--selected': isSelected
+        'radio-button--selected': isSelected,
+        'radio-button--disabled': disabled
       })}
       onClick={clickHandler}
       onMouseOver={onMouseOver}
@@ -73,6 +77,7 @@ const RadioButton = StateLayer<HTMLInputElement, RadioButtonProps>(forwardRef<HT
         name={name}
         value={value}
         id={id}
+        disabled={disabled}
       />
       {isSelected ? selectedIcon : unselectedIcon}
     </div>

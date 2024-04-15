@@ -19,7 +19,7 @@ export const Default: Story = {
   render: (args) => {
     return (
       <RadioGroup>
-        <RadioButton id={'contactChoice1'} name={'contact'} value={'email'}></RadioButton>
+        <RadioButton id={'contactChoice1'} name={'contact'} value={'email'} disabled={true}></RadioButton>
         <RadioButton id="contactChoice2" name="contact" value="phone"></RadioButton>
         <RadioButton id="contactChoice3" name="contact" value="mail"> </RadioButton>
       </RadioGroup>

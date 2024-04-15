@@ -77,6 +77,20 @@
           fill: var(--_selected-pressed-icon-color)
         }
       }
+
+      &.radio-button--disabled {
+        svg {
+          fill: var(--_disabled-selected-icon-color);
+          opacity: var(--_disabled-selected-icon-opacity);
+        }
+      }
+    }
+
+    &.radio-button--disabled {
+      svg {
+        fill: var(--_disabled-unselected-icon-color);
+        opacity: var(--_disabled-unselected-icon-opacity);
+      }
     }
   }
 }
