@@ -1,0 +1,47 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-badge";
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+
+  .badge-container {
+    @include tokens-builder.tokens(md-comp-badge.values(), badge);
+    position: relative;
+    display: flex;
+  }
+
+  .badge {
+    position: absolute;
+    display: flex;
+    border-radius: var(--_shape);
+    background-color: var(--_color);
+    justify-content: center;
+    align-items: center;
+
+    &.badge--small {
+      block-size: var(--_size);
+      inline-size: var(--_size);
+      inset-inline-end: 0;
+      inset-block-start: 0;
+    }
+
+    &.badge--large {
+      box-sizing: border-box;
+      block-size: var(--_large-size);
+      min-inline-size: var(--_large-size);
+      max-inline-size: 34px;
+      font-size: var(--_large-label-text-size);
+      color: var(--_large-label-text-color);
+      font-family: var(--_large-label-text-font);
+      line-height: var(--_large-label-text-line-height);
+      font-weight: var(--_large-label-text-weight);
+      white-space: nowrap;
+      overflow: hidden;
+      padding-inline: calc(var(--_large-size) / 4);
+      inset-block-start: -2px;
+    }
+  }
+}
