@@ -30,3 +30,11 @@ export const Indeterminate: Story = {
     )
   }
 }
+
+export const FourColor: Story = {
+  render: () => {
+    return (
+      <CircularProgress indeterminate fourColor></CircularProgress>
+    )
+  }
+}

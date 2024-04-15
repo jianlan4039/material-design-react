@@ -5,6 +5,7 @@ import {ProgressProps} from "./internal/Progress";
 export interface CircularProgressProps extends ProgressProps {
   children?: ReactNode
   indeterminate?: boolean
+  fourColor?: boolean
 }
 
 const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>((props, ref) => {
@@ -13,6 +14,7 @@ const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>((prop
     value = 0,
     max = 1,
     indeterminate = false,
+    fourColor = false,
     ...rest
   } = props
 
@@ -32,7 +34,7 @@ const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>((prop
   const determinateCircularProgress = () => {
     return (
       <div className={`circular-progress indeterminate`}>
-        <div className="spinner">
+        <div className={`spinner ${fourColor ? 'four-color' : ''}`}>
           <div className="left">
             <div className="circle"></div>
           </div>

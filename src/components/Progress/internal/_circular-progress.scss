@@ -219,6 +219,10 @@
           animation-duration: $arc-duration, $cycle-duration;
           animation-timing-function: $indeterminate-easing;
         }
+
+        &.four-color .circle {
+          animation-name: expand-arc, four-color;
+        }
       }
     }
 
