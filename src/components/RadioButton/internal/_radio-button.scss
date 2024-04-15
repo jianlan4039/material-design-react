@@ -1,0 +1,82 @@
+@use "../../tokens/md-comp-radio";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../StateLayer/internal/state-layer";
+
+@mixin theme($tokens) {
+  @include state-layer.theme($tokens, md-comp-radio.$supported-tokens, radio)
+}
+
+@mixin styles() {
+
+  .radio-button {
+    @include tokens-builder.tokens(md-comp-radio.values(), radio);
+    @include state-layer.theme((
+      hover-color: var(--_hover-stae-layer-color),
+      pressed-color: var(--_pressed-state-layer-color)
+    ));
+
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    input[type='radio'] {
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      z-index: 10;
+    }
+
+    svg {
+      font-size: var(--_icon-size);
+      fill: var(--_icon-color);
+    }
+
+    .radio-button__state {
+      position: absolute;
+      border-radius: 9999px;
+      block-size: var(--_state-layer-size);
+      inline-size: var(--_state-layer-size);
+    }
+
+    &:focus-visible {
+      svg {
+        fill: var(--_focus-icon-color);
+      }
+    }
+
+    &:hover {
+      svg {
+        fill: var(--_hover-icon-color);
+      }
+    }
+
+    &.radio-button--selected {
+      svg {
+        fill: var(--_selected-icon-color)
+      }
+
+      &:hover {
+        @include state-layer.theme((
+          hover-color: var(--_selected-hover-state-layer-color)
+        ));
+
+        svg {
+          fill: var(--_selected-hover-icon-color)
+        }
+      }
+
+      &:active {
+        @include state-layer.theme((
+          hover-color: var(--_selected-pressed-state-layer-color)
+        ));
+
+        svg {
+          fill: var(--_selected-pressed-icon-color)
+        }
+      }
+    }
+  }
+}
