@@ -23,8 +23,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
   useEffect(() => {
     if (containerRef.current && size === 'large') {
       const containerWidth = containerRef.current.getBoundingClientRect().width
-      console.log(containerWidth)
-      const offsetInsetToStart = Math.round(containerWidth - 12)
+      const offsetInsetToStart = containerWidth - 12
       setBadgeInsetInlineStart(offsetInsetToStart)
     }
   }, [containerRef]);

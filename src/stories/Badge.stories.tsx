@@ -7,7 +7,7 @@ const meta: Meta<typeof Badge> = {
   component: Badge,
   title: 'Container/Badge',
   parameters: {
-    layout: 'centered'
+    // layout: 'centered'
   },
   tags: ['autodocs']
 }
@@ -19,7 +19,7 @@ export const Default: Story = {
   render: (args) => {
     return (
       <Badge count={2123123} size={'large'}>
-        <FilledIcon>home</FilledIcon>
+        Lorem ipsum.
       </Badge>
     )
   }

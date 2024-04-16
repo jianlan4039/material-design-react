@@ -10,16 +10,14 @@
   .badge-container {
     @include tokens-builder.tokens(md-comp-badge.values(), badge);
     position: relative;
-    display: flex;
+    display: inline-flex;
   }
 
   .badge {
     position: absolute;
-    display: flex;
+    display: inline-flex;
     border-radius: var(--_shape);
     background-color: var(--_color);
-    justify-content: center;
-    align-items: center;
 
     &.badge--small {
       block-size: var(--_size);
@@ -29,6 +27,8 @@
     }
 
     &.badge--large {
+      justify-content: center;
+      align-items: center;
       box-sizing: border-box;
       block-size: var(--_large-size);
       min-inline-size: var(--_large-size);
