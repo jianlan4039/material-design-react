@@ -161,7 +161,7 @@ export default function Slider(props: SliderProps) {
         <>
           <div className={'inactive-track left'} style={{inlineSize: `${secondHandleMovementX}px`}}></div>
           <Handle
-            className={c('second', {'pressed': _activeHandle.current === 'SECOND'})}
+            className={c('second', {'pressed': isDragging && _activeHandle.current === 'SECOND'})}
             position={secondHandleMovementX}
             label={'support handle'}
           ></Handle>
@@ -177,7 +177,7 @@ export default function Slider(props: SliderProps) {
       <Handle
         position={primaryHandleMovementX}
         label={'handle'}
-        className={c({'pressed': _activeHandle.current === 'PRIMARY'})}
+        className={c({'pressed': isDragging && _activeHandle.current === 'PRIMARY'})}
       ></Handle>
       <div className={'stop-container'}>
         <div className={'stop'}></div>
