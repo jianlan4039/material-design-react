@@ -37,14 +37,12 @@ export default function Slider(props: SliderProps) {
     ...rest
   } = props
 
-  const isDragging = useRef<boolean>(false);
   const root = useRef<HTMLDivElement>(null);
   const size = useRef<number>(0);
 
-  const _primaryHandleX = useRef<number>(value);
-  const _secondHandleX = useRef<number>(0);
   const _activeHandle = useRef<ActiveHandle>(undefined);
 
+  const [isDragging, setIsDragging] = useState<boolean>(false)
   const [primaryHandleMovementX, setPrimaryHandleMovementX] = useState<number>(0)
   const [secondHandleMovementX, setSecondHandleMovementX] = useState<number>(0)
 
@@ -56,7 +54,6 @@ export default function Slider(props: SliderProps) {
     if (value < min || value > max) {
       console.warn(`value for slider ${id} is not valid`)
     }
-
     return value * (size.current / (max - min))
   }
 
@@ -66,12 +63,12 @@ export default function Slider(props: SliderProps) {
 
   const determineWhichHandle = (distance: number) => {
     const willMoveTo = validDistance(distance, 0, size.current)
-    const deltaDistance = _primaryHandleX.current - _secondHandleX.current
+    const deltaDistance = primaryHandleMovementX - secondHandleMovementX
 
-    if (willMoveTo >= _primaryHandleX.current) {
+    if (willMoveTo >= primaryHandleMovementX) {
       _activeHandle.current = 'PRIMARY'
       return 'PRIMARY'
-    } else if (willMoveTo >= (_secondHandleX.current + deltaDistance / 2)) {
+    } else if (willMoveTo >= (secondHandleMovementX + deltaDistance / 2)) {
       _activeHandle.current = 'PRIMARY'
       return 'PRIMARY'
     } else {
@@ -80,70 +77,68 @@ export default function Slider(props: SliderProps) {
     }
   }
 
-  const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
-    e.preventDefault()
+  const setMovement = (clientX: number) => {
     if (!root.current) return;
     const rect = root.current.getBoundingClientRect()
-    const distance = validDistance(e.clientX - rect.x, 0, size.current)
-    let activeHandle: ActiveHandle = undefined
+    const moveTo = validDistance(clientX - rect.x, 0, size.current)
     if (range) {
-      activeHandle = determineWhichHandle(distance)
+      if ('PRIMARY' === determineWhichHandle(moveTo)) {
+        setPrimaryHandleMovementX(moveTo)
+      } else {
+        setSecondHandleMovementX(moveTo)
+      }
     } else {
-      activeHandle = 'PRIMARY'
+      setPrimaryHandleMovementX(moveTo)
     }
-    if (_activeHandle.current === 'PRIMARY') {
-      _primaryHandleX.current = distance
-      setPrimaryHandleMovementX(distance)
-    } else {
-      _secondHandleX.current = distance
-      setSecondHandleMovementX(distance)
-    }
+  }
 
-    isDragging.current = true
+  const draggingHandle = (clientX: number) => {
+    if (!root.current || !size.current) return;
+    const rect = root.current.getBoundingClientRect()
+    const distance = validDistance(clientX - rect.x, 0, size.current)
+    if (_activeHandle.current === 'PRIMARY') {
+      if (distance >= secondHandleMovementX) {
+        setPrimaryHandleMovementX(distance)
+      }
+    } else {
+      if (distance <= primaryHandleMovementX) {
+        setSecondHandleMovementX(distance)
+      }
+    }
+  }
+
+  const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    setMovement(e.clientX)
+    setIsDragging(true)
+    document.addEventListener('mousemove', mouseMoveHandler)
+    document.addEventListener('mouseup', mouseUpHandler)
   }
 
   const mouseUpHandler = (e: MouseEvent) => {
     e.preventDefault()
-    if (!root.current) return;
-    const rect = root.current.getBoundingClientRect()
-    isDragging.current = false
     _activeHandle.current = undefined
+    setIsDragging(false)
+    document.removeEventListener('mouseup', mouseUpHandler)
+    document.removeEventListener('mousemove', mouseMoveHandler)
   }
 
   const mouseMoveHandler = (e: MouseEvent) => {
     e.preventDefault()
-    if (!isDragging.current || !root.current || !size.current) return;
-    const rect = root.current.getBoundingClientRect()
-    const distance = validDistance(e.clientX - rect.x, 0, size.current)
-    if (_activeHandle.current === 'PRIMARY') {
-      if (distance >= _secondHandleX.current) {
-        setPrimaryHandleMovementX(distance)
-        _primaryHandleX.current = distance
-      }
-    } else {
-      if (distance <= _primaryHandleX.current) {
-        setSecondHandleMovementX(distance)
-        _secondHandleX.current = distance
-      }
-    }
+    draggingHandle(e.clientX)
   }
 
   useEffect(() => {
     if (root.current) {
       size.current = root.current.getBoundingClientRect().width
-      document.addEventListener('mouseup', mouseUpHandler)
-      document.addEventListener('mousemove', mouseMoveHandler)
-
       if (range) {
         if (valueStart) {
           const distance = calculateDistance(valueStart)
           setSecondHandleMovementX(distance)
-          _secondHandleX.current = distance
         }
         if (valueEnd) {
           const distance = calculateDistance(valueEnd)
-          setPrimaryHandleMovementX(calculateDistance(valueEnd))
-          _primaryHandleX.current = distance
+          setPrimaryHandleMovementX(distance)
         }
 
         if (valueStart && valueEnd && valueStart > valueEnd) {
@@ -152,11 +147,6 @@ export default function Slider(props: SliderProps) {
       } else {
         value && setPrimaryHandleMovementX(calculateDistance(value))
       }
-    }
-
-    return () => {
-      document.removeEventListener('mouseup', mouseUpHandler)
-      document.removeEventListener('mousemove', mouseMoveHandler)
     }
   }, [root]);
 

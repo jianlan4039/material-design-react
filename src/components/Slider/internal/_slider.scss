@@ -144,8 +144,10 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
           inline-size: calc(12px + var(--_handle-width));
           position: absolute;
         }
+      }
 
-        &:active {
+      &.pressed {
+        .handle {
           inline-size: var(--_pressed-handle-width);
 
           .label {
