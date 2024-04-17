@@ -112,6 +112,8 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
         inline-size: inherit;
         border-radius: inherit;
         background-color: var(--_handle-color);
+        display: flex;
+        justify-content: center;
 
         .label {
           position: absolute;
