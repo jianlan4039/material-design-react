@@ -1,0 +1,160 @@
+@use "sass:map";
+@use "../../tokens/md-comp-slider";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../Elevation/internal/elevation";
+@use "../../tokens/md-sys-shape";
+@use "../../tokens/md-sys-color";
+@use "../../tokens/md-sys-motion";
+
+$new-tokens: (
+  handle-width: 4px,
+  handle-height: 44px,
+  handle-shape: map.get(md-sys-shape.values(), 'corner-full'),
+  active-track-height: 16px,
+  inactive-track-height: 16px,
+  label-container-height: 44px,
+  label-container-color: map.get(md-sys-color.values-light(), 'inverse-surface'),
+);
+
+$motion: md-sys-motion.values();
+$easing-emphasized: map.get($motion, 'easing-emphasized');
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, md-comp-slider.$supported-tokens, slider);
+}
+
+@mixin styles() {
+  .slider {
+    @include theme($new-tokens);
+    @include tokens-builder.tokens(md-comp-slider.values(), slider);
+    display: flex;
+    position: relative;
+    inline-size: 200px;
+    block-size: var(--_inactive-track-height);
+    align-items: center;
+    border-radius: var(--_active-track-shape);
+
+    .active-track {
+      @include background.theme((
+        color: var(--_active-track-color)
+      ));
+      block-size: var(--_active-track-height);
+      border-radius: inherit;
+      overflow: hidden;
+      @include background.styles;
+
+      &::before {
+        inset-inline-end: 8px;
+        border-radius: unset;
+      }
+    }
+
+    &.range {
+      .active-track {
+
+        &::before {
+          inset-inline-start: 8px;
+        }
+      }
+    }
+
+    .inactive-track {
+      @include background.theme((
+        color: var(--_inactive-track-color)
+      ));
+      block-size: var(--_inactive-track-height);
+      flex-grow: 10;
+      border-radius: inherit;
+      overflow: hidden;
+      @include background.styles;
+
+      &::before {
+        inset-inline-start: 8px;
+        border-radius: unset;
+      }
+
+      &.left {
+        flex-grow: 0;
+
+        &::before {
+          inset-inline-start: 0;
+          inset-inline-end: 8px;
+        }
+      }
+    }
+
+    .inactive-track,
+    .active-track {
+      position: relative;
+      display: flex;
+      box-sizing: border-box;
+    }
+
+    .handle-container {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      inline-size: var(--_handle-width);
+      block-size: var(--_handle-height);
+      border-radius: var(--_handle-shape);
+      z-index: 10;
+      transform: translateX(calc((0px - var(--_handle-width)) / 2));
+
+      .handle {
+        @include elevation.theme((
+          level: var(--_handle-elevation),
+          shadow-color: var(--_handle-shadow-color)
+        ));
+        position: relative;
+        block-size: inherit;
+        inline-size: inherit;
+        border-radius: inherit;
+        background-color: var(--_handle-color);
+
+        .label {
+          position: absolute;
+          inset-block-end: calc(var(--_label-container-height));
+          inline-size: 0;
+          block-size: 0;
+          background-color: var(--_label-container-color);
+          border-radius: var(--_handle-shape);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          white-space: nowrap;
+          overflow: hidden;
+          opacity: 0;
+          color: var(--_label-text-color);
+          font-family: var(--_label=text-font);
+          line-height: var(--_label-text-line-height);
+          font-size: var(--_label-text-size);
+          font-weight: var(--_label-text-weight);
+          transition-property: opacity, inset, inline-size, block-size;
+          transition-timing-function: $easing-emphasized;
+          transition-duration: 200ms, 100ms, 150ms, 150ms;
+          transition-delay: 250ms;
+        }
+
+        .handle-touch {
+          block-size: var(--_handle-height);
+          inline-size: calc(12px + var(--_handle-width));
+          position: absolute;
+        }
+
+        &:active {
+          inline-size: var(--_pressed-handle-width);
+
+          .label {
+            opacity: 1;
+            inline-size: var(--_label-container-width);
+            block-size: var(--_label-container-height);
+            inset-block-end: calc(var(--_label-container-height) + 4px);
+            transition-delay: 0ms;
+          }
+        }
+      }
+    }
+  }
+}

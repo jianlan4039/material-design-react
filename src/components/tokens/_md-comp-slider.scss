@@ -50,14 +50,15 @@ $supported-tokens: (
   'pressed-handle-color',
   'pressed-state-layer-color',
   'pressed-state-layer-opacity',
+  'pressed-handle-width',
   'state-layer-size',
+  'label-container-width',
   'with-overlap-handle-outline-color',
   'with-overlap-handle-outline-width',
   'with-tick-marks-active-container-color',
   'with-tick-marks-container-size',
   'with-tick-marks-disabled-container-color',
-  'with-tick-marks-inactive-container-color',
-  // go/keep-sorted end
+  'with-tick-marks-inactive-container-color', // go/keep-sorted end
 );
 
 $unsupported-tokens: (
@@ -66,15 +67,15 @@ $unsupported-tokens: (
   'label-text-type',
   'label-text-tracking',
   'track-elevation',
-  // for efficiency, tick marks are rendered as radial-gradients and
-  // have more limited customization
+    // for efficiency, tick marks are rendered as radial-gradients and
+    // have more limited customization
   'with-tick-marks-container-shape',
-  // Due to how opacity is multiplied together in the browser, using
-  // these tokens results in low contrast tick marks.
+    // Due to how opacity is multiplied together in the browser, using
+    // these tokens results in low contrast tick marks.
   'with-tick-marks-active-container-opacity',
   'with-tick-marks-disabled-container-opacity',
   'with-tick-marks-inactive-container-opacity',
-  // focus tokens no longer used.
+    // focus tokens no longer used.
   'focus-state-layer-color',
   'focus-state-layer-opacity'
 );
@@ -89,7 +90,7 @@ $_default: (
 
 @function values($deps: $_default, $exclude-hardcoded-values: false) {
   $tokens: values.validate(
-    md-comp-slider.values($deps, $exclude-hardcoded-values),
+      md-comp-slider.values($deps, $exclude-hardcoded-values),
     $supported-tokens: $supported-tokens,
     $unsupported-tokens: $unsupported-tokens,
     $renamed-tokens: (
@@ -100,6 +101,10 @@ $_default: (
       'label-label-text-size': 'label-text-size',
       'label-label-text-tracking': 'label-text-tracking',
       'label-label-text-weight': 'label-text-weight',
+    ),
+    $new-tokens: (
+      'pressed-handle-width': 2px,
+      'label-container-width': 48px
     )
   );
 
