@@ -50,9 +50,7 @@ export default function Slider(props: SliderProps) {
   } = props
 
   const root = useRef<HTMLDivElement>(null);
-
   const _activeHandle = useRef<ActiveHandle>(undefined);
-
   // const [customProps, setCustomProps] = useState<CSSProperties>()
   const customProps = useRef<CSSProperties>({
     '--_slider-ticks-count': (max / step),
@@ -60,6 +58,7 @@ export default function Slider(props: SliderProps) {
     '--_primary-handle': '0px',
     '--_second-handle': '0px'
   });
+  const lastPosition = useRef<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const [primaryHandleMovementX, setPrimaryHandleMovementX] = useState<number>(0)
   const [secondHandleMovementX, setSecondHandleMovementX] = useState<number>(0)
@@ -121,8 +120,8 @@ export default function Slider(props: SliderProps) {
   const setMovement = (clientX: number) => {
     if (!root.current) return;
     const rect = root.current.getBoundingClientRect()
-    let moveTo = validDistance(clientX - rect.x, 0, size)
-    moveTo = roundMovementTo(moveTo);
+    let moveTo = roundMovementTo(validDistance(clientX - rect.x, 0, size));
+    lastPosition.current = moveTo
     if (range && 'SECOND' === determineWhichHandle(moveTo)) {
       setSecondHandleMovementX(moveTo)
       _activeHandle.current = 'SECOND'
@@ -137,10 +136,9 @@ export default function Slider(props: SliderProps) {
   const draggingHandle = (clientX: number) => {
     if (!root.current || !size) return;
     const rect = root.current.getBoundingClientRect()
-    let distance = validDistance(clientX - rect.x, 0, size)
-
-    if (step) {
-      distance = roundMovementTo(distance)
+    let distance = roundMovementTo(validDistance(clientX - rect.x, 0, size))
+    if (step && Math.abs(distance - lastPosition.current) < step) {
+      return;
     }
     if (_activeHandle.current === 'PRIMARY' && distance >= secondHandleMovementX) {
       setPrimaryHandleMovementX(distance)
@@ -149,6 +147,7 @@ export default function Slider(props: SliderProps) {
       setSecondHandleMovementX(distance)
       customProps.current['--_second-handle'] = `${distance}px`
     }
+    lastPosition.current = distance
   }
 
   const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
