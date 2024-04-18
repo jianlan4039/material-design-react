@@ -25,9 +25,17 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
 }
 
 @mixin styles() {
-  .slider {
+  .slider-container {
     @include theme($new-tokens);
     @include tokens-builder.tokens(md-comp-slider.values(), slider);
+    position: relative;
+    padding-inline: 20px;
+    block-size: var(--_handle-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slider {
     display: flex;
     position: relative;
     inline-size: 200px;
@@ -35,7 +43,6 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
     justify-content: center;
     align-items: center;
     border-radius: var(--_active-track-shape);
-    margin-inline: 20px;
 
     .active-track {
       @include background.theme((
@@ -146,14 +153,16 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
       &.pressed {
         .handle {
           inline-size: var(--_pressed-handle-width);
+        }
+      }
 
-          .label {
-            opacity: 1;
-            inline-size: var(--_label-container-width);
-            block-size: var(--_label-container-height);
-            inset-block-end: calc(var(--_label-container-height) + 4px);
-            transition-delay: 0ms;
-          }
+      &.labeled {
+        .label {
+          opacity: 1;
+          inline-size: var(--_label-container-width);
+          block-size: var(--_label-container-height);
+          inset-block-end: calc(var(--_label-container-height) + 4px);
+          transition-delay: 0ms;
         }
       }
     }

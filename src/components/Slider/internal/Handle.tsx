@@ -6,6 +6,7 @@ export interface HandleProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   position?: number
   label?: string | number
+  labeled?: boolean
 }
 
 const Handle = forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
@@ -15,13 +16,14 @@ const Handle = forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
     className,
     style,
     label,
+    labeled,
     ...rest
   } = props
 
   return (
     <div
       ref={ref}
-      className={c(`handle-container`, className)}
+      className={c(`handle-container`, className, {'labeled': labeled})}
       style={{insetInlineStart: `${position}px`, ...style}}
     >
       <div className={'handle'}>

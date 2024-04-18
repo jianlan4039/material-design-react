@@ -46,6 +46,7 @@ export default function Slider(props: SliderProps) {
     disabled,
     step = 0,
     size = 200,
+    labeled,
     ...rest
   } = props
 
@@ -197,42 +198,41 @@ export default function Slider(props: SliderProps) {
     }
   }, [root]);
 
-  useEffect(() => {
-
-  }, [primaryHandleMovementX, secondHandleMovementX]);
-
   return (
-    <div
-      ref={root}
-      className={c('slider', {'range': range, 'disabled': disabled})}
-      style={{...customProps.current}}
-      onMouseDown={handleMouseDownHandler}
-    >
-      {
-        range &&
-        <>
-          <div className={'inactive-track left'} style={{inlineSize: `${secondHandleMovementX}px`}}></div>
-          <Handle
-            className={c('second', {'pressed': isDragging && _activeHandle.current === 'SECOND'})}
-            label={valueLabelEnd || calculateValue(secondHandleMovementX)}
-            position={secondHandleMovementX}
-          ></Handle>
-        </>
-      }
-      <input type="number" min={min} max={max} disabled={disabled}/>
+    <div className={'slider-container'} onMouseDown={handleMouseDownHandler}>
       <div
-        className={c('active-track')}
-        style={{
-          inlineSize: `${range ? primaryHandleMovementX - secondHandleMovementX : primaryHandleMovementX}px`
-        }}
-      ></div>
-      <div className={c('inactive-track')}></div>
-      <Handle
-        position={primaryHandleMovementX}
-        label={valueLabel || valueLabelStart || calculateValue(primaryHandleMovementX)}
-        className={c({'pressed': isDragging && _activeHandle.current === 'PRIMARY'})}
-      ></Handle>
-      <div className={'tick-marks'}></div>
+        ref={root}
+        className={c('slider', {'range': range, 'disabled': disabled})}
+        style={{...customProps.current}}
+      >
+        {
+          range &&
+          <>
+            <div className={'inactive-track left'} style={{inlineSize: `${secondHandleMovementX}px`}}></div>
+            <Handle
+              className={c('second', {'pressed': isDragging && _activeHandle.current === 'SECOND'})}
+              label={valueLabelEnd || calculateValue(secondHandleMovementX)}
+              position={secondHandleMovementX}
+              labeled={labeled && isDragging}
+            ></Handle>
+          </>
+        }
+        <input type="number" min={min} max={max} disabled={disabled}/>
+        <div
+          className={c('active-track')}
+          style={{
+            inlineSize: `${range ? primaryHandleMovementX - secondHandleMovementX : primaryHandleMovementX}px`
+          }}
+        ></div>
+        <div className={c('inactive-track')}></div>
+        <Handle
+          position={primaryHandleMovementX}
+          label={valueLabel || valueLabelStart || calculateValue(primaryHandleMovementX)}
+          className={c({'pressed': isDragging && _activeHandle.current === 'PRIMARY'})}
+          labeled={labeled && isDragging}
+        ></Handle>
+        <div className={'tick-marks'}></div>
+      </div>
     </div>
   )
 }
