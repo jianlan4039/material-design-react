@@ -51,6 +51,7 @@ export default function Slider(props: SliderProps) {
   } = props
 
   const root = useRef<HTMLDivElement>(null);
+  const rootRect = useRef<DOMRect>();
   const _activeHandle = useRef<ActiveHandle>(undefined);
   // const [customProps, setCustomProps] = useState<CSSProperties>()
   const customProps = useRef<CSSProperties>({
@@ -119,9 +120,8 @@ export default function Slider(props: SliderProps) {
   }
 
   const setMovement = (clientX: number) => {
-    if (!root.current) return;
-    const rect = root.current.getBoundingClientRect()
-    let moveTo = roundMovementTo(validDistance(clientX - rect.x, 0, size));
+    if (!rootRect.current) return;
+    let moveTo = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, size));
     lastPosition.current = moveTo
     if (range && 'SECOND' === determineWhichHandle(moveTo)) {
       setSecondHandleMovementX(moveTo)
@@ -135,9 +135,8 @@ export default function Slider(props: SliderProps) {
   }
 
   const draggingHandle = (clientX: number) => {
-    if (!root.current || !size) return;
-    const rect = root.current.getBoundingClientRect()
-    let distance = roundMovementTo(validDistance(clientX - rect.x, 0, size))
+    if (!size || !rootRect.current) return;
+    let distance = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, size))
     if (step && Math.abs(distance - lastPosition.current) < step) {
       return;
     }
@@ -152,7 +151,8 @@ export default function Slider(props: SliderProps) {
   }
 
   const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
-    if (disabled) return;
+    if (disabled || !root.current) return;
+    rootRect.current = root.current.getBoundingClientRect()
     e.preventDefault()
     setMovement(e.clientX)
     setIsDragging(true)
