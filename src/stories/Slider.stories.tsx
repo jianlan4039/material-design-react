@@ -15,9 +15,9 @@ export default meta;
 type Story = StoryObj<typeof Slider>;
 
 export const Default: Story = {
-  render: (args) => {
+  render: ({...rest}) => {
     return (
-      <Slider {...args}></Slider>
+      <Slider {...rest}></Slider>
     )
   }
 }

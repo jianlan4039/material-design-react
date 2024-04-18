@@ -1,11 +1,10 @@
-import React, {ReactNode, useRef, MouseEvent as ReactMouseEvent, useState, useEffect, useId} from 'react'
+import React, {ReactNode, useRef, MouseEvent as ReactMouseEvent, useState, useEffect, useId, CSSProperties} from 'react'
 import './Slider.scss'
 import c from 'classnames'
 import Handle from "./internal/Handle";
 
 export interface SliderProps {
   id?: string
-  children?: ReactNode
   step?: number
   min?: number
   max?: number
@@ -17,14 +16,24 @@ export interface SliderProps {
   valueLabelStart?: string
   valueLabelEnd?: string
   range?: boolean
+  disabled?: boolean
+  size?: number
 }
 
 type ActiveHandle = 'PRIMARY' | 'SECOND' | undefined;
 
+declare module 'react' {
+  interface CSSProperties {
+    '--_slider-ticks-count'?: number
+    '--_slider-size'?: string
+    '--_primary-handle'?: string
+    '--_second-handle'?: string
+  }
+}
+
 export default function Slider(props: SliderProps) {
   const {
     id = useId(),
-    children,
     value = 0,
     min = 0,
     max = 100,
@@ -34,27 +43,40 @@ export default function Slider(props: SliderProps) {
     valueEnd,
     valueLabelStart,
     valueLabelEnd,
+    disabled,
+    step = 0,
+    size = 200,
     ...rest
   } = props
 
   const root = useRef<HTMLDivElement>(null);
-  const size = useRef<number>(0);
 
   const _activeHandle = useRef<ActiveHandle>(undefined);
 
+  // const [customProps, setCustomProps] = useState<CSSProperties>()
+  const customProps = useRef<CSSProperties>({
+    '--_slider-ticks-count': (max / step),
+    '--_slider-size': `${size}px`,
+    '--_primary-handle': '0px',
+    '--_second-handle': '0px'
+  });
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const [primaryHandleMovementX, setPrimaryHandleMovementX] = useState<number>(0)
   const [secondHandleMovementX, setSecondHandleMovementX] = useState<number>(0)
 
   const calculateValue = (distance: number) => {
-    return Math.round(min + (distance / size.current) * (max - min))
+    const result = Math.round(min + (distance / size) * (max - min))
+    if (isNaN(result)) {
+      return 0;
+    }
+    return result
   }
 
   const calculateDistance = (value: number) => {
     if (value < min || value > max) {
       console.warn(`value for slider ${id} is not valid`)
     }
-    return value * (size.current / (max - min))
+    return value * (size / (max - min))
   }
 
   const validDistance = (distance: number, min: number, max: number) => {
@@ -62,7 +84,7 @@ export default function Slider(props: SliderProps) {
   }
 
   const determineWhichHandle = (distance: number) => {
-    const willMoveTo = validDistance(distance, 0, size.current)
+    const willMoveTo = validDistance(distance, 0, size)
     const deltaDistance = primaryHandleMovementX - secondHandleMovementX
 
     if (willMoveTo >= primaryHandleMovementX) {
@@ -77,37 +99,60 @@ export default function Slider(props: SliderProps) {
     }
   }
 
+  function roundMovementTo(moveTo: number) {
+    let _value = calculateValue(moveTo)
+    if (step && _value % step !== 0) {
+      let left = 0, right = 0;
+      for (let i = 0; i < max / step; i++) {
+        const difference = _value - (min + step * i)
+        const absDiff = Math.abs(difference)
+        if (absDiff < step && difference > 0) {
+          right = left = min + step * i
+        }
+        if (absDiff < step && difference < 0) {
+          right = min + step * i
+        }
+      }
+      _value - left > right - _value ? (moveTo = calculateDistance(right)) : (moveTo = calculateDistance(left));
+    }
+    return moveTo;
+  }
+
   const setMovement = (clientX: number) => {
     if (!root.current) return;
     const rect = root.current.getBoundingClientRect()
-    const moveTo = validDistance(clientX - rect.x, 0, size.current)
-    if (range) {
-      if ('PRIMARY' === determineWhichHandle(moveTo)) {
-        setPrimaryHandleMovementX(moveTo)
-      } else {
-        setSecondHandleMovementX(moveTo)
-      }
+    let moveTo = validDistance(clientX - rect.x, 0, size)
+    moveTo = roundMovementTo(moveTo);
+    if (range && 'SECOND' === determineWhichHandle(moveTo)) {
+      setSecondHandleMovementX(moveTo)
+      _activeHandle.current = 'SECOND'
+      customProps.current['--_second-handle'] = `${moveTo}px`
     } else {
       setPrimaryHandleMovementX(moveTo)
+      _activeHandle.current = 'PRIMARY'
+      customProps.current['--_primary-handle'] = `${moveTo}px`
     }
   }
 
   const draggingHandle = (clientX: number) => {
-    if (!root.current || !size.current) return;
+    if (!root.current || !size) return;
     const rect = root.current.getBoundingClientRect()
-    const distance = validDistance(clientX - rect.x, 0, size.current)
-    if (_activeHandle.current === 'PRIMARY') {
-      if (distance >= secondHandleMovementX) {
-        setPrimaryHandleMovementX(distance)
-      }
-    } else {
-      if (distance <= primaryHandleMovementX) {
-        setSecondHandleMovementX(distance)
-      }
+    let distance = validDistance(clientX - rect.x, 0, size)
+
+    if (step) {
+      distance = roundMovementTo(distance)
+    }
+    if (_activeHandle.current === 'PRIMARY' && distance >= secondHandleMovementX) {
+      setPrimaryHandleMovementX(distance)
+      customProps.current['--_primary-handle'] = `${distance}px`
+    } else if (distance <= primaryHandleMovementX) {
+      setSecondHandleMovementX(distance)
+      customProps.current['--_second-handle'] = `${distance}px`
     }
   }
 
   const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.preventDefault()
     setMovement(e.clientX)
     setIsDragging(true)
@@ -116,6 +161,7 @@ export default function Slider(props: SliderProps) {
   }
 
   const mouseUpHandler = (e: MouseEvent) => {
+    if (disabled) return;
     e.preventDefault()
     _activeHandle.current = undefined
     setIsDragging(false)
@@ -124,13 +170,15 @@ export default function Slider(props: SliderProps) {
   }
 
   const mouseMoveHandler = (e: MouseEvent) => {
+    if (disabled) return;
     e.preventDefault()
     draggingHandle(e.clientX)
   }
 
   useEffect(() => {
     if (root.current) {
-      size.current = root.current.getBoundingClientRect().width
+      if (step) {
+      }
       if (range) {
         if (valueStart) {
           const distance = calculateDistance(valueStart)
@@ -150,10 +198,15 @@ export default function Slider(props: SliderProps) {
     }
   }, [root]);
 
+  useEffect(() => {
+
+  }, [primaryHandleMovementX, secondHandleMovementX]);
+
   return (
     <div
       ref={root}
-      className={c('slider', {'range': range})}
+      className={c('slider', {'range': range, 'disabled': disabled})}
+      style={{...customProps.current}}
       onMouseDown={handleMouseDownHandler}
     >
       {
@@ -162,26 +215,25 @@ export default function Slider(props: SliderProps) {
           <div className={'inactive-track left'} style={{inlineSize: `${secondHandleMovementX}px`}}></div>
           <Handle
             className={c('second', {'pressed': isDragging && _activeHandle.current === 'SECOND'})}
+            label={valueLabelEnd || calculateValue(secondHandleMovementX)}
             position={secondHandleMovementX}
-            label={'support handle'}
           ></Handle>
         </>
       }
+      <input type="number" min={min} max={max} disabled={disabled}/>
       <div
         className={c('active-track')}
         style={{
           inlineSize: `${range ? primaryHandleMovementX - secondHandleMovementX : primaryHandleMovementX}px`
         }}
       ></div>
-      <div className={'inactive-track'}></div>
+      <div className={c('inactive-track')}></div>
       <Handle
         position={primaryHandleMovementX}
-        label={'handle'}
+        label={valueLabel || valueLabelStart || calculateValue(primaryHandleMovementX)}
         className={c({'pressed': isDragging && _activeHandle.current === 'PRIMARY'})}
       ></Handle>
-      <div className={'stop-container'}>
-        <div className={'stop'}></div>
-      </div>
+      <div className={'tick-marks'}></div>
     </div>
   )
 }

@@ -5,7 +5,7 @@ import c from 'classnames'
 export interface HandleProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   position?: number
-  label?: string
+  label?: string | number
 }
 
 const Handle = forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
@@ -18,19 +18,16 @@ const Handle = forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
     ...rest
   } = props
 
-
   return (
     <div
       ref={ref}
       className={c(`handle-container`, className)}
       style={{insetInlineStart: `${position}px`, ...style}}
-      {...rest}
     >
       <div className={'handle'}>
         <Elevation></Elevation>
         <div className={'label'}>{label}</div>
         <div className={'handle-touch'}></div>
-        {children}
       </div>
     </div>
   )

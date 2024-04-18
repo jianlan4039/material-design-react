@@ -32,30 +32,21 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
     position: relative;
     inline-size: 200px;
     block-size: var(--_inactive-track-height);
+    justify-content: center;
     align-items: center;
     border-radius: var(--_active-track-shape);
+    margin-inline: 20px;
 
     .active-track {
       @include background.theme((
         color: var(--_active-track-color)
       ));
       block-size: var(--_active-track-height);
-      border-radius: inherit;
-      overflow: hidden;
       @include background.styles;
 
       &::before {
         inset-inline-end: 8px;
         border-radius: unset;
-      }
-    }
-
-    &.range {
-      .active-track {
-
-        &::before {
-          inset-inline-start: 8px;
-        }
       }
     }
 
@@ -65,8 +56,6 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
       ));
       block-size: var(--_inactive-track-height);
       flex-grow: 10;
-      border-radius: inherit;
-      overflow: hidden;
       @include background.styles;
 
       &::before {
@@ -89,6 +78,14 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
       position: relative;
       display: flex;
       box-sizing: border-box;
+      border-radius: inherit;
+      overflow: hidden;
+    }
+
+    input[type='number'] {
+      opacity: 0;
+      position: absolute;
+      inset: 0;
     }
 
     .handle-container {
@@ -158,6 +155,65 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
             transition-delay: 0ms;
           }
         }
+      }
+    }
+
+    .tick-marks {
+      --_tick-width: calc(var(--_slider-size) / var(--_slider-ticks-count));
+      --_active-ticks: 2;
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      overflow: hidden;
+      clip-path: inset(0 calc(var(--_inactive-track-height) / 2) 0 calc(var(--_inactive-track-height) / 2));
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background-size: calc(var(--_tick-width)) 16px;
+        background-position: calc(var(--_tick-width) / 2) 0;
+      }
+
+      &::after {
+        background-image: radial-gradient(var(--_indicator-size) at calc(0px + var(--_tick-width) / 2) 8px, var(--_indicator-color-active), transparent);
+        clip-path: inset(0 calc(var(--_slider-size) - (var(--_primary-handle)) + 8px) 0 calc(var(--_second-handle) + 8px));
+      }
+
+      &::before {
+        background-image: radial-gradient(var(--_indicator-size) at calc(0px + var(--_tick-width) / 2) 8px, var(--_indicator-color), transparent);
+        mask-image: linear-gradient(to right, black, black calc(var(--_second-handle) - 8px), transparent calc(var(--_second-handle) - 8px), transparent calc(var(--_primary-handle) + 8px), black calc(var(--_primary-handle) + 8px));
+      }
+    }
+
+    &.range {
+      .active-track {
+
+        &::before {
+          inset-inline-start: 8px;
+        }
+      }
+    }
+
+    &.disabled {
+      .inactive-track {
+        @include background.theme((
+          color: var(--_disabled-inactive-track-color),
+          opacity: var(--_disabled-inactive-track-opacity)
+        ))
+      }
+
+      .active-track {
+        @include background.theme((
+          color: var(--_disabled-active-track-color),
+          opacity: var(--_disabled-active-track-opacity)
+        ))
+      }
+
+      .handle {
+        background-color: var(--_disabled-handle-color);
       }
     }
   }

@@ -59,6 +59,9 @@ $supported-tokens: (
   'with-tick-marks-container-size',
   'with-tick-marks-disabled-container-color',
   'with-tick-marks-inactive-container-color', // go/keep-sorted end
+  'indicator-color',
+  'indicator-color-active',
+  'indicator-size'
 );
 
 $unsupported-tokens: (
@@ -104,7 +107,10 @@ $_default: (
     ),
     $new-tokens: (
       'pressed-handle-width': 2px,
-      'label-container-width': 48px
+      'label-container-width': 48px,
+      'indicator-color-active': map.get($_default, 'md-sys-color', 'secondary-container'),
+      'indicator-color': map.get($_default, 'md-sys-color', 'primary'),
+      'indicator-size': 2px
     )
   );
 
