@@ -85,7 +85,8 @@ export default function Slider(props: SliderProps) {
   }
 
   const determineWhichHandle = (distance: number) => {
-    const willMoveTo = validDistance(distance, 0, size)
+    if (!rootRect.current) return;
+    const willMoveTo = validDistance(distance, 0, rootRect.current?.width)
     const deltaDistance = primaryHandleMovementX - secondHandleMovementX
 
     if (willMoveTo >= primaryHandleMovementX) {
@@ -101,27 +102,35 @@ export default function Slider(props: SliderProps) {
   }
 
   function roundMovementTo(moveTo: number) {
+    if (!rootRect.current) return moveTo;
     let _value = calculateValue(moveTo)
+    let calcMoveTo: number = moveTo
     if (step && _value % step !== 0) {
       let left = 0, right = 0;
-      for (let i = 0; i < max / step; i++) {
+      for (let i = 0; i < (Math.ceil(max / step) + 1); i++) {
         const difference = _value - (min + step * i)
         const absDiff = Math.abs(difference)
-        if (absDiff < step && difference > 0) {
-          right = left = min + step * i
-        }
-        if (absDiff < step && difference < 0) {
-          right = min + step * i
+        if (absDiff < step) {
+          if (difference > 0) {
+            right = left = min + step * i
+          } else {
+            right = min + step * i
+          }
         }
       }
-      _value - left > right - _value ? (moveTo = calculateDistance(right)) : (moveTo = calculateDistance(left));
+      if (right >= max && (moveTo - calculateDistance(left) > 15)) {
+        // 当处于这种状态时，点击点处于边界值，最右边
+        calcMoveTo = calculateDistance(right)
+      } else {
+        _value - left > right - _value ? (calcMoveTo = calculateDistance(right)) : (calcMoveTo = calculateDistance(left));
+      }
     }
-    return moveTo;
+    return validDistance(calcMoveTo, 0, rootRect.current?.width)
   }
 
   const setMovement = (clientX: number) => {
     if (!rootRect.current) return;
-    let moveTo = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, size));
+    let moveTo = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, rootRect.current?.width));
     lastPosition.current = moveTo
     if (range && 'SECOND' === determineWhichHandle(moveTo)) {
       setSecondHandleMovementX(moveTo)
@@ -136,8 +145,8 @@ export default function Slider(props: SliderProps) {
 
   const draggingHandle = (clientX: number) => {
     if (!size || !rootRect.current) return;
-    let distance = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, size))
-    if (step && Math.abs(distance - lastPosition.current) < step) {
+    let distance = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, rootRect.current?.width))
+    if (step && Math.abs(distance - lastPosition.current) < 10) {
       return;
     }
     if (_activeHandle.current === 'PRIMARY' && distance >= secondHandleMovementX) {
