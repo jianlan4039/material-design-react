@@ -12,7 +12,6 @@
 }
 
 @mixin styles() {
-
   .snackbar {
     @include tokens-builder.tokens(nd-comp-snackbar.values(), snackbar);
     @include elevation.theme((
@@ -35,7 +34,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    opacity: 1;
     position: fixed;
     inset: auto auto 0 50%;
     transform: translateX(-50%);
@@ -121,6 +119,16 @@
         position: absolute;
         inset: 0 0 auto auto;
       }
+    }
+  }
+
+  .snackbar {
+    display: none;
+    opacity: 0;
+
+    &.visible {
+      display: flex;
+      opacity: 1;
     }
   }
 }

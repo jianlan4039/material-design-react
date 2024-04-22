@@ -1,5 +1,4 @@
 import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState, MouseEvent, HTMLProps} from 'react'
-import {createPortal} from "react-dom";
 import TextButton from "../Button/TextButton";
 import './Snackbar.scss'
 import c from 'classnames'
@@ -45,16 +44,34 @@ const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivEle
   const actionRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const animationBuffer = useRef<Animation[]>([])
+  const rootRect = useRef<DOMRect>()
 
   const [isActionWrapped, setIsActionWrapped] = useState<boolean>(false)
-  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [isVisible, setIsVisible] = useState<boolean>(true)
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
 
   useEffect(() => {
-    if (actionRef.current) {
+    if (rootRef.current && actionRef.current) {
+      rootRect.current = rootRef.current.getBoundingClientRect()
       setIsActionWrapped(actionRef.current.getBoundingClientRect().width > 50)
+      setIsVisible(false)
     }
-  }, [actionRef]);
+  }, [rootRef, actionRef]);
+
+  useEffect(() => {
+    quick ? setIsVisible(Boolean(show)) : animateShow(Boolean(show))
+  }, [show]);
+
+  useEffect(() => {
+    if (isAnimating && show) {
+      animateOpen()
+    } else if (isAnimating && !show && isVisible) {
+      animateClose()
+    } else {
+      const animation = animationBuffer.current.shift()
+      animation?.cancel()
+    }
+  }, [isAnimating, show]);
 
   const btnMouseOverHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
@@ -70,11 +87,21 @@ const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivEle
   };
 
   const closeHandler = () => {
+    //todo: fire close event
+  }
 
+  const animateShow = (show: boolean) => {
+    if (show) {
+      setIsVisible(true)
+      setIsAnimating(true)
+    } else {
+      setIsAnimating(true)
+    }
   }
 
   const animateOpen = () => {
-    if (!rootRef.current) {
+    if (!rootRef.current || !rootRect.current) {
+      setIsVisible(true)
       return
     }
     const duration = quick ? 0 : DURATION.DURATION_MEDIUM1
@@ -84,7 +111,6 @@ const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivEle
       {opacity: '1', blockSize: `${height}px`, insetBlockEnd: `${offsetY}px`}
     ], {duration: duration, easing: EASING.EMPHASIZED})
     animationBuffer.current.push(opacityAnimation)
-
     opacityAnimation.addEventListener('finish', () => {
       setIsAnimating(false)
     })
@@ -113,6 +139,7 @@ const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivEle
       ref={rootRef}
       className={c('snackbar', className, {
         'action-wrapped': isActionWrapped,
+        'visible': isVisible
       })}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
