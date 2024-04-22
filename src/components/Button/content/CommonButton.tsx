@@ -31,9 +31,9 @@ const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, re
       disabled={disabled}
       {...rest}
     >
-      <span className={'nd-button__icon-slot'}>{icon}</span>
+      {icon && <span className={'nd-button__icon-slot'}>{icon}</span>}
       {children}
-      <span className={'nd-button__trailing-icon-slot'}>{trailingIcon}</span>
+      {trailingIcon && <span className={'nd-button__trailing-icon-slot'}>{trailingIcon}</span>}
     </button>
   )
 })

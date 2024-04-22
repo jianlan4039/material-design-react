@@ -1,0 +1,126 @@
+@use "sass:map";
+@use "../../builder/tokens-builder";
+@use "../../tokens/_nd-comp-snackbar";
+@use "../../Elevation/internal/elevation";
+@use "../../builder/background";
+@use "../../StateLayer/internal/state-layer";
+@use "../../Button/content/text-button";
+@use "../../IconButton/content/icon-button";
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, nd-comp-snackbar.$supported-tokens, snackbar);
+}
+
+@mixin styles() {
+
+  .snackbar {
+    @include tokens-builder.tokens(nd-comp-snackbar.values(), snackbar);
+    @include elevation.theme((
+      level: var(--_container-elevation),
+      shadow-color: var(--_container-shadow-color)
+    ));
+    @include background.theme((
+      color: var(--_container-color)
+    ));
+    @include state-layer.theme((
+      hover-color: var(--_hover-state-layer-color),
+      hover-opacity: var(--_hover-state-layer-opacity),
+      pressed-color: var(--_pressed-state-layer-color),
+      pressed-opacity: var(--_pressed-state-layer-opacity)
+    ));
+
+    inline-size: 400px;
+    block-size: var(--_container-with-single-line-height);
+    border-radius: var(--_container-shape);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 1;
+    position: fixed;
+    inset: auto auto 0 50%;
+    transform: translateX(-50%);
+
+    @include background.styles;
+
+    .supporting-text-container {
+      box-sizing: border-box;
+      flex-grow: 10;
+      display: inline-flex;
+      position: relative;
+      align-items: center;
+      padding-inline: 16px 8px;
+      padding-block: 12px;
+
+      .supporting-text {
+        box-sizing: border-box;
+        display: inline-block;
+        font-family: var(--_supporting-text-font);
+        color: var(--_supporting-text-color);
+        line-height: var(--_supporting-text-line-height);
+        font-size: var(--_supporting-text-size);
+        font-weight: var(--_supporting-text-weight);
+        overflow: hidden;
+        inline-size: 100%;
+        max-block-size: calc(var(--_supporting-text-line-height) * 2);
+      }
+    }
+
+    .action-container {
+      @include text-button.theme((
+        label-text-color: var(--_label-text-color),
+        label-text-font: var(--_label-text-font),
+        label-text-line-height: var(--_label-text-line-height),
+        label-text-size: var(--_label-text-size),
+        label-text-weight: var(--_label-text-weight),
+        hover-state-layer-color: transparent,
+        pressed-state-layer-color: transparent,
+        hover-label-text-color: var(--_hover-label-text-color),
+        pressed-label-text-color: var(--_pressed-label-text-color)
+      ));
+
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .close-container {
+      @include icon-button.theme((
+        icon-color: var(--_icon-color),
+        icon-size: var(--_icon-size),
+        hover-icon-color: var(--_icon-hover-icon-color),
+        pressed-icon-color: var(--_icon-pressed-icon-color),
+        hover-state-layer-color: var(--_icon-hover-state-layer-color),
+        hover-state-layer-opacity: var(--_icon-hover-state-layer-opacity),
+        pressed-state-layer-color: var(--_icon-pressed-state-layer-opacity)
+      ));
+    }
+
+    .action-container,
+    .close-container {
+
+      @include background.theme((
+        color: transparent
+      ));
+      @include elevation.theme((
+        level: 0
+      ));
+    }
+
+    &.action-wrapped {
+      flex-direction: column;
+      min-block-size: var(--_container-with-two-lines-height);
+      block-size: auto;
+      align-items: end;
+
+      .supporting-text-container {
+        padding-inline-end: 16px;
+        box-sizing: border-box;
+        inline-size: 100%;
+      }
+
+      .close-container {
+        position: absolute;
+        inset: 0 0 auto auto;
+      }
+    }
+  }
+}

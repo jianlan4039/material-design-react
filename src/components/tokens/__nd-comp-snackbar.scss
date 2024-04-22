@@ -1,0 +1,99 @@
+@use 'sass:map';
+@use './md-sys-color';
+@use './md-sys-shape';
+@use './md-sys-state';
+@use './md-sys-typescale';
+@use "./md-sys-elevation";
+@use './values';
+
+$supported-tokens: (
+  'container-color',
+  'container-shadow-color',
+  'container-elevation',
+  'container-shape',
+  'container-with-single-line-height',
+  'container-with-two-lines-height',
+  'label-text-color',
+  'label-text-font',
+  'label-text-line-height',
+  'label-text-size',
+  'label-text-tracking',
+  'label-text-weight',
+  'icon-color',
+  'icon-size',
+  'supporting-text-color',
+  'supporting-text-font',
+  'supporting-text-line-height',
+  'supporting-text-size',
+  'supporting-text-tracking',
+  'supporting-text-weight',
+  'hover-label-text-color',
+  'hover-state-layer-color',
+  'hover-state-layer-opacity',
+  'icon-hover-state-layer-color',
+  'icon-hover-state-layer-opacity',
+  'icon-hover-icon-color',
+  'fous-label-text-color',
+  'focus-state-layer-color',
+  'focus-state-layer-opacity',
+  'icon-focus-state-layer-color',
+  'icon-focus-state-layer-opacity',
+  'icon-focus-icon-color',
+  'pressed-label-text-color',
+  'pressed-state-layer-color',
+  'pressed-state-layer-opacity',
+  'icon-pressed-state-layer-color',
+  'icon-pressed-state-layer-opacity',
+  'icon-pressed-icon-color'
+);
+
+$_default: (
+  'md-sys-color': md-sys-color.values-light(),
+  'md-sys-shape': md-sys-shape.values(),
+  'md-sys-state': md-sys-state.values(),
+  'md-sys-elevation': md-sys-elevation.values(),
+  'md-sys-typescale': md-sys-typescale.values(),
+);
+
+@function values($deps: $_default, $exclude-hardcoded-values: false) {
+  @return (
+    'container-color': map.get($deps, 'md-sys-color', 'inverse-surface'),
+    'container-shadow-color': map.get($deps, 'md-sys-color', 'shadow'),
+    'container-elevation': map.get($deps, 'md-sys-elevation', 'level3'),
+    'container-shape': map.get($deps, 'md-sys-shape', 'corner-extra-small'),
+    'container-with-single-line-height': 48px,
+    'container-with-two-lines-height': 68px,
+    'label-text-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'label-text-font': map.get($deps, 'md-sys-typescale', 'label-large-font'),
+    'label-text-line-height': map.get($deps, 'md-sys-typescale', 'label-large-line-height'),
+    'label-text-size': map.get($deps, 'md-sys-typescale', 'label-large-size'),
+    'label-text-tracking': map.get($deps, 'md-sys-typescale', 'label-large-tracking'),
+    'label-text-weight': map.get($deps, 'md-sys-typescale', 'label-large-weight'),
+    'icon-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'icon-size': 24px,
+    'supporting-text-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'supporting-text-font': map.get($deps, 'md-sys-typescale', 'body-medium-font'),
+    'supporting-text-line-height': map.get($deps, 'md-sys-typescale', 'body-medium-line-height'),
+    'supporting-text-size': map.get($deps, 'md-sys-typescale', 'body-medium-size'),
+    'supporting-text-tracking': map.get($deps, 'md-sys-typescale', 'body-medium-tracking'),
+    'supporting-text-weight': map.get($deps, 'md-sys-typescale', 'body-medium-weight'),
+    'hover-label-text-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'hover-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'hover-state-layer-opacity': map.get($deps, 'md-sys-state', 'hover-state-layer-opacity'),
+    'icon-hover-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'icon-hover-state-layer-opacity': map.get($deps, 'md-sys-state', 'hover-state-layer-opacity'),
+    'icon-hover-icon-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'fous-label-text-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'focus-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'focus-state-layer-opacity': map.get($deps, 'md-sys-state', 'focus-state-layer-opacity'),
+    'icon-focus-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'icon-focus-state-layer-opacity': map.get($deps, 'md-sys-state', 'focus-state-layer-opacity'),
+    'icon-focus-icon-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'pressed-label-text-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'pressed-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'pressed-state-layer-opacity': map.get($deps, 'md-sys-state', 'pressed-state-layer-opacity'),
+    'icon-pressed-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'icon-pressed-state-layer-opacity': map.get($deps, 'md-sys-state', 'pressed-state-layer-opacity'),
+    'icon-pressed-icon-color': map.get($deps, 'md-sys-color', 'inverse-on-surface')
+  )
+}

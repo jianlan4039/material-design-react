@@ -4,6 +4,10 @@
 
 $tokens: md-comp-text-button.values();
 
+@mixin theme($new-tokens){
+  @include tokens-builder.theme($new-tokens, md-comp-text-button.$supported-tokens, text-button);
+}
+
 @mixin styles() {
   @include tokens-builder.tokens($tokens, text-button);
   --_container-shape-start-start: var(--md-text-button-container-shape-start-start, var(--_container-shape));

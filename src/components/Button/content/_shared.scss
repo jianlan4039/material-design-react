@@ -42,6 +42,7 @@
     padding-inline-start: var(--_leading-space);
     padding-inline-end: var(--_trailing-space);
     min-width: 64px;
+    white-space: nowrap;
 
     .nd-button__icon-slot > *,
     .nd-button__trailing-icon-slot > * {

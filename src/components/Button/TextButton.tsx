@@ -14,11 +14,12 @@ const TextButton = StateLayer<HTMLButtonElement, TextButtonProps>(forwardRef<HTM
     children,
     disabled,
     stateLayer,
+    className,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-text-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-text-button', className, {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       {stateLayer}
       <CommonButton ref={ref} disabled={disabled} {...rest}>

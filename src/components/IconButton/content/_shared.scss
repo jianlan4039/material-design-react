@@ -37,7 +37,8 @@ $support-tokens: (
 
       .nd-icon-button__icon-slot,
       .nd-icon-button__icon-slot > * {
-        color: var(--md-icon-button-color, var(--_icon-color));
+        fill: var(--_icon-color);
+        color: var(--_icon-color);
         font-size: var(--_icon-size);
         block-size: var(--_icon-size);
         inline-size: var(--_icon-size);

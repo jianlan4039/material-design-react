@@ -8,6 +8,10 @@
 
 $tokens: md-comp-icon-button.values();
 
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, md-comp-icon-button.$supported-tokens, icon-button);
+}
+
 @mixin styles() {
   @include tokens-builder.tokens($tokens, icon-button);
   @include state-layer.theme((
@@ -27,7 +31,6 @@ $tokens: md-comp-icon-button.values();
   --_container-height: var(--md-icon-button-container-height, var(--_state-layer-height));
   --_container-width: var(--md-icon-button-container-width, var(--_state-layer-width));
 
-  @include shared.styles;
   @include shared.styles;
   @include background.styles;
   @include state.styles;
