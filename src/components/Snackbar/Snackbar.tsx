@@ -44,16 +44,14 @@ const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivEle
   const actionRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const animationBuffer = useRef<Animation[]>([])
-  const rootRect = useRef<DOMRect>()
 
   const [isActionWrapped, setIsActionWrapped] = useState<boolean>(false)
-  const [isVisible, setIsVisible] = useState<boolean>(true)
+  const [isVisible, setIsVisible] = useState<boolean | undefined>()
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
 
   useEffect(() => {
     if (rootRef.current && actionRef.current) {
-      rootRect.current = rootRef.current.getBoundingClientRect()
-      setIsActionWrapped(actionRef.current.getBoundingClientRect().width > 50)
+      setIsActionWrapped(actionRef.current.getBoundingClientRect().width > 100)
       setIsVisible(false)
     }
   }, [rootRef, actionRef]);
@@ -100,17 +98,22 @@ const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivEle
   }
 
   const animateOpen = () => {
-    if (!rootRef.current || !rootRect.current) {
+    if (quick || !rootRef.current) {
       setIsVisible(true)
       return
     }
-    const duration = quick ? 0 : DURATION.DURATION_MEDIUM1
+
     const {height} = rootRef.current.getBoundingClientRect()
     const opacityAnimation = rootRef.current.animate([
-      {opacity: '0', blockSize: '0', insetBlockEnd: `-${height}px`},
-      {opacity: '1', blockSize: `${height}px`, insetBlockEnd: `${offsetY}px`}
-    ], {duration: duration, easing: EASING.EMPHASIZED})
+      {opacity: '0', blockSize: '0',},
+      {opacity: '1', blockSize: `${height}px`}
+    ], {duration: DURATION.DURATION_MEDIUM1, easing: EASING.EMPHASIZED_ACCELERATE})
+    const heightAnimation = rootRef.current.animate([
+      {blockSize: '0', insetBlockEnd: `-${height}px`},
+      {blockSize: `${height}px`, insetBlockEnd: `${offsetY}px`}
+    ], {duration: DURATION.DURATION_MEDIUM1, easing: EASING.EMPHASIZED_DECELERATE})
     animationBuffer.current.push(opacityAnimation)
+    animationBuffer.current.push(heightAnimation)
     opacityAnimation.addEventListener('finish', () => {
       setIsAnimating(false)
     })
@@ -139,7 +142,7 @@ const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivEle
       ref={rootRef}
       className={c('snackbar', className, {
         'action-wrapped': isActionWrapped,
-        'visible': isVisible
+        'visible': isVisible === true
       })}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
