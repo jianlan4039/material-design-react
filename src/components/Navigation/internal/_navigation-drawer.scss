@@ -1,0 +1,54 @@
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../tokens/md-comp-navigation-drawer";
+@use "../../List/internal/list-item";
+
+$_values: (
+);
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .navigation-drawer {
+    @include tokens-builder.tokens(md-comp-navigation-drawer.values(), navigation-drawer);
+    @include background.theme((
+      color: var(--_standard-container-color)
+    ));
+    @include list-item.theme((
+      one-line-container-height: var(--_active-indicator-height)
+    ));
+    position: fixed;
+    inset: 0 auto 0 0;
+    inline-size: var(--_container-width);
+    block-size: var(--_container-height);
+    border-radius: var(--_container-shape);
+    padding-inline: 12px;
+    box-sizing: border-box;
+    margin: 0;
+    list-style: none;
+    overflow: hidden;
+    @include background.styles;
+
+    .headline {
+      margin: 0;
+      padding-inline-start: 16px;
+      font-family: var(--_headline-font);
+      font-size: var(--_headline-size);
+      font-weight: var(--_headline-weight);
+      line-height: calc(var(--_headline-line-height) * 3);
+      color: var(--_headline-color);
+    }
+
+    .nd-divider {
+      margin-block-start: 4px;
+    }
+
+    &.model {
+      @include background.theme((
+        color: var(--_modal-container-color)
+      ));
+    }
+  }
+}

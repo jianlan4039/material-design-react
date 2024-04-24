@@ -1,0 +1,62 @@
+@use "sass:map";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../tokens/md-sys-motion";
+
+$_motion: md-sys-motion.values();
+
+$support-tokens: (
+);
+
+$values: (
+);
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .navigation-enter {
+    margin-inline: calc((100% - var(--_active-indicator-width)) / 2);
+    display: flex;
+    justify-content: center;
+    border-radius: var(--_active-indicator-shape);
+    block-size: var(--_active-indicator-height);
+    cursor: pointer;
+    @include background.styles;
+
+    .lsc {
+      flex-grow: 10;
+    }
+
+    &::before {
+      opacity: 0;
+      inset: unset;
+      background-color: var(--_active-indicator-color);
+      border-radius: var(--_active-indicator-shape);
+      block-size: var(--_active-indicator-height);
+      inline-size: 0;
+    }
+
+    .nd-state-layer {
+      margin-inline: auto;
+      block-size: var(--_active-indicator-height);
+      inline-size: var(--_active-indicator-width);
+      border-radius: var(--_active-indicator-shape);
+
+      &::after{
+        display: none;
+      }
+    }
+
+    &.active {
+      &::before {
+        opacity: 1;
+        inline-size: var(--_active-indicator-width);
+        transition-property: opacity, inline-size;
+        transition-timing-function: map.get($_motion, 'easing-emphasized');
+        transition-duration: map.get($_motion, 'duration-medium1');
+      }
+    }
+  }
+}
