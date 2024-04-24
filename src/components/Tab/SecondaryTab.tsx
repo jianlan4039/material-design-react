@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState
 } from 'react'
-import {IndicatorRectContext} from "./context/indicator";
+import {IndicatorRectContext} from "../internal/context/indicator";
 import {EASING} from "../internal/motion/animation";
 import {StateElement} from "../internal/common/StateElement";
 import StateLayer from "../StateLayer";

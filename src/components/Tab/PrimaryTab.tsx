@@ -13,7 +13,7 @@ import './PrimaryTab.scss'
 import StateLayer from "../StateLayer";
 import {StateElement} from "../internal/common/StateElement";
 import FocusRing from "../Focus/FocusRing";
-import {IndicatorRectContext} from "./context/indicator";
+import {IndicatorRectContext} from "../internal/context/indicator";
 import {EASING} from "../internal/motion/animation";
 
 export interface PrimaryTabProps extends StateElement, HTMLAttributes<HTMLDivElement> {

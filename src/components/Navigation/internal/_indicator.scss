@@ -1,0 +1,63 @@
+@use "sass:map";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../tokens/md-sys-color";
+@use "../../tokens/md-sys-shape";
+@use "../../tokens/md-sys-motion";
+
+$_color: md-sys-color.values-light();
+$_shape: md-sys-shape.values();
+$_motion: md-sys-motion.values();
+
+$support-tokens: (
+  'height',
+  'width',
+  'color',
+  'shape'
+);
+
+$values: (
+  'height': 32px,
+  'width': 64px,
+  'color': map.get($_color, 'secondary-container'),
+  'shape': map.get($_shape, 'corner-full')
+);
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .navigation-indicator {
+    $_easing: map.get($_motion, 'easing-standard');
+    $_duration: map.get($_motion, 'duration-short1');
+    @include tokens-builder.tokens($values, navigation-indicator);
+    position: absolute;
+    block-size: var(--_height);
+    inline-size: var(--_width);
+    border-radius: var(--_shape);
+    display: flex;
+    justify-content: center;
+    @include background.styles;
+
+    &::before {
+      transition: inline-size $_easing $_duration;
+      block-size: inherit;
+      inline-size: inherit;
+      inset: unset;
+    }
+
+    &.active {
+      @include background.theme((
+        color: var(--_color)
+      ));
+    }
+
+    &.animating {
+
+      &::before {
+        inline-size: var(--_height);
+      }
+    }
+  }
+}

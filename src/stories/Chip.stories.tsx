@@ -45,7 +45,7 @@ export const Filter: Story = {
 export const Input: Story = {
   render: (args) => {
     return (
-      <InputChip {...args}>
+      <InputChip>
         Input
       </InputChip>
     )
@@ -56,10 +56,9 @@ export const Suggestion: Story = {
   render: (args) => {
     return (
       <SuggestionChip
-        icon={<FilledIcon>check</FilledIcon>}
-        {...args}
+        // icon={<FilledIcon>check</FilledIcon>}
       >
-        Suggestion
+        {/*Suggestion*/}
       </SuggestionChip>
     )
   }

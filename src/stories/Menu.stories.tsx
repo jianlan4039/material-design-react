@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
 import {Option, OptionValue} from "../components/Menu/internal/menuTypes";
 import ElevatedButton from "../components/Button/ElevatedButton";
+import {FilledIcon} from "../icons";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
