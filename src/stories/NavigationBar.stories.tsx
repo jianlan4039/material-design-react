@@ -5,7 +5,7 @@ import {FilledIcon} from "../icons";
 
 const meta: Meta<typeof NavigationBar> = {
   component: NavigationBar,
-  title: 'Container/NavigationBar',
+  title: 'Navigation/NavigationBar',
   parameters: {
     layout: 'centered'
   },

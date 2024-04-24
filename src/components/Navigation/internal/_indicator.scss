@@ -38,12 +38,13 @@ $values: (
     border-radius: var(--_shape);
     display: flex;
     justify-content: center;
+    align-items: center;
     @include background.styles;
 
-    &::before {
+    .nd-state-layer, &::before {
       transition: inline-size $_easing $_duration;
-      block-size: inherit;
       inline-size: inherit;
+      block-size: inherit;
       inset: unset;
     }
 
@@ -54,8 +55,8 @@ $values: (
     }
 
     &.animating {
-
-      &::before {
+      &::before, .nd-state-layer {
+        inset: auto;
         inline-size: var(--_height);
       }
     }
