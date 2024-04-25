@@ -1,7 +1,8 @@
 import {Meta, StoryObj} from "@storybook/react";
-import React from "react";
+import React, {useState} from "react";
 import NavigationDrawer from "../components/Navigation/NavigationDrawer";
 import {FilledIcon} from "../icons";
+import ElevatedButton from "../components/Button/ElevatedButton";
 
 const meta: Meta<typeof NavigationDrawer> = {
   component: NavigationDrawer,
@@ -23,13 +24,20 @@ export const Default: Story = {
         start: <FilledIcon>inbox</FilledIcon>
       },
       {
+        label: 'User',
+        start: <FilledIcon>person</FilledIcon>,
+        subEntries: [
+          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
+          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
+          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
+          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
+          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
+        ]
+      },
+      {
         label: 'Home',
         start: <FilledIcon>home</FilledIcon>
       },
-      {
-        label: 'User',
-        start: <FilledIcon>person</FilledIcon>
-      }
     ]
 
     return (
@@ -61,6 +69,46 @@ export const WithHeadline: Story = {
 
     return (
       <NavigationDrawer block={block}></NavigationDrawer>
+    )
+  }
+}
+
+export const WithHeadlineModeled: Story = {
+  render: () => {
+
+    const [isShow, setIsShow] = useState<boolean>(false)
+
+    const block = {
+      headline: 'User',
+      items: [
+        {
+          label: 'Inbox',
+          start: <FilledIcon>inbox</FilledIcon>
+        },
+        {
+          label: 'Home',
+          start: <FilledIcon>home</FilledIcon>
+        },
+        {
+          label: 'User',
+          start: <FilledIcon>person</FilledIcon>
+        }
+      ]
+    }
+
+    const clickHandler = () => {
+      setIsShow(!isShow)
+    };
+
+    const closeHandle = () => {
+      setIsShow(false)
+    };
+
+    return (
+      <>
+        <ElevatedButton onClick={clickHandler}>Toggle</ElevatedButton>
+        <NavigationDrawer block={block} modal={true} show={isShow} onClose={closeHandle}></NavigationDrawer>
+      </>
     )
   }
 }

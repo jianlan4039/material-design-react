@@ -1,9 +1,22 @@
+@use "sass:map";
 @use "../../builder/tokens-builder";
 @use "../../builder/background";
 @use "../../tokens/md-comp-navigation-drawer";
 @use "../../List/internal/list-item";
+@use "../../tokens/md-sys-color";
+@use "../../tokens/md-ref-palette";
+@use "../../Elevation/internal/elevation";
+@use "../../tokens/md-sys-motion";
+
+
+$_default: (
+  color: md-sys-color.values-light(),
+  palette: md-ref-palette.values(),
+  motion: md-sys-motion.values()
+);
 
 $_values: (
+  scrim: map.get($_default, 'palette', 'neutral-variant20')
 );
 
 @mixin theme($tokens) {
@@ -11,8 +24,12 @@ $_values: (
 }
 
 @mixin styles() {
-  .navigation-drawer {
+  .navigation-drawer-container {
     @include tokens-builder.tokens(md-comp-navigation-drawer.values(), navigation-drawer);
+    display: contents;
+  }
+
+  .navigation-drawer {
     @include background.theme((
       color: var(--_standard-container-color)
     ));
@@ -28,7 +45,6 @@ $_values: (
     box-sizing: border-box;
     margin: 0;
     list-style: none;
-    overflow: hidden;
     @include background.styles;
 
     .headline {
@@ -45,10 +61,34 @@ $_values: (
       margin-block-start: 4px;
     }
 
-    &.model {
+    &.modal {
       @include background.theme((
         color: var(--_modal-container-color)
       ));
+      @include elevation.theme((
+        level: var(--_modal-container-elevation)
+      ));
+    }
+  }
+
+  .navigation-drawer-container {
+    .navigation-drawer-dialog {
+      padding: 0;
+      border: none;
+      outline: none;
+      margin: 0;
+
+      .navigation-drawer-scrim {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.4;
+        background-color: map.get($_default, 'palette', 'neutral-variant20');
+      }
+
+      &::backdrop {
+        background-color: transparent;
+      }
     }
   }
 }

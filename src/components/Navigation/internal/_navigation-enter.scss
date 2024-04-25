@@ -17,46 +17,82 @@ $values: (
 
 @mixin styles() {
   .navigation-enter {
-    margin-inline: calc((100% - var(--_active-indicator-width)) / 2);
-    display: flex;
-    justify-content: center;
     border-radius: var(--_active-indicator-shape);
-    block-size: var(--_active-indicator-height);
+    inline-size: var(--_active-indicator-width);
+    //block-size: var(--_active-indicator-height);
     cursor: pointer;
-    @include background.styles;
+    position: relative;
 
     .lsc {
       flex-grow: 10;
     }
 
-    &::before {
-      opacity: 0;
-      inset: unset;
-      background-color: var(--_active-indicator-color);
-      border-radius: var(--_active-indicator-shape);
+    .indicator {
+      position: absolute;
+      inset: 0;
+      inline-size: inherit;
       block-size: var(--_active-indicator-height);
-      inline-size: 0;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      @include background.styles;
+
+      &::before {
+        background-color: var(--_active-indicator-color);
+        opacity: 0;
+        inset: unset;
+        border-radius: var(--_active-indicator-shape);
+        block-size: inherit;
+        inline-size: 0;
+      }
     }
+
 
     .nd-state-layer {
       margin-inline: auto;
       block-size: var(--_active-indicator-height);
-      inline-size: var(--_active-indicator-width);
       border-radius: var(--_active-indicator-shape);
 
-      &::after{
+      &::after {
         display: none;
       }
     }
 
     &.active {
-      &::before {
-        opacity: 1;
-        inline-size: var(--_active-indicator-width);
-        transition-property: opacity, inline-size;
-        transition-timing-function: map.get($_motion, 'easing-emphasized');
-        transition-duration: map.get($_motion, 'duration-medium1');
+      & > .indicator {
+        &::before {
+          opacity: 1;
+          inline-size: inherit;
+          transition-property: opacity, inline-size;
+          transition-timing-function: map.get($_motion, 'easing-emphasized');
+          transition-duration: map.get($_motion, 'duration-medium1');
+        }
       }
+    }
+  }
+
+  .navigation-enter:has(.navigation-enter.active) {
+    & > .indicator::before {
+      inline-size: inherit;
+      background-color: var(--_inactive-focus-state-layer-color);
+      opacity: var(--_focus-state-layer-opacity);
+    }
+
+    & > .nd-state-layer {
+      display: none;
+    }
+  }
+
+  .sub-entries {
+    padding: 2px 0 0 16px;
+    margin: 0;
+    list-style: none;
+    inline-size: calc(100% - 16px);
+    overflow: hidden;
+    position: relative;
+
+    .navigation-enter {
+      inline-size: 100%;
     }
   }
 }
