@@ -1,4 +1,14 @@
-import React, {forwardRef, ReactNode, useContext, useEffect, useId, useRef, useState, MouseEvent} from 'react'
+import React, {
+  forwardRef,
+  ReactNode,
+  useContext,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  MouseEvent,
+  useImperativeHandle, memo
+} from 'react'
 import ListItem, {ListItemHandle, ListItemProps} from "../../List/ListItem";
 import './NavigationEnter.scss';
 import c from 'classnames'
@@ -6,19 +16,17 @@ import {IndicatorRectContext, CurrentIndicator} from "../../internal/context/ind
 import {EASING, DURATION} from "../../internal/motion/animation";
 
 export interface NavigationEnterProps extends ListItemProps {
-  children?: ReactNode
   id?: string
   active?: boolean
   subEntries?: NavigationEnterProps[]
 }
 
-export interface NavigationEnterHandle extends ListItemHandle {
-
+export interface NavigationEnterHandle {
+  root: HTMLLIElement | null
 }
 
-const NavigationEnter = forwardRef<NavigationEnterHandle, NavigationEnterProps>((props, ref) => {
+const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterProps>((props, ref) => {
   const {
-    children,
     id = useId(),
     active,
     subEntries,
@@ -29,55 +37,92 @@ const NavigationEnter = forwardRef<NavigationEnterHandle, NavigationEnterProps>(
   const {current, setCurrent, init} = useContext(IndicatorRectContext)
   const listRef = useRef<NavigationEnterHandle>(null);
   const subEntryRef = useRef<HTMLUListElement>(null);
-  const [isActive, setIsActive] = useState<boolean>()
+  const indicatorRef = useRef<HTMLDivElement>(null);
+  const animationBuffer = useRef<Animation[]>([]);
+
+  // isActive and delayActive composed to a short circuit
+  const [isActive, setIsActive] = useState<boolean>(false)
+  const [delayActive, setDelayActive] = useState<boolean>(isActive)
+
+  // isOpen and delayOpen composed to a cutup circuit
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [delayClose, setDelayClose] = useState<boolean>(isOpen)
+
+  useImperativeHandle(ref, () => ({
+    root: listRef.current?.root || null
+  }))
 
   useEffect(() => {
     if (listRef.current && listRef.current.root) {
-      init?.({rect: listRef.current.root.getBoundingClientRect(), id: id}, active)
+      active && setCurrent?.({id: id})
     }
   }, [listRef]);
 
   useEffect(() => {
     if (current) {
-      setIsActive(current.id === id)
+      const activeState = current.id === id
+      if (activeState) {
+        setIsActive(activeState)
+        setDelayActive(isActive)
+      } else if (!activeState && isActive) {
+        setIsActive(activeState)
+        setDelayActive(isActive)
+      }
     }
   }, [current]);
 
   useEffect(() => {
     if (isOpen) {
       animateOpen()
+    } else {
+      animateClose()
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!delayClose || !delayActive) {
+      cleanAnimation(animationBuffer.current)
+    }
+  }, [delayClose, delayActive]);
+
+  useEffect(() => {
+    if (!isActive && delayActive) {
+      animateInactive()
+    }
+  }, [isActive]);
 
   const clickHandler = (e: MouseEvent<HTMLLIElement>) => {
     e.stopPropagation()
     if (subEntries) {
-      if (!isOpen) {
-        setIsOpen(true)
-      } else {
-        animateClose()
-      }
+      setIsOpen(!isOpen)
     } else {
-      setCurrent?.({rect: e.currentTarget.getBoundingClientRect(), id: id})
+      setCurrent?.({id: id})
+      animateActive()
+    }
+  }
+
+  const cleanAnimation = (animationBuffer: Animation[]) => {
+    const length = animationBuffer.length
+    for (let i = 0; i < length; i++) {
+      const animation = animationBuffer.shift()
+      animation?.cancel()
     }
   }
 
   const animateOpen = () => {
-    if (!subEntryRef.current) return;
+    if (!subEntryRef.current || !indicatorRef.current) return;
     const {height} = subEntryRef.current.getBoundingClientRect();
     const blockAnimation = subEntryRef.current.animate([
       {blockSize: `0`},
       {blockSize: `${height}px`}
-    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_MEDIUM1, fill: 'backwards'})
-
+    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_MEDIUM1})
     const opacityAnimation = subEntryRef.current.animate([
       {opacity: '0'},
       {opacity: 1}
     ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_LONG1, fill: 'backwards'})
-
-    blockAnimation.addEventListener('finish', () => {
-      blockAnimation.cancel()
+    animationBuffer.current.push(blockAnimation, opacityAnimation)
+    Promise.all([blockAnimation.finished, opacityAnimation.finished]).then(() => {
+      setDelayClose(true)
     })
   }
 
@@ -86,14 +131,31 @@ const NavigationEnter = forwardRef<NavigationEnterHandle, NavigationEnterProps>(
     const {height} = subEntryRef.current.getBoundingClientRect();
     const {paddingBlockStart} = subEntryRef.current.style
     const blockAnimation = subEntryRef.current.animate([
-      {blockSize: `${height}px`, paddingBlockStart: `${paddingBlockStart}px`},
+      {blockSize: `${height}px`, paddingBlockStart: `${paddingBlockStart}`},
       {blockSize: `0`, paddingBlockStart: `0`}
     ], {easing: EASING.EMPHASIZED_DECELERATE, duration: DURATION.DURATION_MEDIUM1, fill: 'forwards'})
-
+    animationBuffer.current.push(blockAnimation)
     blockAnimation.addEventListener('finish', () => {
-      // blockAnimation.cancel()
-      setIsOpen(false)
+      setDelayClose(false)
     })
+  }
+
+  const animateActive = () => {
+    if (!indicatorRef.current) return;
+    const widthAnimation = indicatorRef.current.animate([
+      {transform: `scaleX(0)`, opacity: 0},
+      {transform: `scaleX(1)`, opacity: 1}
+    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, fill: 'backwards', pseudoElement: '::before'})
+    animationBuffer.current.push(widthAnimation)
+  }
+
+  const animateInactive = () => {
+    if (!indicatorRef.current) return;
+    const widthAnimation = indicatorRef.current.animate([
+      {transform: `scaleX(1)`, opacity: 1},
+      {transform: `scaleX(0)`, opacity: 0}
+    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, fill: 'backwards', pseudoElement: '::before'})
+    animationBuffer.current.push(widthAnimation)
   }
 
   const DownArrow = () => (
@@ -120,18 +182,17 @@ const NavigationEnter = forwardRef<NavigationEnterHandle, NavigationEnterProps>(
       end={subEntries ? isOpen ? <UpArrow></UpArrow> : <DownArrow></DownArrow> : end}
       {...rest}
     >
-      <div className={'indicator'}></div>
+      <div ref={indicatorRef} className={'indicator'}></div>
       {
-        subEntries && isOpen &&
-        <ul ref={subEntryRef} className={'sub-entries'}>
+        subEntries &&
+        <ul ref={subEntryRef} className={c('sub-entries', {'open': isOpen || delayClose})}>
           {
             subEntries.map((e, i) => <NavigationEnter {...e} key={i}></NavigationEnter>)
           }
         </ul>
       }
-      {children}
     </ListItem>
   </>
-})
+}))
 
 export default NavigationEnter;

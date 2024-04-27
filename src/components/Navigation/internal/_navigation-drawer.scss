@@ -45,6 +45,7 @@ $_values: (
     box-sizing: border-box;
     margin: 0;
     list-style: none;
+    overflow: hidden;
     @include background.styles;
 
     .headline {

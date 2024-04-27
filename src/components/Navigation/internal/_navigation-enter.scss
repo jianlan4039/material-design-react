@@ -19,7 +19,6 @@ $values: (
   .navigation-enter {
     border-radius: var(--_active-indicator-shape);
     inline-size: var(--_active-indicator-width);
-    //block-size: var(--_active-indicator-height);
     cursor: pointer;
     position: relative;
 
@@ -28,23 +27,18 @@ $values: (
     }
 
     .indicator {
+      @include background.theme((
+        color: var(--_active-indicator-color),
+        opacity: 0
+      ));
       position: absolute;
       inset: 0;
       inline-size: inherit;
       block-size: var(--_active-indicator-height);
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
+      border-radius: var(--_active-indicator-shape);
       @include background.styles;
-
-      &::before {
-        background-color: var(--_active-indicator-color);
-        opacity: 0;
-        inset: unset;
-        border-radius: var(--_active-indicator-shape);
-        block-size: inherit;
-        inline-size: 0;
-      }
+      z-index: -1;
+      pointer-events: none;
     }
 
 
@@ -62,10 +56,6 @@ $values: (
       & > .indicator {
         &::before {
           opacity: 1;
-          inline-size: inherit;
-          transition-property: opacity, inline-size;
-          transition-timing-function: map.get($_motion, 'easing-emphasized');
-          transition-duration: map.get($_motion, 'duration-medium1');
         }
       }
     }
@@ -73,13 +63,8 @@ $values: (
 
   .navigation-enter:has(.navigation-enter.active) {
     & > .indicator::before {
-      inline-size: inherit;
       background-color: var(--_inactive-focus-state-layer-color);
       opacity: var(--_focus-state-layer-opacity);
-    }
-
-    & > .nd-state-layer {
-      display: none;
     }
   }
 
@@ -88,11 +73,16 @@ $values: (
     margin: 0;
     list-style: none;
     inline-size: calc(100% - 16px);
+    block-size: 0;
     overflow: hidden;
     position: relative;
 
     .navigation-enter {
       inline-size: 100%;
+    }
+
+    &.open {
+      block-size: fit-content;
     }
   }
 }
