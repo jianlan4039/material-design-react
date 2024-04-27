@@ -33,12 +33,15 @@ $values: (
       ));
       position: absolute;
       inset: 0;
-      inline-size: inherit;
       block-size: var(--_active-indicator-height);
       border-radius: var(--_active-indicator-shape);
-      @include background.styles;
       z-index: -1;
       pointer-events: none;
+      @include background.styles;
+
+      &::before {
+        inline-size: 0;
+      }
     }
 
 
@@ -53,10 +56,9 @@ $values: (
     }
 
     &.active {
-      & > .indicator {
-        &::before {
-          opacity: 1;
-        }
+      & > .indicator::before {
+        opacity: 1;
+        inline-size: inherit;
       }
     }
   }

@@ -38,13 +38,12 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
   const listRef = useRef<NavigationEnterHandle>(null);
   const subEntryRef = useRef<HTMLUListElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
-  const animationBuffer = useRef<Animation[]>([]);
 
-  // isActive and delayActive composed to a short circuit
+  // isActive and delayIsActive composed to a short circuit
   const [isActive, setIsActive] = useState<boolean>(false)
-  const [delayActive, setDelayActive] = useState<boolean>(isActive)
+  const [delayIsActive, setDelayIsActive] = useState<boolean>(isActive)
 
-  // isOpen and delayOpen composed to a cutup circuit
+  // isOpen and preIsOpen composed to a cutup circuit
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [delayClose, setDelayClose] = useState<boolean>(isOpen)
 
@@ -62,11 +61,11 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     if (current) {
       const activeState = current.id === id
       if (activeState) {
+        setDelayIsActive(isActive)
         setIsActive(activeState)
-        setDelayActive(isActive)
       } else if (!activeState && isActive) {
+        setDelayIsActive(isActive)
         setIsActive(activeState)
-        setDelayActive(isActive)
       }
     }
   }, [current]);
@@ -80,13 +79,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
   }, [isOpen]);
 
   useEffect(() => {
-    if (!delayClose || !delayActive) {
-      cleanAnimation(animationBuffer.current)
-    }
-  }, [delayClose, delayActive]);
-
-  useEffect(() => {
-    if (!isActive && delayActive) {
+    if (!isActive && delayIsActive) {
       animateInactive()
     }
   }, [isActive]);
@@ -101,61 +94,46 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     }
   }
 
-  const cleanAnimation = (animationBuffer: Animation[]) => {
-    const length = animationBuffer.length
-    for (let i = 0; i < length; i++) {
-      const animation = animationBuffer.shift()
-      animation?.cancel()
-    }
-  }
-
   const animateOpen = () => {
     if (!subEntryRef.current || !indicatorRef.current) return;
     const {height} = subEntryRef.current.getBoundingClientRect();
-    const blockAnimation = subEntryRef.current.animate([
+    subEntryRef.current.animate([
       {blockSize: `0`},
       {blockSize: `${height}px`}
     ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_MEDIUM1})
-    const opacityAnimation = subEntryRef.current.animate([
+    subEntryRef.current.animate([
       {opacity: '0'},
       {opacity: 1}
-    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_LONG1, fill: 'backwards'})
-    animationBuffer.current.push(blockAnimation, opacityAnimation)
-    Promise.all([blockAnimation.finished, opacityAnimation.finished]).then(() => {
-      setDelayClose(true)
-    })
+    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_LONG1})
+    setDelayClose(true)
   }
 
   const animateClose = () => {
     if (!subEntryRef.current) return;
     const {height} = subEntryRef.current.getBoundingClientRect();
     const {paddingBlockStart} = subEntryRef.current.style
-    const blockAnimation = subEntryRef.current.animate([
+    subEntryRef.current.animate([
       {blockSize: `${height}px`, paddingBlockStart: `${paddingBlockStart}`},
       {blockSize: `0`, paddingBlockStart: `0`}
-    ], {easing: EASING.EMPHASIZED_DECELERATE, duration: DURATION.DURATION_MEDIUM1, fill: 'forwards'})
-    animationBuffer.current.push(blockAnimation)
-    blockAnimation.addEventListener('finish', () => {
-      setDelayClose(false)
-    })
+    ], {easing: EASING.EMPHASIZED_DECELERATE, duration: DURATION.DURATION_MEDIUM1})
+    setDelayClose(false)
   }
 
   const animateActive = () => {
     if (!indicatorRef.current) return;
-    const widthAnimation = indicatorRef.current.animate([
+    indicatorRef.current.animate([
       {transform: `scaleX(0)`, opacity: 0},
       {transform: `scaleX(1)`, opacity: 1}
-    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, fill: 'backwards', pseudoElement: '::before'})
-    animationBuffer.current.push(widthAnimation)
+    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, pseudoElement: '::before'})
   }
 
   const animateInactive = () => {
     if (!indicatorRef.current) return;
-    const widthAnimation = indicatorRef.current.animate([
+    indicatorRef.current.animate([
       {transform: `scaleX(1)`, opacity: 1},
       {transform: `scaleX(0)`, opacity: 0}
-    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, fill: 'backwards', pseudoElement: '::before'})
-    animationBuffer.current.push(widthAnimation)
+    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, pseudoElement: '::before'})
+    setDelayIsActive(false)
   }
 
   const DownArrow = () => (
@@ -174,7 +152,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     <ListItem
       ref={listRef}
       className={c('navigation-enter', {
-        'active': isActive,
+        'active': isActive || delayIsActive,
         'open': isOpen
       })}
       onClick={clickHandler}
