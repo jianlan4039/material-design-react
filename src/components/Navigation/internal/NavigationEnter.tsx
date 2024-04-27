@@ -38,10 +38,9 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
   const listRef = useRef<NavigationEnterHandle>(null);
   const subEntryRef = useRef<HTMLUListElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
+  const animationBufferRef = useRef<Animation[]>([])
 
-  // isActive and delayIsActive composed to a short circuit
   const [isActive, setIsActive] = useState<boolean>(false)
-  const [delayIsActive, setDelayIsActive] = useState<boolean>(isActive)
 
   // isOpen and preIsOpen composed to a cutup circuit
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -59,14 +58,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
 
   useEffect(() => {
     if (current) {
-      const activeState = current.id === id
-      if (activeState) {
-        setDelayIsActive(isActive)
-        setIsActive(activeState)
-      } else if (!activeState && isActive) {
-        setDelayIsActive(isActive)
-        setIsActive(activeState)
-      }
+      setIsActive(current.id === id)
     }
   }, [current]);
 
@@ -79,10 +71,10 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
   }, [isOpen]);
 
   useEffect(() => {
-    if (!isActive && delayIsActive) {
-      animateInactive()
+    if (!delayClose) {
+      cleanAnimation()
     }
-  }, [isActive]);
+  }, [delayClose]);
 
   const clickHandler = (e: MouseEvent<HTMLLIElement>) => {
     e.stopPropagation()
@@ -90,7 +82,14 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
       setIsOpen(!isOpen)
     } else {
       setCurrent?.({id: id})
-      animateActive()
+    }
+  }
+
+  const cleanAnimation = () => {
+    const length = animationBufferRef.current.length
+    for (let i = 0; i < length; i++) {
+      const animation = animationBufferRef.current.shift()
+      animation?.cancel()
     }
   }
 
@@ -112,28 +111,14 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     if (!subEntryRef.current) return;
     const {height} = subEntryRef.current.getBoundingClientRect();
     const {paddingBlockStart} = subEntryRef.current.style
-    subEntryRef.current.animate([
+    const animation = subEntryRef.current.animate([
       {blockSize: `${height}px`, paddingBlockStart: `${paddingBlockStart}`},
       {blockSize: `0`, paddingBlockStart: `0`}
-    ], {easing: EASING.EMPHASIZED_DECELERATE, duration: DURATION.DURATION_MEDIUM1})
-    setDelayClose(false)
-  }
-
-  const animateActive = () => {
-    if (!indicatorRef.current) return;
-    indicatorRef.current.animate([
-      {transform: `scaleX(0)`, opacity: 0},
-      {transform: `scaleX(1)`, opacity: 1}
-    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, pseudoElement: '::before'})
-  }
-
-  const animateInactive = () => {
-    if (!indicatorRef.current) return;
-    indicatorRef.current.animate([
-      {transform: `scaleX(1)`, opacity: 1},
-      {transform: `scaleX(0)`, opacity: 0}
-    ], {easing: EASING.EMPHASIZED, duration: DURATION.DURATION_SHORT4, pseudoElement: '::before'})
-    setDelayIsActive(false)
+    ], {easing: EASING.EMPHASIZED_DECELERATE, duration: DURATION.DURATION_MEDIUM1, fill: 'forwards'})
+    animationBufferRef.current.push(animation)
+    animation.addEventListener('finish', () => {
+      setDelayClose(false)
+    })
   }
 
   const DownArrow = () => (
@@ -152,7 +137,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     <ListItem
       ref={listRef}
       className={c('navigation-enter', {
-        'active': isActive || delayIsActive,
+        'active': isActive,
         'open': isOpen
       })}
       onClick={clickHandler}

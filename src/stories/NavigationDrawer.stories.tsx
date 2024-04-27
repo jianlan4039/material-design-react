@@ -21,7 +21,8 @@ export const Default: Story = {
     const items = [
       {
         label: 'Inbox',
-        start: <FilledIcon>inbox</FilledIcon>
+        start: <FilledIcon>inbox</FilledIcon>,
+        active: true
       },
       {
         label: 'User',

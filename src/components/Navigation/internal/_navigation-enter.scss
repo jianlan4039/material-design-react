@@ -5,12 +5,6 @@
 
 $_motion: md-sys-motion.values();
 
-$support-tokens: (
-);
-
-$values: (
-);
-
 @mixin theme($tokens) {
 
 }
@@ -34,6 +28,10 @@ $values: (
       position: absolute;
       inset: 0;
       block-size: var(--_active-indicator-height);
+      inline-size: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border-radius: var(--_active-indicator-shape);
       z-index: -1;
       pointer-events: none;
@@ -41,6 +39,12 @@ $values: (
 
       &::before {
         inline-size: 0;
+        block-size: 100%;
+        opacity: 0;
+        inset: unset;
+        transition-property: opacity, inline-size;
+        transition-timing-function: map.get($_motion, 'easing-emphasized');
+        transition-duration: map.get($_motion, 'duration-short4'), map.get($_motion, 'easing-medium1');
       }
     }
 
@@ -58,7 +62,10 @@ $values: (
     &.active {
       & > .indicator::before {
         opacity: 1;
-        inline-size: inherit;
+        inline-size: 100%;
+        transition-property: opacity, inline-size;
+        transition-timing-function: map.get($_motion, 'easing-emphasized');
+        transition-duration: map.get($_motion, 'duration-short4'), map.get($_motion, 'duration-medium1');
       }
     }
   }
@@ -71,19 +78,22 @@ $values: (
   }
 
   .sub-entries {
-    padding: 2px 0 0 16px;
+    padding: 0;
     margin: 0;
     list-style: none;
     inline-size: calc(100% - 16px);
     block-size: 0;
     overflow: hidden;
     position: relative;
+    display: none;
 
     .navigation-enter {
       inline-size: 100%;
     }
 
     &.open {
+      display: block;
+      padding: 2px 0 0 16px;
       block-size: fit-content;
     }
   }
