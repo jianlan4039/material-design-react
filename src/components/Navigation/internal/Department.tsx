@@ -55,18 +55,16 @@ const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
   useEffect(() => {
     if (isActive) {
       animatingIndicator()
-      setIsAnimating(true)
     }
   }, [isActive]);
 
   const animatingIndicator = () => {
-    if (!last || !current || !indicatorRef.current) {
+    if (!last?.rect || !current?.rect || !indicatorRef.current) {
       return
     }
-
     const {top: lastTop, left: lastLeft} = last.rect
     const {top: currentTop, left: currentLeft} = current.rect
-
+    setIsAnimating(true)
     const indicatorAnimation = indicatorRef.current.animate([
       {translate: `${lastLeft - currentLeft}px ${lastTop - currentTop}px`},
       {translate: `none`}
@@ -86,7 +84,7 @@ const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
       className={`navigation-department ${className}`}
       onClick={clickHandler}
     >
-      <Indicator ref={indicatorRef} animating={isAnimating}  active={isActive}></Indicator>
+      <Indicator ref={indicatorRef} animating={isAnimating} active={isActive}></Indicator>
       <div className={'icon'}>
         {icon}
       </div>

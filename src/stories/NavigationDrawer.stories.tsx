@@ -19,26 +19,9 @@ export const Default: Story = {
   render: (args) => {
 
     const items = [
-      {
-        label: 'Inbox',
-        start: <FilledIcon>inbox</FilledIcon>,
-        active: true
-      },
-      {
-        label: 'User',
-        start: <FilledIcon>person</FilledIcon>,
-        subEntries: [
-          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
-          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
-          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
-          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
-          {label: 'favorite', start: <FilledIcon>favorite</FilledIcon>},
-        ]
-      },
-      {
-        label: 'Home',
-        start: <FilledIcon>home</FilledIcon>
-      },
+      {label: 'Home', start: <FilledIcon>home</FilledIcon>},
+      {label: 'User', start: <FilledIcon>person</FilledIcon>},
+      {label: 'Settings', start: <FilledIcon>settings</FilledIcon>},
     ]
 
     return (
