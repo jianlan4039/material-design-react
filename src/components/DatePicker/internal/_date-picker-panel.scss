@@ -1,0 +1,64 @@
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../Menu/internal/menu";
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .date-picker-panel {
+    @include background.theme((
+      color: var(--_container-color)
+    ));
+    block-size: var(--_container-height);
+    inline-size: var(--_container-width);
+    border-radius: var(--_container-shape);
+    position: relative;
+    overflow: hidden;
+    @include background.styles;
+
+    & > .navigator-container {
+      display: flex;
+      justify-content: space-between;
+      block-size: 64px;
+      padding-inline: 12px;
+    }
+
+    & > .menu {
+      @include menu.theme((
+        container-elevation: 0
+      ));
+      overflow-y: auto;
+      inline-size: var(--_container-width);
+      border-bottom-left-radius: var(--_container-shape);
+      border-bottom-right-radius: var(--_container-shape);
+    }
+
+    & > .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      justify-items: center;
+      align-items: center;
+      font-family: var(--_weekdays-label-text-font);
+      font-size: var(--_weekdays-label-text-size);
+      font-weight: var(--_weekdays-label-text-weight);
+      line-height: var(--_weekdays-label-text-line-height);
+      color: var(--_weekdays-label-text-color);
+      block-size: 40px;
+      padding-inline: 12px;
+    }
+
+    & > .month-view {
+      padding-inline: 12px;
+    }
+
+    & > .actions {
+      display: flex;
+      justify-content: end;
+      padding-block-start: 12px;
+      padding-inline: 12px;
+      padding-block-end: 12px;
+    }
+  }
+}

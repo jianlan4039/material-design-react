@@ -3,7 +3,7 @@
 @use "../../builder/tokens-builder";
 
 @mixin theme($tokens) {
-
+  @include tokens-builder.theme($tokens, md-comp-menu.$supported-tokens, menu)
 }
 
 @mixin styles() {
@@ -16,6 +16,12 @@
     opacity: 0;
     border-radius: var(--_container-shape);
     background: var(--_container-color);
+    //overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
 
     .menu__list {
       border-radius: inherit;
@@ -44,7 +50,7 @@
       }
     }
 
-    &.animation{
+    &.animation {
       display: block;
       opacity: 1;
 

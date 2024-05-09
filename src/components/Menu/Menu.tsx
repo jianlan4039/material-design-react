@@ -6,7 +6,8 @@ import React, {
   useId,
   useImperativeHandle,
   useRef,
-  useState
+  useState,
+  MouseEvent as ReactMouseEvent, useMemo,
 } from 'react'
 import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
@@ -19,6 +20,8 @@ import {BaseElement} from "../internal/common/BaseElement";
 import './Menu.scss'
 import c from 'classnames'
 import {outsideHandler} from "../internal/common/handlers";
+
+type NodeRef = MenuItemHandle | null;
 
 export interface MenuProps extends BaseElement {
   items?: MenuItemProps[]
@@ -38,10 +41,11 @@ export interface MenuProps extends BaseElement {
   onOpened?: () => void
   onClosing?: () => void
   onClosed?: () => void
+  onScroll?: (e: ReactMouseEvent<HTMLDivElement>) => void
 }
 
 export interface MenuHandle extends HTMLProps<HTMLDivElement> {
-  root?: HTMLElement | null
+  root?: HTMLDivElement | null
 }
 
 const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
@@ -65,11 +69,12 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     onOpened,
     onClosing,
     onClosed,
+    onScroll,
   } = props
 
   const openDirection = menuCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
 
-  const itemRefs = useRef<HTMLElement[]>([]);
+  const itemsRef = useRef<NodeRef[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null)
 
@@ -82,147 +87,21 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const animationBuffer = useRef<Animation[]>([])
   const [selectedList, setSelectedList] = useState<OptionValue[]>([])
 
-  const getChildren = () => {
-    return items?.map((item) => {
-      const menuItemRef = useRef<MenuItemHandle>(null);
-      const id = useId()
-
-      useEffect(() => {
-        if (menuItemRef.current) {
-          menuItemRef.current?.root && itemRefs.current.push(menuItemRef.current.root)
-        }
-      }, [menuItemRef]);
-
+  const getChildren = useMemo(() => {
+    return items?.map((item, index) => {
       return (
         <MenuItem
-          key={id}
-          ref={menuItemRef}
+          key={`menu-item-${index}-${item.label}`}
+          ref={(node) => itemsRef.current.push(node)}
           style={style}
           {...item}
         ></MenuItem>
       )
     })
-  }
-
-  const animateOpen = async () => {
-    const rootEl = menuRef.current
-    const list = listRef.current
-    if (!rootEl || !list) {
-      return;
-    }
-    const openingUpwards = openDirection === 'UP';
-    const FULL_DURATION = 500;
-    const OPACITY_DURATION = 50;
-    const ITEM_OPACITY_DURATION = 250;
-    const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_DURATION) / itemRefs.current.length;
-    const {height,} = rootEl.getBoundingClientRect()
-    onOpening?.()
-    if (quick) {
-      setIsAnimating(false)
-      onOpened?.()
-      return
-    }
-    const rootHeightAnimation = rootEl.animate({
-      height: ['0', `${height}px`]
-    }, {duration: FULL_DURATION, easing: EASING.EMPHASIZED})
-
-    const rootOpacityAnimation = rootEl.animate({
-      opacity: ['0', '1'],
-    }, {duration: OPACITY_DURATION})
-
-    const upPositionCorrectionAnimation = list.animate([
-      {transform: openingUpwards ? `translateY(-${height}px)` : ''},
-      {transform: ''},
-    ], {duration: FULL_DURATION, easing: EASING.EMPHASIZED});
-
-    for (let i = 0; i < itemRefs.current.length; i++) {
-      const directionalIndex = openingUpwards ? itemRefs.current.length - 1 - i : i;
-      const child = itemRefs.current[directionalIndex]
-      const childOpacityAnimation = child.animate({
-        opacity: ['0', '1'],
-      }, {duration: ITEM_OPACITY_DURATION, delay: DELAY_BETWEEN_ITEMS * i, fill: 'both'})
-      animationBuffer.current.push(childOpacityAnimation)
-    }
-    animationBuffer.current.push(rootHeightAnimation, rootOpacityAnimation, upPositionCorrectionAnimation)
-    return await Promise.all([rootHeightAnimation.finished, rootOpacityAnimation.finished, upPositionCorrectionAnimation.finished]).then(() => {
-      onOpened?.()
-    })
-  }
-
-  const animateClose = async () => {
-    const rootEl = menuRef.current
-    const listEl = listRef.current
-    if (!rootEl || !listEl) {
-      return;
-    }
-    const closingDownwards = openDirection === 'UP';
-    const FULL_DURATION = 150;
-    const OPACITY_DURATION = 50;
-    const OPACITY_DELAY = FULL_DURATION - OPACITY_DURATION
-    const ITEM_OPACITY_DURATION = 50;
-    const ITEM_OPACITY_INITIAL_DELAY = 50;
-    const END_HEIGHT_PERCENTAGE = 0.35;
-    const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) / itemRefs.current.length;
-    const {height,} = rootEl.getBoundingClientRect()
-    onClosing?.()
-    if (quick) {
-      onClosed?.()
-      setIsVisible(false)
-      setIsAnimating(false)
-      return
-    }
-    const rootHeightAnimation = rootEl.animate({
-      height: [`${height}px`, `${height * END_HEIGHT_PERCENTAGE}px`]
-    }, {duration: FULL_DURATION, easing: EASING.EMPHASIZED_ACCELERATE, fill: 'forwards'})
-    const rootOpacityAnimation = rootEl.animate({
-      opacity: ['1', '0']
-    }, {duration: OPACITY_DURATION, delay: OPACITY_DELAY, fill: 'forwards'})
-    const downPositionCorrectionAnimation = listEl.animate([
-      {transform: ''},
-      {transform: closingDownwards ? `translateY(-${height * (1 - END_HEIGHT_PERCENTAGE)}px)` : '',},
-    ], {duration: FULL_DURATION, easing: EASING.EMPHASIZED_ACCELERATE});
-    for (let i = 0; i < itemRefs.current.length; i++) {
-      const directionalIndex = closingDownwards ? i : itemRefs.current.length - 1 - i;
-      const child = itemRefs.current[directionalIndex];
-      const childOpacityAnimation = child.animate({
-        opacity: ['1', '0'],
-      }, {
-        duration: ITEM_OPACITY_DURATION,
-        delay: ITEM_OPACITY_INITIAL_DELAY + DELAY_BETWEEN_ITEMS * i,
-        fill: 'forwards'
-      })
-      animationBuffer.current.push(childOpacityAnimation)
-    }
-    animationBuffer.current.push(rootHeightAnimation, rootOpacityAnimation, downPositionCorrectionAnimation)
-    return await Promise.all([rootHeightAnimation.finished, rootOpacityAnimation.finished, downPositionCorrectionAnimation.finished]).then(() => {
-      onClosed?.()
-    })
-  }
-
-  const setListWithOption = (list: OptionValue[], option?: MenuItemProps) => {
-    setSelectedList(list)
-    if (list.length > 1) {
-      const value: string[] = []
-      list.forEach(i => i && value.push(i.toString()))
-      onChange?.(value, option);
-    } else {
-      onChange?.(list[0], option)
-    }
-    if (!keepOpen && !option?.keepOpen) {
-      setIsOpen(false)
-    }
-  }
-
-  const clearAnimations = () => {
-    const length = animationBuffer.current.length
-    for (let i = 0; i < length; i++) {
-      const animation = animationBuffer.current.shift()
-      animation?.cancel()
-    }
-  }
+  }, [items])
 
   useEffect(() => {
-    let outsideHandlerCleaner:() => void;
+    let outsideHandlerCleaner: () => void;
     const clickHandler = (e: MouseEvent) => {
       setMenuOffsetStyle(setPosition(e.pageX, e.pageY))
     }
@@ -280,6 +159,123 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     root: menuRef.current
   }))
 
+  const animateOpen = async () => {
+    const rootEl = menuRef.current
+    const list = listRef.current
+    if (!rootEl || !list || !items) {
+      return;
+    }
+    const openingUpwards = openDirection === 'UP';
+    const FULL_DURATION = 500;
+    const OPACITY_DURATION = 50;
+    const ITEM_OPACITY_DURATION = 250;
+    const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_DURATION) / items.length;
+    const {height,} = rootEl.getBoundingClientRect()
+    onOpening?.()
+    if (quick) {
+      setIsAnimating(false)
+      onOpened?.()
+      return
+    }
+    const rootHeightAnimation = rootEl.animate({
+      height: ['0', `${height}px`]
+    }, {duration: FULL_DURATION, easing: EASING.EMPHASIZED})
+
+    const rootOpacityAnimation = rootEl.animate({
+      opacity: ['0', '1'],
+    }, {duration: OPACITY_DURATION})
+
+    const upPositionCorrectionAnimation = list.animate([
+      {transform: openingUpwards ? `translateY(-${height}px)` : ''},
+      {transform: ''},
+    ], {duration: FULL_DURATION, easing: EASING.EMPHASIZED});
+
+    for (let i = 0; i < items.length; i++) {
+      const directionalIndex = openingUpwards ? items.length - 1 - i : i;
+      const child = itemsRef.current[directionalIndex]
+      const childOpacityAnimation = child?.root?.animate({
+        opacity: ['0', '1'],
+      }, {duration: ITEM_OPACITY_DURATION, delay: DELAY_BETWEEN_ITEMS * i, fill: 'both'})
+      childOpacityAnimation && animationBuffer.current.push(childOpacityAnimation)
+    }
+    animationBuffer.current.push(rootHeightAnimation, rootOpacityAnimation, upPositionCorrectionAnimation)
+    return await Promise.all([rootHeightAnimation.finished, rootOpacityAnimation.finished, upPositionCorrectionAnimation.finished]).then(() => {
+      onOpened?.()
+    })
+  }
+
+  const animateClose = async () => {
+    const rootEl = menuRef.current
+    const listEl = listRef.current
+    if (!rootEl || !listEl || !items) {
+      return;
+    }
+    const closingDownwards = openDirection === 'UP';
+    const FULL_DURATION = 150;
+    const OPACITY_DURATION = 50;
+    const OPACITY_DELAY = FULL_DURATION - OPACITY_DURATION
+    const ITEM_OPACITY_DURATION = 50;
+    const ITEM_OPACITY_INITIAL_DELAY = 50;
+    const END_HEIGHT_PERCENTAGE = 0.35;
+    const DELAY_BETWEEN_ITEMS = (FULL_DURATION - ITEM_OPACITY_INITIAL_DELAY - ITEM_OPACITY_DURATION) / items.length;
+    const {height,} = rootEl.getBoundingClientRect()
+    onClosing?.()
+    if (quick) {
+      onClosed?.()
+      setIsVisible(false)
+      setIsAnimating(false)
+      return
+    }
+    const rootHeightAnimation = rootEl.animate({
+      height: [`${height}px`, `${height * END_HEIGHT_PERCENTAGE}px`]
+    }, {duration: FULL_DURATION, easing: EASING.EMPHASIZED_ACCELERATE, fill: 'forwards'})
+    const rootOpacityAnimation = rootEl.animate({
+      opacity: ['1', '0']
+    }, {duration: OPACITY_DURATION, delay: OPACITY_DELAY, fill: 'forwards'})
+    const downPositionCorrectionAnimation = listEl.animate([
+      {transform: ''},
+      {transform: closingDownwards ? `translateY(-${height * (1 - END_HEIGHT_PERCENTAGE)}px)` : '',},
+    ], {duration: FULL_DURATION, easing: EASING.EMPHASIZED_ACCELERATE});
+    for (let i = 0; i < itemsRef.current.length; i++) {
+      const directionalIndex = closingDownwards ? i : itemsRef.current.length - 1 - i;
+      const child = itemsRef.current[directionalIndex];
+      const childOpacityAnimation = child?.root?.animate({
+        opacity: ['1', '0'],
+      }, {
+        duration: ITEM_OPACITY_DURATION,
+        delay: ITEM_OPACITY_INITIAL_DELAY + DELAY_BETWEEN_ITEMS * i,
+        fill: 'forwards'
+      })
+      childOpacityAnimation && animationBuffer.current.push(childOpacityAnimation)
+    }
+    animationBuffer.current.push(rootHeightAnimation, rootOpacityAnimation, downPositionCorrectionAnimation)
+    return await Promise.all([rootHeightAnimation.finished, rootOpacityAnimation.finished, downPositionCorrectionAnimation.finished]).then(() => {
+      onClosed?.()
+    })
+  }
+
+  const setListWithOption = (list: OptionValue[], option?: MenuItemProps) => {
+    setSelectedList(list)
+    if (list.length > 1) {
+      const value: string[] = []
+      list.forEach(i => i && value.push(i.toString()))
+      onChange?.(value, option);
+    } else {
+      onChange?.(list[0], option)
+    }
+    if (!keepOpen && !option?.keepOpen) {
+      setIsOpen(false)
+    }
+  }
+
+  const clearAnimations = () => {
+    const length = animationBuffer.current.length
+    for (let i = 0; i < length; i++) {
+      const animation = animationBuffer.current.shift()
+      animation?.cancel()
+    }
+  }
+
   return (
     <SelectionContextProvider
       multiple={multiple}
@@ -293,10 +289,11 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
           'visible': isVisible === true,
           'hidden': isVisible === false
         })}
+        onScroll={onScroll}
       >
         <Elevation></Elevation>
         <ul ref={listRef} className={'menu__list'}>
-          {getChildren()}
+          {getChildren}
         </ul>
       </div>
     </SelectionContextProvider>

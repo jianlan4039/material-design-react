@@ -1,0 +1,12 @@
+@use "./../../tokens/_nd-comp-date-picker";
+@use "./../../builder/tokens-builder";
+
+@mixin theme($tokens){
+  @include tokens-builder.theme($tokens, nd-comp-date-picker.$support-tokens, date-picker);
+}
+
+@mixin styles(){
+  .date-picker{
+    @include tokens-builder.tokens(nd-comp-date-picker.values(), date-picker);
+  }
+}

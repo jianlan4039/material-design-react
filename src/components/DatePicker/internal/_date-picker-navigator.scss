@@ -1,0 +1,23 @@
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .navigator {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    & > .headline {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .headline-menu-icon, .headline-menu-icon > * {
+        height: var(--_menu-button-icon-size);
+        width: var(--_menu-button-icon-size);
+        font-size: var(--_menu-button-icon-size);
+      }
+    }
+  }
+}

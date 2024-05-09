@@ -1,0 +1,47 @@
+@use "../../StateLayer/internal/state-layer";
+@use "../../builder/background";
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .month-view {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 48px);
+
+
+    .date:not(.blank) {
+      @include state-layer.theme((
+        hover-color: var(--_date-unselected-hover-state-layer-color),
+        pressed-color: var(--_date-unselected-pressed-state-layer-color)
+      ));
+      position: relative;
+      border-radius: var(--_date-container-shape);
+      inline-size: var(--_date-container-width);
+      block-size: var(--_date-container-height);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: var(--_date-label-text-font);
+      font-size: var(--_date-label-text-size);
+      font-weight: var(--_date-label-text-weight);
+      line-height: var(--_date-label-text-line-height);
+      color: var(--_date-label-text-color);
+      cursor: pointer;
+
+      &.selected:not(.blank) {
+        @include state-layer.theme((
+          hover-color: var(--_date-selected-hover-state-layer-color),
+          pressed-color: var(--_date-selected-pressed-state-layer-color)
+        ));
+        @include background.theme((
+          color: var(--_date-selected-container-color)
+        ));
+        color: var(--_date-selected-label-text-color);
+        @include background.styles;
+      }
+    }
+  }
+}
