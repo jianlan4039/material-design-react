@@ -5,6 +5,7 @@ import Field, {FieldProps} from "./internal/Field";
 import FieldOutline from "./internal/FieldOutline";
 
 export interface OutlinedFieldProps extends FieldProps {
+
 }
 
 const OutlinedField = forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref) => {

@@ -4,8 +4,9 @@ import './Field.scss'
 import c from 'classnames'
 import {EASING} from "../../internal/motion/animation";
 import SupportingText from "./SupportingText";
+import {BaseElement} from "../../internal/common/BaseElement";
 
-export interface FieldProps extends HTMLProps<HTMLDivElement>{
+export interface FieldProps extends BaseElement {
   children?: ReactNode
   label?: string
   populated?: boolean
@@ -14,6 +15,8 @@ export interface FieldProps extends HTMLProps<HTMLDivElement>{
   focus?: boolean
   disabled?: boolean,
   error?: boolean
+  start?: ReactNode
+  end?: ReactNode
 }
 
 const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
@@ -117,25 +120,25 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
       <Container
         middle={label &&
           <div className={'nd-field__label-wrapper'}>
-          <span
-            ref={restingLabel}
-            className={c('nd-field__label-wrapper__label resting', {'hidden': floatingLabelShow})}
-          >
-            {label}
-          </span>
+            <span
+              ref={restingLabel}
+              className={c('nd-field__label-wrapper__label resting', {'hidden': floatingLabelShow})}
+            >
+              {label}
+            </span>
             <span
               ref={floatingLabel}
               className={c('nd-field__label-wrapper__label floating', {'hidden': !floatingLabelShow})}
             >
-            {label}
-          </span>
+              {label}
+            </span>
           </div>
         }
         {...rest}
       >
         {children}
       </Container>
-      <SupportingText trailing={supportingTextTrailing} content={supportingText}></SupportingText>
+      {supportingText && <SupportingText trailing={supportingTextTrailing} content={supportingText}></SupportingText>}
     </div>
   )
 })

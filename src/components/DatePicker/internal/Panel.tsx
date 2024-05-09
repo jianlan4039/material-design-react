@@ -9,9 +9,9 @@ import {OptionValue} from "../../Menu/internal/menuTypes";
 
 export interface PanelProps {
   children?: ReactNode
-  year: number;
-  month: number;        // 注意，月份是从1开始的（1代表一月）
-  startOfWeek: number;  // 一周的起始日，0 = 周日，1 = 周一，等等
+  year?: number;
+  month?: number;        // 注意，月份是从1开始的（1代表一月）
+  startOfWeek?: number;  // 一周的起始日，0 = 周日，1 = 周一，等等
   locale?: string;      // 可选的本地化设置，默认为英文
 }
 
@@ -19,8 +19,8 @@ export default function Panel(props: PanelProps) {
   const {
     locale = 'en-US', // zh-CN：中文，en-US：英文
     startOfWeek = 0,
-    year: _year,
-    month: _month,
+    year,
+    month,
   } = props
 
   const weekdays = getShortWeekdays(startOfWeek, locale);

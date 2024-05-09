@@ -6,7 +6,7 @@ import c from 'classnames'
 
 export interface IMonthViewDateProps extends StateElement, HTMLAttributes<HTMLDivElement> {
   date?: number | null
-  id: string
+  isToday?: boolean
 }
 
 const MonthViewDate: React.FC<IMonthViewDateProps> = StateLayer<HTMLDivElement, IMonthViewDateProps>((
@@ -17,21 +17,23 @@ const MonthViewDate: React.FC<IMonthViewDateProps> = StateLayer<HTMLDivElement, 
     onMouseDown,
     onMouseUp,
     stateLayer,
-    id,
+    isToday,
   }
 ) => {
 
   const {setList, list} = useContext(SelectionContext)
+  const today = new Date()
 
   const clickHandler = () => {
-    setList?.(id)
+    setList?.(date)
   }
 
   return (
     <div
       className={c('date', {
-        'selected': list?.includes(id),
-        'blank': !date
+        'selected': list?.includes(date),
+        'blank': !date,
+        'today': isToday
       })}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}

@@ -1,6 +1,5 @@
-import React, {ReactNode} from 'react'
+import React from 'react'
 import './SupportingText.scss'
-import c from 'classnames'
 
 export interface SupportingTextProps {
   content?: string

@@ -30,6 +30,7 @@
       line-height: var(--_date-label-text-line-height);
       color: var(--_date-label-text-color);
       cursor: pointer;
+      box-sizing: border-box;
 
       &.selected:not(.blank) {
         @include state-layer.theme((
@@ -41,6 +42,13 @@
         ));
         color: var(--_date-selected-label-text-color);
         @include background.styles;
+      }
+
+      &.today:not(.selected) {
+        border-width: var(--_date-today-container-outline-width);
+        border-style: solid;
+        border-color: var(--_date-today-container-outline-color);
+        color: var(--_date-today-label-text-color)
       }
     }
   }
