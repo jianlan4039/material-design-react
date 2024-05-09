@@ -90,7 +90,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   }
 
   const onSelected = () => {
-    if (!value) {
+    if (value === undefined || value === null) {
       return
     }
     if (multiple) {
