@@ -1,0 +1,35 @@
+@use "../../tokens/md-sys-motion";
+@use "sass:map";
+
+$motion: md-sys-motion.values();
+
+@mixin theme($tokens) {
+
+}
+
+@mixin styles() {
+  .slide-viewer {
+    position: relative;
+    block-size: 200px;
+    inline-size: 200px;
+    overflow: hidden;
+
+    .viewer {
+      position: absolute;
+      inset: 0;
+    }
+
+    .main-view {
+
+    }
+
+    .sec-view {
+      z-index: -1;
+      opacity: 0;
+
+      &.animating {
+        opacity: 1;
+      }
+    }
+  }
+}
