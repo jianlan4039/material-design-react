@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useState} from 'react'
+import React, {forwardRef, useState} from 'react'
 import './OutlinedField.scss'
 import c from 'classnames'
 import Field, {FieldProps} from "./internal/Field";

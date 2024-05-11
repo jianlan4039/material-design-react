@@ -25,8 +25,7 @@ const Panel = React.memo((props: PanelProps) => {
     year,
     month,
     onDateChange,
-    onOutsideClick,
-    ...rest
+    onOutsideClick
   } = props
 
   // 生成本地化月份名称

@@ -20,8 +20,7 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
     children,
     label = 'Date',
     style,
-    format = "mm/dd/yyyy",
-    ...rest
+    format = "mm/dd/yyyy"
   } = props
 
   const [date, setDate] = useState<Date[]>([])

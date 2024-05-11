@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj<typeof SlideViewer>;
 
 export const Default: Story = {
-  render: (args) => {
+  render: () => {
 
     const [alternativeView, setAlternativeView] = useState<ReactNode>()
     const content = useRef<number>(1);

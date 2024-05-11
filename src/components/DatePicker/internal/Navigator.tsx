@@ -23,8 +23,7 @@ const Navigator = forwardRef<HTMLDivElement, NavigatorProps>((props, ref) => {
     open,
     onLast,
     onNext,
-    disabled,
-    ...rest
+    disabled
   } = props
 
   function clickHandler(e: MouseEvent<HTMLDivElement>) {

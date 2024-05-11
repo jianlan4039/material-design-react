@@ -57,8 +57,8 @@ const SlideViewer: React.FC<ISlideViewerProps> = (
     if (!mainViewRef.current || !secViewRef.current) {
       return
     }
-    let transformStart = ''
-    let transformEnd = ''
+    let transformStart: string
+    let transformEnd: string
     if (direction === 'left') {
       transformStart = `translateX(100%)`
       transformEnd = `translateX(-100%)`
