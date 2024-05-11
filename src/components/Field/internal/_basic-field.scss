@@ -28,6 +28,7 @@ $supporting-tokens: (
     font-weight: var(--md-field-label-text-weight, var(--_label-text-weight));
     color: var(--md-field-label-text-color, var(--_label-text-color));
     min-width: inherit;
+    margin-block-end: 20px;
 
     .nd-field__label-wrapper {
       position: absolute;

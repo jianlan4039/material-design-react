@@ -18,14 +18,14 @@ $supporting-tokens: (
 @mixin styles() {
   & {
     pointer-events: none;
-    //position: absolute;
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     inset-block-end: 0;
     inset-inline: 0;
-    //transform: translateY(100%);
+    transform: translateY(20px);
     color: var(--md-supporting-text-color, var(--_supporting-text-color));
     font-family: var(--md-supporting-text-font, var(--_supporting-text-font));
     margin-inline-start: var(--md-supporting-text-leading-space, var(--_supporting-text-leading-space));

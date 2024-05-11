@@ -51,7 +51,7 @@ const IconButtonContainer = StateLayer<HTMLDivElement, IconButtonContainerProps>
     >
       <FocusRing></FocusRing>
       <Elevation></Elevation>
-      {stateLayer}
+      { !disabled && stateLayer}
       {children}
     </div>
   )

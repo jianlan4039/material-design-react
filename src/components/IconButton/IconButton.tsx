@@ -42,15 +42,18 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
 
   return (
     <IconButtonContainer
-      className={c('nd-icon-button', className)}
+      className={c('nd-icon-button', className, {
+        'disabled': disabled
+      })}
       toggled={toggled}
       selected={selected}
+      disabled={disabled}
       onMouseUp={mouseUpHandler}
       onMouseDown={mouseDownHandler}
       onMouseOver={mouseOverHandler}
       onMouseOut={mouseOutHandler}
     >
-      <Button ref={ref} {...rest}>
+      <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>
     </IconButtonContainer>

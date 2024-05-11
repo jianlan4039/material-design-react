@@ -18,14 +18,14 @@
     overflow: hidden;
     @include background.styles;
 
-    & > .navigator-container {
+    & .navigator-container {
       display: flex;
       justify-content: space-between;
       block-size: 64px;
       padding-inline: 12px;
     }
 
-    & > .menu {
+    & .menu {
       @include menu.theme((
         container-elevation: 0
       ));
@@ -35,7 +35,7 @@
       border-bottom-right-radius: var(--_container-shape);
     }
 
-    & > .weekdays {
+    & .weekdays {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       justify-items: center;
@@ -49,7 +49,7 @@
       padding-inline: 12px;
     }
 
-    & > .month-view {
+    & .month-view {
       padding-inline: 12px;
     }
 

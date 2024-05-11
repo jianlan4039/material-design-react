@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useMemo, useRef, useState, MouseEvent} from 'react'
+import React, {ReactNode, useEffect, useMemo, useRef, useState, MouseEvent as ReactMouseEvent} from 'react'
 import Navigator from "./Navigator";
 import './Panel.scss'
 import Menu from "../../Menu/Menu";
@@ -6,6 +6,7 @@ import {MenuItemProps} from "../../Menu/MenuItem";
 import TextButton from "../../Button/TextButton";
 import MonthView from "./MonthView";
 import {OptionValue} from "../../Menu/internal/menuTypes";
+import SlideViewer from "../../SlideViewer/SlideViewer";
 
 export interface PanelProps {
   children?: ReactNode
@@ -13,17 +14,22 @@ export interface PanelProps {
   month?: number;        // 注意，月份是从1开始的（1代表一月）
   startOfWeek?: number;  // 一周的起始日，0 = 周日，1 = 周一，等等
   locale?: string;      // 可选的本地化设置，默认为英文
+  onDateChange?: (date: Date[]) => void
+  onOutsideClick?: () => void
 }
 
-export default function Panel(props: PanelProps) {
+const Panel = React.memo((props: PanelProps) => {
   const {
     locale = 'en-US', // zh-CN：中文，en-US：英文
     startOfWeek = 0,
     year,
     month,
+    onDateChange,
+    onOutsideClick,
+    ...rest
   } = props
 
-  const weekdays = getShortWeekdays(startOfWeek, locale);
+  const weekdays = useMemo(() => getShortWeekdays(startOfWeek, locale), [startOfWeek, locale])
 
   // 生成本地化月份名称
   const monthList: MenuItemProps[] = Array.from(
@@ -41,21 +47,21 @@ export default function Panel(props: PanelProps) {
     const yearsList: MenuItemProps[] = []
     const year = now.getFullYear()
     let start = year - 10
-    if (start < 1970) {
-      start = 1970
-    }
     for (let i = 0; i < 20; i++) {
       yearsList.push({label: (start + i).toString(), value: start + i})
     }
     return yearsList
   }, []);
 
-  const [now, setNow] = useState<Date>(new Date())
+  const rootRef = useRef<HTMLDivElement>(null);
+  const selectedDate = useRef<Date>(new Date());
   const navigatorRef = useRef<HTMLDivElement>(null);
   const [navigatorAnchor, setNavigatorAnchor] = useState<HTMLDivElement>()
   const [monthMenuIsOpen, setMonthMenuIsOpen] = useState<boolean>()
   const [yearMenuIsOpen, setYearMenuIsOpen] = useState<boolean>()
   const [yearList, setYearList] = useState<MenuItemProps[]>(yearsMemo)
+  const [alternativeDateView, setAlternativeDateView] = useState<ReactNode>()
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>()
 
   useEffect(() => {
     if (navigatorRef.current) {
@@ -102,7 +108,7 @@ export default function Panel(props: PanelProps) {
     }
   }
 
-  const yearScrollHandler = (e: MouseEvent<HTMLDivElement>) => {
+  const yearScrollHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
     const {scrollTop, clientHeight, scrollHeight} = e.currentTarget;
     if (scrollHeight - scrollTop === clientHeight) {
       loadMoreYears(true)
@@ -113,56 +119,81 @@ export default function Panel(props: PanelProps) {
   }
 
   const nextYear = () => {
-    now.setFullYear(now.getFullYear() + 1)
-    setNow(new Date(now))
+    setSlideDirection('left')
+    selectedDate.current.setFullYear(selectedDate.current.getFullYear() + 1)
+    setAlternativeDateView(getDates(selectedDate.current))
+
   };
 
   const lastYear = () => {
-    now.setFullYear(now.getFullYear() - 1)
-    setNow(new Date(now))
+    setSlideDirection('right')
+    selectedDate.current.setFullYear(selectedDate.current.getFullYear() - 1)
+    setAlternativeDateView(getDates(selectedDate.current))
   };
 
   const nextMonth = () => {
-    now.setMonth(now.getMonth() + 1)
-    setNow(new Date(now))
+    setSlideDirection('left')
+    selectedDate.current.setMonth(selectedDate.current.getMonth() + 1)
+    setAlternativeDateView(getDates(selectedDate.current))
   };
   const lastMonth = () => {
-    now.setMonth(now.getMonth() - 1)
-    setNow(new Date(now))
+    setSlideDirection('right')
+    selectedDate.current.setMonth(selectedDate.current.getMonth() - 1)
+    setAlternativeDateView(getDates(selectedDate.current))
   };
 
   const monthChangeHandler = (value: OptionValue) => {
-    now.setMonth(value as number)
-    setNow(new Date(now))
+    setSlideDirection((value as number) > selectedDate.current.getMonth() ? 'left' : 'right')
+    selectedDate.current.setMonth(value as number)
+    setAlternativeDateView(getDates(selectedDate.current))
   };
 
   const yearChangeHandler = (value: OptionValue) => {
-    now.setFullYear(value as number)
-    setNow(new Date(now))
+    setSlideDirection((value as number) > selectedDate.current.getFullYear() ? 'left' : 'right')
+    selectedDate.current.setFullYear(value as number)
+    setAlternativeDateView(getDates(selectedDate.current))
   };
 
-  return (
-    <div className={'date-picker-panel'}>
-      <div ref={navigatorRef} className={'navigator-container'}>
-        <Navigator
-          label={new Intl.DateTimeFormat(locale, {month: 'long'}).format(now)}
-          onClick={monthClickHandler}
-          onNext={nextMonth}
-          onLast={lastMonth}
-        ></Navigator>
-        <Navigator
-          label={new Intl.DateTimeFormat(locale, {year: 'numeric'}).format(now)}
-          onClick={yearClickHandler}
-          onNext={nextYear}
-          onLast={lastYear}
-        ></Navigator>
-      </div>
+  const dateChangeHandler = (date: Date) => {
+    onDateChange?.([date])
+  }
+
+  function getDates(date: Date) {
+    return <>
       <div className={'weekdays'}>
         {weekdays.map((day, index) => (
           <span key={index}>{day}</span>
         ))}
       </div>
-      <MonthView year={now.getFullYear()} month={now.getMonth() + 1} startOfWeek={startOfWeek}/>
+      <MonthView
+        year={date.getFullYear()}
+        month={date.getMonth()}
+        startOfWeek={startOfWeek}
+        onDateChange={dateChangeHandler}/>
+    </>
+  }
+
+  return (
+    <div ref={rootRef} className={'date-picker-panel'}>
+      <div ref={navigatorRef} className={'navigator-container'}>
+        <Navigator
+          label={new Intl.DateTimeFormat(locale, {month: 'long'}).format(selectedDate.current)}
+          onClick={monthClickHandler}
+          onNext={nextMonth}
+          onLast={lastMonth}
+          disabled={yearMenuIsOpen}
+        ></Navigator>
+        <Navigator
+          label={new Intl.DateTimeFormat(locale, {year: 'numeric'}).format(selectedDate.current)}
+          onClick={yearClickHandler}
+          onNext={nextYear}
+          onLast={lastYear}
+          disabled={monthMenuIsOpen}
+        ></Navigator>
+      </div>
+      <SlideViewer alternativeView={alternativeDateView} direction={slideDirection}>
+        {getDates(selectedDate.current)}
+      </SlideViewer>
       <div className={'actions'}>
         <TextButton>Cancel</TextButton>
         <TextButton>OK</TextButton>
@@ -174,6 +205,7 @@ export default function Panel(props: PanelProps) {
         style={{blockSize: '392px'}}
         onClosed={() => setMonthMenuIsOpen(false)}
         onChange={monthChangeHandler}
+        stayOpenOnOutsideClick={true}
       ></Menu>
       <Menu
         items={yearList}
@@ -183,7 +215,10 @@ export default function Panel(props: PanelProps) {
         onScroll={yearScrollHandler}
         onClosed={() => setYearMenuIsOpen(false)}
         onChange={yearChangeHandler}
+        stayOpenOnOutsideClick={true}
       ></Menu>
     </div>
   )
-}
+})
+
+export default Panel

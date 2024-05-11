@@ -17,9 +17,12 @@ export interface OutlinedTextFieldProps extends InputWrapperProps {
   trailingIcon?: ReactNode
   supportingText?: string
   supportingTextTrailing?: string
+  showSupportingText?: boolean
   label?: string
   error?: boolean
   disabled?: boolean
+  populated?: boolean
+  focus?: boolean
 }
 
 export default function OutlinedTextField(props: OutlinedTextFieldProps) {
@@ -36,13 +39,27 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     label,
     supportingText,
     supportingTextTrailing,
+    showSupportingText,
+    value: _value,
+    populated,
+    focus: _focus,
     ...rest
   } = props
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [focus, setFocus] = useState<boolean>(false)
-  const [value, setValue] = useState<any>(null)
+  const [value, setValue] = useState<typeof _value>()
+
+  useEffect(() => {
+    if (inputRef.current && focus) {
+      inputRef.current.focus()
+    }
+  }, [focus]);
+
+  useEffect(() => {
+    setValue(_value)
+  }, [_value]);
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     onChange?.(e)
@@ -73,11 +90,6 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     setFocus(false)
   }
 
-  useEffect(() => {
-    if (inputRef.current && focus) {
-      inputRef.current.focus()
-    }
-  }, [focus]);
 
   return (
     <TextFieldContainer
@@ -88,13 +100,14 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
       <OutlinedField
         start={leadingIcon}
         end={trailingIcon}
-        populated={value || focus}
+        populated={Boolean(value) || focus || populated}
         error={error}
         disabled={disabled}
-        focus={focus}
+        focus={focus || _focus}
         label={label}
         supportingText={supportingText}
         supportingTextTrailing={supportingTextTrailing}
+        showSupportingText={showSupportingText}
       >
         <InputWrapper
           ref={inputRef}
@@ -104,6 +117,7 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
           prefix={prefix}
           suffix={suffix}
           onFocus={focusHandler}
+          value={value}
           {...rest}
         ></InputWrapper>
       </OutlinedField>

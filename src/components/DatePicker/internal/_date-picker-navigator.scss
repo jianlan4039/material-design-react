@@ -12,11 +12,23 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      font-family: var(--_menu-button-label-text-font);
+      font-size: var(--_menu-button-label-text-size);
+      font-weight: var(--_menu-button-label-text-weight);
+      line-height: var(--_menu-button-label-text-line-height);
+      color: var(--_menu-button-label-text-color);
 
       .headline-menu-icon, .headline-menu-icon > * {
         height: var(--_menu-button-icon-size);
         width: var(--_menu-button-icon-size);
         font-size: var(--_menu-button-icon-size);
+      }
+    }
+
+    &.disabled {
+      & > .headline{
+        color: var(--_menu-button-disabled-label-text-color);
+        opacity: var(--_menu-button-disabled-label-text-opacity);
       }
     }
   }

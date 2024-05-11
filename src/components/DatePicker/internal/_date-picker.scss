@@ -11,7 +11,8 @@
     inline-size: var(--_container-width);
 
     .date-picker-panel {
-      //margin-block-start: 16px;
+      position: absolute;
+      transform: translateY(4px);
     }
   }
 }

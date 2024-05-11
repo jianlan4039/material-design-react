@@ -1,10 +1,8 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode, MouseEvent} from 'react'
+import './Navigator.scss';
+import c from 'classnames'
 import IconButton from "../../IconButton/IconButton";
-import './Navigator.scss'
-import Menu from "../../Menu/Menu";
 import {MenuItemProps} from "../../Menu/MenuItem";
-import {OptionValue} from "../../Menu/internal/menuTypes";
-import TextButton from "../../Button/TextButton";
 
 export interface NavigatorProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
@@ -13,6 +11,7 @@ export interface NavigatorProps extends HTMLAttributes<HTMLDivElement> {
   open?: boolean
   onLast?: () => void
   onNext?: () => void
+  disabled?: boolean
 }
 
 const Navigator = forwardRef<HTMLDivElement, NavigatorProps>((props, ref) => {
@@ -24,17 +23,25 @@ const Navigator = forwardRef<HTMLDivElement, NavigatorProps>((props, ref) => {
     open,
     onLast,
     onNext,
+    disabled,
     ...rest
   } = props
 
+  function clickHandler(e: MouseEvent<HTMLDivElement>) {
+    if (disabled) {
+      return
+    }
+    onClick?.(e)
+  }
+
   return (
-    <div ref={ref} className={'navigator'}>
-      <IconButton onClick={onLast}>
+    <div ref={ref} className={c('navigator', {'disabled': disabled})}>
+      <IconButton onClick={onLast} disabled={disabled}>
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
           <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
         </svg>
       </IconButton>
-      <div className={'headline'} onClick={onClick}>
+      <div className={'headline'} onClick={clickHandler}>
         <span className={'headline-label'}>{label}</span>
         <span className={'headline-menu-icon'}>
           {
@@ -48,7 +55,7 @@ const Navigator = forwardRef<HTMLDivElement, NavigatorProps>((props, ref) => {
           }
         </span>
       </div>
-      <IconButton onClick={onNext}>
+      <IconButton onClick={onNext} disabled={disabled}>
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
           <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
         </svg>

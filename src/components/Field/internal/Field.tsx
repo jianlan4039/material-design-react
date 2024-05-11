@@ -10,6 +10,7 @@ export interface FieldProps extends BaseElement {
   children?: ReactNode
   label?: string
   populated?: boolean
+  showSupportingText?: boolean
   supportingText?: string
   supportingTextTrailing?: string
   focus?: boolean
@@ -25,6 +26,7 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
     label,
     populated,
     className,
+    showSupportingText,
     supportingTextTrailing,
     supportingText,
     ...rest
@@ -138,7 +140,11 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
       >
         {children}
       </Container>
-      {supportingText && <SupportingText trailing={supportingTextTrailing} content={supportingText}></SupportingText>}
+      {showSupportingText &&
+        <SupportingText
+          trailing={supportingTextTrailing}
+          content={supportingText}
+        ></SupportingText>}
     </div>
   )
 })

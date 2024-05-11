@@ -9,6 +9,7 @@ interface IMonthViewProps extends StateElement {
   month: number;  // 注意，月份是从1开始的（1代表一月）
   startOfWeek: number;
   locale?: string;
+  onDateChange?: (date: Date) => void
 }
 
 const MonthView: React.FC<IMonthViewProps> = (
@@ -17,14 +18,15 @@ const MonthView: React.FC<IMonthViewProps> = (
     month,
     startOfWeek,
     locale = 'en-US',
+    onDateChange,
   }) => {
 
   const today = new Date()
   const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
+  const currentMonth = today.getMonth();
   const currentDate = today.getDate();
-  const daysInMonth = new Date(year, month, 0).getDate();
-  const firstDay = new Date(year, month - 1, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDay = new Date(year, month, 1).getDay();
 
   // 计算起始偏移
   const offset = (firstDay - startOfWeek + 7) % 7;
@@ -33,8 +35,9 @@ const MonthView: React.FC<IMonthViewProps> = (
   });
   const [selected, setSelected] = useState<number[]>([])
 
-  const setList = (date: number) => {
-    setSelected([date])
+  const setList = (dateList: number[]) => {
+    setSelected(dateList)
+    onDateChange?.(new Date(dateList[0]))
   }
 
   return (
@@ -44,6 +47,8 @@ const MonthView: React.FC<IMonthViewProps> = (
           <MonthViewDate
             key={`${year}-${month}-${index}`}
             date={date}
+            year={year}
+            month={month}
             isToday={year === currentYear && month === currentMonth && date === currentDate}></MonthViewDate>
         ))}
       </div>

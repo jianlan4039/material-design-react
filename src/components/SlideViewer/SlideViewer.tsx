@@ -7,6 +7,9 @@ export interface ISlideViewerProps {
   children?: ReactNode
   alternativeView?: ReactNode
   direction?: 'right' | 'left'
+  playbackRate?: number
+  easing?: string
+  duration?: number
 }
 
 const SlideViewer: React.FC<ISlideViewerProps> = (
@@ -14,6 +17,9 @@ const SlideViewer: React.FC<ISlideViewerProps> = (
     children,
     alternativeView,
     direction,
+    playbackRate = 1,
+    easing,
+    duration
   }
 ) => {
 
@@ -29,7 +35,7 @@ const SlideViewer: React.FC<ISlideViewerProps> = (
       setPrevView(currentView)
       setCurrentView(alternativeView)
       setIsAnimating(true)
-    } else if(alternativeView && isAnimating){
+    } else if (alternativeView && isAnimating) {
       animateSliding()
     }
   }, [alternativeView]);
@@ -63,13 +69,15 @@ const SlideViewer: React.FC<ISlideViewerProps> = (
     const mainAnimation = mainViewRef.current.animate([
       {transform: transformStart},
       {transform: 'translateX(0px)'}
-    ], {duration: DURATION.DURATION_SHORT4, easing: EASING.EMPHASIZED})
+    ], {duration: duration ?? DURATION.DURATION_SHORT4, easing: easing ?? EASING.EMPHASIZED})
+    mainAnimation.playbackRate = playbackRate
     animationBuff.current.push(mainAnimation)
 
     const secAnimation = secViewRef.current.animate([
       {transform: 'translateX(0px)'},
       {transform: transformEnd}
-    ], {duration: DURATION.DURATION_SHORT4, easing: EASING.EMPHASIZED, fill: 'forwards'})
+    ], {duration: duration ?? DURATION.DURATION_SHORT4, easing: easing ?? EASING.EMPHASIZED, fill: 'forwards'})
+    secAnimation.playbackRate = playbackRate
     animationBuff.current.push(secAnimation)
 
     Promise.all([mainAnimation.finished, secAnimation.finished]).then(() => {
