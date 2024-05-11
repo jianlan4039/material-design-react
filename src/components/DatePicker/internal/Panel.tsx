@@ -29,8 +29,6 @@ const Panel = React.memo((props: PanelProps) => {
     ...rest
   } = props
 
-  const weekdays = useMemo(() => getShortWeekdays(startOfWeek, locale), [startOfWeek, locale])
-
   // 生成本地化月份名称
   const monthList: MenuItemProps[] = Array.from(
     {length: 12},
@@ -68,18 +66,6 @@ const Panel = React.memo((props: PanelProps) => {
       setNavigatorAnchor(navigatorRef.current)
     }
   }, [navigatorRef]);
-
-  function getShortWeekdays(startOfWeek: number, locale = 'en-US'): string[] {
-    const baseDate = new Date(Date.UTC(2021, 0, 3));  // 2021年1月3日是周日
-    let weekdays: string[] = [];
-
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(baseDate);
-      day.setUTCDate(day.getUTCDate() + i + startOfWeek);
-      weekdays.push(new Intl.DateTimeFormat(locale, {weekday: 'narrow'}).format(day));
-    }
-    return weekdays;
-  }
 
   const monthClickHandler = () => {
     setMonthMenuIsOpen(!monthMenuIsOpen)
@@ -160,11 +146,6 @@ const Panel = React.memo((props: PanelProps) => {
 
   function getDates(date: Date) {
     return <>
-      <div className={'weekdays'}>
-        {weekdays.map((day, index) => (
-          <span key={index}>{day}</span>
-        ))}
-      </div>
       <MonthView
         year={date.getFullYear()}
         month={date.getMonth()}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import './MonthView.scss'
 import {StateElement} from "../../internal/common/StateElement";
 import MonthViewDate from "./MonthViewDate";
@@ -40,8 +40,27 @@ const MonthView: React.FC<IMonthViewProps> = (
     onDateChange?.(new Date(dateList[0]))
   }
 
+  const weekdays = useMemo(() => getShortWeekdays(startOfWeek, locale), [startOfWeek, locale])
+
+  function getShortWeekdays(startOfWeek: number, locale = 'en-US'): string[] {
+    const baseDate = new Date(Date.UTC(2021, 0, 3));  // 2021年1月3日是周日
+    let weekdays: string[] = [];
+
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(baseDate);
+      day.setUTCDate(day.getUTCDate() + i + startOfWeek);
+      weekdays.push(new Intl.DateTimeFormat(locale, {weekday: 'narrow'}).format(day));
+    }
+    return weekdays;
+  }
+
   return (
     <SelectionContextProvider multiple={false} setList={setList} list={selected}>
+      <div className={'weekdays'}>
+        {weekdays.map((day, index) => (
+          <span key={index}>{day}</span>
+        ))}
+      </div>
       <div className={'month-view'}>
         {dates.map((date, index) => (
           <MonthViewDate

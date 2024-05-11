@@ -30,6 +30,10 @@
         color: var(--_menu-button-disabled-label-text-color);
         opacity: var(--_menu-button-disabled-label-text-opacity);
       }
+
+      & > .nd-icon-button{
+        opacity: 0;
+      }
     }
   }
 }
