@@ -20,12 +20,11 @@ const MonthView: React.FC<IMonthViewProps> = (
     locale = 'en-US',
     onDateChange,
   }) => {
-
   const today = new Date()
   const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const currentMonth = today.getMonth() + 1;
   const currentDate = today.getDate();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInMonth = new Date(year, month, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
 
   // 计算起始偏移
@@ -62,14 +61,16 @@ const MonthView: React.FC<IMonthViewProps> = (
         ))}
       </div>
       <div className={'month-view'}>
-        {dates.map((date, index) => (
-          <MonthViewDate
-            key={`${year}-${month}-${index}`}
-            date={date}
-            year={year}
-            month={month}
-            isToday={year === currentYear && month === currentMonth && date === currentDate}></MonthViewDate>
-        ))}
+        {
+          dates.map((date, index) => (
+            <MonthViewDate
+              key={`${year}-${month}-${index}`}
+              date={date}
+              year={year}
+              month={month}
+              isToday={year === currentYear && month + 1 === currentMonth && date === currentDate}></MonthViewDate>
+          ))
+        }
       </div>
     </SelectionContextProvider>
   );

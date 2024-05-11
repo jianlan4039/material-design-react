@@ -91,6 +91,7 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
         populated={showDatePanel}
         focus={showDatePanel}
         showSupportingText={showDatePanel}
+        placeholder={label}
       ></OutlinedTextField>
       {showDatePanel && <Panel onDateChange={dateChangeHandler}></Panel>}
     </div>
