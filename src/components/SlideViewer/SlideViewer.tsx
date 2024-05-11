@@ -64,14 +64,12 @@ const SlideViewer: React.FC<ISlideViewerProps> = (
       {transform: transformStart},
       {transform: 'translateX(0px)'}
     ], {duration: DURATION.DURATION_SHORT4, easing: EASING.EMPHASIZED})
-    // mainAnimation.playbackRate = 0.1
     animationBuff.current.push(mainAnimation)
 
     const secAnimation = secViewRef.current.animate([
       {transform: 'translateX(0px)'},
       {transform: transformEnd}
     ], {duration: DURATION.DURATION_SHORT4, easing: EASING.EMPHASIZED, fill: 'forwards'})
-    // secAnimation.playbackRate = 0.1
     animationBuff.current.push(secAnimation)
 
     Promise.all([mainAnimation.finished, secAnimation.finished]).then(() => {
@@ -80,7 +78,9 @@ const SlideViewer: React.FC<ISlideViewerProps> = (
   }
 
   return (
-    <div className={'slide-viewer'}>
+    <div
+      className={'slide-viewer'}
+    >
       <div
         ref={secViewRef}
         className={c('viewer sec-view', {

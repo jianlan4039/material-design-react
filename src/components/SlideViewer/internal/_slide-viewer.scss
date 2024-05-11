@@ -10,17 +10,13 @@ $motion: md-sys-motion.values();
 @mixin styles() {
   .slide-viewer {
     position: relative;
-    block-size: 200px;
-    inline-size: 200px;
+    block-size: 100%;
+    inline-size: 100%;
     overflow: hidden;
 
     .viewer {
       position: absolute;
       inset: 0;
-    }
-
-    .main-view {
-
     }
 
     .sec-view {
