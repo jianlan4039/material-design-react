@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import c from 'classnames'
 import './Badge.scss'
 
@@ -6,27 +6,43 @@ export interface BadgeProps {
   children?: ReactNode
   size?: 'small' | 'large'
   count?: number
+  stayShow?: boolean
 }
 
-const Badge = forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
+export interface BadgeHandle {
+  root?: HTMLDivElement | null
+}
+
+const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, ref) => {
   const {
     children,
     size,
     count = 0,
-    ...rest
+    stayShow = false
   } = props
 
   const _count = count > 999 ? '999+' : count
-  const [badgeInsetInlineStart, setBadgeInsetInlineStart] = useState<number>()
   const containerRef = useRef<HTMLDivElement>(null);
+  const [badgeInsetInlineStart, setBadgeInsetInlineStart] = useState<number>()
+  const [isHidden, setIsHidden] = useState<boolean>(false)
 
   useEffect(() => {
     if (containerRef.current && size === 'large') {
-      const containerWidth = containerRef.current.getBoundingClientRect().width
-      const offsetInsetToStart = containerWidth - 12
-      setBadgeInsetInlineStart(offsetInsetToStart)
+      const {width: containerWidth} = containerRef.current.getBoundingClientRect()
+      setTimeout(() => {
+        const offsetInsetToStart = containerWidth - 12
+        setBadgeInsetInlineStart(offsetInsetToStart)
+      }, 25)
     }
-  }, [containerRef]);
+  }, [containerRef.current]);
+
+  useEffect(() => {
+    setIsHidden(count <= 0 || stayShow)
+  }, [count]);
+
+  useImperativeHandle(ref, () => ({
+    root: containerRef.current
+  }))
 
   return (
     <div
@@ -36,7 +52,8 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
       <span
         className={c('badge', {
           'badge--large': size === 'large',
-          'badge--small': size === 'small'
+          'badge--small': size === 'small',
+          'hidden': isHidden
         })}
         style={{insetInlineStart: `${badgeInsetInlineStart}px`}}
       >
