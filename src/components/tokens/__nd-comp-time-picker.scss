@@ -1,0 +1,25 @@
+@use "sass:map";
+@use "./md-sys-color";
+@use "./md-sys-motion";
+@use "./md-sys-typescale";
+@use "./md-sys-shape";
+@use './md-sys-state';
+@use "./md-sys-elevation";
+
+$_default: (
+  color: md-sys-color.values-light(),
+  shape: md-sys-shape.values(),
+  typescale: md-sys-typescale.values(),
+  motion: md-sys-motion.values(),
+  state: md-sys-state.values(),
+  elevation: md-sys-elevation.values()
+);
+
+$support-tokens:();
+
+@function values($deps: $_default, $exclude-hardcoded-values: false) {
+
+  @return (
+    ''
+  );
+}
