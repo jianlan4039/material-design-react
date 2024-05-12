@@ -2,7 +2,8 @@ import React, {
   ComponentType,
   forwardRef,
   HTMLAttributes,
-  MouseEvent as ReactMouseEvent,
+  MouseEvent as ReactMouseEvent, useEffect,
+  TouchEvent,
   useRef,
   useState
 } from 'react'
@@ -12,14 +13,11 @@ import './StateLayer.scss'
 import {StateElement} from "../internal/common/StateElement";
 
 export interface StateLayerProps {
-  // disabled?: boolean
 }
-
 
 function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent: ComponentType<T>) {
   return forwardRef<R, T & StateLayerProps>((props, ref) => {
     const {
-      // disabled = true,
       children,
       stateLayer,
       onMouseDown,
@@ -30,7 +28,7 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
     } = props
 
     const PRESS_GROW_MS = 450;
-    const MINIMUM_PRESS_MS = 225;
+    // const MINIMUM_PRESS_MS = 225;
     const INITIAL_ORIGIN_SCALE = 0.2;
     const PADDING = 10;
     const SOFT_EDGE_MINIMUM_SIZE = 75;
@@ -44,18 +42,36 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
     const surfaceRef = useRef<HTMLSpanElement>(null);
     const growAnimation = useRef<Animation>();
 
+    const [isTouchEvent, setIsTouchEvent] = useState(false)
+    const touchEventRecoverTimeId = useRef<NodeJS.Timeout>();
     const [isHover, setIsHover] = useState(false)
     const [isPressed, setIsPressed] = useState(false)
+    const mouseEventRef = useRef<ReactMouseEvent | TouchEvent>();
+    const pageXRef = useRef<number>(0);
+    const pageYRef = useRef<number>(0);
 
-    let pageX: number, pageY: number;
+
+    useEffect(() => {
+      if (isPressed && mouseEventRef.current && surfaceRef.current) {
+        if (!isTouchEvent) {
+          const {pageX, pageY} = mouseEventRef.current as ReactMouseEvent
+          const rect = surfaceRef.current.getBoundingClientRect()
+          startPressAnimation(pageX, pageY, rect)
+        } else {
+          const {touches} = mouseEventRef.current as TouchEvent
+          const {pageX, pageY} = touches[0]
+          const rect = surfaceRef.current.getBoundingClientRect()
+          startPressAnimation(pageX, pageY, rect)
+        }
+      }
+    }, [isPressed]);
 
     function getNormalizedPointerEventCoords(rect: DOMRect) {
       const {scrollX, scrollY} = window;
       const {left, top} = rect;
       const documentX = scrollX + left;
       const documentY = scrollY + top;
-      // const {pageX, pageY} = e;
-      return {x: pageX - documentX, y: pageY - documentY};
+      return {x: pageXRef.current - documentX, y: pageYRef.current - documentY};
     }
 
     function determineRippleSize(rect: DOMRect) {
@@ -71,13 +87,11 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
 
     function getTranslationCoordinates(rect: DOMRect) {
       const {height, width} = rect
-      // end in the center
       const endPoint = {
         x: (width - initialSize) / 2,
         y: (height - initialSize) / 2,
       };
       let startPoint = getNormalizedPointerEventCoords(rect)
-      // center around start point
       startPoint = {
         x: startPoint.x - (initialSize / 2),
         y: startPoint.y - (initialSize / 2),
@@ -85,9 +99,9 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
       return {startPoint, endPoint};
     }
 
-    async function startPressAnimation(e: ReactMouseEvent, rect: DOMRect) {
-      pageX = e.pageX;
-      pageY = e.pageY;
+    function startPressAnimation(pageX: number, pageY: number, rect: DOMRect) {
+      pageXRef.current = pageX
+      pageYRef.current = pageY
       determineRippleSize(rect);
       const {startPoint, endPoint} = getTranslationCoordinates(rect);
       const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
@@ -111,43 +125,59 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
         })
     }
 
-    function endPressAnimation() {
-      const pressAnimationPlayState = growAnimation.current?.currentTime as number
-      if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
-        return
-      }
-      growAnimation.current?.cancel()
-    }
+    // function endPressAnimation() {
+    //   const pressAnimationPlayState = growAnimation.current?.currentTime as number
+    //   if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
+    //     return
+    //   }
+    //   growAnimation.current?.cancel()
+    // }
 
     const mouseDownHandler = (e: ReactMouseEvent) => {
-      onMouseDown?.(e)
-      if (surfaceRef.current) {
-        endPressAnimation()
-        startPressAnimation(e, surfaceRef.current.getBoundingClientRect()).then(() => {
-          setIsPressed(true)
-        })
+      if (!surfaceRef.current || isTouchEvent) {
+        return
       }
+      mouseEventRef.current = e
+      setIsPressed(true)
     }
 
-    const mouseUpHandler = (e: ReactMouseEvent) => {
-      onMouseUp?.(e)
+    const mouseUpHandler = () => {
+      if (isTouchEvent) {
+        return
+      }
       setIsPressed(false)
     }
 
-    const mouseEnterHandler = (e: ReactMouseEvent) => {
-      onMouseOver?.(e)
-      // if (disabled) {
+    const mouseEnterHandler = () => {
+      if (isTouchEvent) {
+        return
+      }
       setIsHover(true)
-      // }
     }
 
-    const mouseLeaveHandler = (e: ReactMouseEvent) => {
-      onMouseOut?.(e)
-      // if (disabled) {
+    const mouseLeaveHandler = () => {
+      if (isTouchEvent) {
+        return
+      }
       setIsHover(false)
       setIsPressed(false)
-      // }
     }
+
+    function touchStartHandler(e: TouchEvent<HTMLDivElement>) {
+      clearTimeout(touchEventRecoverTimeId.current)
+      mouseEventRef.current = e
+      setIsTouchEvent(true)
+      setIsPressed(true)
+      touchEventRecoverTimeId.current = setTimeout(() => {
+        setIsTouchEvent(false)
+        setIsPressed(false)
+      }, 1000)
+    }
+
+    function touchEndHandler() {
+      setIsPressed(false)
+    }
+
 
     return (
       <Parent
@@ -156,6 +186,8 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
         onMouseOut={mouseLeaveHandler}
         onMouseDown={mouseDownHandler}
         onMouseUp={mouseUpHandler}
+        onTouchStart={touchStartHandler}
+        onTouchEnd={touchEndHandler}
         stateLayer={
           <span
             ref={surfaceRef}
