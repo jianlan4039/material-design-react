@@ -26,7 +26,6 @@ export const Elevated: Story = {
         }}
         {...args}
       >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, sequi!
       </ElevatedCard>
     )
   }
@@ -42,7 +41,6 @@ export const Filled: Story = {
         }}
         {...args}
       >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, sequi!
       </FilledCard>
     )
   }
@@ -58,7 +56,6 @@ export const Outline: Story = {
         }}
         {...args}
       >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, sequi!
       </OutlineCard>
     )
   }
