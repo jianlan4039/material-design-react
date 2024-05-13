@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, ReactNode, useState} from 'react'
+import React, {HTMLAttributes, ReactNode} from 'react'
 import cln from "classnames";
 
 export interface CardContentProps extends HTMLAttributes<HTMLDivElement>{
@@ -13,13 +13,10 @@ export default function CardContent(props: CardContentProps) {
     ...rest
   } = props
 
-  const [dragged, setDragged] = useState(false)
-
   return (
     <div
       className={cln('nd-card-content', {
-        'nd-disabled': disabled,
-        'nd-dragged': dragged
+        'nd-disabled': disabled
       })}
       {...rest}
     >
