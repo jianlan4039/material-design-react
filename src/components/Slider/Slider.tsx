@@ -1,4 +1,13 @@
-import React, {ReactNode, useRef, MouseEvent as ReactMouseEvent, useState, useEffect, useId, CSSProperties} from 'react'
+import React, {
+  ReactNode,
+  useRef,
+  MouseEvent as ReactMouseEvent,
+  TouchEvent as ReactTouchEvent,
+  useState,
+  useEffect,
+  useId,
+  CSSProperties
+} from 'react'
 import './Slider.scss'
 import c from 'classnames'
 import Handle from "./internal/Handle";
@@ -64,6 +73,43 @@ export default function Slider(props: SliderProps) {
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const [primaryHandleMovementX, setPrimaryHandleMovementX] = useState<number>(0)
   const [secondHandleMovementX, setSecondHandleMovementX] = useState<number>(0)
+
+  useEffect(() => {
+    if (root.current) {
+      if (step) {
+      }
+      if (range) {
+        if (valueStart) {
+          const distance = calculateDistance(valueStart)
+          setSecondHandleMovementX(distance)
+        }
+        if (valueEnd) {
+          const distance = calculateDistance(valueEnd)
+          setPrimaryHandleMovementX(distance)
+        }
+
+        if (valueStart && valueEnd && valueStart > valueEnd) {
+          console.warn(`invalid valueStart and valueEnd for slider ${id}`)
+        }
+      } else {
+        value && setPrimaryHandleMovementX(calculateDistance(value))
+      }
+    }
+  }, [root]);
+
+  useEffect(() => {
+    document.addEventListener('mousemove', mouseMoveHandler)
+    document.addEventListener('mouseup', mouseUpHandler)
+    document.addEventListener('touchmove', mouseMoveHandler)
+    document.addEventListener('touchend', mouseUpHandler)
+
+    return () => {
+      document.removeEventListener('mousemove', mouseMoveHandler)
+      document.removeEventListener('mouseup', mouseUpHandler)
+      document.removeEventListener('touchmove', mouseMoveHandler)
+      document.removeEventListener('touchend', mouseUpHandler)
+    }
+  }, []);
 
   const calculateValue = (distance: number) => {
     const result = Math.round(min + (distance / size) * (max - min))
@@ -159,56 +205,43 @@ export default function Slider(props: SliderProps) {
     lastPosition.current = distance
   }
 
-  const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+  const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>) => {
     if (disabled || !root.current) return;
-    rootRect.current = root.current.getBoundingClientRect()
     e.preventDefault()
-    setMovement(e.clientX)
+    rootRect.current = root.current.getBoundingClientRect()
+    if ('touches' in e) {
+      setMovement(e.touches[0].clientX)
+    } else {
+      setMovement(e.clientX)
+    }
     setIsDragging(true)
-    document.addEventListener('mousemove', mouseMoveHandler)
-    document.addEventListener('mouseup', mouseUpHandler)
   }
 
-  const mouseUpHandler = (e: MouseEvent) => {
+  const mouseUpHandler = (e: MouseEvent | TouchEvent) => {
     if (disabled) return;
     e.preventDefault()
     _activeHandle.current = undefined
     setIsDragging(false)
-    document.removeEventListener('mouseup', mouseUpHandler)
-    document.removeEventListener('mousemove', mouseMoveHandler)
+
   }
 
-  const mouseMoveHandler = (e: MouseEvent) => {
+  const mouseMoveHandler = (e: MouseEvent | TouchEvent) => {
     if (disabled) return;
-    e.preventDefault()
-    draggingHandle(e.clientX)
-  }
-
-  useEffect(() => {
-    if (root.current) {
-      if (step) {
-      }
-      if (range) {
-        if (valueStart) {
-          const distance = calculateDistance(valueStart)
-          setSecondHandleMovementX(distance)
-        }
-        if (valueEnd) {
-          const distance = calculateDistance(valueEnd)
-          setPrimaryHandleMovementX(distance)
-        }
-
-        if (valueStart && valueEnd && valueStart > valueEnd) {
-          console.warn(`invalid valueStart and valueEnd for slider ${id}`)
-        }
-      } else {
-        value && setPrimaryHandleMovementX(calculateDistance(value))
-      }
+    // e.preventDefault()
+    if (e instanceof MouseEvent) {
+      draggingHandle(e.clientX)
+    } else if (e instanceof TouchEvent) {
+      const {clientX} = e.touches[0]
+      draggingHandle(clientX)
     }
-  }, [root]);
+  }
 
   return (
-    <div className={'slider-container'} onMouseDown={handleMouseDownHandler}>
+    <div
+      className={'slider-container'}
+      onMouseDown={handleMouseDownHandler}
+      onTouchStart={handleMouseDownHandler}
+    >
       <div
         ref={root}
         className={c('slider', {'range': range, 'disabled': disabled})}

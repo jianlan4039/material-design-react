@@ -115,6 +115,19 @@ $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
     hover-color: var(--_#{$selected}-hover-state-layer-color),
     pressed-color: var(--_#{$selected}-pressed-state-layer-color)
   ));
+
+  //@if $selected == 'unselected' {
+  //  @include state-layer.theme((
+  //    hover-color: var(--_unselected-hover-state-layer-color),
+  //    pressed-color: var(--_selected-pressed-state-layer-color)
+  //  ));
+  //} @else {
+  //  @include state-layer.theme((
+  //    hover-color: var(--_selected-hover-state-layer-color),
+  //    pressed-color: var(--_unselected-pressed-state-layer-color)
+  //  ));
+  //}
+
   .nd-segmented-button__icon-slot,
   .nd-segmented-button__trailing-icon-slot,
   .nd-segmented-button__icon-slot > *,

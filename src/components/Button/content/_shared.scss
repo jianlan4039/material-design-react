@@ -20,6 +20,11 @@
   border-end-start-radius: var(--_container-shape-end-start);
   border-end-end-radius: var(--_container-shape-end-end);
 
+  button {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
   .nd-button {
     display: inline-flex;
     background: transparent;

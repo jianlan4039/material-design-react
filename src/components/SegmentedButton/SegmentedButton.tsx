@@ -26,7 +26,7 @@ const SegmentedButton = StateLayer<HTMLDivElement, SegmentedButtonProps>(forward
   const [selected, setSelected] = useState<boolean>(false)
 
   const clickHandler = () => {
-    setList?.(id)
+    setList?.([id])
   }
 
   useEffect(() => {

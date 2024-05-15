@@ -17,18 +17,19 @@ export default function SegmentedButtonContainer(props: SegmentedButtonContainer
   } = props
 
   const ref = useRef<HTMLDivElement>(null);
-  const [options, setOptions] = useState<string[]>(selectedOptions)
+  const [list, setList] = useState<string[]>(selectedOptions)
 
-  const onOptionSet = (option: string) => {
+  const onOptionSet = (options: string[]) => {
     if (!multiple) {
-      setOptions([option])
+      setList(options)
     } else {
-      if (options.includes(option)) {
-        options.splice(options.indexOf(option), 1)
-        setOptions([...options])
+      const option = options[0]
+      if (list.includes(option)) {
+        list.splice(list.indexOf(option), 1)
+        setList([...list])
         return
       }
-      setOptions([option, ...options])
+      setList([option, ...list])
     }
   }
 
@@ -50,7 +51,7 @@ export default function SegmentedButtonContainer(props: SegmentedButtonContainer
 
   return (
     <div ref={ref} className={'nd-segmented-button-container'} {...rest}>
-      <MultiSelectionContext.Provider value={{multiple: multiple, list: options, setList: onOptionSet}}>
+      <MultiSelectionContext.Provider value={{multiple: multiple, list: list, setList: onOptionSet}}>
         {children}
       </MultiSelectionContext.Provider>
     </div>
