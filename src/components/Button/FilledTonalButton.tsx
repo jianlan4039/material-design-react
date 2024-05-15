@@ -23,10 +23,7 @@ const FilledTonalButton = StateLayer<HTMLButtonElement, FilledTonalButtonProps>(
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <CommonButton
-        ref={ref}
-        {...rest}
-      >
+      <CommonButton ref={ref} {...rest}>
         {children}
       </CommonButton>
     </div>
