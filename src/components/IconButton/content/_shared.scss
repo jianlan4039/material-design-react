@@ -1,6 +1,7 @@
 @use "../../Elevation/internal/elevation";
 @use "../../Focus/internal/focus-ring";
 @use "../../builder/tokens-builder";
+@use "../../builder/forbidden-highlight";
 
 $support-tokens: (
   'color',
@@ -34,6 +35,7 @@ $support-tokens: (
       border-radius: inherit;
       box-sizing: border-box;
       cursor: pointer;
+      @include forbidden-highlight.no-highlight;
 
       .nd-icon-button__icon-slot,
       .nd-icon-button__icon-slot > * {
