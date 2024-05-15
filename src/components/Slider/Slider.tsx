@@ -1,18 +1,17 @@
 import React, {
-  ReactNode,
   useRef,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
   useState,
   useEffect,
   useId,
-  CSSProperties
+  CSSProperties, forwardRef
 } from 'react'
 import './Slider.scss'
 import c from 'classnames'
 import Handle from "./internal/Handle";
 
-export interface SliderProps {
+export interface ISliderProps {
   id?: string
   step?: number
   min?: number
@@ -40,7 +39,7 @@ declare module 'react' {
   }
 }
 
-export default function Slider(props: SliderProps) {
+const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>((props, ref) => {
   const {
     id = useId(),
     value = 0,
@@ -238,9 +237,11 @@ export default function Slider(props: SliderProps) {
 
   return (
     <div
+      ref={ref}
       className={'slider-container'}
       onMouseDown={handleMouseDownHandler}
       onTouchStart={handleMouseDownHandler}
+      {...rest}
     >
       <div
         ref={root}
@@ -277,4 +278,6 @@ export default function Slider(props: SliderProps) {
       </div>
     </div>
   )
-}
+})
+
+export default Slider
