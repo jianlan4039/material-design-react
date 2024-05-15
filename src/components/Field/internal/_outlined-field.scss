@@ -25,11 +25,14 @@
     ));
 
     position: relative;
-    //block-size: 56px;
+    block-size: 56px;
     border-radius: var(--_container-shape);
     min-width: inherit;
+    margin-block-end: 20px;
 
     .nd-field {
+      block-size: inherit;
+
       .nd-container__start {
         padding-inline-start: 12px;
       }
@@ -40,6 +43,7 @@
 
       .nd-container__middle {
         box-sizing: border-box;
+        block-size: inherit;
         padding-inline-start: var(--_leading-space);
         padding-inline-end: var(--_trailing-space);
         padding-block-start: var(--_top-space);

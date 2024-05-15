@@ -16,8 +16,8 @@ export interface FieldProps extends BaseElement {
   focus?: boolean
   disabled?: boolean,
   error?: boolean
-  start?: ReactNode
-  end?: ReactNode
+  icon?: ReactNode
+  trailingIcon?: ReactNode
 }
 
 const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
@@ -29,6 +29,8 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
     showSupportingText,
     supportingTextTrailing,
     supportingText,
+    icon,
+    trailingIcon,
     ...rest
   } = props
 
@@ -118,8 +120,13 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
   }, [floatingLabelShow]);
 
   return (
-    <div ref={ref} className={c('nd-field', className, {'populated': populated})}>
+    <div
+      ref={ref}
+      className={c('nd-field', className, {'populated': populated})}
+    >
       <Container
+        start={icon}
+        end={trailingIcon}
         middle={label &&
           <div className={'nd-field__label-wrapper'}>
             <span
@@ -140,11 +147,13 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
       >
         {children}
       </Container>
-      {showSupportingText &&
+      {
+        showSupportingText &&
         <SupportingText
           trailing={supportingTextTrailing}
           content={supportingText}
-        ></SupportingText>}
+        ></SupportingText>
+      }
     </div>
   )
 })

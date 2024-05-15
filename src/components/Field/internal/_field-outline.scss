@@ -21,7 +21,7 @@ $supported-tokens: (
     align-items: center;
     border-radius: inherit;
     border-color: var(--md-field-outline-outline-color, var(--_outline-color));
-    block-size: 56px;
+    block-size: inherit;
 
     .nd-field-outline__start::after,
     .nd-field-outline__end::after,

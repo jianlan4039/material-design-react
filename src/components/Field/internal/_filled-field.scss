@@ -39,7 +39,7 @@
     }
 
     .nd-field {
-      block-size: 100%;
+      block-size: inherit;
 
       .nd-container__start {
         padding-inline-start: 12px;
@@ -53,6 +53,7 @@
 
       .nd-container__middle {
         box-sizing: border-box;
+        block-size: inherit;
         padding-block-start: var(--_top-space);
         padding-block-end: var(--_bottom-space);
         padding-inline-start: var(--_leading-space);

@@ -86,8 +86,8 @@ export default function FilledTextField(props: FilledTextFieldProps) {
       onMouseDownOutside={mouseDownOutsideHandler}
     >
       <FilledField
-        start={leadingIcon}
-        end={trailingIcon}
+        icon={leadingIcon}
+        trailingIcon={trailingIcon}
         label={label}
         populated={focus || value}
         focus={focus}

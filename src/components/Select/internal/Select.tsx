@@ -1,14 +1,14 @@
-import React, {ComponentType, forwardRef, HTMLAttributes, ReactNode, useEffect, useId, useRef, useState} from 'react'
-import Menu, {MenuProps} from "../../Menu/Menu";
+import React, {ComponentType, forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import Menu from "../../Menu/Menu";
 import {Corner} from "../../internal/alignment/geometry";
 import {MenuItemProps} from "../../Menu/MenuItem";
 import {BaseElement} from "../../internal/common/BaseElement";
 import './Select.scss'
-import {Option, OptionValue} from "../../Menu/internal/menuTypes";
+import {OptionValue} from "../../Menu/internal/menuTypes";
 import {FieldProps} from "../../Field/internal/Field";
 import {outsideHandler} from "../../internal/common/handlers";
 
-export interface SelectProps extends BaseElement {
+export interface SelectProps extends FieldProps {
   children?: ReactNode
   items?: MenuItemProps[]
   label?: string
@@ -16,7 +16,7 @@ export interface SelectProps extends BaseElement {
   multiple?: boolean
 }
 
-function Select<R extends HTMLDivElement, T extends SelectProps>(Field: ComponentType<FieldProps>) {
+function Select<R extends HTMLDivElement, T extends SelectProps>(Field: ComponentType<any>) {
   return forwardRef<R, T>((props, ref) => {
     const {
       items,
@@ -26,8 +26,7 @@ function Select<R extends HTMLDivElement, T extends SelectProps>(Field: Componen
       ...rest
     } = props
 
-    const id = useId()
-    const fieldRef = useRef<HTMLDivElement>(null);
+    const fieldRef = useRef<R>(null);
     const [anchor, setAnchor] = useState<HTMLElement>()
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isFocus, setIsFocus] = useState<boolean>(false)

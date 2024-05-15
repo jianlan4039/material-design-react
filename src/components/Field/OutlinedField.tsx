@@ -14,7 +14,7 @@ const OutlinedField = forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref
     label,
     focus,
     populated,
-    start,
+    icon,
     error,
     disabled,
     ...rest
@@ -51,10 +51,10 @@ const OutlinedField = forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref
     >
       <FieldOutline label={label}></FieldOutline>
       <Field
-        className={c({'with-leading-icon': start})}
+        className={c({'with-leading-icon': icon})}
         label={label}
         populated={populated}
-        start={start}
+        icon={icon}
         {...rest}
       >
         {children}

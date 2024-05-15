@@ -98,8 +98,8 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
       onMouseDownOutside={mouseDownOutsideHandler}
     >
       <OutlinedField
-        start={leadingIcon}
-        end={trailingIcon}
+        icon={leadingIcon}
+        trailingIcon={trailingIcon}
         populated={Boolean(value) || focus || populated}
         error={error}
         disabled={disabled}
