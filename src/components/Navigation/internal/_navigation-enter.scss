@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "../../builder/tokens-builder";
 @use "../../builder/background";
+@use "../../builder/forbidden-highlight";
 @use "../../tokens/md-sys-motion";
 
 $_motion: md-sys-motion.values();
@@ -11,6 +12,7 @@ $_motion: md-sys-motion.values();
 
 @mixin styles() {
   .navigation-enter {
+    @include forbidden-highlight.no-highlight;
     border-radius: var(--_active-indicator-shape);
     inline-size: var(--_active-indicator-width);
     cursor: pointer;

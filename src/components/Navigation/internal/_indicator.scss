@@ -29,9 +29,10 @@ $values: (
 
 @mixin styles() {
   .navigation-indicator {
-    $_easing: map.get($_motion, 'easing-standard');
-    $_duration: map.get($_motion, 'duration-short1');
     @include tokens-builder.tokens($values, navigation-indicator);
+    @include background.styles;
+    $_easing: map.get($_motion, 'easing-emphasized-decelerate');
+    $_duration: map.get($_motion, 'duration-short3');
     position: absolute;
     block-size: var(--_height);
     inline-size: var(--_width);
@@ -39,7 +40,6 @@ $values: (
     display: flex;
     justify-content: center;
     align-items: center;
-    @include background.styles;
 
     .nd-state-layer, &::before {
       transition: inline-size $_easing $_duration;

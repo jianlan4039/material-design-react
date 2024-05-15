@@ -1,7 +1,7 @@
 import React, {ReactNode, useEffect, useRef, useState, MouseEvent, useId} from 'react'
 import {IndicatorRectContextProvider} from "../internal/context/indicator";
 import './NavigationDrawer.scss'
-import NavigationEnter, {NavigationEnterHandle, NavigationEnterProps} from "./internal/NavigationEnter";
+import NavigationEnter, {NavigationEnterProps} from "./internal/NavigationEnter";
 import Divider from "../Divider/Divider";
 import c from 'classnames'
 import Elevation from "../Elevation";
@@ -12,7 +12,7 @@ export interface Block {
   items?: NavigationEnterProps[]
 }
 
-export interface NavigationDrawerProps {
+export interface INavigationDrawerProps {
   children?: ReactNode
   items?: NavigationEnterProps[]
   block?: Block
@@ -22,7 +22,7 @@ export interface NavigationDrawerProps {
   stayOpenOnOutsideClick?: boolean
 }
 
-export default function NavigationDrawer(props: NavigationDrawerProps) {
+export default function NavigationDrawer(props: INavigationDrawerProps) {
   const {
     children,
     items,
@@ -38,7 +38,6 @@ export default function NavigationDrawer(props: NavigationDrawerProps) {
   const scrimRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLUListElement>(null);
   const animationBuff = useRef<Animation[]>([]);
-  const enterRefs = useRef<NavigationEnterHandle[]>([])
 
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isAnimating, setIsAnimating] = useState<boolean | undefined>(undefined)

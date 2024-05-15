@@ -8,7 +8,6 @@
 @use "../../Elevation/internal/elevation";
 @use "../../tokens/md-sys-motion";
 
-
 $_default: (
   color: md-sys-color.values-light(),
   palette: md-ref-palette.values(),

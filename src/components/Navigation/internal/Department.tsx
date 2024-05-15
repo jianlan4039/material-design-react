@@ -68,7 +68,7 @@ const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
     const indicatorAnimation = indicatorRef.current.animate([
       {translate: `${lastLeft - currentLeft}px ${lastTop - currentTop}px`},
       {translate: `none`}
-    ], {duration: DURATION.DURATION_SHORT2, easing: EASING.EMPHASIZED, pseudoElement: "::before"})
+    ], {duration: DURATION.DURATION_SHORT4, easing: EASING.EMPHASIZED, pseudoElement: "::before"})
     indicatorAnimation.addEventListener('finish', () => {
       indicatorAnimation.cancel()
       setIsAnimating(false)
@@ -84,7 +84,11 @@ const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
       className={`navigation-department ${className}`}
       onClick={clickHandler}
     >
-      <Indicator ref={indicatorRef} animating={isAnimating} active={isActive}></Indicator>
+      <Indicator
+        ref={indicatorRef}
+        animating={isAnimating}
+        active={isActive}
+      ></Indicator>
       <div className={'icon'}>
         {icon}
       </div>
