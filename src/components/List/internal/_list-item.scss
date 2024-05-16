@@ -1,5 +1,6 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-list-item";
+@use "../../builder/forbidden-highlight";
 
 @mixin theme($tokens) {
   @include tokens-builder.theme($tokens, md-comp-list-item.$supported-tokens, list-item)
@@ -8,6 +9,7 @@
 @mixin styles() {
   .list-item {
     @include tokens-builder.tokens(md-comp-list-item.values(), list-item);
+    @include forbidden-highlight.no-highlight;
     position: relative;
 
     .lsc {
