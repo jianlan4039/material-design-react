@@ -9,11 +9,19 @@
   .nd-checkbox-content {
     --_icon-color: var(--_outline-color);
     @include background.styles;
-    display: inline-flex;
+    display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
     border-radius: var(--_container-shape);
+    block-size: 24px;
+    inline-size: 24px;
+
+    &::before {
+      block-size: 18px;
+      inline-size: 18px;
+      inset: unset;
+    }
 
     input[type='checkbox'] {
       opacity: 0;
@@ -28,6 +36,10 @@
     svg {
       // change it at different state
       fill: var(--_icon-color);
+
+      &.nd-uncheck{
+        scale: 1.2;
+      }
     }
 
     &.nd-check,

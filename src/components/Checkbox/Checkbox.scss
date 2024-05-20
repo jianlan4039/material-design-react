@@ -15,6 +15,8 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
   ));
   @include check-box.styles;
   border-radius: var(--_state-layer-shape);
+  block-size: 24px;
+  inline-size: 24px;
 
   .nd-state-layer {
     block-size: var(--_state-layer-size);
