@@ -1,12 +1,7 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-badge";
 
-@mixin theme($tokens) {
-
-}
-
 @mixin styles() {
-
   .badge-container {
     @include tokens-builder.tokens(md-comp-badge.values(), badge);
     position: relative;
@@ -49,7 +44,7 @@
       transform: translateX(12px);
     }
 
-    &.hidden{
+    &.hidden {
       opacity: 0;
     }
   }

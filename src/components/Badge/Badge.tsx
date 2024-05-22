@@ -26,7 +26,7 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
   const [isHidden, setIsHidden] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsHidden(count <= 0 || stayShow)
+    setIsHidden(count <= 0)
   }, [count]);
 
   useImperativeHandle(ref, () => ({
@@ -39,10 +39,11 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
       className={'badge-container'}
     >
       <span
+        aria-label={_count.toString()}
         className={c('badge', {
           'badge--large': size === 'large',
           'badge--small': size === 'small',
-          'hidden': isHidden
+          'hidden': stayShow ? false : isHidden
         })}
       >
         {size === 'large' && _count}
