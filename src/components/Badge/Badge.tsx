@@ -10,7 +10,8 @@ export interface BadgeProps {
 }
 
 export interface BadgeHandle {
-  root?: HTMLDivElement | null
+  container?: HTMLDivElement | null
+  badge?: HTMLSpanElement | null
 }
 
 const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, ref) => {
@@ -23,6 +24,7 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
 
   const _count = count > 999 ? '999+' : count
   const containerRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLSpanElement>(null)
   const [isHidden, setIsHidden] = useState<boolean>(false)
 
   useEffect(() => {
@@ -30,7 +32,8 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
   }, [count]);
 
   useImperativeHandle(ref, () => ({
-    root: containerRef.current
+    container: containerRef.current,
+    badge: badgeRef.current
   }))
 
   return (
@@ -39,6 +42,7 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
       className={'nd-badge-container'}
     >
       <span
+        ref={badgeRef}
         aria-label={_count.toString()}
         className={c('nd-badge', {
           'nd-badge--large': size === 'large',
