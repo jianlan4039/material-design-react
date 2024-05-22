@@ -36,11 +36,11 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
   return (
     <div
       ref={containerRef}
-      className={'badge-container'}
+      className={'nd-badge-container'}
     >
       <span
         aria-label={_count.toString()}
-        className={c('badge', {
+        className={c('nd-badge', {
           'badge--large': size === 'large',
           'badge--small': size === 'small',
           'hidden': stayShow ? false : isHidden

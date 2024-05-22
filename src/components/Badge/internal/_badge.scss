@@ -2,14 +2,14 @@
 @use "../../tokens/md-comp-badge";
 
 @mixin styles() {
-  .badge-container {
+  .nd-badge-container {
     @include tokens-builder.tokens(md-comp-badge.values(), badge);
     position: relative;
     display: inline-flex;
     cursor: default;
   }
 
-  .badge {
+  .nd-badge {
     position: absolute;
     display: inline-flex;
     border-radius: var(--_shape);
@@ -18,12 +18,12 @@
     inset-inline-end: 0;
     inset-block-start: 0;
 
-    &.badge--small {
+    &.small {
       block-size: var(--_size);
       inline-size: var(--_size);
     }
 
-    &.badge--large {
+    &.large {
       direction: rtl;
       justify-content: center;
       align-items: center;
