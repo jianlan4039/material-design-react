@@ -18,12 +18,12 @@
     inset-inline-end: 0;
     inset-block-start: 0;
 
-    &.small {
+    &.nd-badge--small {
       block-size: var(--_size);
       inline-size: var(--_size);
     }
 
-    &.large {
+    &.nd-badge--large {
       direction: rtl;
       justify-content: center;
       align-items: center;
@@ -44,7 +44,7 @@
       transform: translateX(12px);
     }
 
-    &.hidden {
+    &.nd-badge--hidden {
       opacity: 0;
     }
   }

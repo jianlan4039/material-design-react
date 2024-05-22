@@ -41,9 +41,9 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
       <span
         aria-label={_count.toString()}
         className={c('nd-badge', {
-          'badge--large': size === 'large',
-          'badge--small': size === 'small',
-          'hidden': stayShow ? false : isHidden
+          'nd-badge--large': size === 'large',
+          'nd-badge--small': size === 'small',
+          'nd-badge--hidden': stayShow ? false : isHidden
         })}
       >
         {size === 'large' && _count}
