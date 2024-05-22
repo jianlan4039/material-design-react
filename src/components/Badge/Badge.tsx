@@ -23,18 +23,7 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
 
   const _count = count > 999 ? '999+' : count
   const containerRef = useRef<HTMLDivElement>(null);
-  const [badgeInsetInlineStart, setBadgeInsetInlineStart] = useState<number>()
   const [isHidden, setIsHidden] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (containerRef.current && size === 'large') {
-      const {width: containerWidth} = containerRef.current.getBoundingClientRect()
-      setTimeout(() => {
-        const offsetInsetToStart = containerWidth - 12
-        setBadgeInsetInlineStart(offsetInsetToStart)
-      }, 25)
-    }
-  }, [containerRef.current]);
 
   useEffect(() => {
     setIsHidden(count <= 0 || stayShow)
@@ -55,7 +44,6 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
           'badge--small': size === 'small',
           'hidden': isHidden
         })}
-        style={{insetInlineStart: `${badgeInsetInlineStart}px`}}
       >
         {size === 'large' && _count}
       </span>

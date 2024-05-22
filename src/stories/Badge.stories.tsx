@@ -16,29 +16,19 @@ export default meta;
 type Story = StoryObj<typeof Badge>;
 
 export const Large: Story = {
-  render: (args) => {
+  render: ({size = 'large', count = 9, ...rest}) => {
     return (
-      <Badge count={0} size={'large'} {...args}>
+      <Badge size={size} count={count} {...rest}>
         <FilledIcon>home</FilledIcon>
       </Badge>
     )
   }
 }
 
-export const LargeWithText: Story = {
-  render: (args) => {
-    return (
-      <Badge count={2123123} size={'large'} {...args}>
-        Lorem ipsum dolor sit amet.
-      </Badge>
-    )
-  }
-}
-
 export const Small: Story = {
-  render: (args) => {
+  render: ({size = 'small', ...rest}) => {
     return (
-      <Badge size={'small'} {...args}>
+      <Badge size={size} count={5} {...rest}>
         Lorem ipsum.
       </Badge>
     )

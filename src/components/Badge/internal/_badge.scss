@@ -18,12 +18,13 @@
     display: inline-flex;
     border-radius: var(--_shape);
     background-color: var(--_color);
+    transition: opacity 150ms linear;
+    inset-inline-end: 0;
+    inset-block-start: 0;
 
     &.badge--small {
       block-size: var(--_size);
       inline-size: var(--_size);
-      inset-inline-end: 0;
-      inset-block-start: 0;
     }
 
     &.badge--large {
@@ -42,6 +43,8 @@
       overflow: hidden;
       padding-inline: calc(var(--_large-size) / 4);
       inset-block-start: -2px;
+      inset-inline-start: 100%;
+      transform: translateX(-12px);
     }
 
     &.hidden{
