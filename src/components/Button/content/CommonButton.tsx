@@ -1,11 +1,7 @@
-import React, {forwardRef, HTMLAttributes, ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import cln from "classnames";
-import FocusRing from "../../Focus/FocusRing";
-import Elevation from "../../Elevation";
-import StateLayer from "../../StateLayer";
-import {StateElement} from "../../internal/common/StateElement";
 
-export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, StateElement {
+export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean
   children?: ReactNode
   icon?: ReactNode
@@ -17,7 +13,6 @@ const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, re
     children,
     icon,
     trailingIcon,
-    disabled,
     ...rest
   } = props
 
@@ -28,7 +23,6 @@ const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, re
         'nd-button--has-icon': icon,
         'nd-button--has-trailing-icon': trailingIcon
       })}
-      disabled={disabled}
       {...rest}
     >
       {icon && <span className={'nd-button__icon-slot'}>{icon}</span>}

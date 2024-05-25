@@ -4,8 +4,9 @@ import StateLayer from "../StateLayer";
 import CommonButton, {CommonButtonProps} from "./content/CommonButton";
 import cln from "classnames";
 import './TextButton.scss'
+import {StateElement} from "../internal/common/StateElement";
 
-export interface TextButtonProps extends CommonButtonProps {
+export interface TextButtonProps extends CommonButtonProps, StateElement {
   children?: ReactNode
 }
 

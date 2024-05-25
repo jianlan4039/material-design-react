@@ -5,12 +5,13 @@ import StateLayer from "../StateLayer";
 import Elevation from "../Elevation";
 import FocusRing from "../Focus/FocusRing";
 import CommonButton, {CommonButtonProps} from "./content/CommonButton";
+import {StateElement} from "../internal/common/StateElement";
 
-export interface ElevatedButtonProps extends CommonButtonProps {
+export interface ElevatedButtonProps extends CommonButtonProps, StateElement{
   children?: ReactNode
 }
 
-const ElevatedButton = StateLayer<HTMLButtonElement, ElevatedButtonProps>(forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
+const ElevatedButton: React.FC<ElevatedButtonProps> = StateLayer<HTMLDivElement, ElevatedButtonProps>(forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
   const {
     children,
     disabled,

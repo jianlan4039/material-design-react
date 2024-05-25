@@ -4,6 +4,10 @@
 
 $tokens: md-comp-filled-tonal-button.values();
 
+@mixin theme($tokens){
+  @include tokens-builder.theme($tokens, md-comp-filled-tonal-button.$supported-tokens, filled-tonal-button);
+}
+
 @mixin styles() {
   @include tokens-builder.tokens($tokens, filled-tonal-button);
   --_container-shape-start-start: var(--md-filled-tonal-button-container-shape-start-start, var(--_container-shape));
