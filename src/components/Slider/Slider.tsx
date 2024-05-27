@@ -97,19 +97,20 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
   }, [root]);
 
   useEffect(() => {
-    document.addEventListener('mousemove', mouseMoveHandler)
     document.addEventListener('mouseup', mouseUpHandler)
-    document.addEventListener('touchmove', mouseMoveHandler)
     document.addEventListener('touchend', mouseUpHandler)
 
     return () => {
-      document.removeEventListener('mousemove', mouseMoveHandler)
       document.removeEventListener('mouseup', mouseUpHandler)
-      document.removeEventListener('touchmove', mouseMoveHandler)
       document.removeEventListener('touchend', mouseUpHandler)
     }
   }, []);
 
+  /**
+   * 根据输入的物理距离（单位px）来计算对应的有效值。
+   *
+   * @param distance 物理距离（单位px）
+   */
   const calculateValue = (distance: number) => {
     const result = Math.round(min + (distance / size) * (max - min))
     if (isNaN(result)) {
@@ -118,6 +119,10 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
     return result
   }
 
+  /**
+   * 根据输入的有效值来计算对应的物理距离（单位px）。
+   * @param value 有效值
+   */
   const calculateDistance = (value: number) => {
     if (value < min || value > max) {
       console.warn(`value for slider ${id} is not valid`)
@@ -125,19 +130,24 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
     return value * (size / (max - min))
   }
 
+  /**
+   * 检验距离（单位px）是否有效，超过最大值返回最大值，小于最小值返回最小值，在有效范围内则返回原值。
+   *
+   * @param distance 距离值
+   * @param min 距离值最小值
+   * @param max 距离值最大值
+   */
   const validDistance = (distance: number, min: number, max: number) => {
     return distance > min ? (distance < max ? distance : max) : (min)
   }
 
+
   const determineWhichHandle = (distance: number) => {
     if (!rootRect.current) return;
-    const willMoveTo = validDistance(distance, 0, rootRect.current?.width)
-    const deltaDistance = primaryHandleMovementX - secondHandleMovementX
 
-    if (willMoveTo >= primaryHandleMovementX) {
-      _activeHandle.current = 'PRIMARY'
-      return 'PRIMARY'
-    } else if (willMoveTo >= (secondHandleMovementX + deltaDistance / 2)) {
+    const willMoveTo = validDistance(distance, 0, rootRect.current.width) //即将移动的距离
+
+    if (willMoveTo >= (primaryHandleMovementX / 2)) {
       _activeHandle.current = 'PRIMARY'
       return 'PRIMARY'
     } else {
@@ -189,15 +199,16 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
   }
 
   const draggingHandle = (clientX: number) => {
-    if (!size || !rootRect.current) return;
+    if (!size || !rootRect.current || !_activeHandle.current) return;
     let distance = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, rootRect.current?.width))
     if (step && Math.abs(distance - lastPosition.current) < 10) {
       return;
     }
+
     if (_activeHandle.current === 'PRIMARY' && distance >= secondHandleMovementX) {
       setPrimaryHandleMovementX(distance)
       customProps.current['--_primary-handle'] = `${distance}px`
-    } else if (distance <= primaryHandleMovementX) {
+    } else if (_activeHandle.current === 'SECOND' && distance <= primaryHandleMovementX) {
       setSecondHandleMovementX(distance)
       customProps.current['--_second-handle'] = `${distance}px`
     }
@@ -206,27 +217,32 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
 
   const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>) => {
     if (disabled || !root.current) return;
-    e.preventDefault()
+
+    document.addEventListener('mousemove', mouseMoveHandler)
+    document.addEventListener('touchmove', mouseMoveHandler)
     rootRect.current = root.current.getBoundingClientRect()
     if ('touches' in e) {
       setMovement(e.touches[0].clientX)
     } else {
+      e.preventDefault()
       setMovement(e.clientX)
     }
     setIsDragging(true)
   }
 
   const mouseUpHandler = (e: MouseEvent | TouchEvent) => {
+    document.removeEventListener('mousemove', mouseMoveHandler)
+    document.removeEventListener('touchmove', mouseMoveHandler)
     if (disabled) return;
-    e.preventDefault()
+    if (!('touches' in e)) {
+      e.preventDefault()
+    }
     _activeHandle.current = undefined
     setIsDragging(false)
-
   }
 
   const mouseMoveHandler = (e: MouseEvent | TouchEvent) => {
     if (disabled) return;
-    // e.preventDefault()
     if (e instanceof MouseEvent) {
       draggingHandle(e.clientX)
     } else if (e instanceof TouchEvent) {
