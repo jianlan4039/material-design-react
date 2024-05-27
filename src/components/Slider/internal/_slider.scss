@@ -38,7 +38,7 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
   .slider {
     display: flex;
     position: relative;
-    inline-size: 200px;
+    inline-size: var(--_slider-size);
     block-size: var(--_inactive-track-height);
     justify-content: center;
     align-items: center;
