@@ -75,9 +75,6 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
 
   useEffect(() => {
     if (root.current) {
-      if (step) {
-
-      }
       if (range) {
         if (valueStart) {
           const distance = calculateDistance(valueStart)
@@ -98,16 +95,6 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
   }, [root]);
 
   useEffect(() => {
-    document.addEventListener('mouseup', mouseUpHandler)
-    document.addEventListener('touchend', mouseUpHandler)
-
-    return () => {
-      document.removeEventListener('mouseup', mouseUpHandler)
-      document.removeEventListener('touchend', mouseUpHandler)
-    }
-  }, [size, step]);
-
-  useEffect(() => {
     if (!range) {
       setSecondHandleMovementX(0)
       customProps.current['--_second-handle'] = `${0}px`
@@ -116,7 +103,6 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
 
   /**
    * 根据输入的物理距离（单位px）来计算对应的有效值。
-   *
    * @param distance 物理距离（单位px）
    */
   const calculateValue = (distance: number) => {
@@ -141,31 +127,19 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
   /**
    * 检验距离（单位px）是否有效，超过最大值返回最大值，小于最小值返回最小值，在有效范围内则返回原值。
    * 当范围功能启动时，主滑块的最小值不能低于次滑块，次滑块的值不能高于主滑块。
-   *
    * @param distance 距离值
    * @param min 距离值最小值
    * @param max 距离值最大值
    */
   const validDistance = (distance: number, min: number, max: number) => {
-    let validDis = distance > min ? (distance < max ? distance : max) : (min)
-    if (!range) {
-      return validDis
-    } else {
-      if (activeHandle.current === 'PRIMARY') {
-        return validDis >= secondHandleMovementX ? validDis : secondHandleMovementX
-      } else if (activeHandle.current === 'SECOND') {
-        return validDis >= primaryHandleMovementX ? primaryHandleMovementX : validDis
-      } else {
-        return validDis
-      }
-    }
+    return distance > min ? (distance < max ? distance : max) : (min)
   }
 
 
   const determineWhichHandle = (distance: number) => {
     if (!rootRect.current) return;
-    const willMoveTo = validDistance(distance, 0, rootRect.current.width) //即将移动的距离
-    if (willMoveTo >= (primaryHandleMovementX / 2)) {
+    const deltaDistance = primaryHandleMovementX - secondHandleMovementX
+    if ((distance >= ((deltaDistance / 2) + secondHandleMovementX)) || !range) {
       activeHandle.current = 'PRIMARY'
       return 'PRIMARY'
     } else {
@@ -203,22 +177,25 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
 
   const setMovement = (clientX: number) => {
     if (!rootRect.current) return;
-    let moveTo = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, rootRect.current?.width));
-    lastPosition.current = moveTo
-    if (range && 'SECOND' === determineWhichHandle(moveTo)) {
-      setSecondHandleMovementX(moveTo)
+    const moveTo = clientX - rootRect.current.x
+    const validMovement = roundMovementTo(moveTo);
+    determineWhichHandle(validMovement)
+    if (range && 'SECOND' === activeHandle.current) {
+      setSecondHandleMovementX(validMovement)
       activeHandle.current = 'SECOND'
-      customProps.current['--_second-handle'] = `${moveTo}px`
-    } else {
-      setPrimaryHandleMovementX(moveTo)
+      customProps.current['--_second-handle'] = `${validMovement}px`
+    } else if ('PRIMARY' === activeHandle.current) {
+      setPrimaryHandleMovementX(validMovement)
       activeHandle.current = 'PRIMARY'
-      customProps.current['--_primary-handle'] = `${moveTo}px`
+      customProps.current['--_primary-handle'] = `${validMovement}px`
     }
   }
 
   const draggingHandle = (clientX: number) => {
     if (!size || !rootRect.current || !activeHandle.current) return;
     let distance = roundMovementTo(validDistance(clientX - rootRect.current.x, 0, rootRect.current?.width))
+
+    // 防止抖动
     if (step && Math.abs(distance - lastPosition.current) < 10) {
       return;
     }
@@ -235,9 +212,6 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
 
   const handleMouseDownHandler = (e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>) => {
     if (disabled || !root.current) return;
-
-    document.addEventListener('mousemove', mouseMoveHandler)
-    document.addEventListener('touchmove', mouseMoveHandler)
     rootRect.current = root.current.getBoundingClientRect()
     if ('touches' in e) {
       setMovement(e.touches[0].clientX)
@@ -248,26 +222,49 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
     setIsDragging(true)
   }
 
-  const mouseUpHandler = (e: MouseEvent | TouchEvent) => {
-    document.removeEventListener('mousemove', mouseMoveHandler)
-    document.removeEventListener('touchmove', mouseMoveHandler)
+  const mouseUpHandler = (e: ReactMouseEvent | ReactTouchEvent) => {
     if (disabled) return;
     if (!('touches' in e)) {
       e.preventDefault()
     }
-    activeHandle.current = undefined
     setIsDragging(false)
   }
 
-  const mouseMoveHandler = (e: MouseEvent | TouchEvent) => {
-    if (disabled) return;
-    if (e instanceof MouseEvent) {
-      draggingHandle(e.clientX)
-    } else if (e instanceof TouchEvent) {
+  const mouseMoveHandler = (e: ReactMouseEvent | ReactTouchEvent) => {
+    if (disabled || !isDragging) return;
+    if ('touches' in e) {
       const {clientX} = e.touches[0]
       draggingHandle(clientX)
+    } else {
+      draggingHandle(e.clientX)
     }
   }
+
+  const mouseOutHandler = (e: ReactMouseEvent | ReactTouchEvent) => {
+    mouseUpHandler(e)
+  };
+
+
+  const secondaryHandleMouseDown = (e: ReactMouseEvent | ReactTouchEvent) => {
+    e.stopPropagation()
+    if (!root.current) return;
+    rootRect.current = root.current.getBoundingClientRect()
+    activeHandle.current = 'SECOND'
+    setIsDragging(true)
+  }
+
+  const primaryHandleMouseDown = (e: ReactMouseEvent | ReactTouchEvent) => {
+    e.stopPropagation()
+    if (!root.current) return;
+    rootRect.current = root.current.getBoundingClientRect()
+    activeHandle.current = 'PRIMARY'
+    setIsDragging(true)
+  }
+
+  const handleUpHandler = (e: ReactMouseEvent | ReactTouchEvent) => {
+    setIsDragging(false)
+    activeHandle.current = undefined
+  };
 
   return (
     <div
@@ -275,6 +272,10 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
       className={'slider-container'}
       onMouseDown={handleMouseDownHandler}
       onTouchStart={handleMouseDownHandler}
+      onMouseMove={mouseMoveHandler}
+      onTouchMove={mouseMoveHandler}
+      onMouseUp={handleUpHandler}
+      onTouchEnd={mouseUpHandler}
       {...rest}
     >
       <div
@@ -282,6 +283,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
         className={c('slider', {'range': range, 'disabled': disabled})}
         style={{...customProps.current}}
       >
+        <div className={c('slider-touch', {'slider-touch--dragging': isDragging})}></div>
         {
           range &&
           <>
@@ -291,6 +293,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
               label={valueLabelEnd || calculateValue(secondHandleMovementX)}
               position={secondHandleMovementX}
               labeled={labeled && isDragging}
+              onMouseDown={secondaryHandleMouseDown}
             ></Handle>
           </>
         }
@@ -307,6 +310,8 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
           label={valueLabel || valueLabelStart || calculateValue(primaryHandleMovementX)}
           className={c({'pressed': isDragging && activeHandle.current === 'PRIMARY'})}
           labeled={labeled && isDragging}
+          onMouseDown={primaryHandleMouseDown}
+          onTouchStart={primaryHandleMouseDown}
         ></Handle>
         <div className={'tick-marks'}></div>
       </div>

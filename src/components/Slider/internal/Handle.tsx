@@ -25,6 +25,7 @@ const Handle = forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
       ref={ref}
       className={c(`handle-container`, className, {'labeled': labeled})}
       style={{insetInlineStart: `${position}px`, ...style}}
+      {...rest}
     >
       <div className={'handle'}>
         <Elevation></Elevation>

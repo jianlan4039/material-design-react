@@ -35,6 +35,19 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
     align-items: center;
     justify-content: center;
   }
+
+  .slider-touch {
+    position: absolute;
+    inset-block: -100px;
+    inset-inline: -100px;
+    display: none;
+
+    &.slider-touch--dragging {
+      display: block;
+      z-index: 50;
+    }
+  }
+
   .slider {
     display: flex;
     position: relative;
@@ -141,6 +154,7 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
           transition-timing-function: $easing-emphasized;
           transition-duration: 200ms, 100ms, 150ms, 150ms;
           transition-delay: 250ms;
+          user-select: none;
         }
 
         .handle-touch {
@@ -153,7 +167,12 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
       &.pressed {
         .handle {
           inline-size: var(--_pressed-handle-width);
+
+          .label {
+            z-index: 10;
+          }
         }
+
       }
 
       &.labeled {
