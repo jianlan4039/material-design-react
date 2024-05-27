@@ -1,7 +1,7 @@
 import React, {forwardRef, ReactNode, useContext, useEffect, useId, useState} from 'react'
 import './SegmentedButton.scss'
 import cln from "classnames";
-import SegmentedButtonContent, {SegmentedButtonContentProps} from "./content/SegmentedButtonContent";
+import SegmentedButtonContent, {SegmentedButtonContentProps} from "./internal/SegmentedButtonContent";
 import StateLayer from "../StateLayer";
 import Outline from "../Outline/Outline";
 import {MultiSelectionContext} from "./internal/context";
