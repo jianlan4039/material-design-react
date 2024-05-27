@@ -1,4 +1,4 @@
-@use "content/elevated-button";
+@use "internal/elevated-button";
 
 .nd-elevated-button {
   @include elevated-button.styles;

@@ -4,7 +4,7 @@ import cln from "classnames";
 import StateLayer from "../StateLayer";
 import Elevation from "../Elevation";
 import FocusRing from "../Focus/FocusRing";
-import CommonButton, {CommonButtonProps} from "./content/CommonButton";
+import CommonButton, {CommonButtonProps} from "./internal/CommonButton";
 import {StateElement} from "../internal/common/StateElement";
 
 export interface ElevatedButtonProps extends CommonButtonProps, StateElement{

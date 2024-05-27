@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode} from 'react'
 import FocusRing from "../Focus/FocusRing";
 import Elevation from "../Elevation";
 import StateLayer from "../StateLayer";
-import CommonButton, {CommonButtonProps} from "./content/CommonButton";
+import CommonButton, {CommonButtonProps} from "./internal/CommonButton";
 import cln from "classnames";
 import './FilledButton.scss'
 import {StateElement} from "../internal/common/StateElement";

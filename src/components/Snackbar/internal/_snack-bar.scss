@@ -4,7 +4,7 @@
 @use "../../Elevation/internal/elevation";
 @use "../../builder/background";
 @use "../../StateLayer/internal/state-layer";
-@use "../../Button/content/text-button";
+@use "../../Button/internal/text-button";
 @use "../../IconButton/content/icon-button";
 
 @mixin theme($tokens) {
