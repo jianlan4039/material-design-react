@@ -8,7 +8,7 @@ export interface IMonthViewDateProps extends StateElement, HTMLAttributes<HTMLDi
   date?: number | null
   isToday?: boolean
   year?: number
-  month?: number
+  month?: number // 注意，月份是从1开始的（1代表一月）
 }
 
 const MonthViewDate: React.FC<IMonthViewDateProps> = StateLayer<HTMLDivElement, IMonthViewDateProps>((
@@ -27,10 +27,12 @@ const MonthViewDate: React.FC<IMonthViewDateProps> = StateLayer<HTMLDivElement, 
   const now = new Date()
   const {setList, list} = useContext(SelectionContext)
   const selectedDate = useRef<number>(new Date(
-    year ?? now.getFullYear(),
-    month ?? now.getMonth(),
-    date ?? now.getDate()
-  ).getTime());
+        year ?? now.getFullYear(),
+        month ? month - 1 : now.getMonth(),
+        date ?? now.getDate()
+      ).getTime()
+    )
+  ;
 
   const clickHandler = () => {
     setList?.([selectedDate.current])

@@ -22,10 +22,10 @@ const MonthView: React.FC<IMonthViewProps> = (
   }) => {
   const today = new Date()
   const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
+  const currentMonth = today.getMonth();
   const currentDate = today.getDate();
   const daysInMonth = new Date(year, month, 0).getDate();
-  const firstDay = new Date(year, month, 1).getDay();
+  const firstDay = new Date(year, month - 1, 1).getDay();
 
   // 计算起始偏移
   const offset = (firstDay - startOfWeek + 7) % 7;
@@ -68,7 +68,7 @@ const MonthView: React.FC<IMonthViewProps> = (
               date={date}
               year={year}
               month={month}
-              isToday={year === currentYear && month + 1 === currentMonth && date === currentDate}></MonthViewDate>
+              isToday={year === currentYear && month - 1 === currentMonth && date === currentDate}></MonthViewDate>
           ))
         }
       </div>

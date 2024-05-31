@@ -7,7 +7,7 @@ import FocusRing from "../Focus/FocusRing";
 import CommonButton, {CommonButtonProps} from "./internal/CommonButton";
 import {StateElement} from "../internal/common/StateElement";
 
-export interface ElevatedButtonProps extends CommonButtonProps, StateElement{
+export interface ElevatedButtonProps extends CommonButtonProps, StateElement {
   children?: ReactNode
 }
 

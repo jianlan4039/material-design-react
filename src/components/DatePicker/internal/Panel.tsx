@@ -11,19 +11,21 @@ import SlideViewer from "../../SlideViewer/SlideViewer";
 export interface PanelProps {
   children?: ReactNode
   year?: number;
-  month?: number;        // 注意，月份是从1开始的（1代表一月）
+  month?: number;        // 注意，获取月份是从1开始的（1代表一月）
+  date?: number;
   startOfWeek?: number;  // 一周的起始日，0 = 周日，1 = 周一，等等
-  locale?: string;      // 可选的本地化设置，默认为英文
+  locale?: string;      // 可选的本地化设置，默认为英文; zh-CN：中文，en-US：英文
   onDateChange?: (date: Date[]) => void
   onOutsideClick?: () => void
 }
 
 const Panel = React.memo((props: PanelProps) => {
   const {
-    locale = 'en-US', // zh-CN：中文，en-US：英文
+    locale = 'en-US',
     startOfWeek = 0,
     year,
     month,
+    date,
     onDateChange,
     onOutsideClick
   } = props
@@ -51,7 +53,10 @@ const Panel = React.memo((props: PanelProps) => {
   }, []);
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const selectedDate = useRef<Date>(new Date());
+  const now = new Date()
+  const [monthViewerDate, setMonthViewerDate] = useState<Date>(new Date(year ?? now.getFullYear(), month ?? now.getMonth(), 1))
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+
   const navigatorRef = useRef<HTMLDivElement>(null);
   const [navigatorAnchor, setNavigatorAnchor] = useState<HTMLDivElement>()
   const [monthMenuIsOpen, setMonthMenuIsOpen] = useState<boolean>()
@@ -105,38 +110,43 @@ const Panel = React.memo((props: PanelProps) => {
 
   const nextYear = () => {
     setSlideDirection('left')
-    selectedDate.current.setFullYear(selectedDate.current.getFullYear() + 1)
-    setAlternativeDateView(getDates(selectedDate.current))
-
+    monthViewerDate.setFullYear(monthViewerDate.getFullYear() + 1)
+    setAlternativeDateView(getDates(monthViewerDate))
+    setMonthViewerDate(new Date(monthViewerDate))
   };
 
   const lastYear = () => {
     setSlideDirection('right')
-    selectedDate.current.setFullYear(selectedDate.current.getFullYear() - 1)
-    setAlternativeDateView(getDates(selectedDate.current))
+    monthViewerDate.setFullYear(monthViewerDate.getFullYear() - 1)
+    setAlternativeDateView(getDates(monthViewerDate))
+    setMonthViewerDate(new Date(monthViewerDate))
   };
 
   const nextMonth = () => {
+    monthViewerDate.setMonth(monthViewerDate.getMonth() + 1)
     setSlideDirection('left')
-    selectedDate.current.setMonth(selectedDate.current.getMonth() + 1)
-    setAlternativeDateView(getDates(selectedDate.current))
+    setAlternativeDateView(getDates(monthViewerDate))
+    setMonthViewerDate(new Date(monthViewerDate))
   };
   const lastMonth = () => {
+    monthViewerDate.setMonth(monthViewerDate.getMonth() - 1)
     setSlideDirection('right')
-    selectedDate.current.setMonth(selectedDate.current.getMonth() - 1)
-    setAlternativeDateView(getDates(selectedDate.current))
+    setAlternativeDateView(getDates(monthViewerDate))
+    setMonthViewerDate(new Date(monthViewerDate))
   };
 
   const monthChangeHandler = (value: OptionValue) => {
-    setSlideDirection((value as number) > selectedDate.current.getMonth() ? 'left' : 'right')
-    selectedDate.current.setMonth(value as number)
-    setAlternativeDateView(getDates(selectedDate.current))
+    setSlideDirection((value as number) > monthViewerDate.getMonth() ? 'left' : 'right')
+    monthViewerDate.setMonth(value as number)
+    setAlternativeDateView(getDates(monthViewerDate))
+    setMonthViewerDate(new Date(monthViewerDate))
   };
 
   const yearChangeHandler = (value: OptionValue) => {
-    setSlideDirection((value as number) > selectedDate.current.getFullYear() ? 'left' : 'right')
-    selectedDate.current.setFullYear(value as number)
-    setAlternativeDateView(getDates(selectedDate.current))
+    setSlideDirection((value as number) > monthViewerDate.getFullYear() ? 'left' : 'right')
+    monthViewerDate.setFullYear(value as number)
+    setAlternativeDateView(getDates(monthViewerDate))
+    setMonthViewerDate(new Date(monthViewerDate))
   };
 
   const dateChangeHandler = (date: Date) => {
@@ -147,7 +157,7 @@ const Panel = React.memo((props: PanelProps) => {
     return <>
       <MonthView
         year={date.getFullYear()}
-        month={date.getMonth()}
+        month={date.getMonth() + 1}
         startOfWeek={startOfWeek}
         onDateChange={dateChangeHandler}/>
     </>
@@ -157,14 +167,14 @@ const Panel = React.memo((props: PanelProps) => {
     <div ref={rootRef} className={'date-picker-panel'}>
       <div ref={navigatorRef} className={'navigator-container'}>
         <Navigator
-          label={new Intl.DateTimeFormat(locale, {month: 'long'}).format(selectedDate.current)}
+          label={new Intl.DateTimeFormat(locale, {month: 'long'}).format(monthViewerDate)}
           onClick={monthClickHandler}
           onNext={nextMonth}
           onLast={lastMonth}
           disabled={yearMenuIsOpen}
         ></Navigator>
         <Navigator
-          label={new Intl.DateTimeFormat(locale, {year: 'numeric'}).format(selectedDate.current)}
+          label={new Intl.DateTimeFormat(locale, {year: 'numeric'}).format(monthViewerDate)}
           onClick={yearClickHandler}
           onNext={nextYear}
           onLast={lastYear}
@@ -172,7 +182,7 @@ const Panel = React.memo((props: PanelProps) => {
         ></Navigator>
       </div>
       <SlideViewer alternativeView={alternativeDateView} direction={slideDirection}>
-        {getDates(selectedDate.current)}
+        {getDates(monthViewerDate)}
       </SlideViewer>
       <div className={'actions'}>
         <TextButton>Cancel</TextButton>

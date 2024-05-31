@@ -47,8 +47,7 @@
     min-width: 64px;
     white-space: nowrap;
 
-    .nd-button__icon-slot > *,
-    .nd-button__trailing-icon-slot > * {
+    .nd-button__icon-slot > * {
       font-size: var(--_icon-size);
       block-size: var(--_icon-size);
       inline-size: var(--_icon-size);
@@ -56,8 +55,7 @@
       fill: var(--_label-text-color);;
     }
 
-    .nd-button__icon-slot,
-    .nd-button__trailing-icon-slot {
+    .nd-button__icon-slot {
       display: inline-flex;
       justify-content: center;
       align-items: center;
