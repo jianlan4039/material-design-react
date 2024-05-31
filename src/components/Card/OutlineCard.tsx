@@ -1,9 +1,8 @@
 import React, {forwardRef, ReactNode} from 'react'
-import CardContent, {CardContentProps} from "./content/CardContent";
+import CardContent, {CardContentProps} from "./internal/CardContent";
 import Elevation from "../Elevation";
 import StateLayer from "../StateLayer";
 import cln from "classnames";
-import FocusRing from "../Focus/FocusRing";
 import './OutlineCard.scss'
 import Outline from "../Outline/Outline";
 import {StateElement} from "../internal/common/StateElement";
@@ -30,7 +29,6 @@ const OutlineCard = StateLayer<HTMLDivElement, OutlineCardProps>(forwardRef<HTML
       style={style}
     >
       <Outline></Outline>
-      <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
       <CardContent disabled={disabled} {...rest}>{children}</CardContent>

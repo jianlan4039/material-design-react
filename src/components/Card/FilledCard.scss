@@ -1,4 +1,4 @@
-@use "content/filled-card";
+@use "internal/filled-card";
 
 .nd-filled-card{
   @include filled-card.styles;

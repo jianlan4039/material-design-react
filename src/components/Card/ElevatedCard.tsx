@@ -1,10 +1,9 @@
 import React, {forwardRef, ReactNode} from 'react'
-import CardContent, {CardContentProps} from "./content/CardContent";
+import CardContent, {CardContentProps} from "./internal/CardContent";
 import Elevation from "../Elevation";
 import StateLayer from "../StateLayer";
 import cln from "classnames";
 import './ElevatedCard.scss'
-import FocusRing from "../Focus/FocusRing";
 import {StateElement} from "../internal/common/StateElement";
 
 
@@ -29,7 +28,6 @@ const ElevatedCard = StateLayer<HTMLDivElement, ElevatedCardProps>(forwardRef<HT
       })}
       style={style}
     >
-      <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
       <CardContent disabled={disabled} {...rest}>{children}</CardContent>

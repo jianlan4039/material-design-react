@@ -1,4 +1,4 @@
-@use "content/elevated-card";
+@use "internal/elevated-card";
 
 .nd-elevated-card{
   @include elevated-card.styles;
