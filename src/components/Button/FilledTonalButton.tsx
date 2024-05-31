@@ -16,15 +16,16 @@ const FilledTonalButton = StateLayer<HTMLButtonElement, FilledTonalButtonProps>(
     children,
     disabled,
     stateLayer,
+    className,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-filled-tonal-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-filled-tonal-button', className, {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}
-      <CommonButton ref={ref} {...rest}>
+      <CommonButton ref={ref} disabled={disabled} {...rest}>
         {children}
       </CommonButton>
     </div>

@@ -17,11 +17,12 @@ const OutlinedButton = StateLayer<HTMLButtonElement, OutlinedButtonProps>(forwar
     children,
     disabled,
     stateLayer,
+    className,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-outlined-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-outlined-button', className, {'nd-disabled': disabled})}>
       <Outline disabled={disabled}></Outline>
       <FocusRing></FocusRing>
       <Elevation></Elevation>

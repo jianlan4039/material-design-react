@@ -16,11 +16,12 @@ const ElevatedButton: React.FC<ElevatedButtonProps> = StateLayer<HTMLDivElement,
     children,
     disabled,
     stateLayer,
+    className,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-elevated-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-elevated-button', className, {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}

@@ -16,11 +16,12 @@ const FilledButton = StateLayer<HTMLButtonElement, FilledButtonProps>(forwardRef
     children,
     disabled,
     stateLayer,
+    className,
     ...rest
   } = props
 
   return (
-    <div className={cln('nd-filled-button', {'nd-disabled': disabled})}>
+    <div className={cln('nd-filled-button', className,  {'nd-disabled': disabled})}>
       <FocusRing></FocusRing>
       <Elevation></Elevation>
       {stateLayer}

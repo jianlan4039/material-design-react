@@ -61,6 +61,13 @@
       align-items: center;
     }
 
+    .nd-button__a {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      display: inline-block;
+    }
+
     &.nd-button--has-icon {
       padding-inline-start: var(--_with-leading-icon-leading-space);
       padding-inline-end: var(--_with-leading-icon-trailing-space);

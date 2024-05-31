@@ -7,6 +7,8 @@ export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButton
   icon?: ReactNode
   trailingIcon?: boolean // Determine where the icon rendered, if true, icon rendered at the end of inline, otherwise at the start of inline.
   hasIcon?: boolean // Whether to display the icon or not.
+  href?: string
+  target?: string
 }
 
 const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, ref) => {
@@ -15,6 +17,8 @@ const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, re
     icon,
     trailingIcon,
     hasIcon = true,
+    href,
+    target,
     ...rest
   } = props
 
@@ -32,6 +36,7 @@ const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, re
       {renderIcon && !trailingIcon && <span className={'nd-button__icon-slot'}>{icon}</span>}
       {children}
       {renderIcon && trailingIcon && <span className={'nd-button__icon-slot'}>{icon}</span>}
+      {href && <a href={href} target={target} className={'nd-button__a'}></a>}
     </button>
   )
 })

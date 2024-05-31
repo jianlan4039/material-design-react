@@ -36,3 +36,22 @@ export const WithIcon: Story = {
       </ElevatedButton>)
   }
 }
+
+export const WithHref: Story = {
+  render: ({href = 'https://cn.bing.com', target = '_blank'}) => {
+
+    const Icon = (
+      <FilledIcon>home</FilledIcon>
+    )
+
+    return (
+      <ElevatedButton
+        href={href}
+        target={target}
+        icon={Icon}
+      >
+        Elevated
+      </ElevatedButton>
+    )
+  }
+}
