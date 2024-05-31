@@ -50,12 +50,17 @@
     .nd-button__icon-slot > *,
     .nd-button__trailing-icon-slot > * {
       font-size: var(--_icon-size);
+      block-size: var(--_icon-size);
+      inline-size: var(--_icon-size);
+      color: var(--_label-text-color);
+      fill: var(--_label-text-color);;
     }
 
     .nd-button__icon-slot,
     .nd-button__trailing-icon-slot {
-      font-size: var(--_icon-size);
-      display: contents;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
     }
 
     &.nd-button--has-icon {
