@@ -78,10 +78,12 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
       if (range) {
         if (valueStart) {
           const distance = calculateDistance(valueStart)
+          customProps.current['--_second-handle'] = `${distance}px`
           setSecondHandleMovementX(distance)
         }
         if (valueEnd) {
           const distance = calculateDistance(valueEnd)
+          customProps.current['--_primary-handle'] = `${distance}px`
           setPrimaryHandleMovementX(distance)
         }
 
@@ -89,7 +91,11 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
           console.warn(`invalid valueStart and valueEnd for slider ${id}`)
         }
       } else {
-        value && setPrimaryHandleMovementX(calculateDistance(value))
+        if (value) {
+          const distance = calculateDistance(value)
+          customProps.current['--_primary-handle'] = `${distance}px`
+          setPrimaryHandleMovementX(distance)
+        }
       }
     }
   }, [root]);
@@ -246,6 +252,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
 
 
   const secondaryHandleMouseDown = (e: ReactMouseEvent | ReactTouchEvent) => {
+    if (disabled) return;
     e.stopPropagation()
     if (!root.current) return;
     rootRect.current = root.current.getBoundingClientRect()
@@ -254,6 +261,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
   }
 
   const primaryHandleMouseDown = (e: ReactMouseEvent | ReactTouchEvent) => {
+    if (disabled) return;
     e.stopPropagation()
     if (!root.current) return;
     rootRect.current = root.current.getBoundingClientRect()
