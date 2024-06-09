@@ -1,8 +1,8 @@
-import React, {forwardRef, HTMLAttributes} from 'react'
+import React, {forwardRef, HTMLAttributes, InputHTMLAttributes} from 'react'
 import cln from "classnames";
 
-export interface CheckboxContentProps extends HTMLAttributes<HTMLInputElement> {
-  check?: boolean
+export interface CheckboxContentProps extends InputHTMLAttributes<HTMLInputElement> {
+  checked?: boolean
   indeterminate?: boolean
   disabled?: boolean
   error?: boolean
@@ -25,17 +25,17 @@ export function setState(chk: boolean, indeterm: boolean) {
 
 const CheckboxContent = forwardRef((props: CheckboxContentProps, ref) => {
   const {
-    check = false,
+    checked = false,
     indeterminate = false,
     disabled = false,
     error = false,
     ...rest
   } = props
 
-  const checkState = setState(check, indeterminate)
+  const checkState = setState(checked, indeterminate)
 
   return (
-    <span
+    <div
       className={cln('nd-checkbox-content', {
         'nd-uncheck': checkState === 0,
         'nd-check': checkState === 1,
@@ -62,7 +62,7 @@ const CheckboxContent = forwardRef((props: CheckboxContentProps, ref) => {
         </svg>
       }
       <input disabled={disabled} type="checkbox" {...rest}/>
-    </span>
+    </div>
   )
 })
 
