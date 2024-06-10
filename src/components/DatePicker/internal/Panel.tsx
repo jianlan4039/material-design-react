@@ -25,9 +25,7 @@ const Panel = React.memo((props: PanelProps) => {
     startOfWeek = 0,
     year,
     month,
-    date,
     onDateChange,
-    onOutsideClick
   } = props
 
   // 生成本地化月份名称
@@ -55,7 +53,6 @@ const Panel = React.memo((props: PanelProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const now = new Date()
   const [monthViewerDate, setMonthViewerDate] = useState<Date>(new Date(year ?? now.getFullYear(), month ?? now.getMonth(), 1))
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
 
   const navigatorRef = useRef<HTMLDivElement>(null);
   const [navigatorAnchor, setNavigatorAnchor] = useState<HTMLDivElement>()

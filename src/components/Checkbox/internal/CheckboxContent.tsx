@@ -1,4 +1,4 @@
-import React, {forwardRef, HTMLAttributes, InputHTMLAttributes} from 'react'
+import React, {forwardRef, InputHTMLAttributes} from 'react'
 import cln from "classnames";
 
 export interface CheckboxContentProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -17,13 +17,11 @@ export function setState(chk: boolean, indeterm: boolean) {
     checkState = 2
   } else if (chk) {
     checkState = 1
-  } else {
-    checkState = 0
   }
   return checkState
 }
 
-const CheckboxContent = forwardRef((props: CheckboxContentProps, ref) => {
+const CheckboxContent = forwardRef<HTMLDivElement, CheckboxContentProps>((props: CheckboxContentProps, ref) => {
   const {
     checked = false,
     indeterminate = false,
@@ -36,6 +34,7 @@ const CheckboxContent = forwardRef((props: CheckboxContentProps, ref) => {
 
   return (
     <div
+      ref={ref}
       className={cln('nd-checkbox-content', {
         'nd-uncheck': checkState === 0,
         'nd-check': checkState === 1,

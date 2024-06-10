@@ -39,6 +39,7 @@ const Checkbox = StateLayer<HTMLDivElement, CheckboxProps>(forwardRef<HTMLDivEle
 
   return (
     <div
+      ref={ref}
       className={cln('nd-checkbox', {
         'nd-disabled': disabled,
         'nd-selected': state !== 0,

@@ -24,7 +24,6 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
     onChange
   } = props
 
-  const [date, setDate] = useState<Date[]>([])
   const [value, setValue] = useState<string>()
   const [showDatePanel, setShowDatePanel] = useState<boolean>(false)
   const rootRef = useRef<HTMLDivElement>(null);
@@ -46,7 +45,6 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
 
   function dateChangeHandler(dates: Date[]) {
     onChange?.(dates)
-    setDate(dates)
     setValue(formatDate(dates[0], format))
   }
 

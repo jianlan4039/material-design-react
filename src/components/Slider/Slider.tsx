@@ -246,11 +246,6 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
     }
   }
 
-  const mouseOutHandler = (e: ReactMouseEvent | ReactTouchEvent) => {
-    mouseUpHandler(e)
-  };
-
-
   const secondaryHandleMouseDown = (e: ReactMouseEvent | ReactTouchEvent) => {
     if (disabled) return;
     e.stopPropagation()
@@ -269,7 +264,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
     setIsDragging(true)
   }
 
-  const handleUpHandler = (e: ReactMouseEvent | ReactTouchEvent) => {
+  const handleUpHandler = () => {
     setIsDragging(false)
     activeHandle.current = undefined
   };
