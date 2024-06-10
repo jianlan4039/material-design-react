@@ -4,7 +4,7 @@ import Slider from "../components/Slider/Slider";
 
 const meta: Meta<typeof Slider> = {
   component: Slider,
-  title: 'Button/Slider',
+  title: 'Form/Slider',
   parameters: {
     layout: 'centered'
   },

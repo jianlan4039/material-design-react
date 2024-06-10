@@ -14,10 +14,10 @@ export default meta;
 type Story = StoryObj<typeof DatePicker>;
 
 export const Default: Story = {
-  render: (args) => {
+  render: ({label='DatePicker', ...rest}) => {
 
     return (
-      <DatePicker {...args}></DatePicker>
+      <DatePicker label={label} {...rest}></DatePicker>
     )
   }
 }

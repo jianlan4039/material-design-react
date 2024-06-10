@@ -9,6 +9,7 @@ export interface DatePickerProps {
   label?: string
   style?: CSSProperties
   format?: string
+  onChange?: (date: Date[]) => void
 }
 
 export interface DatePickerHandle {
@@ -17,10 +18,10 @@ export interface DatePickerHandle {
 
 const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) => {
   const {
-    children,
     label = 'Date',
     style,
-    format = "mm/dd/yyyy"
+    format = "mm/dd/yyyy",
+    onChange
   } = props
 
   const [date, setDate] = useState<Date[]>([])
@@ -44,6 +45,7 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
   })
 
   function dateChangeHandler(dates: Date[]) {
+    onChange?.(dates)
     setDate(dates)
     setValue(formatDate(dates[0], format))
   }

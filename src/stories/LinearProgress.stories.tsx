@@ -4,7 +4,7 @@ import LinearProgress from "../components/Progress/LinearProgress";
 
 const meta: Meta<typeof LinearProgress> = {
   component: LinearProgress,
-  title: 'Progress/LinearProgress',
+  title: 'Form/LinearProgress',
   parameters: {
     // layout: 'centered'
   },

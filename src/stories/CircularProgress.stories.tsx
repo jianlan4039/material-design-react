@@ -4,7 +4,7 @@ import CircularProgress from "../components/Progress/CirclarProgress";
 
 const meta: Meta<typeof CircularProgress> = {
   component: CircularProgress,
-  title: 'Progress/CircularProgress',
+  title: 'Form/CircularProgress',
   parameters: {
     layout: 'centered'
   },
