@@ -10,7 +10,7 @@ export interface SuggestionChipProps extends ButtonProps {
   children?: ReactNode
 }
 
-const SuggestionChip = forwardRef<HTMLButtonElement>((props: SuggestionChipProps, ref) => {
+const SuggestionChip = forwardRef<HTMLButtonElement, SuggestionChipProps>((props: SuggestionChipProps, ref) => {
   const {
     children,
     disabled,

@@ -58,7 +58,7 @@ export const Suggestion: Story = {
       <SuggestionChip
         // icon={<FilledIcon>check</FilledIcon>}
       >
-        {/*Suggestion*/}
+        Suggestion
       </SuggestionChip>
     )
   }
