@@ -122,14 +122,14 @@ $md-sys-color: md-sys-color.values-light();
 
   &.quick {
     .nd-dialog-scrim {
-      opacity: 0.32;
+      opacity: 0.32 !important;
     }
 
     .nd-dialog-container {
       .nd-dialog-header,
       .nd-dialog-content,
       .nd-dialog-actions {
-        opacity: 1;
+        opacity: 1 !important;
       }
     }
   }
