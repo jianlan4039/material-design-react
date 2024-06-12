@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import Dialog from "../components/Dialog/Dialog";
 import {FilledIcon} from "../icons";
 import TextButton from "../components/Button/TextButton";
@@ -23,10 +23,11 @@ export const Default: Story = {
 
     const [isShow, setIsShow] = useState(false)
     const clickHandler = () => {
-      setIsShow(!isShow)
+      setIsShow(true)
     }
 
     const closeHandler = () => {
+      console.log('close handler')
       setIsShow(false)
     }
 
@@ -44,7 +45,8 @@ export const Default: Story = {
             </>
           }
           show={isShow}
-          onClose={closeHandler}
+          close={closeHandler}
+          {...rest}
         >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet blanditiis deserunt eveniet fugiat
           magnam molestiae neque nesciunt nostrum odit placeat porro provident quasi quibusdam quidem repudiandae, rerum

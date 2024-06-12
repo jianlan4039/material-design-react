@@ -26,6 +26,7 @@ const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, re
 
   return (
     <button
+      tabIndex={-1}
       ref={ref}
       className={cln('nd-button', {
         'nd-button--has-icon': renderIcon && !trailingIcon,

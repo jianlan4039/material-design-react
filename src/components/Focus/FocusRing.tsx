@@ -11,7 +11,6 @@ export default function FocusRing(props: FocusRingProps) {
   const {
     children,
     inward,
-    ...rest
   } = props
 
   const focusRingRef = useRef<HTMLSpanElement>(null);
@@ -28,12 +27,14 @@ export default function FocusRing(props: FocusRingProps) {
     }
   }
 
-  return <span
-    className={'nd-focus-ring-container'}
-    tabIndex={0}
-    onFocus={focusHandler}
-    onBlur={blurHandler}
-  >
-    <span ref={focusRingRef} className={cln('nd-focus-ring', {'inward': inward})}></span>
-  </span>
+  return (
+    <span
+      className={'nd-focus-ring-container'}
+      tabIndex={0}
+      onFocus={focusHandler}
+      onBlur={blurHandler}
+    >
+      <span ref={focusRingRef} className={cln('nd-focus-ring', {'inward': inward})}></span>
+    </span>
+  )
 }

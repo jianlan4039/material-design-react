@@ -1,4 +1,4 @@
-@use "./content/dialog";
+@use "internal/dialog";
 
 .nd-dialog-host {
   @include dialog.styles;

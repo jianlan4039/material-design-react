@@ -1,32 +1,56 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, FormEvent} from 'react'
-import DialogContent, {DialogContentProps, InnerRefHandle} from "./content/DialogContent";
+import React, {
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent as ReactMouseEvent,
+  FormEvent, useImperativeHandle, HTMLAttributes
+} from 'react'
+import DialogContent, {DialogContentProps, InnerRefHandle} from "./internal/DialogContent";
 import {
   DIALOG_DEFAULT_OPEN_ANIMATION,
   DIALOG_DEFAULT_CLOSE_ANIMATION,
   DialogAnimation,
   DialogAnimationArgs
-} from './content/animation'
+} from './internal/animation'
 import './Dialog.scss'
 import c from "classnames";
 
-export interface DialogProps extends React.DialogHTMLAttributes<HTMLDialogElement>, DialogContentProps {
+export interface DialogProps extends DialogContentProps {
   children?: ReactNode
   show?: boolean
   stayOpenOnOutsideClick?: boolean
-  onClose?: () => void
+  close?: () => void
+  closed?: () => void
+  open?: () => void
+  opened?: () => void
+  quick?: boolean
+  returnValue?: string
+  onSubmit?: (e: FormEvent<HTMLDialogElement>) => void
 }
 
-const Dialog = forwardRef((props: DialogProps, ref) => {
+export interface DialogHandle extends HTMLAttributes<HTMLDialogElement> {
+  root?: HTMLDivElement | null
+  dialog?: HTMLDialogElement | null
+}
+
+const Dialog = forwardRef<DialogHandle, DialogProps>((props, ref) => {
   const {
     children,
-    show: _show = false,
+    show = false,
     stayOpenOnOutsideClick = false,
-    onClose,
+    close,
+    closed,
+    open,
+    opened,
     icon,
     supportingText,
     actions,
     headline,
     onSubmit,
+    quick,
+    returnValue,
     ...rest
   } = props
 
@@ -34,10 +58,10 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
   const containerRef = useRef<InnerRefHandle>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const scrimRef = useRef<HTMLDivElement>(null);
-  const [show, setShow] = useState(_show)
+  const [isShow, setIsShow] = useState(show)
 
   const animateDialog = async (animation: DialogAnimation) => {
-    if (!dialogRef.current || !scrimRef.current || !containerRef.current) {
+    if (!dialogRef.current || !scrimRef.current || !containerRef.current || quick) {
       return;
     }
 
@@ -59,32 +83,36 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
       [containerRef.current.actionRef(), actionsAnimate ?? []],
     ];
 
-    const animations = [];
+    const animations: Animation[] = [];
     for (const [element, animation] of elementAndAnimation) {
       for (const animateArgs of animation) {
         animations.push(element.animate(...animateArgs));
       }
     }
-    await Promise.all(animations.map((animation) => animation.finished));
+
+    return await Promise.all(animations.map((animation) => animation.finished));
   }
 
-  const openDialog = () => {
+  const openDialog = async () => {
     if (!dialogRef.current) {
       return
     }
-    setShow(true)
+    setIsShow(true)
     dialogRef.current.showModal()
-    void animateDialog(DIALOG_DEFAULT_OPEN_ANIMATION)
+    open?.()
+    await animateDialog(DIALOG_DEFAULT_OPEN_ANIMATION)
+    opened?.()
   }
 
   const closeDialog = async () => {
     if (!dialogRef.current) {
       return
     }
+    close?.()
     await animateDialog(DIALOG_DEFAULT_CLOSE_ANIMATION)
+    closed?.()
     dialogRef.current.close()
-    setShow(false)
-    onClose?.()
+    setIsShow(false)
   }
 
   const rootClickHandler = (e: ReactMouseEvent) => {
@@ -105,12 +133,14 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
   }
 
   useEffect(() => {
-    if (_show) {
-      openDialog()
-    } else {
-      void closeDialog()
+    if (dialogRef.current && returnValue) {
+      dialogRef.current.returnValue = returnValue
     }
-  }, [_show]);
+  }, [dialogRef]);
+
+  useEffect(() => {
+    show ? !isShow && openDialog() : isShow && closeDialog()
+  }, [show]);
 
   useEffect(() => {
     const escKeyDownHandler = (e: KeyboardEvent) => {
@@ -125,11 +155,22 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
     }
   });
 
+  useImperativeHandle(ref, () => ({
+    root: rootRef.current,
+    dialog: dialogRef.current
+  }))
+
   return (
-    <div ref={rootRef} className={c('nd-dialog-host', {'nd-show': show})} onClick={rootClickHandler}>
-      <div ref={scrimRef} className={c("nd-dialog-scrim", {'nd-show': show})}></div>
+    <div ref={rootRef} className={c('nd-dialog-host', {'nd-show': isShow, 'quick': quick})} onClick={rootClickHandler}>
+      <div ref={scrimRef} className={c("nd-dialog-scrim", {'nd-show': isShow})}></div>
       <dialog ref={dialogRef} className={'nd-dialog'} onSubmit={submitHandler} {...rest}>
-        <DialogContent ref={containerRef} headline={headline} icon={icon} supportingText={supportingText} actions={actions}>
+        <DialogContent
+          ref={containerRef}
+          headline={headline}
+          icon={icon}
+          supportingText={supportingText}
+          actions={actions}
+        >
           {children}
         </DialogContent>
       </dialog>
