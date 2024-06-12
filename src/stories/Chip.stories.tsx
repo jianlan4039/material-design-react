@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React from "react";
-import Button from "../components/Chip/content/Button";
+import Button from "../components/Chip/internal/Button";
 import AssistChip from "../components/Chip/AssistChip";
 import {FilledIcon} from "../icons";
 import FilterChip from "../components/Chip/FilterChip";
@@ -45,7 +45,7 @@ export const Filter: Story = {
 export const Input: Story = {
   render: (args) => {
     return (
-      <InputChip>
+      <InputChip {...args}>
         Input
       </InputChip>
     )
@@ -55,9 +55,7 @@ export const Input: Story = {
 export const Suggestion: Story = {
   render: (args) => {
     return (
-      <SuggestionChip
-        // icon={<FilledIcon>check</FilledIcon>}
-      >
+      <SuggestionChip {...args}>
         Suggestion
       </SuggestionChip>
     )

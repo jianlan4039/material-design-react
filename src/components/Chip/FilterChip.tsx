@@ -1,5 +1,5 @@
 import React, {forwardRef, ReactNode, useEffect, useState} from 'react'
-import Button, {ButtonProps} from "./content/Button";
+import Button, {ButtonProps} from "./internal/Button";
 import './FilterChip.scss'
 import Outline from "../Outline/Outline";
 import FocusRing from "../Focus/FocusRing";
@@ -41,7 +41,7 @@ const FilterChip = forwardRef<HTMLButtonElement>((props: FilterChipProps, ref) =
       onClick={clickHandler}
     >
       {elevated ? <Elevation></Elevation> : !select && <Outline></Outline>}
-      <FocusRing></FocusRing>
+      {!disabled && <FocusRing></FocusRing>}
       <Button
         ref={ref}
         icon={select && <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
