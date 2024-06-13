@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode, useContext, useEffect, useId, useState} fr
 import './SegmentedButton.scss'
 import cln from "classnames";
 import SegmentedButtonContent, {SegmentedButtonContentProps} from "./internal/SegmentedButtonContent";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import Outline from "../Outline/Outline";
 import {MultiSelectionContext} from "./internal/context";
 import {StateElement} from "../internal/common/StateElement";
@@ -12,7 +12,7 @@ export interface SegmentedButtonProps extends SegmentedButtonContentProps, State
   ndId?: string
 }
 
-const SegmentedButton = StateLayer<HTMLDivElement, SegmentedButtonProps>(forwardRef<HTMLDivElement, SegmentedButtonProps>((props, ref) => {
+const SegmentedButton = withStateLayer<HTMLDivElement, SegmentedButtonProps>(forwardRef<HTMLDivElement, SegmentedButtonProps>((props, ref) => {
   const {
     children,
     ndId,

@@ -10,7 +10,7 @@ import React, {
 import LinearSectionContainer from "../Container/LinearSectionContainer/LinearSectionContainer";
 import './ListItem.scss'
 import c from 'classnames'
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import {StateElement} from "../internal/common/StateElement";
 
 export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement>, StateElement {
@@ -28,7 +28,7 @@ export interface ListItemHandle extends HTMLAttributes<HTMLLIElement> {
   body?: HTMLDivElement | null
 }
 
-const ListItem = StateLayer<ListItemHandle, ListItemProps>(forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
+const ListItem = withStateLayer<ListItemHandle, ListItemProps>(forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   const {
     children,
     start,

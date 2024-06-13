@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode, MouseEvent} from 'react'
 import Button, {ButtonProps} from "./internal/Button";
 import './InputChip.scss'
 import Outline from "../Outline/Outline";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import cln from "classnames";
 import {StateElement} from "../internal/common/StateElement";
 import FocusRing from "../Focus/FocusRing";
@@ -12,7 +12,7 @@ export interface InputChipProps extends Omit<ButtonProps, 'elevated'>, StateElem
   onClose?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
-const InputChip = StateLayer<HTMLButtonElement, InputChipProps>(forwardRef<HTMLDivElement, InputChipProps>((props, ref) => {
+const InputChip = withStateLayer<HTMLButtonElement, InputChipProps>(forwardRef<HTMLDivElement, InputChipProps>((props, ref) => {
   const {
     children ,
     disabled,

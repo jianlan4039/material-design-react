@@ -1,6 +1,6 @@
 import React, {forwardRef, useState} from 'react'
 import Field, {FieldProps} from "./internal/Field";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import './FilledField.scss'
 import c from 'classnames'
 import {StateElement} from "../internal/common/StateElement";
@@ -8,7 +8,7 @@ import {StateElement} from "../internal/common/StateElement";
 export interface FilledFieldProps extends FieldProps, StateElement {
 }
 
-const FilledField = StateLayer<HTMLDivElement, FilledFieldProps>(forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledFieldProps, ref) => {
+const FilledField = withStateLayer<HTMLDivElement, FilledFieldProps>(forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledFieldProps, ref) => {
   const {
     children,
     label,

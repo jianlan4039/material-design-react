@@ -1,5 +1,5 @@
 import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useState} from 'react'
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import Elevation from "../Elevation";
 import FocusRing from "../Focus/FocusRing";
 import c from 'classnames'
@@ -12,7 +12,7 @@ export interface IconButtonContainerProps extends HTMLAttributes<HTMLDivElement>
   disabled?: boolean
 }
 
-const IconButtonContainer = StateLayer<HTMLDivElement, IconButtonContainerProps>(forwardRef<HTMLDivElement, IconButtonContainerProps>((props, ref) => {
+const IconButtonContainer = withStateLayer<HTMLDivElement, IconButtonContainerProps>(forwardRef<HTMLDivElement, IconButtonContainerProps>((props, ref) => {
   const {
     children,
     disabled,

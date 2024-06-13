@@ -1,7 +1,7 @@
 import React, {forwardRef, ReactNode} from 'react'
 import CardContent, {CardContentProps} from "./internal/CardContent";
 import Elevation from "../Elevation";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import cln from "classnames";
 import './OutlineCard.scss'
 import Outline from "../Outline/Outline";
@@ -11,7 +11,7 @@ export interface OutlineCardProps extends CardContentProps, StateElement {
   children?: ReactNode
 }
 
-const OutlineCard = StateLayer<HTMLDivElement, OutlineCardProps>(forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) => {
+const OutlineCard = withStateLayer<HTMLDivElement, OutlineCardProps>(forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) => {
   const {
     children,
     style,

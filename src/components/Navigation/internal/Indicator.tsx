@@ -1,7 +1,7 @@
 import React, {forwardRef, HTMLAttributes, ReactNode} from 'react'
 import './Indicator.scss'
 import c from 'classnames'
-import StateLayer from "../../StateLayer";
+import withStateLayer from "../../StateLayer";
 import {StateElement} from "../../internal/common/StateElement";
 
 export interface IndicatorProps extends HTMLAttributes<HTMLDivElement>, StateElement {
@@ -10,7 +10,7 @@ export interface IndicatorProps extends HTMLAttributes<HTMLDivElement>, StateEle
   active?: boolean
 }
 
-const Indicator = StateLayer<HTMLDivElement, IndicatorProps>(forwardRef<HTMLDivElement, IndicatorProps>((props, ref) => {
+const Indicator = withStateLayer<HTMLDivElement, IndicatorProps>(forwardRef<HTMLDivElement, IndicatorProps>((props, ref) => {
   const {
     children,
     animating,

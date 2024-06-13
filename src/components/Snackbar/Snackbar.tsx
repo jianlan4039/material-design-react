@@ -2,7 +2,7 @@ import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useStat
 import TextButton from "../Button/TextButton";
 import './Snackbar.scss'
 import c from 'classnames'
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import {StateElement} from "../internal/common/StateElement";
 import IconButton from "../IconButton/IconButton";
 import {EASING, DURATION} from "../internal/motion/animation";
@@ -22,7 +22,7 @@ export interface SnackbarHandle extends HTMLProps<HTMLDivElement> {
   root?: ReactNode
 }
 
-const Snackbar = StateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivElement, SnackbarProps>((props, ref) => {
+const Snackbar = withStateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivElement, SnackbarProps>((props, ref) => {
   const {
     children,
     supportingText,

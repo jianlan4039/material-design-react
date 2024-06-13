@@ -10,7 +10,7 @@ import React, {
   useId
 } from 'react'
 import './PrimaryTab.scss'
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import {StateElement} from "../internal/common/StateElement";
 import FocusRing from "../Focus/FocusRing";
 import {IndicatorRectContext} from "../internal/context/indicator";
@@ -24,7 +24,7 @@ export interface PrimaryTabProps extends StateElement, HTMLAttributes<HTMLDivEle
   inline?: boolean
 }
 
-const PrimaryTab = StateLayer<HTMLDivElement, PrimaryTabProps>(forwardRef<HTMLDivElement, PrimaryTabProps>((props, ref) => {
+const PrimaryTab = withStateLayer<HTMLDivElement, PrimaryTabProps>(forwardRef<HTMLDivElement, PrimaryTabProps>((props, ref) => {
   const {
     children,
     stateLayer,

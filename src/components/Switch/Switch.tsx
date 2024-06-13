@@ -1,6 +1,6 @@
 import React, {ChangeEvent, forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
 import {StateElement} from "../internal/common/StateElement";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import Outline from "../Outline/Outline";
 import c from 'classnames'
 import './Switch.scss'
@@ -13,7 +13,7 @@ export interface SwitchProps extends StateElement, HTMLAttributes<HTMLInputEleme
   disabled?: boolean
 }
 
-const Switch = StateLayer<HTMLElement, SwitchProps>(forwardRef<HTMLDivElement, SwitchProps>((props, ref) => {
+const Switch = withStateLayer<HTMLElement, SwitchProps>(forwardRef<HTMLDivElement, SwitchProps>((props, ref) => {
   const {
     children,
     stateLayer,

@@ -12,7 +12,7 @@ import React, {
 import {IndicatorRectContext} from "../internal/context/indicator";
 import {EASING} from "../internal/motion/animation";
 import {StateElement} from "../internal/common/StateElement";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import FocusRing from "../Focus/FocusRing";
 import './SecondaryTab.scss'
 
@@ -24,7 +24,7 @@ export interface SecondaryTabProps extends StateElement, HTMLAttributes<HTMLDivE
   active?: boolean
 }
 
-const SecondaryTab = StateLayer<HTMLDivElement, SecondaryTabProps>(forwardRef<HTMLDivElement, SecondaryTabProps>((props, ref) => {
+const SecondaryTab = withStateLayer<HTMLDivElement, SecondaryTabProps>(forwardRef<HTMLDivElement, SecondaryTabProps>((props, ref) => {
   const {
     children,
     stateLayer,

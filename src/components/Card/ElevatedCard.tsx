@@ -1,7 +1,7 @@
 import React, {forwardRef, ReactNode} from 'react'
 import CardContent, {CardContentProps} from "./internal/CardContent";
 import Elevation from "../Elevation";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import cln from "classnames";
 import './ElevatedCard.scss'
 import {StateElement} from "../internal/common/StateElement";
@@ -11,7 +11,7 @@ export interface ElevatedCardProps extends CardContentProps, StateElement{
   children?: ReactNode
 }
 
-const ElevatedCard = StateLayer<HTMLDivElement, ElevatedCardProps>(forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) => {
+const ElevatedCard = withStateLayer<HTMLDivElement, ElevatedCardProps>(forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) => {
   const {
     children,
     style,

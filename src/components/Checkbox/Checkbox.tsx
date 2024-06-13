@@ -1,7 +1,7 @@
 import React, {forwardRef, ReactNode, useEffect, useState} from 'react'
 import CheckboxContent, {CheckboxContentProps, setState as _setState} from "./internal/CheckboxContent";
 import './Checkbox.scss'
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import {StateElement} from "../internal/common/StateElement";
@@ -10,7 +10,7 @@ export interface CheckboxProps extends CheckboxContentProps, StateElement {
   children?: ReactNode
 }
 
-const Checkbox = StateLayer<HTMLDivElement, CheckboxProps>(forwardRef<HTMLDivElement, CheckboxProps>((props: CheckboxProps, ref) => {
+const Checkbox = withStateLayer<HTMLDivElement, CheckboxProps>(forwardRef<HTMLDivElement, CheckboxProps>((props: CheckboxProps, ref) => {
   const {
     children,
     checked: _chk = false,

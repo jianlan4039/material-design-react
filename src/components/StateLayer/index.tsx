@@ -15,7 +15,7 @@ import {StateElement} from "../internal/common/StateElement";
 export interface StateLayerProps {
 }
 
-function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent: ComponentType<T>) {
+function withStateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent: ComponentType<T>) {
   return forwardRef<R, T & StateLayerProps>((props, ref) => {
     const {
       children,
@@ -191,6 +191,7 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
         stateLayer={
           <span
             ref={surfaceRef}
+            aria-hidden={true}
             className={cln('nd-state-layer', {
               'hover': isHover,
               'pressed': isPressed
@@ -205,4 +206,4 @@ function StateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent:
   })
 }
 
-export default StateLayer
+export default withStateLayer

@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode} from 'react'
 import cln from "classnames";
 import FocusRing from "../Focus/FocusRing";
 import Elevation from "../Elevation";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import Button, {ButtonProps} from "./content/Button";
 import './BrandedFAB.scss'
 import {FABProps} from "./FAB";
@@ -12,7 +12,7 @@ export interface BrandedFABProps extends Omit<FABProps, 'variant'>, ButtonProps 
   large?: boolean
 }
 
-const BrandedFAB = StateLayer<HTMLButtonElement, BrandedFABProps>(forwardRef<HTMLButtonElement, BrandedFABProps>((props, ref) => {
+const BrandedFAB = withStateLayer<HTMLButtonElement, BrandedFABProps>(forwardRef<HTMLButtonElement, BrandedFABProps>((props, ref) => {
   const {
     children,
     label,

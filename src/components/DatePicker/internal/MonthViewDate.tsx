@@ -1,6 +1,6 @@
 import React, {HTMLAttributes, useContext, useRef} from "react";
 import {StateElement} from "../../internal/common/StateElement";
-import StateLayer from "../../StateLayer";
+import withStateLayer from "../../StateLayer";
 import {SelectionContext} from "../../internal/context/SelectionContext";
 import c from 'classnames'
 
@@ -11,7 +11,7 @@ export interface IMonthViewDateProps extends StateElement, HTMLAttributes<HTMLDi
   month?: number // 注意，月份是从1开始的（1代表一月）
 }
 
-const MonthViewDate: React.FC<IMonthViewDateProps> = StateLayer<HTMLDivElement, IMonthViewDateProps>((
+const MonthViewDate: React.FC<IMonthViewDateProps> = withStateLayer<HTMLDivElement, IMonthViewDateProps>((
   {
     date,
     year,

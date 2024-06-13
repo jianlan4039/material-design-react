@@ -1,6 +1,6 @@
 import React, {useState, useEffect, ChangeEvent, forwardRef, HTMLProps, useRef, useContext} from 'react';
 import './RadioButton.scss'
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 import {StateElement} from "../internal/common/StateElement";
 import {SelectionContext} from "../internal/context/SelectionContext";
 import c from 'classnames'
@@ -9,7 +9,7 @@ interface RadioButtonProps extends StateElement, HTMLProps<HTMLInputElement> {
   disabled?: boolean
 }
 
-const RadioButton = StateLayer<HTMLInputElement, RadioButtonProps>(forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) => {
+const RadioButton = withStateLayer<HTMLInputElement, RadioButtonProps>(forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) => {
   const {
     selected,
     onChange,

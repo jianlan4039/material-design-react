@@ -1,5 +1,5 @@
 import React, {forwardRef, HTMLAttributes, ReactNode, MouseEvent} from 'react'
-import StateLayer from "../../StateLayer";
+import withStateLayer from "../../StateLayer";
 import cln from "classnames";
 import {StateElement} from "../../internal/common/StateElement";
 
@@ -14,7 +14,7 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement>, StateEle
   label?: string
 }
 
-const Button = StateLayer<HTMLButtonElement, ButtonProps>(forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+const Button = withStateLayer<HTMLButtonElement, ButtonProps>(forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     children,
     icon,

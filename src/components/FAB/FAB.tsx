@@ -5,7 +5,7 @@ import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import './FAB.scss'
 import {StateElement} from "../internal/common/StateElement";
-import StateLayer from "../StateLayer";
+import withStateLayer from "../StateLayer";
 
 export interface FABProps extends ButtonProps {
   children?: ReactNode
@@ -14,7 +14,7 @@ export interface FABProps extends ButtonProps {
   lowered?: boolean
 }
 
-const FAB = StateLayer<HTMLButtonElement, FABProps>(forwardRef<HTMLButtonElement, FABProps>((props, ref) => {
+const FAB = withStateLayer<HTMLButtonElement, FABProps>(forwardRef<HTMLButtonElement, FABProps>((props, ref) => {
   const {
     children,
     size,
