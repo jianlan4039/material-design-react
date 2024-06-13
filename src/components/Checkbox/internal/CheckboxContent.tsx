@@ -21,12 +21,14 @@ export function setState(chk: boolean, indeterm: boolean) {
   return checkState
 }
 
-const CheckboxContent = forwardRef<HTMLDivElement, CheckboxContentProps>((props: CheckboxContentProps, ref) => {
+const CheckboxContent = forwardRef<HTMLInputElement, CheckboxContentProps>((props: CheckboxContentProps, ref) => {
   const {
     checked = false,
     indeterminate = false,
     disabled = false,
     error = false,
+    onFocus,
+    onPointerDown,
     ...rest
   } = props
 
@@ -34,16 +36,18 @@ const CheckboxContent = forwardRef<HTMLDivElement, CheckboxContentProps>((props:
 
   return (
     <div
-      ref={ref}
       className={cln('nd-checkbox-content', {
         'nd-uncheck': checkState === 0,
         'nd-check': checkState === 1,
         'nd-indeterminate': checkState === 2
       })}
+      onFocus={onFocus}
+      onPointerDown={onPointerDown}
     >
       {
         checkState === 0 &&
-        <svg className={'nd-uncheck'} xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
+        <svg className={'nd-uncheck'} xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960"
+             width="18">
           <path
             d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Z"/>
         </svg>
@@ -60,7 +64,7 @@ const CheckboxContent = forwardRef<HTMLDivElement, CheckboxContentProps>((props:
           <path d="M240-440v-80h480v80H240Z"/>
         </svg>
       }
-      <input disabled={disabled} type="checkbox" {...rest}/>
+      <input ref={ref} aria-disabled={disabled} type="checkbox" {...rest}/>
     </div>
   )
 })

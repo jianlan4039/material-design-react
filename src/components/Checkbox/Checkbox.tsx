@@ -2,15 +2,15 @@ import React, {forwardRef, ReactNode, useEffect, useState} from 'react'
 import CheckboxContent, {CheckboxContentProps, setState as _setState} from "./internal/CheckboxContent";
 import './Checkbox.scss'
 import withStateLayer from "../StateLayer";
-import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import {StateElement} from "../internal/common/StateElement";
+import withFocusRing, {FocusRingProps} from "../Focus";
 
-export interface CheckboxProps extends CheckboxContentProps, StateElement {
+export interface CheckboxProps extends CheckboxContentProps, StateElement, FocusRingProps {
   children?: ReactNode
 }
 
-const Checkbox = withStateLayer<HTMLDivElement, CheckboxProps>(forwardRef<HTMLDivElement, CheckboxProps>((props: CheckboxProps, ref) => {
+const Checkbox = withFocusRing(withStateLayer(forwardRef<HTMLInputElement, CheckboxProps>((props: CheckboxProps, ref) => {
   const {
     children,
     checked: _chk = false,
@@ -18,6 +18,7 @@ const Checkbox = withStateLayer<HTMLDivElement, CheckboxProps>(forwardRef<HTMLDi
     disabled,
     error,
     stateLayer,
+    focusRing,
     ...rest
   } = props
 
@@ -39,7 +40,6 @@ const Checkbox = withStateLayer<HTMLDivElement, CheckboxProps>(forwardRef<HTMLDi
 
   return (
     <div
-      ref={ref}
       className={cln('nd-checkbox', {
         'nd-disabled': disabled,
         'nd-selected': state !== 0,
@@ -47,11 +47,17 @@ const Checkbox = withStateLayer<HTMLDivElement, CheckboxProps>(forwardRef<HTMLDi
       })}
       onClick={clickHandler}
     >
-      <FocusRing></FocusRing>
+      {focusRing}
       {!disabled && stateLayer}
-      <CheckboxContent disabled={disabled} checked={state === 1} indeterminate={state === 2} {...rest}></CheckboxContent>
+      <CheckboxContent
+        ref={ref}
+        disabled={disabled}
+        checked={state === 1}
+        indeterminate={state === 2}
+        {...rest}
+      ></CheckboxContent>
     </div>
   )
-}))
+})))
 
 export default Checkbox
