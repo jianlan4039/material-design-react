@@ -41,7 +41,6 @@ const FilterChip = forwardRef<HTMLButtonElement>((props: FilterChipProps, ref) =
       onClick={clickHandler}
     >
       {elevated ? <Elevation></Elevation> : !select && <Outline></Outline>}
-      {!disabled && <FocusRing></FocusRing>}
       <Button
         ref={ref}
         icon={select && <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">

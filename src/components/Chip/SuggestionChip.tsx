@@ -26,7 +26,6 @@ const SuggestionChip = forwardRef<HTMLButtonElement, SuggestionChipProps>((props
       })}
     >
       {elevated ? <Elevation></Elevation> : <Outline></Outline>}
-      {!disabled && <FocusRing></FocusRing>}
       <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>

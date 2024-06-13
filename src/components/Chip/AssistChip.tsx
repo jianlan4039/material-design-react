@@ -2,7 +2,6 @@ import React, {forwardRef, ReactNode} from 'react'
 import Button, {ButtonProps} from "./internal/Button";
 import Outline from "../Outline/Outline";
 import './AssistChip.scss'
-import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import Elevation from "../Elevation";
 
@@ -26,7 +25,6 @@ const AssistChip = forwardRef<HTMLButtonElement, AssistChipProps>((props, ref) =
       })}
     >
       {elevated ? <Elevation></Elevation> : <Outline></Outline>}
-      {!disabled && <FocusRing></FocusRing>}
       <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>

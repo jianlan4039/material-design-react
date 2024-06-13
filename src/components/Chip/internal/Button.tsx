@@ -2,8 +2,9 @@ import React, {forwardRef, HTMLAttributes, ReactNode, MouseEvent} from 'react'
 import withStateLayer from "../../StateLayer";
 import cln from "classnames";
 import {StateElement} from "../../internal/common/StateElement";
+import withFocusRing, {FocusRingProps} from "../../Focus";
 
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement>, StateElement {
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement>, StateElement, FocusRingProps {
   children?: ReactNode
   icon?: ReactNode
   disabled?: boolean
@@ -14,7 +15,7 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement>, StateEle
   label?: string
 }
 
-const Button = withStateLayer<HTMLButtonElement, ButtonProps>(forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+const Button = withFocusRing(withStateLayer(forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     children,
     icon,
@@ -25,6 +26,7 @@ const Button = withStateLayer<HTMLButtonElement, ButtonProps>(forwardRef<HTMLBut
     target = "",
     label,
     onClick,
+    focusRing,
     ...rest
   } = props
 
@@ -43,7 +45,6 @@ const Button = withStateLayer<HTMLButtonElement, ButtonProps>(forwardRef<HTMLBut
     }
   }
 
-
   function clickHandler(e: MouseEvent<HTMLButtonElement>) {
     if (disabled) return;
     onClick?.(e)
@@ -59,14 +60,16 @@ const Button = withStateLayer<HTMLButtonElement, ButtonProps>(forwardRef<HTMLBut
       className={cln('nd-chip__button', {
         'nd-chip--with-icon': icon,
       })}
+      aria-disabled={disabled}
       onClick={clickHandler}
       {...rest}
     >
       {icon && <span className={'nd-chip__icon-slot'}>{icon}</span>}
       {!disabled && stateLayer}
+      {focusRing}
       <span className={'nd-chip__label'}>{children || label}</span>
     </button>
   )
-}))
+})))
 
 export default Button

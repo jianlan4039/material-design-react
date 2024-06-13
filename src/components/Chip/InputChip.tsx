@@ -30,7 +30,6 @@ const InputChip = withStateLayer<HTMLButtonElement, InputChipProps>(forwardRef<H
       })}
     >
       <Outline></Outline>
-      {!disabled && <FocusRing></FocusRing>}
       <Button disabled={disabled} onClick={onClick}>
         {children}
       </Button>
