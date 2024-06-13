@@ -37,6 +37,7 @@ $_md-sys-motion: md-sys-motion.values();
 
   &.visible {
     display: flex;
+    z-index: 100;
   }
 
   &:not(.inward) {

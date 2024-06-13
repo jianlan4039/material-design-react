@@ -1,14 +1,14 @@
-import React, {HTMLAttributes, ReactNode} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode} from 'react'
 import cln from "classnames";
 
-export interface SegmentedButtonContentProps extends HTMLAttributes<HTMLButtonElement>{
+export interface SegmentedButtonContentProps extends HTMLAttributes<HTMLButtonElement> {
   children?: ReactNode
   icon?: ReactNode
   trailingIcon?: ReactNode
   disabled?: boolean
 }
 
-export default function SegmentedButtonContent(props: SegmentedButtonContentProps) {
+const SegmentedButtonContent = forwardRef<HTMLButtonElement, SegmentedButtonContentProps>((props, ref) => {
   const {
     children,
     icon,
@@ -19,6 +19,7 @@ export default function SegmentedButtonContent(props: SegmentedButtonContentProp
 
   return (
     <button
+      ref={ref}
       className={cln('nd-segmented-button-content', {
         'nd-disabled': disabled
       })}
@@ -30,4 +31,6 @@ export default function SegmentedButtonContent(props: SegmentedButtonContentProp
       <span className={'nd-segmented-button__trailing-icon-slot'}>{trailingIcon}</span>
     </button>
   )
-}
+})
+
+export default SegmentedButtonContent

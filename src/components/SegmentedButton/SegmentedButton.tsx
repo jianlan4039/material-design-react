@@ -6,23 +6,25 @@ import withStateLayer from "../StateLayer";
 import Outline from "../Outline/Outline";
 import {MultiSelectionContext} from "./internal/context";
 import {StateElement} from "../internal/common/StateElement";
+import withFocusRing, {FocusRingProps} from "../Focus";
 
-export interface SegmentedButtonProps extends SegmentedButtonContentProps, StateElement{
+export interface SegmentedButtonProps extends SegmentedButtonContentProps, StateElement, FocusRingProps {
   children?: ReactNode
   ndId?: string
 }
 
-const SegmentedButton = withStateLayer<HTMLDivElement, SegmentedButtonProps>(forwardRef<HTMLDivElement, SegmentedButtonProps>((props, ref) => {
+const SegmentedButton = withFocusRing(withStateLayer(forwardRef<HTMLButtonElement, SegmentedButtonProps>((props, ref) => {
   const {
     children,
     ndId,
     disabled,
     stateLayer,
+    focusRing,
     ...rest
   } = props
 
   const id = ndId ?? useId()
-  const {list, setList, multiple} = useContext(MultiSelectionContext)
+  const {list, setList} = useContext(MultiSelectionContext)
   const [selected, setSelected] = useState<boolean>(false)
 
   const clickHandler = () => {
@@ -35,7 +37,6 @@ const SegmentedButton = withStateLayer<HTMLDivElement, SegmentedButtonProps>(for
 
   return (
     <div
-      ref={ref}
       onClick={clickHandler}
       className={cln('nd-segmented-button', {
         'nd-selected': selected,
@@ -44,9 +45,10 @@ const SegmentedButton = withStateLayer<HTMLDivElement, SegmentedButtonProps>(for
     >
       <Outline disabled={disabled}></Outline>
       {stateLayer}
-      <SegmentedButtonContent disabled={disabled} {...rest}>{children}</SegmentedButtonContent>
+      {focusRing}
+      <SegmentedButtonContent ref={ref} disabled={disabled} {...rest}>{children}</SegmentedButtonContent>
     </div>
   )
-}))
+})))
 
 export default SegmentedButton
