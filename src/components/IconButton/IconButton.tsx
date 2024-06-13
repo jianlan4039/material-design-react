@@ -3,6 +3,7 @@ import Button, {ButtonProps} from "./content/Button";
 import './IconButton.scss'
 import c from 'classnames'
 import IconButtonContainer from "./IconButtonContainer";
+import withFocusRing from "../Focus";
 
 export interface IconButtonProps extends ButtonProps {
   children?: ReactNode
@@ -10,7 +11,7 @@ export interface IconButtonProps extends ButtonProps {
   selected?: boolean
 }
 
-const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
+const IconButton = withFocusRing(forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -21,6 +22,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
     onMouseOut,
     onMouseDown,
     onMouseUp,
+    focusRing,
     ...rest
   } = props
 
@@ -52,12 +54,13 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
       onMouseDown={mouseDownHandler}
       onMouseOver={mouseOverHandler}
       onMouseOut={mouseOutHandler}
+      focusRing={focusRing}
     >
       <Button ref={ref} disabled={disabled} {...rest}>
         {children}
       </Button>
     </IconButtonContainer>
   )
-})
+}))
 
 export default IconButton

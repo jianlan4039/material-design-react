@@ -8,7 +8,7 @@ import {StateElement} from "../internal/common/StateElement";
 export interface FilledFieldProps extends FieldProps, StateElement {
 }
 
-const FilledField = withStateLayer<HTMLDivElement, FilledFieldProps>(forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledFieldProps, ref) => {
+const FilledField = withStateLayer(forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledFieldProps, ref) => {
   const {
     children,
     label,
