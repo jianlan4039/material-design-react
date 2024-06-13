@@ -4,12 +4,13 @@ import withStateLayer from "../StateLayer";
 import {StateElement} from "../internal/common/StateElement";
 import {SelectionContext} from "../internal/context/SelectionContext";
 import c from 'classnames'
+import withFocusRing, {FocusRingProps} from "../Focus";
 
-interface RadioButtonProps extends StateElement, HTMLProps<HTMLInputElement> {
+interface RadioButtonProps extends StateElement, HTMLProps<HTMLInputElement>, FocusRingProps {
   disabled?: boolean
 }
 
-const RadioButton = withStateLayer<HTMLInputElement, RadioButtonProps>(forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) => {
+const RadioButton = withFocusRing(withStateLayer(forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) => {
   const {
     selected,
     onChange,
@@ -22,10 +23,12 @@ const RadioButton = withStateLayer<HTMLInputElement, RadioButtonProps>(forwardRe
     onMouseDown,
     onMouseUp,
     disabled,
+    focusRing,
+    children,
+    ...rest
   } = props
 
   const [isSelected, setIsSelected] = useState<boolean>(selected || false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const {list: selectedList, setList} = useContext(SelectionContext)
 
   const selectedIcon = (
@@ -70,19 +73,21 @@ const RadioButton = withStateLayer<HTMLInputElement, RadioButtonProps>(forwardRe
       onMouseUp={onMouseUp}
     >
       {!disabled && <div className={'radio-button__state'}>{stateLayer}</div>}
+      {focusRing}
       <input
-        ref={inputRef}
+        ref={ref}
         type="radio"
         onChange={onChange}
         name={name}
         value={value}
         id={id}
         disabled={disabled}
+        {...rest}
       />
       {isSelected ? selectedIcon : unselectedIcon}
     </div>
   );
-}))
+})))
 
 export default RadioButton;
 

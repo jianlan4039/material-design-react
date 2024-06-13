@@ -1,10 +1,10 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React from "react";
-import CircularProgress from "../components/Progress/CirclarProgress";
+import CircularProgress from "../components/Progress/CircularProgress";
 
 const meta: Meta<typeof CircularProgress> = {
   component: CircularProgress,
-  title: 'Form/CircularProgress',
+  title: 'Common/CircularProgress',
   parameters: {
     layout: 'centered'
   },

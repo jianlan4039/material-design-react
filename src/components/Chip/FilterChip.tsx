@@ -7,14 +7,13 @@ import cln from "classnames";
 import Elevation from "../Elevation";
 
 export interface FilterChipProps extends ButtonProps {
-  children?: ReactNode
   selected?: boolean
 }
 
-const FilterChip = forwardRef<HTMLButtonElement>((props: FilterChipProps, ref) => {
+const FilterChip = forwardRef<HTMLButtonElement, FilterChipProps>((props, ref) => {
   const {
     children,
-    selected: _slc,
+    selected: _slc = false,
     disabled,
     elevated,
     ...rest

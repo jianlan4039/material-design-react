@@ -9,7 +9,7 @@ import SuggestionChip from "../components/Chip/SuggestionChip";
 
 const meta: Meta<typeof Button> = {
   component: Button,
-  title: 'Form/Chip',
+  title: 'Common/Chip',
   parameters: {
     layout: 'centered'
   },
@@ -24,7 +24,6 @@ export const Assist: Story = {
     return (
       <AssistChip
         icon={<FilledIcon>check</FilledIcon>}
-        {...args}
       >
         Assist
       </AssistChip>
@@ -35,7 +34,7 @@ export const Assist: Story = {
 export const Filter: Story = {
   render: (args) => {
     return (
-      <FilterChip {...args}>
+      <FilterChip>
         Filter
       </FilterChip>
     )
@@ -45,7 +44,7 @@ export const Filter: Story = {
 export const Input: Story = {
   render: (args) => {
     return (
-      <InputChip {...args}>
+      <InputChip>
         Input
       </InputChip>
     )
@@ -55,7 +54,7 @@ export const Input: Story = {
 export const Suggestion: Story = {
   render: (args) => {
     return (
-      <SuggestionChip {...args}>
+      <SuggestionChip>
         Suggestion
       </SuggestionChip>
     )
