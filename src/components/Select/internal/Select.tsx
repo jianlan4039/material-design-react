@@ -1,4 +1,4 @@
-import React, {ComponentType, forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {ChangeEvent, ComponentType, forwardRef, ReactNode, useEffect, useId, useRef, useState} from 'react'
 import Menu from "../../Menu/Menu";
 import {Corner} from "../../internal/alignment/geometry";
 import {MenuItemProps} from "../../Menu/MenuItem";
@@ -12,21 +12,27 @@ export interface SelectProps extends FieldProps {
   children?: ReactNode
   items?: MenuItemProps[]
   label?: string
+  id?: string
+  name?: string
   onChange?: (value: OptionValue) => void
   multiple?: boolean
 }
 
-function Select<R extends HTMLDivElement, T extends SelectProps>(Field: ComponentType<any>) {
+function Select<R extends HTMLInputElement, T extends SelectProps>(Field: ComponentType<any>) {
   return forwardRef<R, T>((props, ref) => {
     const {
       items,
       label,
+      id,
+      name,
       onChange,
       multiple,
       ...rest
     } = props
 
+    const internalId = useId()
     const fieldRef = useRef<R>(null);
+    const containerRef = useRef<HTMLDivElement>(null)
     const [anchor, setAnchor] = useState<HTMLElement>()
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -53,20 +59,25 @@ function Select<R extends HTMLDivElement, T extends SelectProps>(Field: Componen
 
     useEffect(() => {
       let cleanHandler: () => void;
-
       if (fieldRef.current) {
         setAnchor(fieldRef.current)
-        cleanHandler = outsideHandler(fieldRef.current, () => {
+      }
+      if (containerRef.current) {
+        cleanHandler = outsideHandler(containerRef.current, () => {
           setIsFocus(false)
         })
       }
       return () => {
         cleanHandler?.()
       }
-    }, [fieldRef])
+    }, [fieldRef, containerRef])
+
+    function selectFocusHandler() {
+      setIsFocus(true)
+    }
 
     return (
-      <div ref={ref} className={`select`} onMouseDown={mouseDownHandler}>
+      <div ref={containerRef} className={`select`} onMouseDown={mouseDownHandler}>
         <Field
           ref={fieldRef}
           focus={isFocus}
@@ -74,7 +85,16 @@ function Select<R extends HTMLDivElement, T extends SelectProps>(Field: Componen
           populated={Boolean(label && (isOpen || value))}
           onClick={clickHandler}
         >
-          <label>{showLabel}</label>
+          <label className={'nd-select__label'} htmlFor={id ?? internalId}>{showLabel}</label>
+          <input
+            ref={ref}
+            type={'text'}
+            className={'nd-select__input'}
+            name={name ?? internalId}
+            id={id ?? internalId}
+            onFocus={selectFocusHandler}
+            value={value}
+          ></input>
         </Field>
         <Menu
           open={isOpen}

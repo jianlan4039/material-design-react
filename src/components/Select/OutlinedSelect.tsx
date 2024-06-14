@@ -6,7 +6,7 @@ export interface OutlinedSelectProps extends SelectProps {
 
 }
 
-const OutlinedSelect = Select<HTMLDivElement, OutlinedSelectProps>(
+const OutlinedSelect = Select<HTMLInputElement, OutlinedSelectProps>(
   forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref) => {
     return (
       <OutlinedField ref={ref} {...props}></OutlinedField>

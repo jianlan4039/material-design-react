@@ -29,7 +29,7 @@ export const Default: Story = {
     ]
 
     const valueChangeHandler = (value: OptionValue) => {
-      console.log(value)
+
     }
 
 
