@@ -14,15 +14,15 @@ const InputWrapper = forwardRef<HTMLInputElement, InputWrapperProps>((props, ref
     suffix,
     type = 'text',
     placeholder,
-    value: _value,
+    value: htmlValue,
     ...rest
   } = props
 
-  const [value, setValue] = useState<typeof _value>('')
+  const [value, setValue] = useState<typeof htmlValue>('')
 
   useEffect(() => {
-    setValue(_value ?? '')
-  }, [_value]);
+    setValue(htmlValue ?? '')
+  }, [htmlValue]);
 
   return (
     <div className={'nd-input-wrapper'}>

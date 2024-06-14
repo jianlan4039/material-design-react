@@ -99,6 +99,7 @@ export default function FilledTextField(props: FilledTextFieldProps) {
         <InputWrapper
           ref={inputRef}
           onChange={inputChangeHandler}
+          value={value}
           prefix={prefix}
           suffix={suffix}
           disabled={disabled}
