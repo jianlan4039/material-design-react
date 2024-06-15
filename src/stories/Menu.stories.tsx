@@ -39,7 +39,7 @@ export const Default: Story = {
     ]
 
     const [open, setOpen] = useState(false)
-    const btnRef = useRef<FocusRingHandle>(null);
+    const btnRef = useRef<HTMLButtonElement>(null);
     const [anchor, setAnchor] = useState<HTMLElement>()
 
     const clickHandler = () => {
@@ -55,8 +55,8 @@ export const Default: Story = {
     }
 
     useEffect(() => {
-      if (btnRef.current && btnRef.current.parent) {
-        setAnchor(btnRef.current.parent)
+      if ( btnRef.current) {
+        setAnchor(btnRef.current)
       }
     }, [btnRef]);
 

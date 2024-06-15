@@ -1,36 +1,53 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef, ReactNode, FocusEvent, useRef, useState, useEffect} from 'react'
 import './ElevatedButton.scss'
 import cln from "classnames";
-import withStateLayer from "../StateLayer";
 import Elevation from "../Elevation";
-import CommonButton, {CommonButtonProps} from "./internal/CommonButton";
+import Button, {ButtonProps} from "./internal/Button";
 import {StateElement} from "../internal/common/StateElement";
-import withFocusRing, {FocusRingProps} from "../Focus";
+import useFocusRing from "../Focus/useFocusRing";
+import useRipple from "../Ripple/useRipple";
 
-export interface ElevatedButtonProps extends CommonButtonProps, StateElement, FocusRingProps {
+export interface ElevatedButtonProps extends ButtonProps, StateElement {
   children?: ReactNode
 }
 
-const ElevatedButton = withFocusRing(withStateLayer(forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
+const ElevatedButton = forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
   const {
     children,
     disabled,
-    stateLayer,
     className,
-    focusRing,
+    onFocus,
+    onBlur,
     ...rest
   } = props
 
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const [parent, setParent] = useState<HTMLButtonElement>()
+
+  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+
+  useEffect(() => {
+    if (btnRef.current) {
+      setParent(btnRef.current)
+    }
+  }, [btnRef]);
+
   return (
-    <div className={cln('nd-elevated-button', className, {'nd-disabled': disabled})}>
+    <div className={cln('nd-elevated-button', className, {'nd-disabled': disabled})} {...rippleProps}>
       <Elevation></Elevation>
-      {stateLayer}
+      {ripple}
       {focusRing}
-      <CommonButton ref={ref} disabled={disabled} {...rest}>
+      <Button
+        ref={btnRef}
+        disabled={disabled}
+        {...focusRingProps}
+        {...rest}
+      >
         {children}
-      </CommonButton>
+      </Button>
     </div>
   )
-})))
+})
 
 export default ElevatedButton

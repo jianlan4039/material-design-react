@@ -12,11 +12,8 @@ import cln from "classnames";
 import './StateLayer.scss'
 import {StateElement} from "../internal/common/StateElement";
 
-export interface StateLayerProps {
-}
-
-function withStateLayer<R, T extends HTMLAttributes<Element> & StateElement>(Parent: ComponentType<T>) {
-  return forwardRef<R, T & StateLayerProps>((props, ref) => {
+function withStateLayer<T extends HTMLAttributes<HTMLElement> & StateElement>(Parent: ComponentType<T>) {
+  return forwardRef<HTMLElement, T>((props, ref) => {
     const {
       children,
       stateLayer,

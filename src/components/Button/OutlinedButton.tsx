@@ -1,38 +1,49 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
 import Elevation from "../Elevation";
-import withStateLayer from "../StateLayer";
-import CommonButton, {CommonButtonProps} from "./internal/CommonButton";
+import Button, {ButtonProps} from "./internal/Button";
 import cln from "classnames";
 import './OutlinedButton.scss'
 import Outline from "../Outline/Outline";
-import {StateElement} from "../internal/common/StateElement";
-import withFocusRing, {FocusRingProps} from "../Focus";
+import useFocusRing from "../Focus/useFocusRing";
+import useRipple from "../Ripple/useRipple";
 
-export interface OutlinedButtonProps extends CommonButtonProps, StateElement, FocusRingProps {
+export interface OutlinedButtonProps extends ButtonProps {
   children?: ReactNode
 }
 
-const OutlinedButton = withFocusRing(withStateLayer<HTMLButtonElement, OutlinedButtonProps>(forwardRef<HTMLButtonElement, OutlinedButtonProps>((props, ref) => {
+const OutlinedButton = forwardRef<HTMLButtonElement, OutlinedButtonProps>((props, ref) => {
   const {
     children,
     disabled,
-    stateLayer,
     className,
-    focusRing,
+    onFocus,
+    onBlur,
     ...rest
   } = props
 
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const [parent, setParent] = useState<HTMLButtonElement>()
+
+  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+
+  useEffect(() => {
+    if (btnRef.current) {
+      setParent(btnRef.current)
+    }
+  }, [btnRef]);
+
   return (
-    <div className={cln('nd-outlined-button', className, {'nd-disabled': disabled})}>
+    <div className={cln('nd-outlined-button', className, {'nd-disabled': disabled})} {...rippleProps}>
       <Outline disabled={disabled}></Outline>
       <Elevation></Elevation>
-      {stateLayer}
       {focusRing}
-      <CommonButton ref={ref} disabled={disabled} {...rest}>
+      {ripple}
+      <Button ref={btnRef} disabled={disabled} {...focusRingProps} {...rest}>
         {children}
-      </CommonButton>
+      </Button>
     </div>
   )
-})))
+})
 
 export default OutlinedButton

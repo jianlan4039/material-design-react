@@ -1,7 +1,7 @@
 import React, {forwardRef, ReactNode} from 'react'
 import cln from "classnames";
 
-export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean
   children?: ReactNode
   icon?: ReactNode
@@ -11,7 +11,7 @@ export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButton
   target?: string
 }
 
-const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, ref) => {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     children,
     icon,
@@ -41,4 +41,4 @@ const CommonButton = forwardRef<HTMLButtonElement, CommonButtonProps>((props, re
   )
 })
 
-export default CommonButton
+export default Button
