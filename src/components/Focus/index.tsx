@@ -1,4 +1,12 @@
-import React, {ComponentType, HTMLAttributes, ReactNode, useRef, useState} from 'react'
+import React, {
+  ComponentType,
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useImperativeHandle,
+  useRef,
+  useState
+} from 'react'
 import cln from "classnames";
 import './FocusRing.scss'
 
@@ -8,22 +16,30 @@ export interface FocusRingProps {
   children?: ReactNode
 }
 
+export interface FocusRingHandle{
+  parent?: HTMLElement | null
+}
+
 function withFocusRing<T extends FocusRingProps & HTMLAttributes<HTMLElement>>(WrappedComponent: ComponentType<T>) {
-  return ({inward, focusRing, children, ...rest}: T) => {
+  return forwardRef<FocusRingHandle, T>(({inward, focusRing, children, ...rest}, ref) => {
     const parentRef = useRef<HTMLElement>(null);
-    const [isVisible, setIsVisible] = useState<boolean>(false)
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+
+    useImperativeHandle(ref, () => ({
+      parent: parentRef.current
+    }), []);
 
     const focusHandler = (e: FocusEvent) => {
       if (!parentRef.current) return;
       if (parentRef.current.matches(':focus-visible')) {
-        setIsVisible(true)
+        setIsVisible(true);
       }
-    }
+    };
 
     const blurHandler = (e: FocusEvent) => {
       if (!parentRef.current) return;
-      setIsVisible(false)
-    }
+      setIsVisible(false);
+    };
 
     return (
       <WrappedComponent
@@ -40,8 +56,8 @@ function withFocusRing<T extends FocusRingProps & HTMLAttributes<HTMLElement>>(W
       >
         {children}
       </WrappedComponent>
-    )
-  }
+    );
+  });
 }
 
 export default withFocusRing

@@ -61,7 +61,7 @@ export const Default: Story = {
 
     return (
       <div style={{position: 'relative'}}>
-        <ElevatedButton ref={btnRef} onClick={clickHandler}>Open</ElevatedButton>
+        <ElevatedButton onClick={clickHandler}>Open</ElevatedButton>
         <Menu
           open={open}
           items={items}

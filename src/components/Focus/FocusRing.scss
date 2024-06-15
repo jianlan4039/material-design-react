@@ -6,8 +6,9 @@
   inset: 0;
   display: flex;
   outline: none;
+  z-index: -1;
 
-  .nd-focus-ring{
+  .nd-focus-ring {
     @include focus-ring.styles;
   }
 }

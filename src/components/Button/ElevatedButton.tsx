@@ -11,7 +11,7 @@ export interface ElevatedButtonProps extends CommonButtonProps, StateElement, Fo
   children?: ReactNode
 }
 
-const ElevatedButton: React.FC<ElevatedButtonProps> = withFocusRing(withStateLayer<HTMLDivElement, ElevatedButtonProps>(forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
+const ElevatedButton = withFocusRing(withStateLayer(forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
   const {
     children,
     disabled,
