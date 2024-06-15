@@ -1,7 +1,6 @@
 import React, {forwardRef, ReactNode} from 'react'
-import Button, {ButtonProps} from "./internal/Button";
+import Button, {ButtonHandle, ButtonProps} from "./internal/Button";
 import Outline from "../Outline/Outline";
-import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import './SuggestionChip.scss'
 import Elevation from "../Elevation";
@@ -10,7 +9,10 @@ export interface SuggestionChipProps extends ButtonProps {
   children?: ReactNode
 }
 
-const SuggestionChip = forwardRef<HTMLButtonElement, SuggestionChipProps>((props: SuggestionChipProps, ref) => {
+export interface SuggestionChipHandle extends ButtonHandle {
+}
+
+const SuggestionChip = forwardRef<SuggestionChipHandle, SuggestionChipProps>((props, ref) => {
   const {
     children,
     disabled,

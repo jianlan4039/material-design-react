@@ -1,51 +1,62 @@
-import React, {forwardRef, ReactNode, MouseEvent} from 'react'
-import Button, {ButtonProps} from "./internal/Button";
+import React, {forwardRef, ReactNode, MouseEvent, useRef, useImperativeHandle} from 'react'
+import Button, {ButtonHandle, ButtonProps} from "./internal/Button";
 import './InputChip.scss'
 import Outline from "../Outline/Outline";
-import withStateLayer from "../StateLayer";
 import cln from "classnames";
-import {StateElement} from "../internal/common/StateElement";
-import FocusRing from "../Focus/FocusRing";
+import useRipple from "../Ripple/useRipple";
 
-export interface InputChipProps extends Omit<ButtonProps, 'elevated'>, StateElement {
+export interface InputChipProps extends Omit<ButtonProps, 'elevated'> {
   children?: ReactNode
   onClose?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
-const InputChip = withStateLayer<HTMLButtonElement, InputChipProps>(forwardRef<HTMLDivElement, InputChipProps>((props, ref) => {
+export interface InputChipHandle extends ButtonHandle {
+  trailingButton?: HTMLButtonElement | null
+}
+
+const InputChip = forwardRef<InputChipHandle, InputChipProps>((props, ref) => {
   const {
-    children ,
+    children,
     disabled,
-    stateLayer,
     onClick,
     onClose,
     ...rest
   } = props
 
+  const btnRef = useRef<ButtonHandle>(null);
+  const trailingBtnRef = useRef<HTMLButtonElement>(null);
+
+  const [rippleProps, ripple] = useRipple<HTMLButtonElement>({})
+
+  useImperativeHandle(ref, () => ({
+    button: btnRef.current?.button,
+    trailingButton: trailingBtnRef.current
+  }))
+
   return (
     <div
-      ref={ref}
       className={cln('nd-input-chip', {
         'nd-disabled': disabled,
       })}
     >
       <Outline></Outline>
-      <Button disabled={disabled} onClick={onClick}>
+      <Button ref={btnRef} disabled={disabled} onClick={onClick} {...rest}>
         {children}
       </Button>
       <button
+        ref={trailingBtnRef}
         className={'nd-input-chip__trail'}
         onClick={onClose}
-        {...rest}
+        {...rippleProps}
       >
-        {!disabled && stateLayer}
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-          <path
-            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-        </svg>
+        {ripple}
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+          </svg>
       </button>
     </div>
   )
-}))
+})
 
 export default InputChip

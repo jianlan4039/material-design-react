@@ -1,10 +1,19 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, MouseEvent} from 'react'
-import withStateLayer from "../../StateLayer";
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  MouseEvent,
+  useRef,
+  useState,
+  useEffect,
+  useImperativeHandle
+} from 'react'
 import cln from "classnames";
-import {StateElement} from "../../internal/common/StateElement";
-import withFocusRing, {FocusRingProps} from "../../Focus";
+import {linkHandler} from "../../internal/common/handlers";
+import useFocusRing from "../../Focus/useFocusRing";
+import useRipple from "../../Ripple/useRipple";
 
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement>, StateElement, FocusRingProps {
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   children?: ReactNode
   icon?: ReactNode
   disabled?: boolean
@@ -15,61 +24,81 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement>, StateEle
   label?: string
 }
 
-const Button = withFocusRing(withStateLayer(forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+export interface ButtonHandle {
+  button?: HTMLButtonElement | null
+}
+
+const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
   const {
     children,
     icon,
     disabled,
-    stateLayer,
     alwaysFocusable,
     href = "",
     target = "",
     label,
     onClick,
-    focusRing,
+    onFocus,
+    onBlur,
+    onMouseOver,
+    onMouseOut,
+    onMouseDown,
+    onMouseUp,
+    onTouchStart,
+    onTouchEnd,
     ...rest
   } = props
 
-  function navigateTo(url: string, target: string) {
-    if (target === '_blank') {
-      window.open(url, '_blank');
-    } else if (target === '_self') {
-      window.location.href = url;
-    } else if (target === '_parent') {
-      window.parent.location.href = url;
-    } else if (target === '_top' && window.top) {
-      window.top.location.href = url;
-    } else {
-      // Default behavior if target is not recognized
-      window.location.href = url;
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const [parent, setParent] = useState<HTMLButtonElement>()
+
+  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur})
+  const [rippleProps, ripple] = useRipple<HTMLButtonElement>({
+    onMouseOver,
+    onMouseOut,
+    onMouseDown,
+    onMouseUp,
+    onTouchStart,
+    onTouchEnd
+  })
+
+  useEffect(() => {
+    if (btnRef.current) {
+      setParent(btnRef.current)
     }
-  }
+  }, [btnRef]);
+
+  useImperativeHandle(ref, () => ({
+    button: btnRef.current
+  }))
 
   function clickHandler(e: MouseEvent<HTMLButtonElement>) {
     if (disabled) return;
     onClick?.(e)
     if (href) {
       e.preventDefault()
-      navigateTo(href, target)
+      linkHandler(href, target)
     }
   }
 
   return (
     <button
-      ref={ref}
+      ref={btnRef}
       className={cln('nd-chip__button', {
         'nd-chip--with-icon': icon,
       })}
       aria-disabled={disabled}
       onClick={clickHandler}
+      {...focusRingProps}
+      {...rippleProps}
       {...rest}
     >
       {icon && <span className={'nd-chip__icon-slot'}>{icon}</span>}
-      {!disabled && stateLayer}
+      {!disabled && ripple}
       {focusRing}
       <span className={'nd-chip__label'}>{children || label}</span>
     </button>
   )
-})))
+})
 
 export default Button

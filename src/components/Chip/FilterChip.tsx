@@ -1,8 +1,7 @@
-import React, {forwardRef, ReactNode, useEffect, useState} from 'react'
-import Button, {ButtonProps} from "./internal/Button";
+import React, {forwardRef, useEffect, useState} from 'react'
+import Button, {ButtonHandle, ButtonProps} from "./internal/Button";
 import './FilterChip.scss'
 import Outline from "../Outline/Outline";
-import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import Elevation from "../Elevation";
 
@@ -10,7 +9,10 @@ export interface FilterChipProps extends ButtonProps {
   selected?: boolean
 }
 
-const FilterChip = forwardRef<HTMLButtonElement, FilterChipProps>((props, ref) => {
+export interface FilterChipHandle extends ButtonHandle {
+}
+
+const FilterChip = forwardRef<FilterChipHandle, FilterChipProps>((props, ref) => {
   const {
     children,
     selected: _slc = false,

@@ -8,8 +8,8 @@ export interface RippleProps<R extends HTMLElement> {
   onMouseOut?: (e: ReactMouseEvent<R>) => void,
   onMouseDown?: (e: ReactMouseEvent<R>) => void,
   onMouseUp?: (e: ReactMouseEvent<R>) => void,
-  onTouchStart?: (e: TouchEvent<HTMLDivElement>) => void
-  onTouchEnd?: (e: TouchEvent<HTMLDivElement>) => void,
+  onTouchStart?: (e: TouchEvent<R>) => void
+  onTouchEnd?: (e: TouchEvent<R>) => void,
 }
 
 function useRipple<R extends HTMLElement>(
@@ -162,7 +162,7 @@ function useRipple<R extends HTMLElement>(
     setIsPressed(false)
   }
 
-  function touchStartHandler(e: TouchEvent<HTMLDivElement>) {
+  function touchStartHandler(e: TouchEvent<R>) {
     onTouchStart?.(e)
     clearTimeout(touchEventRecoverTimeId.current)
     mouseEventRef.current = e
@@ -174,7 +174,7 @@ function useRipple<R extends HTMLElement>(
     }, 1000)
   }
 
-  function touchEndHandler(e: TouchEvent<HTMLDivElement>) {
+  function touchEndHandler(e: TouchEvent<R>) {
     onTouchEnd?.(e)
     setIsPressed(false)
   }

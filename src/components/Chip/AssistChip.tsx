@@ -1,15 +1,17 @@
-import React, {forwardRef, ReactNode} from 'react'
-import Button, {ButtonProps} from "./internal/Button";
+import React, {forwardRef} from 'react'
+import Button, {ButtonHandle, ButtonProps} from "./internal/Button";
 import Outline from "../Outline/Outline";
-import './AssistChip.scss'
 import cln from "classnames";
 import Elevation from "../Elevation";
+import './AssistChip.scss'
 
 export interface AssistChipProps extends ButtonProps {
-  children?: ReactNode
 }
 
-const AssistChip = forwardRef<HTMLButtonElement, AssistChipProps>((props, ref) => {
+export interface AssistChipHandle extends ButtonHandle {
+}
+
+const AssistChip = forwardRef<AssistChipHandle, AssistChipProps>((props, ref) => {
   const {
     children,
     disabled,

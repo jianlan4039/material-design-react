@@ -35,7 +35,7 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
       fill: var(--_trailing-icon-color);
     }
 
-    .nd-state-layer {
+    .nd-ripple {
       border-radius: 50%;
       height: calc(4 / 3 * var(--_icon-size)); // 24px default
       width: calc(4 / 3 * var(--_icon-size)); // 24px default
@@ -45,7 +45,7 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
 
   &.nd-disabled {
     .nd-input-chip__trail {
-      svg{
+      svg {
         fill: var(--_disabled-trailing-icon-color);
         opacity: var(--_disabled-trailing-icon-opacity);
       }
