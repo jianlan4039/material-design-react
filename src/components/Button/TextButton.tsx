@@ -1,46 +1,17 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
-import FocusRing from "../Focus/FocusRing";
-import Button, {ButtonProps} from "./internal/Button";
-import cln from "classnames";
+import React, {forwardRef} from 'react'
+import {ButtonProps} from "./internal/Button";
+import Wrapper, {ButtonHandle} from "./Wrapper";
 import './TextButton.scss'
-import useFocusRing from "../Focus/useFocusRing";
-import useRipple from "../Ripple/useRipple";
 
 export interface TextButtonProps extends ButtonProps {
-  children?: ReactNode
 }
 
-const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>((props, ref) => {
-  const {
-    children,
-    disabled,
-    className,
-    onFocus,
-    onBlur,
-    ...rest
-  } = props
+export interface TextButtonHandle extends ButtonHandle {
+}
 
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (btnRef.current) {
-      setParent(btnRef.current)
-    }
-  }, [btnRef]);
-
+const TextButton = forwardRef<TextButtonHandle, TextButtonProps>(({label, children, ...rest}, ref) => {
   return (
-    <div className={cln('nd-text-button', className, {'nd-disabled': disabled})} {...rippleProps}>
-      <FocusRing></FocusRing>
-      {focusRing}
-      {ripple}
-      <Button ref={btnRef} disabled={disabled} {...focusRingProps} {...rest}>
-        {children}
-      </Button>
-    </div>
+    <Wrapper ref={ref} name={'nd-text-button'} label={label || children} {...rest}></Wrapper>
   )
 })
 

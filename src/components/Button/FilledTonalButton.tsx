@@ -1,46 +1,17 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
-import Elevation from "../Elevation";
-import Button, {ButtonProps} from "./internal/Button";
-import cln from "classnames";
+import React, {forwardRef} from 'react'
+import {ButtonProps} from "./internal/Button";
+import Wrapper, {ButtonHandle} from "./Wrapper";
 import './FilledTonalButton.scss'
-import useFocusRing from "../Focus/useFocusRing";
-import useRipple from "../Ripple/useRipple";
 
 export interface FilledTonalButtonProps extends ButtonProps {
-  children?: ReactNode
 }
 
-const FilledTonalButton = forwardRef<HTMLButtonElement, FilledTonalButtonProps>((props, ref) => {
-  const {
-    children,
-    disabled,
-    className,
-    onFocus,
-    onBlur,
-    ...rest
-  } = props
+export interface FilledTonalButtonHandle extends ButtonHandle {
+}
 
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (btnRef.current) {
-      setParent(btnRef.current)
-    }
-  }, [btnRef]);
-
+const FilledTonalButton = forwardRef<FilledTonalButtonHandle, FilledTonalButtonProps>(({label, children, ...rest}, ref) => {
   return (
-    <div className={cln('nd-filled-tonal-button', className, {'nd-disabled': disabled})} {...rippleProps}>
-      <Elevation></Elevation>
-      {focusRing}
-      {ripple}
-      <Button ref={btnRef} disabled={disabled} {...focusRingProps} {...rest}>
-        {children}
-      </Button>
-    </div>
+    <Wrapper ref={ref} name={'nd-filled-tonal-button'} label={label || children} {...rest}></Wrapper>
   )
 })
 

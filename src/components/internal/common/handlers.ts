@@ -1,4 +1,3 @@
-
 export const outsideHandler = (target: HTMLElement, handler: (event?: MouseEvent) => void) => {
   // 点击事件的处理函数
   const handleClickOutside = (event: MouseEvent) => {
@@ -15,4 +14,19 @@ export const outsideHandler = (target: HTMLElement, handler: (event?: MouseEvent
   return () => {
     document.removeEventListener("mousedown", handleClickOutside);
   };
+}
+
+export function linkHandler(url: string, target: string) {
+  if (target === '_blank') {
+    window.open(url, '_blank');
+  } else if (target === '_self') {
+    window.location.href = url;
+  } else if (target === '_parent') {
+    window.parent.location.href = url;
+  } else if (target === '_top' && window.top) {
+    window.top.location.href = url;
+  } else {
+    // Default behavior if target is not recognized
+    window.location.href = url;
+  }
 }

@@ -1,52 +1,25 @@
-import React, {forwardRef, ReactNode, FocusEvent, useRef, useState, useEffect} from 'react'
-import './ElevatedButton.scss'
-import cln from "classnames";
-import Elevation from "../Elevation";
-import Button, {ButtonProps} from "./internal/Button";
-import {StateElement} from "../internal/common/StateElement";
-import useFocusRing from "../Focus/useFocusRing";
-import useRipple from "../Ripple/useRipple";
+import React, {forwardRef} from 'react';
+import {ButtonProps} from "./internal/Button";
+import Wrapper, {ButtonHandle} from "./Wrapper";
+import './ElevatedButton.scss';
 
-export interface ElevatedButtonProps extends ButtonProps, StateElement {
-  children?: ReactNode
+export interface ElevatedButtonProps extends ButtonProps {
 }
 
-const ElevatedButton = forwardRef<HTMLButtonElement, ElevatedButtonProps>((props, ref) => {
-  const {
+export interface ElevatedButtonHandle extends ButtonHandle {
+}
+
+const ElevatedButton = forwardRef<ElevatedButtonHandle, ElevatedButtonProps>((
+  {
+    name,
     children,
-    disabled,
-    className,
-    onFocus,
-    onBlur,
+    label,
     ...rest
-  } = props
-
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (btnRef.current) {
-      setParent(btnRef.current)
-    }
-  }, [btnRef]);
+  },
+  ref) => {
 
   return (
-    <div className={cln('nd-elevated-button', className, {'nd-disabled': disabled})} {...rippleProps}>
-      <Elevation></Elevation>
-      {ripple}
-      {focusRing}
-      <Button
-        ref={btnRef}
-        disabled={disabled}
-        {...focusRingProps}
-        {...rest}
-      >
-        {children}
-      </Button>
-    </div>
+    <Wrapper ref={ref} name={'nd-elevated-button'} label={label || children} {...rest}></Wrapper>
   )
 })
 

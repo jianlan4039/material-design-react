@@ -1,46 +1,17 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
-import Elevation from "../Elevation";
-import Button, {ButtonProps} from "./internal/Button";
-import cln from "classnames";
-import './FilledButton.scss'
-import useFocusRing from "../Focus/useFocusRing";
-import useRipple from "../Ripple/useRipple";
+import React, {forwardRef} from 'react';
+import {ButtonProps} from "./internal/Button";
+import Wrapper, {ButtonHandle} from "./Wrapper";
+import './FilledButton.scss';
 
 export interface FilledButtonProps extends ButtonProps {
-  children?: ReactNode
 }
 
-const FilledButton = forwardRef<HTMLButtonElement, FilledButtonProps>((props, ref) => {
-  const {
-    children,
-    disabled,
-    className,
-    onFocus,
-    onBlur,
-    ...rest
-  } = props
+export interface FilledButtonHandle extends ButtonHandle {
+}
 
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (btnRef.current) {
-      setParent(btnRef.current)
-    }
-  }, [btnRef]);
-
+const FilledButton = forwardRef<FilledButtonHandle, FilledButtonProps>(({label, children, ...rest}, ref) => {
   return (
-    <div className={cln('nd-filled-button', className, {'nd-disabled': disabled})} {...rippleProps}>
-      <Elevation></Elevation>
-      {focusRing}
-      {ripple}
-      <Button ref={btnRef} disabled={disabled} {...focusRingProps} {...rest}>
-        {children}
-      </Button>
-    </div>
+    <Wrapper ref={ref} name={'nd-filled-button'} label={label || children} {...rest}></Wrapper>
   )
 })
 

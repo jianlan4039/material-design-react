@@ -16,13 +16,13 @@ export default meta;
 type Story = StoryObj<typeof ElevatedButton>;
 
 export const Default: Story = {
-  render: (args) => (
-    <ElevatedButton {...args}>Elevated</ElevatedButton>
+  render: ({label = 'Elevated', ...rest}) => (
+    <ElevatedButton label={label} {...rest}></ElevatedButton>
   )
 }
 
 export const WithIcon: Story = {
-  render: ({...rest}) => {
+  render: ({label = "Elevated", ...rest}) => {
     const Icon = (
       <FilledIcon>home</FilledIcon>
     )
@@ -38,8 +38,7 @@ export const WithIcon: Story = {
 }
 
 export const WithHref: Story = {
-  render: ({href = 'https://cn.bing.com', target = '_blank'}) => {
-
+  render: ({href = 'https://cn.bing.com', target = '_blank', label = "Elevated"}) => {
     const Icon = (
       <FilledIcon>home</FilledIcon>
     )

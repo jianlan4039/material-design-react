@@ -1,48 +1,28 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
-import Elevation from "../Elevation";
-import Button, {ButtonProps} from "./internal/Button";
-import cln from "classnames";
-import './OutlinedButton.scss'
+import React, {forwardRef} from 'react'
+import {ButtonProps} from "./internal/Button";
 import Outline from "../Outline/Outline";
-import useFocusRing from "../Focus/useFocusRing";
-import useRipple from "../Ripple/useRipple";
+import Wrapper, {ButtonHandle} from "./Wrapper";
+import './OutlinedButton.scss'
 
 export interface OutlinedButtonProps extends ButtonProps {
-  children?: ReactNode
 }
 
-const OutlinedButton = forwardRef<HTMLButtonElement, OutlinedButtonProps>((props, ref) => {
-  const {
+export interface OutlinedButtonHandle extends ButtonHandle {
+}
+
+
+const OutlinedButton = forwardRef<OutlinedButtonHandle, OutlinedButtonProps>((
+  {
+    label,
     children,
     disabled,
-    className,
-    onFocus,
-    onBlur,
     ...rest
-  } = props
-
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (btnRef.current) {
-      setParent(btnRef.current)
-    }
-  }, [btnRef]);
+  }, ref) => {
 
   return (
-    <div className={cln('nd-outlined-button', className, {'nd-disabled': disabled})} {...rippleProps}>
+    <Wrapper ref={ref} name={'nd-outlined-button'} label={label || children} {...rest}>
       <Outline disabled={disabled}></Outline>
-      <Elevation></Elevation>
-      {focusRing}
-      {ripple}
-      <Button ref={btnRef} disabled={disabled} {...focusRingProps} {...rest}>
-        {children}
-      </Button>
-    </div>
+    </Wrapper>
   )
 })
 
