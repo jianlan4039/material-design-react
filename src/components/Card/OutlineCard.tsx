@@ -1,24 +1,24 @@
 import React, {forwardRef, ReactNode} from 'react'
 import CardContent, {CardContentProps} from "./internal/CardContent";
 import Elevation from "../Elevation";
-import withStateLayer from "../StateLayer";
 import cln from "classnames";
 import './OutlineCard.scss'
 import Outline from "../Outline/Outline";
-import {StateElement} from "../internal/common/StateElement";
+import useRipple from "../Ripple/useRipple";
 
-export interface OutlineCardProps extends CardContentProps, StateElement {
+export interface OutlineCardProps extends CardContentProps {
   children?: ReactNode
 }
 
-const OutlineCard = withStateLayer<HTMLDivElement, OutlineCardProps>(forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) => {
+const OutlineCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) => {
   const {
     children,
     style,
     disabled,
-    stateLayer,
     ...rest
   } = props
+
+  const [rippleProps, ripple] = useRipple({})
 
   return (
     <div
@@ -27,13 +27,14 @@ const OutlineCard = withStateLayer<HTMLDivElement, OutlineCardProps>(forwardRef<
         'nd-disabled': disabled
       })}
       style={style}
+      {...rippleProps}
     >
       <Outline></Outline>
       <Elevation></Elevation>
-      {stateLayer}
+      {ripple}
       <CardContent disabled={disabled} {...rest}>{children}</CardContent>
     </div>
   )
-}))
+})
 
 export default OutlineCard

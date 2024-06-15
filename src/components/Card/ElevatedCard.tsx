@@ -1,24 +1,24 @@
 import React, {forwardRef, ReactNode} from 'react'
 import CardContent, {CardContentProps} from "./internal/CardContent";
 import Elevation from "../Elevation";
-import withStateLayer from "../StateLayer";
 import cln from "classnames";
 import './ElevatedCard.scss'
-import {StateElement} from "../internal/common/StateElement";
+import useRipple from "../Ripple/useRipple";
 
 
-export interface ElevatedCardProps extends CardContentProps, StateElement{
+export interface ElevatedCardProps extends CardContentProps {
   children?: ReactNode
 }
 
-const ElevatedCard = withStateLayer<HTMLDivElement, ElevatedCardProps>(forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) => {
+const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) => {
   const {
     children,
     style,
     disabled,
-    stateLayer,
     ...rest
   } = props
+
+  const [rippleProps, ripple] = useRipple({})
 
   return (
     <div
@@ -27,12 +27,13 @@ const ElevatedCard = withStateLayer<HTMLDivElement, ElevatedCardProps>(forwardRe
         'nd-disabled': disabled
       })}
       style={style}
+      {...rippleProps}
     >
       <Elevation></Elevation>
-      {stateLayer}
+      {ripple}
       <CardContent disabled={disabled} {...rest}>{children}</CardContent>
     </div>
   )
-}))
+})
 
 export default ElevatedCard
