@@ -1,35 +1,46 @@
-import React, {useState, useEffect, ChangeEvent, forwardRef, HTMLProps, useRef, useContext} from 'react';
+import React, {useState, useEffect, forwardRef, HTMLProps, useContext, useRef} from 'react';
 import './RadioButton.scss'
-import withStateLayer from "../StateLayer";
-import {StateElement} from "../internal/common/StateElement";
 import {SelectionContext} from "../internal/context/SelectionContext";
 import c from 'classnames'
-import withFocusRing, {FocusRingProps} from "../Focus";
+import useRipple from "../Ripple/useRipple";
+import useFocusRing from "../Focus/useFocusRing";
 
-interface RadioButtonProps extends StateElement, HTMLProps<HTMLInputElement>, FocusRingProps {
+interface RadioButtonProps extends HTMLProps<HTMLInputElement> {
   disabled?: boolean
 }
 
-const RadioButton = withFocusRing(withStateLayer(forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) => {
+const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) => {
   const {
     selected,
     onChange,
     id,
     name,
     value,
-    stateLayer,
     onMouseOver,
     onMouseOut,
     onMouseDown,
     onMouseUp,
     disabled,
-    focusRing,
     children,
+    onBlur,
+    onFocus,
     ...rest
   } = props
 
   const [isSelected, setIsSelected] = useState<boolean>(selected || false);
   const {list: selectedList, setList} = useContext(SelectionContext)
+
+  const radio = useRef<HTMLInputElement>(null);
+  const [parent, setParent] = useState<HTMLInputElement>()
+
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+  const [focusRingProps, focusRing] = useFocusRing<HTMLInputElement>({parent, onFocus, onBlur})
+
+  useEffect(() => {
+    if (radio.current) {
+      setParent(radio.current)
+    }
+  }, [radio]);
 
   const selectedIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -67,27 +78,25 @@ const RadioButton = withFocusRing(withStateLayer(forwardRef<HTMLInputElement, Ra
         'radio-button--disabled': disabled
       })}
       onClick={clickHandler}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
+      {...rippleProps}
     >
-      {!disabled && <div className={'radio-button__state'}>{stateLayer}</div>}
       {focusRing}
+      {!disabled && ripple}
       <input
-        ref={ref}
+        ref={radio}
         type="radio"
         onChange={onChange}
         name={name}
         value={value}
         id={id}
-        disabled={disabled}
+        aria-disabled={disabled}
+        {...focusRingProps}
         {...rest}
       />
       {isSelected ? selectedIcon : unselectedIcon}
     </div>
   );
-})))
+})
 
 export default RadioButton;
 

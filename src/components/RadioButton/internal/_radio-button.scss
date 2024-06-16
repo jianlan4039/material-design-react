@@ -1,19 +1,18 @@
 @use "../../tokens/md-comp-radio";
 @use "../../builder/tokens-builder";
 @use "../../builder/background";
-@use "../../StateLayer/internal/state-layer";
+@use "../../Ripple/internal/ripple";
 
 @mixin theme($tokens) {
-  @include state-layer.theme($tokens, md-comp-radio.$supported-tokens, radio)
+  @include ripple.theme($tokens, md-comp-radio.$supported-tokens, radio)
 }
 
 @mixin styles() {
-
   .radio-button {
     @include tokens-builder.tokens(md-comp-radio.values(), radio);
-    @include state-layer.theme((
-      hover-color: var(--_hover-stae-layer-color),
-      pressed-color: var(--_pressed-state-layer-color)
+    @include ripple.theme((
+      hover-color: var(--_hover-ripple-color),
+      pressed-color: var(--_pressed-ripple-color)
     ));
 
     position: relative;
@@ -34,8 +33,9 @@
       fill: var(--_icon-color);
     }
 
-    .radio-button__state {
+    .nd-ripple {
       position: absolute;
+      inset: unset;
       border-radius: 9999px;
       block-size: var(--_state-layer-size);
       inline-size: var(--_state-layer-size);
@@ -59,8 +59,8 @@
       }
 
       &:hover {
-        @include state-layer.theme((
-          hover-color: var(--_selected-hover-state-layer-color)
+        @include ripple.theme((
+          hover-color: var(--_selected-hover-ripple-color)
         ));
 
         svg {
@@ -69,8 +69,8 @@
       }
 
       &:active {
-        @include state-layer.theme((
-          hover-color: var(--_selected-pressed-state-layer-color)
+        @include ripple.theme((
+          hover-color: var(--_selected-pressed-ripple-color)
         ));
 
         svg {
