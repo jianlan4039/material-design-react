@@ -3,7 +3,6 @@ import {ButtonProps} from "./content/Button";
 import './FilledTonalIconButton.scss'
 import classNames from "classnames";
 import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";
-import {ButtonHandle} from "../Button/Wrapper";
 
 export interface FilledTonalIconButtonProps extends ButtonProps, WrapperProps{
   children?: ReactNode
