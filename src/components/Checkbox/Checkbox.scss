@@ -18,7 +18,7 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
   block-size: 24px;
   inline-size: 24px;
 
-  .nd-state-layer {
+  .nd-ripple {
     block-size: var(--_state-layer-size);
     inline-size: var(--_state-layer-size);
     inset: unset;
@@ -82,7 +82,7 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
           color: var(--_selected-error-container-color)
         ));
 
-        svg{
+        svg {
           fill: var(--_selected-error-icon-color);
         }
       }
