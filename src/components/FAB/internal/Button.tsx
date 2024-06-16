@@ -1,7 +1,7 @@
 import React, {ButtonHTMLAttributes, forwardRef, ReactNode} from 'react'
 import {StateElement} from "../../internal/common/StateElement";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, StateElement {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode
   label?: string
   icon?: ReactNode

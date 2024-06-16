@@ -1,11 +1,10 @@
-import React, {forwardRef, ReactNode} from 'react'
-import Button, {ButtonProps} from "./content/Button";
+import React, {forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
+import Button, {ButtonProps} from "./internal/Button";
 import Elevation from "../Elevation";
-import FocusRing from "../Focus/FocusRing";
 import cln from "classnames";
 import './FAB.scss'
-import {StateElement} from "../internal/common/StateElement";
-import withStateLayer from "../StateLayer";
+import useFocusRing from "../Focus/useFocusRing";
+import useRipple from "../Ripple/useRipple";
 
 export interface FABProps extends ButtonProps {
   children?: ReactNode
@@ -14,15 +13,36 @@ export interface FABProps extends ButtonProps {
   lowered?: boolean
 }
 
-const FAB = withStateLayer<HTMLButtonElement, FABProps>(forwardRef<HTMLButtonElement, FABProps>((props, ref) => {
+export interface FABHandle {
+  button?: HTMLButtonElement | null
+}
+
+const FAB = forwardRef<FABHandle, FABProps>((props, ref) => {
   const {
     children,
     size,
     variant,
     lowered,
-    stateLayer,
+    onBlur,
+    onFocus,
     ...rest
   } = props
+
+  const button = useRef<HTMLButtonElement>(null);
+  const [parent, setParent] = useState<HTMLButtonElement>()
+
+  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onBlur, onFocus})
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+
+  useEffect(() => {
+    if (button.current) {
+      setParent(button.current)
+    }
+  }, [button]);
+
+  useImperativeHandle(ref, () => ({
+    button: button.current
+  }))
 
   return (
     <div
@@ -31,15 +51,16 @@ const FAB = withStateLayer<HTMLButtonElement, FABProps>(forwardRef<HTMLButtonEle
         [`nd-fab--${variant}`]: variant,
         'lowered': lowered
       })}
+      {...rippleProps}
     >
-      <FocusRing></FocusRing>
       <Elevation></Elevation>
-      {stateLayer}
-      <Button ref={ref} {...rest}>
+      {ripple}
+      {focusRing}
+      <Button ref={button} {...focusRingProps} {...rest}>
         {children}
       </Button>
     </div>
   )
-}))
+})
 
 export default FAB

@@ -1,4 +1,4 @@
-@use "content/fab";
+@use "internal/fab";
 
 .nd-fab {
   @include fab.styles;

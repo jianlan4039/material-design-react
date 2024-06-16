@@ -1,27 +1,48 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import cln from "classnames";
-import FocusRing from "../Focus/FocusRing";
 import Elevation from "../Elevation";
-import withStateLayer from "../StateLayer";
-import Button, {ButtonProps} from "./content/Button";
+import Button, {ButtonProps} from "./internal/Button";
 import './BrandedFAB.scss'
 import {FABProps} from "./FAB";
+import useFocusRing from "../Focus/useFocusRing";
+import useRipple from "../Ripple/useRipple";
 
 export interface BrandedFABProps extends Omit<FABProps, 'variant'>, ButtonProps {
   children?: ReactNode
   large?: boolean
 }
 
-const BrandedFAB = withStateLayer<HTMLButtonElement, BrandedFABProps>(forwardRef<HTMLButtonElement, BrandedFABProps>((props, ref) => {
+export interface BrandedFABHandle {
+  button?: HTMLButtonElement | null
+}
+
+const BrandedFAB = forwardRef<BrandedFABHandle, BrandedFABProps>((props, ref) => {
   const {
     children,
     label,
     icon,
     large,
     lowered,
-    stateLayer,
+    onBlur,
+    onFocus,
     ...rest
   } = props
+
+  const button = useRef<HTMLButtonElement>(null);
+  const [parent, setParent] = useState<HTMLButtonElement>()
+
+  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onBlur, onFocus})
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+
+  useEffect(() => {
+    if (button.current) {
+      setParent(button.current)
+    }
+  }, [button]);
+
+  useImperativeHandle(ref, () => ({
+    button: button.current
+  }))
 
   return (
     <div
@@ -29,15 +50,16 @@ const BrandedFAB = withStateLayer<HTMLButtonElement, BrandedFABProps>(forwardRef
         'large': large,
         'lowered': lowered
       })}
+      {...rippleProps}
     >
-      <FocusRing></FocusRing>
       <Elevation></Elevation>
-      {stateLayer}
-      <Button ref={ref} icon={icon} label={label} {...rest}>
+      {ripple}
+      {focusRing}
+      <Button ref={button} icon={icon} label={label} {...focusRingProps} {...rest}>
         {children}
       </Button>
     </div>
   )
-}))
+})
 
 export default BrandedFAB

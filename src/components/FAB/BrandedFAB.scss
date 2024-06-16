@@ -1,4 +1,4 @@
-@use "content/fab-branded";
+@use "internal/fab-branded";
 
 .nd-branded-fab{
   @include fab-branded.styles;
