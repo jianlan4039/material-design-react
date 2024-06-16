@@ -1,8 +1,8 @@
-import React, {forwardRef, ReactNode, MouseEvent} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import {ButtonProps} from "./content/Button";
 import './IconButton.scss'
 import c from 'classnames'
-import Wrapper, {WrapperProps} from "./Wrapper";
+import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";
 
 export interface IconButtonProps extends ButtonProps, WrapperProps {
   children?: ReactNode
@@ -10,7 +10,11 @@ export interface IconButtonProps extends ButtonProps, WrapperProps {
   selected?: boolean
 }
 
-const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
+export interface IconButtonHandle extends WrapperHandle {
+
+}
+
+const IconButton = forwardRef<IconButtonHandle, IconButtonProps>((props, ref) => {
   const {
     children,
     className,
@@ -19,7 +23,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
   } = props
 
   return (
-    <Wrapper className={c('nd-icon-button', className)} icon={children || icon} {...rest}></Wrapper>
+    <Wrapper ref={ref} className={c('nd-icon-button', className)} icon={children || icon} {...rest}></Wrapper>
   )
 })
 

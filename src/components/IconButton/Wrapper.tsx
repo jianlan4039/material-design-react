@@ -1,4 +1,13 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent,
+  useImperativeHandle
+} from 'react'
 import Elevation from "../Elevation";
 import c from 'classnames'
 import useRipple from "../Ripple/useRipple";
@@ -14,7 +23,12 @@ export interface WrapperProps extends HTMLAttributes<HTMLButtonElement> {
   selectedIcon?: ReactNode
 }
 
-const Wrapper = forwardRef<HTMLButtonElement, WrapperProps>((props, ref) => {
+export interface WrapperHandle {
+  wrapper?: HTMLDivElement | null
+  button?: HTMLButtonElement | null
+}
+
+const Wrapper = forwardRef<WrapperHandle, WrapperProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -25,11 +39,13 @@ const Wrapper = forwardRef<HTMLButtonElement, WrapperProps>((props, ref) => {
     selectedIcon,
     onFocus,
     onBlur,
+    onClick,
     ...rest
   } = props
 
   const [selected, setSelected] = useState<boolean>(Boolean(_selected))
   const button = useRef<HTMLButtonElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
   const [parent, setParent] = useState<HTMLButtonElement>()
 
   const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur})
@@ -45,8 +61,14 @@ const Wrapper = forwardRef<HTMLButtonElement, WrapperProps>((props, ref) => {
     setSelected(Boolean(_selected))
   }, [_selected]);
 
-  const clickHandler = () => {
+  useImperativeHandle(ref, () => ({
+    button: button.current,
+    wrapper: wrapper.current
+  }))
+
+  const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     if (disabled) return;
+    onClick?.(e)
     if (toggled) {
       setSelected(!selected)
     }

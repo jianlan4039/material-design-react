@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode} from 'react'
 import {ButtonProps} from "./content/Button";
 import './OutlinedIconButton.scss'
 import Outline from "../Outline/Outline";
-import Wrapper, {WrapperProps} from "./Wrapper";
+import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";
 import classNames from "classnames";
 
 export interface OutlinedIconButtonProps extends ButtonProps, WrapperProps {
@@ -11,7 +11,11 @@ export interface OutlinedIconButtonProps extends ButtonProps, WrapperProps {
   selected?: boolean
 }
 
-const OutlinedIconButton = forwardRef<HTMLButtonElement, OutlinedIconButtonProps>((props, ref) => {
+export interface OutlinedIconButtonHandle extends WrapperHandle {
+
+}
+
+const OutlinedIconButton = forwardRef<OutlinedIconButtonHandle, OutlinedIconButtonProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -22,6 +26,7 @@ const OutlinedIconButton = forwardRef<HTMLButtonElement, OutlinedIconButtonProps
 
   return (
     <Wrapper
+      ref={ref}
       className={classNames('nd-outlined-icon-button', className)}
       icon={children || icon}
       disabled={disabled}
