@@ -1,14 +1,13 @@
-import React, {forwardRef, useState} from 'react'
+import React, {forwardRef, useState, MouseEvent} from 'react'
 import Field, {FieldProps} from "./internal/Field";
-import withStateLayer from "../StateLayer";
 import './FilledField.scss'
 import c from 'classnames'
-import {StateElement} from "../internal/common/StateElement";
+import useRipple from "../Ripple/useRipple";
 
-export interface FilledFieldProps extends FieldProps, StateElement {
+export interface FilledFieldProps extends FieldProps {
 }
 
-const FilledField = withStateLayer(forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledFieldProps, ref) => {
+const FilledField = forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledFieldProps, ref) => {
   const {
     children,
     label,
@@ -16,23 +15,23 @@ const FilledField = withStateLayer(forwardRef<HTMLDivElement, FilledFieldProps>(
     focus,
     disabled,
     error,
-    stateLayer,
     ...rest
   } = props
 
   const [hover, setHover] = useState<boolean>(false)
 
-  const mouseOverHandler = () => {
-    if (disabled) {
-      return
-    }
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({
+    onMouseOver: mouseOverHandler,
+    onMouseOut: mouseOutHandler,
+  })
+
+  function mouseOverHandler(e: MouseEvent<HTMLDivElement>) {
+    if (disabled) return;
     setHover(true)
   }
 
-  const mouseOutHandler = () => {
-    if (disabled) {
-      return
-    }
+  function mouseOutHandler(e: MouseEvent<HTMLDivElement>) {
+    if (disabled) return;
     setHover(false)
   }
 
@@ -46,16 +45,15 @@ const FilledField = withStateLayer(forwardRef<HTMLDivElement, FilledFieldProps>(
         'error': error,
         'disabled': disabled
       })}
-      onMouseOver={mouseOverHandler}
-      onMouseOut={mouseOutHandler}
+      {...rippleProps}
     >
-      {stateLayer}
+      {ripple}
       <div className={c('nd-filled-field__indicator', {'active': focus})}></div>
       <Field label={label} {...rest}>
         {children}
       </Field>
     </div>
   )
-}))
+})
 
 export default FilledField
