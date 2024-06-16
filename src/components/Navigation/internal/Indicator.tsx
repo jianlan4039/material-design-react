@@ -1,24 +1,32 @@
 import React, {forwardRef, HTMLAttributes, ReactNode} from 'react'
 import './Indicator.scss'
 import c from 'classnames'
-import withStateLayer from "../../StateLayer";
-import {StateElement} from "../../internal/common/StateElement";
+import useRipple from "../../Ripple/useRipple";
 
-export interface IndicatorProps extends HTMLAttributes<HTMLDivElement>, StateElement {
+export interface IndicatorProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   animating?: boolean
   active?: boolean
 }
 
-const Indicator = withStateLayer<HTMLDivElement, IndicatorProps>(forwardRef<HTMLDivElement, IndicatorProps>((props, ref) => {
+const Indicator = forwardRef<HTMLDivElement, IndicatorProps>((props, ref) => {
   const {
     children,
     animating,
     className,
     active,
-    stateLayer,
+    onMouseDown,
+    onMouseUp,
+    onMouseOver,
+    onMouseOut,
+    onTouchStart,
+    onTouchEnd,
     ...rest
   } = props
+
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({
+    onMouseDown, onMouseUp, onMouseOver, onMouseOut, onTouchStart, onTouchEnd
+  })
 
   return (
     <div
@@ -27,11 +35,12 @@ const Indicator = withStateLayer<HTMLDivElement, IndicatorProps>(forwardRef<HTML
         'animating': animating,
         'active': active
       })}
+      {...rippleProps}
       {...rest}
     >
-      {stateLayer}
+      {ripple}
     </div>
   )
-}))
+})
 
 export default Indicator;

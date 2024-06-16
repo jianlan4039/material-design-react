@@ -10,10 +10,9 @@ import React, {
 import LinearSectionContainer from "../Container/LinearSectionContainer/LinearSectionContainer";
 import './ListItem.scss'
 import c from 'classnames'
-import withStateLayer from "../StateLayer";
-import {StateElement} from "../internal/common/StateElement";
+import useRipple from "../Ripple/useRipple";
 
-export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement>, StateElement {
+export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
   label?: string
   supportingText?: string
   disabled?: boolean
@@ -28,7 +27,7 @@ export interface ListItemHandle extends HTMLAttributes<HTMLLIElement> {
   body?: HTMLDivElement | null
 }
 
-const ListItem = withStateLayer<ListItemHandle, ListItemProps>(forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
+const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   const {
     children,
     start,
@@ -39,13 +38,22 @@ const ListItem = withStateLayer<ListItemHandle, ListItemProps>(forwardRef<ListIt
     url,
     interactive = true,
     className,
-    stateLayer,
+    onMouseOver,
+    onMouseOut,
+    onMouseDown,
+    onMouseUp,
+    onTouchStart,
+    onTouchEnd,
     ...rest
   } = props
 
   const rootRef = useRef<HTMLLIElement>(null);
   const contentRef = useRef<HTMLDivElement>(null)
   const [isTopLayout, setIsTopLayout] = useState<boolean>(false)
+
+  const [rippleProps, ripple] = useRipple<HTMLLIElement>({
+    onMouseOver, onMouseOut, onMouseDown, onMouseUp, onTouchStart, onTouchEnd
+  })
 
   useImperativeHandle(ref, () => ({
     root: rootRef.current,
@@ -70,9 +78,10 @@ const ListItem = withStateLayer<ListItemHandle, ListItemProps>(forwardRef<ListIt
         'top-layout': isTopLayout,
         'disabled': disabled
       })}
+      {...rippleProps}
       {...rest}
     >
-      {interactive && stateLayer}
+      {interactive && ripple}
       <LinearSectionContainer
         ref={contentRef}
         start={start}
@@ -84,6 +93,6 @@ const ListItem = withStateLayer<ListItemHandle, ListItemProps>(forwardRef<ListIt
       {children}
     </li>
   )
-}))
+})
 
 export default ListItem
