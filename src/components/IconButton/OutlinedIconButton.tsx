@@ -1,34 +1,35 @@
 import React, {forwardRef, ReactNode} from 'react'
-import Button, {ButtonProps} from "./content/Button";
+import {ButtonProps} from "./content/Button";
 import './OutlinedIconButton.scss'
 import Outline from "../Outline/Outline";
-import IconButtonContainer from "./IconButtonContainer";
-import withFocusRing from "../Focus";
+import Wrapper, {WrapperProps} from "./Wrapper";
+import classNames from "classnames";
 
-export interface OutlinedIconButtonProps extends ButtonProps {
+export interface OutlinedIconButtonProps extends ButtonProps, WrapperProps {
   children?: ReactNode
   toggled?: boolean
   selected?: boolean
 }
 
-const OutlinedIconButton = withFocusRing(forwardRef<HTMLButtonElement, OutlinedIconButtonProps>((props, ref) => {
+const OutlinedIconButton = forwardRef<HTMLButtonElement, OutlinedIconButtonProps>((props, ref) => {
   const {
     children,
     disabled,
-    selected,
-    toggled,
-    focusRing,
+    className,
+    icon,
     ...rest
   } = props
 
   return (
-    <IconButtonContainer className={'nd-outlined-icon-button'} toggled={toggled} selected={selected} focusRing={focusRing}>
+    <Wrapper
+      className={classNames('nd-outlined-icon-button', className)}
+      icon={children || icon}
+      disabled={disabled}
+      {...rest}
+    >
       <Outline disabled={disabled}></Outline>
-      <Button ref={ref} disabled={disabled} {...rest}>
-        {children}
-      </Button>
-    </IconButtonContainer>
+    </Wrapper>
   )
-}))
+})
 
 export default OutlinedIconButton

@@ -13,19 +13,19 @@ $support-tokens: (
   & {
     &:hover {
       @include shared.theme((
-        color: var(--_hover-icon-color)
+        icon-color: var(--_hover-icon-color)
       ));
     }
 
     &:focus {
       @include shared.theme((
-        color: var(--_focus-icon-color)
+        icon-color: var(--_focus-icon-color)
       ));
     }
 
     &:active {
       @include shared.theme((
-        color: var(--_pressed-icon-color)
+        icon-color: var(--_pressed-icon-color)
       ));
     }
 
@@ -35,7 +35,7 @@ $support-tokens: (
         opacity: var(--_disabled-container-opacity)
       ));
       @include shared.theme((
-        color: var(--_disabled-icon-color),
+        icon-color: var(--_disabled-icon-color),
         opacity: var(--_disabled-icon-opacity)
       ));
       cursor: auto;

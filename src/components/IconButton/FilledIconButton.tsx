@@ -1,32 +1,30 @@
 import React, {forwardRef, ReactNode} from 'react'
-import Button, {ButtonProps} from "./content/Button";
-import IconButtonContainer from "./IconButtonContainer";
-import './FilledIconButton.scss'
-import withFocusRing from "../Focus";
+import {ButtonProps} from "./content/Button";
+import Wrapper, {WrapperProps} from "./Wrapper";
+import classNames from "classnames";
+import './FilledIconButton.scss';
 
-export interface FilledIconButtonProps extends ButtonProps {
+export interface FilledIconButtonProps extends ButtonProps, WrapperProps {
   children?: ReactNode
   toggled?: boolean
   selected?: boolean
 }
 
-const FilledIconButton = withFocusRing(forwardRef<HTMLButtonElement, FilledIconButtonProps>((props, ref) => {
+const FilledIconButton = forwardRef<HTMLButtonElement, FilledIconButtonProps>((props, ref) => {
   const {
     children,
-    disabled,
-    toggled,
-    selected,
-    focusRing,
+    className,
+    icon,
     ...rest
   } = props
 
   return (
-    <IconButtonContainer className={'nd-filled-icon-button'} toggled={toggled} selected={selected} focusRing={focusRing}>
-      <Button ref={ref} disabled={disabled} {...rest}>
-        {children}
-      </Button>
-    </IconButtonContainer>
+    <Wrapper
+      className={classNames('nd-filled-icon-button', className)}
+      icon={children || icon}
+      {...rest}
+    ></Wrapper>
   )
-}))
+})
 
 export default FilledIconButton

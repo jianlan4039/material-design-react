@@ -1,17 +1,16 @@
 import React, {HTMLAttributes, useContext, useRef} from "react";
-import {StateElement} from "../../internal/common/StateElement";
-import withStateLayer from "../../StateLayer";
 import {SelectionContext} from "../../internal/context/SelectionContext";
 import c from 'classnames'
+import useRipple from "../../Ripple/useRipple";
 
-export interface IMonthViewDateProps extends StateElement, HTMLAttributes<HTMLDivElement> {
+export interface IMonthViewDateProps extends HTMLAttributes<HTMLDivElement> {
   date?: number | null
   isToday?: boolean
   year?: number
   month?: number // 注意，月份是从1开始的（1代表一月）
 }
 
-const MonthViewDate: React.FC<IMonthViewDateProps> = withStateLayer<HTMLDivElement, IMonthViewDateProps>((
+const MonthViewDate: React.FC<IMonthViewDateProps> = (
   {
     date,
     year,
@@ -20,10 +19,16 @@ const MonthViewDate: React.FC<IMonthViewDateProps> = withStateLayer<HTMLDivEleme
     onMouseOut,
     onMouseDown,
     onMouseUp,
-    stateLayer,
+    onTouchStart,
+    onTouchEnd,
     isToday,
   }
 ) => {
+
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({
+    onMouseOver, onMouseOut, onMouseDown, onMouseUp, onTouchStart, onTouchEnd
+  })
+
   const now = new Date()
   const {setList, list} = useContext(SelectionContext)
   const selectedDate = useRef<number>(new Date(
@@ -45,16 +50,13 @@ const MonthViewDate: React.FC<IMonthViewDateProps> = withStateLayer<HTMLDivEleme
         'blank': !date,
         'today': isToday
       })}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
       onClick={clickHandler}
+      {...rippleProps}
     >
-      {date && stateLayer}
+      {date && ripple}
       {date || ''}
     </div>
   )
-})
+}
 
 export default MonthViewDate

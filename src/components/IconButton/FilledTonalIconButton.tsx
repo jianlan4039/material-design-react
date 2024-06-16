@@ -1,32 +1,24 @@
 import React, {forwardRef, ReactNode} from 'react'
-import Button, {ButtonProps} from "./content/Button";
+import {ButtonProps} from "./content/Button";
 import './FilledTonalIconButton.scss'
-import IconButtonContainer from "./IconButtonContainer";
-import withFocusRing from "../Focus";
+import classNames from "classnames";
+import Wrapper, {WrapperProps} from "./Wrapper";
 
-export interface FilledTonalIconButtonProps extends ButtonProps {
+export interface FilledTonalIconButtonProps extends ButtonProps, WrapperProps{
   children?: ReactNode
-  toggled?: boolean
-  selected?: boolean
 }
 
-const FilledTonalIconButton = withFocusRing(forwardRef<HTMLButtonElement, FilledTonalIconButtonProps>((props, ref) => {
+const FilledTonalIconButton = forwardRef<HTMLButtonElement, FilledTonalIconButtonProps>((props, ref) => {
   const {
     children,
-    disabled,
-    toggled,
-    selected,
-    focusRing,
+    className,
+    icon,
     ...rest
   } = props
 
   return (
-    <IconButtonContainer className={'nd-filled-tonal-icon-button'} toggled={toggled} selected={selected} focusRing={focusRing}>
-      <Button ref={ref} {...rest}>
-        {children}
-      </Button>
-    </IconButtonContainer>
+    <Wrapper className={classNames('nd-filled-tonal-icon-button', className)} icon={children || icon} {...rest}></Wrapper>
   )
-}))
+})
 
 export default FilledTonalIconButton

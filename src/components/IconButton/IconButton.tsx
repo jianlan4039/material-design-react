@@ -1,66 +1,26 @@
 import React, {forwardRef, ReactNode, MouseEvent} from 'react'
-import Button, {ButtonProps} from "./content/Button";
+import {ButtonProps} from "./content/Button";
 import './IconButton.scss'
 import c from 'classnames'
-import IconButtonContainer from "./IconButtonContainer";
-import withFocusRing from "../Focus";
+import Wrapper, {WrapperProps} from "./Wrapper";
 
-export interface IconButtonProps extends ButtonProps {
+export interface IconButtonProps extends ButtonProps, WrapperProps {
   children?: ReactNode
   toggled?: boolean
   selected?: boolean
 }
 
-const IconButton = withFocusRing(forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
+const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
   const {
     children,
-    disabled,
-    toggled,
-    selected,
     className,
-    onMouseOver,
-    onMouseOut,
-    onMouseDown,
-    onMouseUp,
-    focusRing,
+    icon,
     ...rest
   } = props
 
-  const mouseOutHandler = (e: MouseEvent<HTMLDivElement>) => {
-    onMouseOut?.(e as unknown as MouseEvent<HTMLButtonElement>)
-  };
-
-  const mouseOverHandler = (e: MouseEvent) => {
-    onMouseOver?.(e as unknown as MouseEvent<HTMLButtonElement>)
-  };
-
-  const mouseDownHandler = (e: MouseEvent) => {
-    onMouseDown?.(e as unknown as MouseEvent<HTMLButtonElement>)
-  };
-
-  const mouseUpHandler = (e: MouseEvent) => {
-    onMouseUp?.(e as unknown as MouseEvent<HTMLButtonElement>)
-  };
-
   return (
-    <IconButtonContainer
-      className={c('nd-icon-button', className, {
-        'disabled': disabled
-      })}
-      toggled={toggled}
-      selected={selected}
-      disabled={disabled}
-      onMouseUp={mouseUpHandler}
-      onMouseDown={mouseDownHandler}
-      onMouseOver={mouseOverHandler}
-      onMouseOut={mouseOutHandler}
-      focusRing={focusRing}
-    >
-      <Button ref={ref} disabled={disabled} {...rest}>
-        {children}
-      </Button>
-    </IconButtonContainer>
+    <Wrapper className={c('nd-icon-button', className)} icon={children || icon} {...rest}></Wrapper>
   )
-}))
+})
 
 export default IconButton

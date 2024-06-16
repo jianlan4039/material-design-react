@@ -1,13 +1,12 @@
 import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState, MouseEvent, HTMLProps} from 'react'
-import TextButton from "../Button/TextButton";
+import TextButton, {TextButtonHandle} from "../Button/TextButton";
 import './Snackbar.scss'
 import c from 'classnames'
-import withStateLayer from "../StateLayer";
-import {StateElement} from "../internal/common/StateElement";
 import IconButton from "../IconButton/IconButton";
 import {EASING, DURATION} from "../internal/motion/animation";
+import useRipple from "../Ripple/useRipple";
 
-export interface SnackbarProps extends StateElement, HTMLAttributes<HTMLDivElement> {
+export interface SnackbarProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   supportingText?: string
   label?: string
@@ -22,18 +21,18 @@ export interface SnackbarHandle extends HTMLProps<HTMLDivElement> {
   root?: ReactNode
 }
 
-const Snackbar = withStateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDivElement, SnackbarProps>((props, ref) => {
+const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>((props, ref) => {
   const {
-    children,
     supportingText,
     label,
     closeable,
     icon,
-    stateLayer,
     onMouseDown,
     onMouseUp,
     onMouseOut,
     onMouseOver,
+    onTouchStart,
+    onTouchEnd,
     className,
     style,
     offsetY = 60,
@@ -41,7 +40,7 @@ const Snackbar = withStateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDi
     quick,
   } = props
 
-  const actionRef = useRef<HTMLButtonElement>(null);
+  const actionRef = useRef<TextButtonHandle>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const animationBuffer = useRef<Animation[]>([])
 
@@ -49,9 +48,13 @@ const Snackbar = withStateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDi
   const [isVisible, setIsVisible] = useState<boolean | undefined>()
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
 
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({
+    onMouseOver, onMouseOut, onMouseDown, onMouseUp, onTouchStart, onTouchEnd
+  })
+
   useEffect(() => {
-    if (rootRef.current && actionRef.current) {
-      setIsActionWrapped(actionRef.current.getBoundingClientRect().width > 100)
+    if (rootRef.current && actionRef.current?.button) {
+      setIsActionWrapped(actionRef.current.button?.getBoundingClientRect().width > 100)
       setIsVisible(false)
     }
   }, [rootRef, actionRef]);
@@ -144,13 +147,10 @@ const Snackbar = withStateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDi
         'action-wrapped': isActionWrapped,
         'visible': isVisible === true
       })}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
       style={{insetBlockEnd: `${offsetY}px`, ...style}}
+      {...rippleProps}
     >
-      {stateLayer}
+      {ripple}
       <div className={'supporting-text-container'}>
         <div className={'supporting-text'}>{supportingText}</div>
       </div>
@@ -189,6 +189,6 @@ const Snackbar = withStateLayer<HTMLDivElement, SnackbarProps>(forwardRef<HTMLDi
       }
     </div>
   )
-}))
+})
 
 export default Snackbar;

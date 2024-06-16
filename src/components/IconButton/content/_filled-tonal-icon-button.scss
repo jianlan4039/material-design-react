@@ -3,14 +3,14 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-filled-tonal-icon-button";
 @use "../../builder/background";
-@use "../../StateLayer/internal/state-layer";
+@use "../../Ripple/internal/ripple";
 @use "./state";
 
 $tokens: md-comp-filled-tonal-icon-button.values();
 
 @mixin styles(){
   @include tokens-builder.tokens($tokens, icon-button);
-  @include state-layer.theme((
+  @include ripple.theme((
     hover-color: var(--_hover-state-layer-color),
     pressed-color: var(--_pressed-state-layer-color)
   ));
