@@ -1,11 +1,20 @@
-import React, {ChangeEvent, forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
-import {StateElement} from "../internal/common/StateElement";
-import withStateLayer from "../StateLayer";
+import React, {
+  ChangeEvent,
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from 'react'
 import Outline from "../Outline/Outline";
 import c from 'classnames'
 import './Switch.scss'
+import useRipple from "../Ripple/useRipple";
+import useFocusRing from "../Focus/useFocusRing";
 
-export interface SwitchProps extends StateElement, HTMLAttributes<HTMLInputElement> {
+export interface SwitchProps extends HTMLAttributes<HTMLInputElement> {
   children?: ReactNode
   checked?: boolean
   icon?: ReactNode
@@ -13,10 +22,13 @@ export interface SwitchProps extends StateElement, HTMLAttributes<HTMLInputEleme
   disabled?: boolean
 }
 
-const Switch = withStateLayer<HTMLElement, SwitchProps>(forwardRef<HTMLDivElement, SwitchProps>((props, ref) => {
+export interface SwitchHandle {
+  switcher?: HTMLInputElement | null
+}
+
+const Switch = forwardRef<SwitchHandle, SwitchProps>((props, ref) => {
   const {
     children,
-    stateLayer,
     onMouseOver,
     onMouseOut,
     onMouseDown,
@@ -26,44 +38,65 @@ const Switch = withStateLayer<HTMLElement, SwitchProps>(forwardRef<HTMLDivElemen
     icon,
     uncheckedIcon,
     disabled,
-
+    onBlur,
+    onFocus,
+    ...rest
   } = props
 
   const [checked, setChecked] = useState<boolean>(Boolean(_checked))
   const handleRef = useRef<HTMLDivElement>(null);
 
-  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setChecked(Boolean(e.target.checked))
-  }
+  const switcher = useRef<HTMLInputElement>(null);
+  const [parent, setParent] = useState<HTMLInputElement>()
+
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+  const [focusRingProps, focusRing] = useFocusRing<HTMLInputElement>({parent, onFocus, onBlur})
+
+  useEffect(() => {
+    if (switcher.current) {
+      setParent(switcher.current)
+    }
+  }, [switcher]);
+
+  useImperativeHandle(ref, () => ({
+    switcher: switcher.current
+  }))
 
   useEffect(() => {
     setChecked(Boolean(_checked))
   }, [_checked]);
 
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return;
+    setChecked(Boolean(e.target.checked))
+  }
+
   return (
     <div
-      ref={ref}
       className={c('switch', {
         'switch--checked': checked,
         'switch--unchecked': !checked,
         'switch--disabled': disabled
       })}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
+      {...rippleProps}
     >
       <Outline></Outline>
+      {focusRing}
       <input
+        ref={switcher}
         id={id}
         className={'switch__checkbox'}
         checked={checked}
-        disabled={disabled}
+        aria-disabled={disabled}
         type="checkbox"
         onChange={changeHandler}
+        {...focusRingProps}
+        {...rest}
       />
       <div className={'switch__handle-container'}>
-        {!disabled && <div className={'switch__handle__state'}>{stateLayer}</div>}
+        {!disabled && <div className={'switch__handle__state'}>
+          {ripple}
+        </div>}
         <span
           ref={handleRef}
           className={c('switch__handle', {
@@ -76,6 +109,6 @@ const Switch = withStateLayer<HTMLElement, SwitchProps>(forwardRef<HTMLDivElemen
       </div>
     </div>
   )
-}))
+})
 
 export default Switch;

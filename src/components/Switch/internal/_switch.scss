@@ -3,7 +3,7 @@
 @use "../../tokens/md-comp-switch";
 @use "../../Outline/internal/outline";
 @use "../../tokens/md-sys-motion";
-@use "../../StateLayer/internal/state-layer";
+@use "../../Ripple/internal/ripple";
 
 $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 
@@ -14,11 +14,11 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 @mixin styles() {
   .switch {
     @include tokens-builder.tokens(md-comp-switch.values(), switch);
-    @include state-layer.theme((
-      hover-color: var(--_hover-state-layer-color),
-      pressed-color: var(--_pressed-state-layer-color),
-      hover-opacity: var(--_hover-state-layer-opacity),
-      pressed-opacity: var(--_pressed-state-layer-opacity)
+    @include ripple.theme((
+      hover-color: var(--_hover-ripple-color),
+      pressed-color: var(--_pressed-ripple-color),
+      hover-opacity: var(--_hover-ripple-opacity),
+      pressed-opacity: var(--_pressed-ripple-opacity)
     ));
     @include outline.theme((
       width: var(--_track-outline-width),
@@ -67,9 +67,9 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 
       .switch__handle__state {
         position: absolute;
-        block-size: var(--_state-layer-size);
-        inline-size: var(--_state-layer-size);
-        border-radius: var(--_state-layer-shape);
+        block-size: var(--_ripple-size);
+        inline-size: var(--_ripple-size);
+        border-radius: var(--_ripple-shape);
       }
 
       .switch__handle {

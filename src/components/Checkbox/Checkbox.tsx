@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import CheckboxContent, {CheckboxContentProps, setState as _setState} from "./internal/CheckboxContent";
 import './Checkbox.scss'
 import cln from "classnames";
@@ -9,7 +9,11 @@ export interface CheckboxProps extends CheckboxContentProps {
   children?: ReactNode
 }
 
-const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props: CheckboxProps, ref) => {
+export interface CheckboxHandle {
+  checkbox?: HTMLInputElement | null
+}
+
+const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps, ref) => {
   const {
     children,
     checked: _chk = false,
@@ -33,6 +37,10 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props: CheckboxPro
       setParent(checkbox.current)
     }
   }, [checkbox]);
+
+  useImperativeHandle(ref, () => ({
+    checkbox: checkbox.current
+  }))
 
   const clickHandler = () => {
     if (state === 2) {
