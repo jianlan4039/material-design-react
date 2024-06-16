@@ -1,4 +1,4 @@
-import React, {CSSProperties, forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
 import './Tabs.scss'
 import Divider from "../Divider/Divider";
 import {CurrentIndicator, IndicatorRectContext} from "../internal/context/indicator";

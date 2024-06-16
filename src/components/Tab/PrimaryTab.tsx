@@ -10,13 +10,11 @@ import React, {
   useId
 } from 'react'
 import './PrimaryTab.scss'
-import withStateLayer from "../StateLayer";
-import {StateElement} from "../internal/common/StateElement";
-import FocusRing from "../Focus/FocusRing";
 import {IndicatorRectContext} from "../internal/context/indicator";
 import {EASING} from "../internal/motion/animation";
+import useRipple from "../Ripple/useRipple";
 
-export interface PrimaryTabProps extends StateElement, HTMLAttributes<HTMLDivElement> {
+export interface PrimaryTabProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   icon?: ReactNode
   text?: string
@@ -24,15 +22,20 @@ export interface PrimaryTabProps extends StateElement, HTMLAttributes<HTMLDivEle
   inline?: boolean
 }
 
-const PrimaryTab = withStateLayer<HTMLDivElement, PrimaryTabProps>(forwardRef<HTMLDivElement, PrimaryTabProps>((props, ref) => {
+const PrimaryTab = forwardRef<HTMLDivElement, PrimaryTabProps>((props, ref) => {
   const {
     children,
-    stateLayer,
     icon,
     text,
     active,
     inline,
     onClick,
+    onMouseOver,
+    onMouseOut,
+    onMouseUp,
+    onMouseDown,
+    onTouchStart,
+    onTouchEnd,
     ...rest
   } = props
 
@@ -42,8 +45,12 @@ const PrimaryTab = withStateLayer<HTMLDivElement, PrimaryTabProps>(forwardRef<HT
 
   const indicator = useRef<HTMLSpanElement>(null);
 
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({
+    onMouseOver, onMouseOut, onMouseDown, onMouseUp, onTouchStart, onTouchEnd
+  })
+
   const animateIndicating = () => {
-    if (!indicator.current || !last) {
+    if (!indicator.current || !last?.rect) {
       return
     }
     const {left: translateFrom, width: scaleFrom} = last.rect
@@ -93,10 +100,10 @@ const PrimaryTab = withStateLayer<HTMLDivElement, PrimaryTabProps>(forwardRef<HT
       ref={ref}
       className={`tab primary-tab ${isActive && 'primary-tab--active'} ${icon && 'tab--with-icon'}`}
       onClick={clickHandler}
+      {...rippleProps}
       {...rest}
     >
-      <FocusRing></FocusRing>
-      {stateLayer}
+      {ripple}
       <div className={`tab__presentation ${inline && 'tab__presentation--inline'}`}>
         {icon && <div className={'tab__presentation__icon'}>{icon}</div>}
         {text && <div className={'tab__presentation__text'}>{text}</div>}
@@ -106,6 +113,6 @@ const PrimaryTab = withStateLayer<HTMLDivElement, PrimaryTabProps>(forwardRef<HT
       </div>
     </div>
   )
-}))
+})
 
 export default PrimaryTab;
