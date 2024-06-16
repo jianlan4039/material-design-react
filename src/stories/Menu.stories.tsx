@@ -1,10 +1,8 @@
 import {Meta, StoryObj} from "@storybook/react";
 import React, {useEffect, useRef, useState} from "react";
 import Menu from "../components/Menu/Menu";
-import {Option, OptionValue} from "../components/Menu/internal/menuTypes";
-import ElevatedButton from "../components/Button/ElevatedButton";
-import {FilledIcon} from "../icons";
-import {FocusRingHandle} from "../components/Focus";
+import {OptionValue} from "../components/Menu/internal/menuTypes";
+import ElevatedButton, {ElevatedButtonHandle} from "../components/Button/ElevatedButton";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
@@ -39,7 +37,7 @@ export const Default: Story = {
     ]
 
     const [open, setOpen] = useState(false)
-    const btnRef = useRef<HTMLButtonElement>(null);
+    const btnRef = useRef<ElevatedButtonHandle>(null);
     const [anchor, setAnchor] = useState<HTMLElement>()
 
     const clickHandler = () => {
@@ -55,8 +53,8 @@ export const Default: Story = {
     }
 
     useEffect(() => {
-      if ( btnRef.current) {
-        setAnchor(btnRef.current)
+      if (btnRef.current?.button) {
+        setAnchor(btnRef.current.button)
       }
     }, [btnRef]);
 

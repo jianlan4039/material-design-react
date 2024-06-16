@@ -2,14 +2,14 @@
 @use "../builder/tokens-builder";
 @use "../builder/background";
 @use "../tokens/md-comp-checkbox";
-@use "../StateLayer/internal/state-layer";
+@use "../Ripple/internal/ripple";
 
 $tokens: md-comp-checkbox.values();
 $supported-tokens: md-comp-checkbox.$supported-tokens;
 
 .nd-checkbox {
   @include tokens-builder.tokens($tokens, checkbox);
-  @include state-layer.theme((
+  @include ripple.theme((
     hover-color: var(--_hover-state-layer-color),
     pressed-color: var(--_pressed-state-layer-color)
   ));
@@ -54,14 +54,14 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
   }
 
   &.nd-selected {
-    @include state-layer.theme((
+    @include ripple.theme((
       hover-color: var(--_selected-hover-state-layer-color),
       pressed-color: var(--_selected-pressed-state-layer-color)
     ))
   }
 
   &.nd-error {
-    @include state-layer.theme((
+    @include ripple.theme((
       hover-color: var(--_error-hover-state-layer-color),
       pressed-color: var(--_error-pressed-state-layer-color)
     ));
@@ -71,7 +71,7 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
     }
 
     &.nd-selected {
-      @include state-layer.theme((
+      @include ripple.theme((
         hover-color: var(--_error-hover-state-layer-color),
         pressed-color: var(--_error-pressed-state-layer-color)
       ));

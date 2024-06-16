@@ -1,4 +1,4 @@
-@use "../../StateLayer/internal/state-layer";
+@use "../../Ripple/internal/ripple";
 @use "../../builder/background";
 
 @mixin theme($tokens) {
@@ -15,7 +15,7 @@
 
 
     .date:not(.blank) {
-      @include state-layer.theme((
+      @include ripple.theme((
         hover-color: var(--_date-unselected-hover-state-layer-color),
         pressed-color: var(--_date-unselected-pressed-state-layer-color)
       ));
@@ -35,7 +35,7 @@
       box-sizing: border-box;
 
       &.selected:not(.blank) {
-        @include state-layer.theme((
+        @include ripple.theme((
           hover-color: var(--_date-selected-hover-state-layer-color),
           pressed-color: var(--_date-selected-pressed-state-layer-color)
         ));

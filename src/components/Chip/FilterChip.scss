@@ -2,7 +2,7 @@
 @use "../tokens/md-comp-filter-chip";
 @use "../builder/tokens-builder";
 @use "../builder/background";
-@use "../StateLayer/internal/state-layer";
+@use "../Ripple/internal/ripple";
 
 $tokens: md-comp-filter-chip.values();
 $supported-tokens: md-comp-filter-chip.$supported-tokens;
@@ -20,7 +20,7 @@ $supported-tokens: md-comp-filter-chip.$supported-tokens;
     @include background.theme((
       color: var(--_selected-container-color)
     ));
-    @include state-layer.theme((
+    @include ripple.theme((
       hover-color: var(--_selected-hover-state-layer-color),
       pressed-color: var(--_selected-pressed-state-layer-color)
     ));

@@ -3,7 +3,7 @@
 @use "../../tokens/_nd-comp-snackbar";
 @use "../../Elevation/internal/elevation";
 @use "../../builder/background";
-@use "../../StateLayer/internal/state-layer";
+@use "../../Ripple/internal/ripple";
 @use "../../Button/internal/text-button";
 @use "../../IconButton/content/icon-button";
 
@@ -21,7 +21,7 @@
     @include background.theme((
       color: var(--_container-color)
     ));
-    @include state-layer.theme((
+    @include ripple.theme((
       hover-color: var(--_hover-state-layer-color),
       hover-opacity: var(--_hover-state-layer-opacity),
       pressed-color: var(--_pressed-state-layer-color),

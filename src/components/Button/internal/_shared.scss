@@ -1,5 +1,5 @@
 @use "../../builder/background";
-@use "../../StateLayer/internal/state-layer";
+@use "../../Ripple/internal/ripple";
 @use "../../Elevation/internal/elevation";
 
 @mixin styles() {
@@ -7,7 +7,7 @@
   @include elevation.theme((
     level: var(--_container-elevation)
   ));
-  @include state-layer.theme((
+  @include ripple.theme((
     hover-color: var(--_hover-state-layer-color),
     pressed-color: var(--_pressed-state-layer-color)
   ));

@@ -5,16 +5,15 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
-  useId,
+  useId, useImperativeHandle,
   useRef,
   useState
 } from 'react'
 import {IndicatorRectContext} from "../internal/context/indicator";
 import {EASING} from "../internal/motion/animation";
-import {StateElement} from "../internal/common/StateElement";
-import FocusRing from "../Focus/FocusRing";
 import './SecondaryTab.scss'
 import useRipple from "../Ripple/useRipple";
+import useFocusRing from "../Focus/useFocusRing";
 
 export interface SecondaryTabProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
@@ -24,7 +23,11 @@ export interface SecondaryTabProps extends HTMLAttributes<HTMLDivElement> {
   active?: boolean
 }
 
-const SecondaryTab = forwardRef<HTMLDivElement, SecondaryTabProps>((props, ref) => {
+export interface SecondaryTabHandle {
+  tab?: HTMLDivElement | null
+}
+
+const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, ref) => {
   const {
     children,
     icon,
@@ -38,6 +41,8 @@ const SecondaryTab = forwardRef<HTMLDivElement, SecondaryTabProps>((props, ref) 
     onMouseUp,
     onTouchStart,
     onTouchEnd,
+    onBlur,
+    onFocus,
     ...rest
   } = props
 
@@ -45,10 +50,42 @@ const SecondaryTab = forwardRef<HTMLDivElement, SecondaryTabProps>((props, ref) 
   const {current, last, setCurrent, init} = useContext(IndicatorRectContext)
   const [isActive, setIsActive] = useState<boolean>(false)
   const indicator = useRef<HTMLSpanElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [parent, setParent] = useState<HTMLDivElement>()
 
   const [rippleProps, ripple] = useRipple<HTMLDivElement>({
     onMouseOver, onMouseOut, onMouseDown, onMouseUp, onTouchStart, onTouchEnd
   })
+  const [focusRingProps, focusRing] = useFocusRing<HTMLDivElement>({parent, onFocus, onBlur})
+
+  /**
+   * For the first child of tabs, active the first tab
+   */
+  useEffect(() => {
+    if (indicator.current) {
+      init?.({rect: indicator.current.getBoundingClientRect(), id: id}, active)
+    }
+  }, [indicator])
+
+  useEffect(() => {
+    if (wrapperRef.current) {
+      setParent(wrapperRef.current)
+    }
+  }, [wrapperRef]);
+
+  useEffect(() => {
+    setIsActive(current?.id === id)
+  }, [current]);
+
+  useEffect(() => {
+    if (isActive) {
+      animateIndicating()
+    }
+  }, [isActive]);
+
+  useImperativeHandle(ref, () => ({
+    tab: wrapperRef.current
+  }))
 
   const animateIndicating = () => {
     if (!indicator.current || !last?.rect) {
@@ -76,34 +113,17 @@ const SecondaryTab = forwardRef<HTMLDivElement, SecondaryTabProps>((props, ref) 
     }
   }
 
-  /**
-   * For the first child of tabs, active the first tab
-   */
-  useEffect(() => {
-    if (indicator.current) {
-      init?.({rect: indicator.current.getBoundingClientRect(), id: id}, active)
-    }
-  })
-
-  useEffect(() => {
-    setIsActive(current?.id === id)
-  }, [current]);
-
-  useEffect(() => {
-    if (isActive) {
-      animateIndicating()
-    }
-  }, [isActive]);
-
   return (
     <div
-      ref={ref}
+      ref={wrapperRef}
       className={`tab secondary-tab ${isActive && 'secondary-tab--active'} ${icon && 'tab--with-icon'}`}
       onClick={clickHandler}
+      tabIndex={0}
       {...rippleProps}
+      {...focusRingProps}
       {...rest}
     >
-      <FocusRing></FocusRing>
+      {focusRing}
       {ripple}
       <div className={`tab__presentation ${inline && 'tab__presentation--inline'}`}>
         {icon && <div className={'tab__presentation__icon'}>{icon}</div>}
@@ -111,7 +131,8 @@ const SecondaryTab = forwardRef<HTMLDivElement, SecondaryTabProps>((props, ref) 
       </div>
       <span
         ref={indicator}
-        className={`tab__indicator secondary-tab__indicator ${isActive && 'tab__indicator--active'}`}></span>
+        className={`tab__indicator secondary-tab__indicator ${isActive && 'tab__indicator--active'}`}
+      ></span>
     </div>
   )
 })

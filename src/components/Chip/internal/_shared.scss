@@ -2,7 +2,6 @@
 @use "../../Focus/internal/focus-ring";
 @use "../../builder/background";
 @use "../../Elevation/internal/elevation";
-@use "../../StateLayer/internal/state-layer";
 
 @mixin styles() {
   --_chip-padding-inline-start: var(--_leading-space);
