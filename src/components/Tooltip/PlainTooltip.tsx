@@ -8,6 +8,8 @@ export interface PlainTooltipProps {
   text?: string
   anchorCorner?: Corner
   tooltipCorner?: Corner
+  offsetX?: number
+  offsetY?: number
 }
 
 const PlainTooltip = forwardRef<HTMLDivElement, PlainTooltipProps>((props, ref) => {
@@ -16,6 +18,8 @@ const PlainTooltip = forwardRef<HTMLDivElement, PlainTooltipProps>((props, ref) 
     text,
     anchorCorner = Corner.START_START,
     tooltipCorner = Corner.END_START,
+    offsetX = 0,
+    offsetY = 0,
     ...rest
   } = props
 
@@ -39,7 +43,7 @@ const PlainTooltip = forwardRef<HTMLDivElement, PlainTooltipProps>((props, ref) 
 
   useEffect(() => {
     if (anchorRef.current && toolTipRef.current) {
-      setPosition(alignToAnchor(anchorRef.current, toolTipRef.current, anchorCorner, tooltipCorner, 0, -8))
+      setPosition(alignToAnchor(anchorRef.current, toolTipRef.current, anchorCorner, tooltipCorner, offsetX, offsetY))
       setIsHidden(true)
     }
   }, [anchorRef, toolTipRef]);

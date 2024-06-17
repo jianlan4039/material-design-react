@@ -19,7 +19,7 @@ export const Default: Story = {
   render: (args) => {
 
     return (
-      <PlainTooltip text={'Lorem ipsum dolor sit amet.'}>
+      <PlainTooltip text={'Lorem ipsum dolor sit amet.'} {...args}>
         <ElevatedButton>Tips</ElevatedButton>
       </PlainTooltip>
     )

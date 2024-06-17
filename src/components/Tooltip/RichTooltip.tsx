@@ -23,7 +23,7 @@ const RichTooltip = forwardRef<HTMLDivElement, RichTooltipProps>((props, ref) =>
     action,
     anchorCorner = Corner.END_START,
     tooltipCorner = Corner.START_START,
-    offsetX,
+    offsetX= 0,
     offsetY = 8,
     ...rest
   } = props
