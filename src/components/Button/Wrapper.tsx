@@ -50,7 +50,6 @@ const Wrapper = forwardRef<ButtonHandle, WrapperProps>(
 
     return (
       <div className={cln(name, className, {'nd-disabled': disabled})} {...rippleProps}>
-        <Elevation></Elevation>
         {children}
         {ripple}
         {focusRing}

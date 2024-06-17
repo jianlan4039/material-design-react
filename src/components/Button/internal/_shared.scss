@@ -3,14 +3,6 @@
 @use "../../Elevation/internal/elevation";
 
 @mixin styles() {
-  @include background.styles;
-  @include elevation.theme((
-    level: var(--_container-elevation)
-  ));
-  @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
-  ));
   position: relative;
   display: inline-flex;
   border-start-start-radius: var(--_container-shape-start-start);
@@ -112,5 +104,4 @@
       cursor: auto;
     }
   }
-
 }

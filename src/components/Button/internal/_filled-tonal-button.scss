@@ -1,6 +1,9 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-filled-tonal-button";
 @use "shared";
+@use "../../builder/background";
+@use "../../Ripple/internal/ripple";
+@use "../../Elevation/internal/elevation";
 
 $tokens: md-comp-filled-tonal-button.values();
 
@@ -10,6 +13,14 @@ $tokens: md-comp-filled-tonal-button.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, filled-tonal-button);
+  @include background.styles;
+  @include elevation.theme((
+    level: var(--_container-elevation)
+  ));
+  @include ripple.theme((
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: var(--_pressed-state-layer-color)
+  ));
   --_container-shape-start-start: var(--md-filled-tonal-button-container-shape-start-start, var(--_container-shape));
   --_container-shape-start-end: var(--md-filled-tonal-button-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-filled-tonal-button-container-shape-end-end, var(--_container-shape));

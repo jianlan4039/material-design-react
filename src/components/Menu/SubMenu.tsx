@@ -19,7 +19,6 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
     items,
     open,
     style,
-    ...rest
   } = props
 
   const rootRef = useRef<HTMLMenuElement>(null)

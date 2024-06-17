@@ -80,7 +80,7 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
   }
 
   return (
-    <div ref={rootRef} className={'date-picker'} style={style} tabIndex={0} onFocus={focusHandler}>
+    <div ref={rootRef} className={'date-picker'} style={style} onFocus={focusHandler}>
       <OutlinedTextField
         label={label}
         supportingText={format.toUpperCase()}

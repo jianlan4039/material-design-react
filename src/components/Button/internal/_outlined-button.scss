@@ -2,6 +2,8 @@
 @use "../../tokens/md-comp-outlined-button";
 @use "../../Outline/internal/outline";
 @use "shared";
+@use "../../Ripple/internal/ripple";
+@use "../../Elevation/internal/elevation";
 
 $tokens: md-comp-outlined-button.values();
 
@@ -11,6 +13,13 @@ $tokens: md-comp-outlined-button.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, outlined-button);
+  @include elevation.theme((
+    level: var(--_container-elevation)
+  ));
+  @include ripple.theme((
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: var(--_pressed-state-layer-color)
+  ));
   --_container-shape-start-start: var(--md-outlined-button-container-shape-start-start, var(--_container-shape));
   --_container-shape-start-end: var(--md-outlined-button-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-outlined-button-container-shape-end-end, var(--_container-shape));
