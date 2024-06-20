@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef} from 'react'
 import OutlinedField, {OutlinedFieldProps} from "../Field/OutlinedField";
 import Select, {SelectProps} from "./internal/Select";
 
