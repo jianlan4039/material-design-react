@@ -1,4 +1,4 @@
-import React, {forwardRef, HTMLAttributes, ReactNode} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import './LinearSectionContainer.scss'
 import c from 'classnames'
 import {BaseElement} from "../../internal/common/BaseElement";

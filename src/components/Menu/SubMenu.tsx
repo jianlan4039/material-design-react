@@ -1,4 +1,4 @@
-import React, {CSSProperties, forwardRef, HTMLProps, useEffect, useId, useRef, useState, MouseEvent} from 'react'
+import React, {CSSProperties, forwardRef, useEffect, useId, useImperativeHandle, useRef, useState} from 'react'
 import {Corner} from "../internal/alignment/geometry";
 import {MenuHandle, MenuProps} from "./Menu";
 import MenuItem from "./MenuItem";
@@ -11,6 +11,7 @@ export interface SubMenuProps extends MenuProps {
 }
 
 export interface SubMenuHandle extends MenuHandle {
+  menu: HTMLMenuElement | null
 }
 
 const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
@@ -45,6 +46,10 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
       setOffsetStyles(alignToAnchor(anchorEl, rootRef.current, Corner.START_END, Corner.START_START))
     }
   }, [open]);
+
+  useImperativeHandle(ref, () => ({
+    menu: rootRef.current
+  }))
 
   return (
     <menu

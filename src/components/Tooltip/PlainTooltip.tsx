@@ -1,4 +1,4 @@
-import React, {ComponentType, CSSProperties, forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {CSSProperties, forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
 import {alignToAnchor} from "../internal/alignment/locate";
 import {Corner} from "../internal/alignment/geometry";
 import './PlainTooltip.scss'
@@ -49,7 +49,7 @@ const PlainTooltip = forwardRef<HTMLDivElement, PlainTooltipProps>((props, ref) 
   }, [anchorRef, toolTipRef]);
 
   return (
-    <div className={'tooltip__host'}>
+    <div ref={ref} className={'tooltip__host'}>
       <div
         ref={anchorRef}
         className={'tooltip__anchor'}

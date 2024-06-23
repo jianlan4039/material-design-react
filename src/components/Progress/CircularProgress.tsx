@@ -10,19 +10,17 @@ export interface CircularProgressProps extends ProgressProps {
 
 const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>((props, ref) => {
   const {
-    children,
     value = 0,
     max = 1,
     indeterminate = false,
-    fourColor = false,
-    ...rest
+    fourColor = false
   } = props
 
 
   const indeterminateCircularProgress = () => {
     const dashOffset = (1 - value / max) * 100
     return (
-      <div className={'circular-progress'}>
+      <div ref={ref} className={'circular-progress'}>
         <svg viewBox={'0 0 4800 4800'}>
           <circle className={'track'} pathLength={100}></circle>
           <circle className={'active-track'} pathLength={100} strokeDashoffset={dashOffset}></circle>

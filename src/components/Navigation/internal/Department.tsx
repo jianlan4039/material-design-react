@@ -26,15 +26,11 @@ export interface DepartmentProps extends HTMLAttributes<HTMLDivElement> {
 
 const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
   const {
-    children,
     icon,
     label,
-    badge,
-    badgeCount,
     className = '',
     id = useId(),
-    active,
-    ...rest
+    active
   } = props
 
   const {init, setCurrent, last, current} = useContext(IndicatorRectContext)
@@ -81,6 +77,7 @@ const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
 
   return (
     <div
+      ref={ref}
       className={`navigation-department ${className}`}
       onClick={clickHandler}
     >

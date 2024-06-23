@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useContext, useEffect, useId, useRef, useState} from 'react'
+import React, {forwardRef, ReactNode, useContext, useEffect, useId, useImperativeHandle, useRef, useState} from 'react'
 import SegmentedButtonContent, {SegmentedButtonContentProps} from "./internal/SegmentedButtonContent";
 import Outline from "../Outline/Outline";
 import {MultiSelectionContext} from "./internal/context";
@@ -12,7 +12,11 @@ export interface SegmentedButtonProps extends SegmentedButtonContentProps {
   ndId?: string
 }
 
-const SegmentedButton = forwardRef<HTMLButtonElement, SegmentedButtonProps>((props, ref) => {
+export interface SegmentedButtonHandle {
+  button?: HTMLButtonElement | null
+}
+
+const SegmentedButton = forwardRef<SegmentedButtonHandle, SegmentedButtonProps>((props, ref) => {
   const {
     children,
     ndId,
@@ -40,6 +44,10 @@ const SegmentedButton = forwardRef<HTMLButtonElement, SegmentedButtonProps>((pro
       setParent(btnRef.current)
     }
   }, [btnRef]);
+
+  useImperativeHandle(ref, () => ({
+    button: btnRef.current
+  }))
 
   const clickHandler = () => {
     setList?.([id])

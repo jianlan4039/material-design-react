@@ -8,9 +8,8 @@ import React, {
   MouseEvent, LiHTMLAttributes, useContext
 } from 'react'
 import ListItem, {ListItemHandle} from "../List/ListItem";
-import SubMenu from "./SubMenu";
+import SubMenu, {SubMenuHandle} from "./SubMenu";
 import {outsideHandler} from "../internal/common/handlers";
-import {MenuHandle} from "./Menu";
 import {Option} from "./internal/menuTypes";
 import './MenuItem.scss'
 import {SelectionContext} from "../internal/context/SelectionContext";
@@ -53,7 +52,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   } = props
 
   const listItemRef = useRef<ListItemHandle>(null);
-  const subMenuRef = useRef<MenuHandle>(null);
+  const subMenuRef = useRef<SubMenuHandle>(null);
   const closeTimeoutIdRef = useRef<NodeJS.Timeout>();
 
   const [anchor, setAnchor] = useState<HTMLDivElement>()

@@ -10,10 +10,8 @@ export interface FieldOutlineProps {
 
 export default function FieldOutline(props: FieldOutlineProps) {
   const {
-    children,
     label,
-    supportingText,
-    ...rest
+    supportingText
   } = props
 
   return (

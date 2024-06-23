@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useRef, useState, MouseEvent, useId} from 'react'
+import React, {ReactNode, useEffect, useRef, useState, MouseEvent} from 'react'
 import {IndicatorRectContextProvider} from "../internal/context/indicator";
 import './NavigationDrawer.scss'
 import NavigationEnter, {NavigationEnterProps} from "./internal/NavigationEnter";
@@ -30,8 +30,7 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     modal,
     show,
     stayOpenOnOutsideClick = false,
-    onClose,
-    ...rest
+    onClose
   } = props
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -46,9 +45,9 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     if (dialogRef.current && modal) {
       if (show && !isVisible) {
         dialogRef.current!.showModal()
-        animatingOpen()
+        void animatingOpen()
       } else if (!show && isVisible) {
-        animatingClose()
+        void animatingClose()
       } else if (!show || !isVisible) {
         dialogRef.current!.close()
       }
@@ -112,7 +111,7 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
   }
 
   const controlledClose = () => {
-    animatingClose()
+    void animatingClose()
   }
 
   const cleanAnimation = () => {

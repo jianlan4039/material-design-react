@@ -1,6 +1,5 @@
 import React, {
   forwardRef,
-  ReactNode,
   useContext,
   useEffect,
   useId,
@@ -9,10 +8,10 @@ import React, {
   MouseEvent,
   useImperativeHandle, memo
 } from 'react'
-import ListItem, {ListItemHandle, ListItemProps} from "../../List/ListItem";
+import ListItem, {ListItemProps} from "../../List/ListItem";
 import './NavigationEnter.scss';
 import c from 'classnames'
-import {IndicatorRectContext, CurrentIndicator} from "../../internal/context/indicator";
+import {IndicatorRectContext} from "../../internal/context/indicator";
 import {EASING, DURATION} from "../../internal/motion/animation";
 
 export interface NavigationEnterProps extends ListItemProps {
@@ -34,7 +33,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     ...rest
   } = props
 
-  const {current, setCurrent, init} = useContext(IndicatorRectContext)
+  const {current, setCurrent} = useContext(IndicatorRectContext)
   const listRef = useRef<NavigationEnterHandle>(null);
   const subEntryRef = useRef<HTMLUListElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);

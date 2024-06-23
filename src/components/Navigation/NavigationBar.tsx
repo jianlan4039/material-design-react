@@ -18,10 +18,7 @@ export interface NavigationBarProps {
 
 const NavigationBar = forwardRef<HTMLDivElement, NavigationBarProps>((props, ref) => {
   const {
-    children,
-    items,
-    order = 0,
-    ...rest
+    items
   } = props
 
   const Items = () => {

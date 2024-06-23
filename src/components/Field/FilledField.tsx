@@ -1,4 +1,4 @@
-import React, {forwardRef, useState, MouseEvent} from 'react'
+import React, {forwardRef, useState} from 'react'
 import Field, {FieldProps} from "./internal/Field";
 import './FilledField.scss'
 import c from 'classnames'
@@ -25,12 +25,12 @@ const FilledField = forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledF
     onMouseOut: mouseOutHandler,
   })
 
-  function mouseOverHandler(e: MouseEvent<HTMLDivElement>) {
+  function mouseOverHandler() {
     if (disabled) return;
     setHover(true)
   }
 
-  function mouseOutHandler(e: MouseEvent<HTMLDivElement>) {
+  function mouseOutHandler() {
     if (disabled) return;
     setHover(false)
   }

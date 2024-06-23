@@ -16,8 +16,6 @@ export interface NavigatorProps extends HTMLAttributes<HTMLDivElement> {
 
 const Navigator = forwardRef<HTMLDivElement, NavigatorProps>((props, ref) => {
   const {
-    children,
-    items,
     label,
     onClick,
     open,

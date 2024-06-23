@@ -1,4 +1,14 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState, MouseEvent, HTMLProps} from 'react'
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent,
+  HTMLProps,
+  useImperativeHandle
+} from 'react'
 import TextButton, {TextButtonHandle} from "../Button/TextButton";
 import './Snackbar.scss'
 import c from 'classnames'
@@ -18,10 +28,10 @@ export interface SnackbarProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export interface SnackbarHandle extends HTMLProps<HTMLDivElement> {
-  root?: ReactNode
+  wrapper?: HTMLDivElement | null
 }
 
-const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>((props, ref) => {
+const Snackbar = forwardRef<SnackbarHandle, SnackbarProps>((props, ref) => {
   const {
     supportingText,
     label,
@@ -73,6 +83,10 @@ const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>((props, ref) => {
       animation?.cancel()
     }
   }, [isAnimating, show]);
+
+  useImperativeHandle(ref, () => ({
+    wrapper: rootRef.current
+  }))
 
   const btnMouseOverHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()

@@ -1,6 +1,5 @@
 import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useImperativeHandle, useRef, useState} from "react";
 import cln from "classnames";
-import Elevation from "../Elevation";
 import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
 import useRipple from "../Ripple/useRipple";

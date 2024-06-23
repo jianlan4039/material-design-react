@@ -24,7 +24,7 @@ function useRipple<R extends HTMLElement>(
 ) {
 
   const PRESS_GROW_MS = 450;
-  const MINIMUM_PRESS_MS = 225;
+  // const MINIMUM_PRESS_MS = 225;
   const INITIAL_ORIGIN_SCALE = 0.2;
   const PADDING = 10;
   const SOFT_EDGE_MINIMUM_SIZE = 75;
@@ -120,13 +120,13 @@ function useRipple<R extends HTMLElement>(
       })
   }
 
-  function endPressAnimation() {
-    const pressAnimationPlayState = growAnimation.current?.currentTime as number
-    if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
-      return
-    }
-    growAnimation.current?.cancel()
-  }
+  // function endPressAnimation() {
+  //   const pressAnimationPlayState = growAnimation.current?.currentTime as number
+  //   if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
+  //     return
+  //   }
+  //   growAnimation.current?.cancel()
+  // }
 
   const mouseDownHandler = (e: ReactMouseEvent<R>) => {
     onMouseDown?.(e)
@@ -201,6 +201,6 @@ function useRipple<R extends HTMLElement>(
     },
     ripple
   ] as const;
-};
+}
 
 export default useRipple;

@@ -1,6 +1,5 @@
 import React, {forwardRef, ReactNode} from 'react'
 import './NavigationRail.scss';
-import c from 'classnames';
 import Department, {DepartmentProps} from "./internal/Department";
 import {IndicatorRectContextProvider} from "../internal/context/indicator";
 import IconButton from "../IconButton/IconButton";
@@ -15,8 +14,7 @@ const NavigationRail = forwardRef<HTMLDivElement, NavigationRailProps>((props, r
   const {
     children,
     icon,
-    items,
-    ...rest
+    items
   } = props
 
   return (
