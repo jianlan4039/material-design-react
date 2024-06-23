@@ -226,7 +226,7 @@
       animation-name: buffering;
       background-color: var(--_track-color);
       background-repeat: repeat-x;
-      $svg: "./internal/dots.svg";
+      $svg: "./dots.svg";
       -webkit-mask-image: url($svg);
       mask-image: url($svg);
       z-index: -1; // Place behind tracks for Safari

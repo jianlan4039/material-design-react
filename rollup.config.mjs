@@ -3,6 +3,7 @@ import {nodeResolve} from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import sass from 'rollup-plugin-sass';
+import copy from 'rollup-plugin-copy';
 
 export default {
     input: 'src/index.ts', // Entry point of your TypeScript and React code
@@ -37,6 +38,12 @@ export default {
             babelHelpers: 'bundled',
             presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
         }),
+        // Copy SVG files to dist directory
+        copy({
+            targets: [
+                { src: 'src/**/*.svg', dest: 'dist/' }
+            ]
+        })
     ],
     external: ['react', 'react-dom'], // Specify external dependencies to prevent bundling them
 };
