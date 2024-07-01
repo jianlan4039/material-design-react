@@ -34,7 +34,7 @@ $supporting-tokens: (
       inset: 0;
       z-index: -1;
       display: flex;
-      justify-content: start;
+      justify-content: flex-start;
       align-items: center;
       inset-block-start: 0;
       margin-inline-start: var(--md-field-label-leading-space, var(--_leading-space));

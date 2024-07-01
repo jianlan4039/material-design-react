@@ -30,7 +30,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     opacity: 0;
     border-radius: var(--_container-shape);
     min-inline-size: 300px;

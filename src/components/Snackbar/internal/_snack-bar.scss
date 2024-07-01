@@ -107,7 +107,7 @@
       flex-direction: column;
       min-block-size: var(--_container-with-two-lines-height);
       block-size: auto;
-      align-items: end;
+      align-items: flex-end;
 
       .supporting-text-container {
         padding-inline-end: 16px;

@@ -59,7 +59,7 @@
         padding-inline-start: var(--_leading-space);
         padding-inline-end: var(--_trailing-space);
         display: flex;
-        align-items: end;
+        align-items: flex-end;
 
         .nd-field__label-wrapper {
           .nd-field__label-wrapper__label.floating {

@@ -28,7 +28,7 @@ export {default as FilledIconButton} from './components/IconButton/FilledIconBut
 export {default as FilledTonalIconButton} from './components/IconButton/FilledTonalIconButton';
 export {default as OutlinedIconButton} from './components/IconButton/OutlinedIconButton';
 export {default as IconButton} from './components/IconButton/IconButton';
-export {default as List } from './components/List/List';
+export {default as List} from './components/List/List';
 export {default as ListItem} from './components/List/ListItem'
 export {default as Menu} from './components/Menu/Menu';
 export {default as MenuItem} from './components/Menu/MenuItem';
@@ -36,7 +36,7 @@ export {default as SubMenu} from './components/Menu/SubMenu';
 export {default as NavigationBar} from './components/Navigation/NavigationBar';
 export {default as NavigationDrawer} from './components/Navigation/NavigationDrawer';
 export {default as NavigationRail} from './components/Navigation/NavigationRail';
-export {default as Outline } from './components/Outline/Outline';
+export {default as Outline} from './components/Outline/Outline';
 export {default as CircularProgress} from './components/Progress/CircularProgress';
 export {default as LinearProgress} from './components/Progress/LinearProgress';
 export {default as RadioButton} from './components/RadioButton/RadioButton';
