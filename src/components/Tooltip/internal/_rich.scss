@@ -38,7 +38,7 @@
     @include background.styles;
 
     .tooltip--rich__subhead {
-      font-family: var(--_subhead-font);
+      font-family: var(--_subhead-font), serif;
       line-height: var(--_subhead-line-height);
       font-size: var(--_subhead-font-size);
       font-weight: var(--_subhead-font-weight);
@@ -47,7 +47,7 @@
     }
 
     .tooltip--rich__supporting-text {
-      font-family: var(--_supporting-text-font);
+      font-family: var(--_supporting-text-font), serif;
       line-height: var(--_supporting-text-line-height);
       font-size: var(--_supporting-text-size);
       font-weight: var(--_supporting-text-weight);

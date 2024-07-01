@@ -40,7 +40,7 @@
       grid-template-columns: repeat(7, 1fr);
       justify-items: center;
       align-items: center;
-      font-family: var(--_weekdays-label-text-font);
+      font-family: var(--_weekdays-label-text-font), serif;
       font-size: var(--_weekdays-label-text-size);
       font-weight: var(--_weekdays-label-text-weight);
       line-height: var(--_weekdays-label-text-line-height);

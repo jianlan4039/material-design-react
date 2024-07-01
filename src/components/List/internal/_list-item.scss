@@ -56,7 +56,7 @@
 
         .list-item__label {
           color: var(--_label-text-color);
-          font-family: var(--_label-text-font);
+          font-family: var(--_label-text-font), serif;
           line-height: var(--_label-text-line-height);
           font-size: var(--_label-text-size);
           font-weight: var(--_label-text-weight);
@@ -66,7 +66,7 @@
 
         .list-item__spt-txt {
           color: var(--_supporting-text-color);
-          font-family: var(--_supporting-text-font);
+          font-family: var(--_supporting-text-font), serif;
           line-height: var(--_supporting-text-line-height);
           font-size: var(--_supporting-text-size);
           font-weight: var(--_supporting-text-weight);

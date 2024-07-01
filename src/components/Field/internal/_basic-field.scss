@@ -22,7 +22,7 @@ $supporting-tokens: (
 
 @mixin styles() {
   .nd-field {
-    font-family: var(--md-field-label-text-font, var(--_label-text-font));
+    font-family: var(--md-field-label-text-font, var(--_label-text-font)), serif;
     font-size: var(--md-field-font-text-size, var(--_label-text-size));
     line-height: var(--md-field-label-text-line-height, var(--_label-text-line-height));
     font-weight: var(--md-field-label-text-weight, var(--_label-text-weight));

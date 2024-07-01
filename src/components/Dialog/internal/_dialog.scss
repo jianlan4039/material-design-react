@@ -80,7 +80,7 @@ $md-sys-color: md-sys-color.values-light();
         }
 
         .nd-dialog-header__headline {
-          font-family: var(--_headline-font);
+          font-family: var(--_headline-font), serif;
           font-size: var(--_headline-size);
           color: var(--_headline-color);
           line-height: var(--_headline-line-height);
@@ -89,7 +89,7 @@ $md-sys-color: md-sys-color.values-light();
         }
 
         .nd-dialog-header__supporting-text {
-          font-family: var(--_supporting-text-font);
+          font-family: var(--_supporting-text-font), serif;
           font-size: var(--_supporting-text-size);
           color: var(--_supporting-text-color);
           line-height: var(--_supporting-text-line-height);
