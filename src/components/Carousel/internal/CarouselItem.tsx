@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useState} from 'react'
+import React, {forwardRef, ReactNode} from 'react'
 import './CarouselItem.scss'
 
 export interface CarouselItemProps {
