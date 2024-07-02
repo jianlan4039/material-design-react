@@ -1,0 +1,25 @@
+@mixin theme($tokens) {
+
+}
+
+@mixin container() {
+  .carousel-container {
+    min-block-size: 200px;
+    inline-size: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .carousel-track{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+@mixin item() {
+  .carousel-item {
+
+  }
+}
