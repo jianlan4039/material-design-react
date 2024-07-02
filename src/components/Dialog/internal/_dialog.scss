@@ -18,6 +18,7 @@ $md-sys-color: md-sys-color.values-light();
   --_container-shape-start-end: var(--md-dialog-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-dialog-container-shape-end-end, var(--_container-shape));
   --_container-shape-end-start: var(--md-dialog-container-shape-end-start, var(--_container-shape));
+  z-index: 10;
 
   .nd-dialog-scrim {
     background: map.get($md-sys-color, 'scrim');

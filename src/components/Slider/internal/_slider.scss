@@ -29,6 +29,7 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
     @include theme($new-tokens);
     @include tokens-builder.tokens(md-comp-slider.values(), slider);
     position: relative;
+    z-index: 10;
     padding-inline: 20px;
     block-size: var(--_handle-height);
     display: flex;

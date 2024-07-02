@@ -5,7 +5,7 @@
 @use "../../builder/background";
 @use "../../Ripple/internal/ripple";
 @use "../../Button/internal/text-button";
-@use "../../IconButton/content/icon-button";
+@use "../../IconButton/internal/icon-button";
 
 @mixin theme($tokens) {
   @include tokens-builder.theme($tokens, nd-comp-snackbar.$supported-tokens, snackbar);
@@ -32,6 +32,7 @@
     block-size: var(--_container-with-single-line-height);
     border-radius: var(--_container-shape);
     display: flex;
+    z-index: 10;
     justify-content: space-between;
     align-items: center;
     position: fixed;

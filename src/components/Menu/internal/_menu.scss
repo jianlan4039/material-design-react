@@ -13,6 +13,7 @@
       level: var(--_container-elevation)
     ));
     position: absolute;
+    z-index: 10;
     opacity: 0;
     border-radius: var(--_container-shape);
     background: var(--_container-color);

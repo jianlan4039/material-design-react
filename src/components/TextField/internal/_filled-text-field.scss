@@ -12,6 +12,7 @@
     cursor: text;
     position: relative;
     min-width: 210px;
+    z-index: 10;
 
     .nd-field {
       .nd-container__middle {

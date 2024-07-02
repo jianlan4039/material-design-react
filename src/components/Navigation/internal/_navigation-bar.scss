@@ -16,6 +16,7 @@
     @include background.styles;
     position: fixed;
     inset: auto 0 0 0;
+    z-index: 10;
     block-size: var(--_container-height);
     border-radius: var(--_container-shape);
     display: grid;

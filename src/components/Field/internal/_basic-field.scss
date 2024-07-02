@@ -28,6 +28,8 @@ $supporting-tokens: (
     font-weight: var(--md-field-label-text-weight, var(--_label-text-weight));
     color: var(--md-field-label-text-color, var(--_label-text-color));
     min-width: inherit;
+    position: relative;
+    z-index: 10;
 
     .nd-field__label-wrapper {
       position: absolute;

@@ -11,6 +11,7 @@
     @include tokens-builder.tokens(md-comp-list-item.values(), list-item);
     @include forbidden-highlight.no-highlight;
     position: relative;
+    z-index: 10;
 
     .lsc {
       min-block-size: var(--_one-line-container-height);

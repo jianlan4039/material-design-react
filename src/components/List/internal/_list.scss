@@ -13,6 +13,7 @@
     @include background.theme((
       color: var(--_container-color)
     ));
+    @include background.styles;
     display: flex;
     position: relative;
     flex-direction: column;
@@ -20,6 +21,6 @@
     list-style: none;
     padding-inline: 0;
     margin: 0;
-    @include background.styles;
+    z-index: 10;
   }
 }

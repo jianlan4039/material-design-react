@@ -30,6 +30,7 @@
   border-start-end-radius: var(--_chip-shape-start-end, var(--_container-shape));
   border-end-start-radius: var(--_chip-shape-end-start, var(--_container-shape));
   border-end-end-radius: var(--_chip-shape-end-end, var(--_container-shape));
+  z-index: 10;
 
   &:focus-visible {
     --_chip-font-color: var(--_focus-label-text-color);

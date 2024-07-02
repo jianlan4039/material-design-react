@@ -11,6 +11,7 @@ $motion: md-sys-motion.values();
   .slide-viewer {
     position: relative;
     overflow: hidden;
+    z-index: 10;
 
     .sec-view {
       position: absolute;

@@ -12,6 +12,7 @@
   .navigation-rail-container {
     @include tokens-builder.tokens(nd-comp-navigation-rail.values(), navigation-rail);
     position: fixed;
+    z-index: 10;
     inset: 0 auto 0 0;
     inline-size: var(--_container-width);
     block-size: 100vh;

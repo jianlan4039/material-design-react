@@ -11,6 +11,7 @@
     @include tokens-builder.tokens(md-comp-outlined-text-field.values(), outlined-text-field);
     cursor: text;
     position: relative;
+    z-index: 10;
 
     .nd-field {
       .nd-container__middle {

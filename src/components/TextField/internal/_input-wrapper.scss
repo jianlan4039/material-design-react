@@ -15,12 +15,13 @@ $support-tokens: (
 @mixin styles() {
   & {
     color: var(--md-input-wrapper-font-color, var(--_content-color));
-    font-family: var(--md-input-wrapper-font, var(--_content-font));
+    font-family: var(--md-input-wrapper-font, var(--_content-font)), serif;
     line-height: var(--md-input-wrapper-line-height, var(--_content-line-height));
     font-size: var(--md-input-wrapper-font-size, var(--_content-size));
     font-weight: var(--md-input-wrapper-font-weight, var(--_content-weight));
     display: flex;
     align-items: center;
+    z-index: 10;
 
     input {
       border: none;

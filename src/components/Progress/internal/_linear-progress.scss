@@ -176,6 +176,7 @@
     $_indeterminate-duration: 2s;
     border-radius: var(--_track-shape);
     position: relative;
+    z-index: 10;
     display: flex;
     min-width: 80px;
     block-size: var(--_track-height);

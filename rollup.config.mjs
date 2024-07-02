@@ -41,7 +41,7 @@ export default {
         // Copy SVG files to dist directory
         copy({
             targets: [
-                { src: 'src/**/*.svg', dest: 'dist/' }
+                { src: 'src/components/**/*.svg', dest: 'dist/' }
             ]
         })
     ],

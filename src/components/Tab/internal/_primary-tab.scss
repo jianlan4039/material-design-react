@@ -28,6 +28,8 @@
     border-radius: var(--_container-shape);
     cursor: pointer;
     outline: none;
+    position: relative;
+    z-index: 10;
 
     .nd-focus-ring-container {
       z-index: 10;

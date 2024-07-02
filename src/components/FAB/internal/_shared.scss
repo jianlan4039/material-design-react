@@ -27,6 +27,7 @@
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
     block-size: var(--_container-height);
+    z-index: 10;
 
     @include color.styles(
         (

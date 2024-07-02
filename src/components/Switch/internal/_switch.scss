@@ -32,6 +32,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
     block-size: var(--_track-height);
     inline-size: var(--_track-width);
     display: flex;
+    z-index: 10;
     align-items: center;
     justify-content: center;
 

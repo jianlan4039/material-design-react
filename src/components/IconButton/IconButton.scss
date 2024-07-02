@@ -1,4 +1,4 @@
-@use "content/icon-button";
+@use "internal/icon-button";
 
 .nd-icon-button{
   @include icon-button.styles;

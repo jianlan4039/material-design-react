@@ -13,13 +13,13 @@ $support-tokens: (
 }
 
 @mixin styles() {
-
   & {
     position: relative;
     border-start-start-radius: var(--_container-shape-start-start);
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
+    z-index: 10;
 
     .nd-icon-button__button {
       display: inline-flex;
