@@ -42,7 +42,7 @@ $support-tokens: (
       font-weight: var(--md-tab-font-weight);
       color: var(--md-tab-font-color);
       line-height: var(--md-tab-font-line-height);
-      font-family: var(--md-tab-font-family);
+      font-family: var(--md-tab-font-family), serif;
 
       .tab__presentation__icon {
         color: var(--_icon-color);

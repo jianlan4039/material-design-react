@@ -1,10 +1,6 @@
 @use "../../Ripple/internal/ripple";
 @use "../../builder/background";
 
-@mixin theme($tokens) {
-
-}
-
 @mixin styles() {
   .month-view {
     display: grid;
@@ -12,7 +8,6 @@
     grid-template-rows: repeat(6, 48px);
     justify-items: center;
     align-items: center;
-
 
     .date:not(.blank) {
       @include ripple.theme((
@@ -26,7 +21,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: var(--_date-label-text-font);
+      font-family: var(--_date-label-text-font), serif;
       font-size: var(--_date-label-text-size);
       font-weight: var(--_date-label-text-weight);
       line-height: var(--_date-label-text-line-height);

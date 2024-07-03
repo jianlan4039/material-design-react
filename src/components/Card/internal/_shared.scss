@@ -1,7 +1,6 @@
 @use "../../builder/background";
 @use "../../Elevation/internal/elevation";
 @use "../../Ripple/internal/ripple";
-@use "../../Focus/internal/focus-ring";
 
 @mixin styles() {
   @include background.theme((
@@ -14,9 +13,6 @@
   @include ripple.theme((
     hover-color:var(--_hover-state-layer-color),
     pressed-color: var(--_pressed-state-layer-color)
-  ));
-  @include focus-ring.theme((
-    shape: var(--_container-shape)
   ));
   @include background.styles;
 

@@ -4,6 +4,7 @@
 @use "../../tokens/md-comp-filled-icon-button";
 @use "../../builder/background";
 @use "../../Ripple/internal/ripple";
+@use "../../Focus/internal/focus-ring";
 @use "./state";
 
 $tokens: md-comp-filled-icon-button.values();
@@ -18,7 +19,15 @@ $tokens: md-comp-filled-icon-button.values();
   --_container-shape-start-end: var(--md-filled-icon-button-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-filled-icon-button-container-shape-end-end, var(--_container-shape));
   --_container-shape-end-start: var(--md-filled-icon-button-container-shape-end-start, var(--_container-shape));
-
+  @include background.theme((
+    color: var(--_container-color),
+  ));
+  @include focus-ring.theme((
+    shape-start-start: var(--_container-shape-start-start),
+    shape-start-end: var(--_container-shape-start-end),
+    shape-end-start: var(--_container-shape-end-start),
+    shape-end-end: var(--_container-shape-end-end),
+  ));
   @include shared.styles;
   @include background.styles;
   @include state.styles;

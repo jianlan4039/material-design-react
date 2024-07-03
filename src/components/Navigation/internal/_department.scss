@@ -44,7 +44,6 @@ $values: (
 }
 
 @mixin styles() {
-
   .navigation-department {
     @include tokens-builder.tokens($values, navigation-department);
     @include forbidden-highlight.no-highlight;
@@ -70,7 +69,7 @@ $values: (
     }
 
     .label {
-      font-family: var(--_label-font);
+      font-family: var(--_label-font), serif;
       font-size: var(--_label-size);
       font-weight: var(--_label-font-weight);
       line-height: var(--_label-line-height);

@@ -1,12 +1,12 @@
 import React, {HTMLAttributes, ReactNode} from 'react'
 import cln from "classnames";
 
-export interface CardContentProps extends HTMLAttributes<HTMLDivElement>{
+export interface CardProps extends HTMLAttributes<HTMLDivElement>{
   children?: ReactNode
   disabled?: boolean
 }
 
-export default function CardContent(props: CardContentProps) {
+export default function Card(props: CardProps) {
   const {
     children,
     disabled,

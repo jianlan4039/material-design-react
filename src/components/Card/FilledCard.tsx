@@ -1,11 +1,11 @@
 import React, {forwardRef, ReactNode} from 'react'
-import CardContent, {CardContentProps} from "./internal/CardContent";
+import Card, {CardProps} from "./internal/Card";
 import Elevation from "../Elevation";
 import cln from "classnames";
 import './FilledCard.scss'
 import useRipple from "../Ripple/useRipple";
 
-export interface FilledCardProps extends CardContentProps {
+export interface FilledCardProps extends CardProps {
   children?: ReactNode
 }
 
@@ -30,7 +30,7 @@ const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCar
     >
       <Elevation></Elevation>
       {ripple}
-      <CardContent disabled={disabled} {...rest}>{children}</CardContent>
+      <Card disabled={disabled} {...rest}>{children}</Card>
     </div>
   )
 })

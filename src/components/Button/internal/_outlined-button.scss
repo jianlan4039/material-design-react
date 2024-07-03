@@ -1,9 +1,10 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-outlined-button";
 @use "../../Outline/internal/outline";
-@use "shared";
 @use "../../Ripple/internal/ripple";
 @use "../../Elevation/internal/elevation";
+@use "../../Focus/internal/focus-ring";
+@use "shared";
 
 $tokens: md-comp-outlined-button.values();
 
@@ -24,9 +25,15 @@ $tokens: md-comp-outlined-button.values();
   --_container-shape-start-end: var(--md-outlined-button-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-outlined-button-container-shape-end-end, var(--_container-shape));
   --_container-shape-end-start: var(--md-outlined-button-container-shape-end-start, var(--_container-shape));
-  @include shared.styles;
+  @include focus-ring.theme((
+    shape-start-start: var(--_container-shape-start-start),
+    shape-start-end: var(--_container-shape-start-end),
+    shape-end-start: var(--_container-shape-end-start),
+    shape-end-end: var(--_container-shape-end-end),
+  ));
   @include outline.theme((
     color: var(--_outline-color),
     width: var(--_outline-width)
   ));
+  @include shared.styles;
 }

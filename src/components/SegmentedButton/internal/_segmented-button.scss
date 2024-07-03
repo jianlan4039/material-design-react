@@ -58,7 +58,7 @@ $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
     font-size: var(--_label-text-size);
     line-height: var(--_label-text-line-height);
     font-weight: var(--_label-text-weight);
-    font-family: var(--_label-text-font);
+    font-family: var(--_label-text-font), serif;
     width: inherit;
 
     .nd-segmented-button__icon-slot,

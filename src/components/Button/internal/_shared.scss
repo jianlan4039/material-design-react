@@ -10,6 +10,7 @@
   border-end-start-radius: var(--_container-shape-end-start);
   border-end-end-radius: var(--_container-shape-end-end);
   z-index: 10;
+  block-size: var(--_container-height);
 
   button {
     -webkit-tap-highlight-color: transparent;

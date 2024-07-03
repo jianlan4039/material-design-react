@@ -1,7 +1,8 @@
-@use "./tab";
 @use "../../tokens/md-comp-primary-tab";
 @use "../../builder/tokens-builder";
 @use "../../Ripple/internal/ripple";
+@use "../../Focus/internal/focus-ring";
+@use "./tab";
 
 @mixin theme($tokens) {
   @include tokens-builder.theme($tokens, md-comp-primary-tab.$supported-tokens, primary-tab);
@@ -12,6 +13,10 @@
 
   .primary-tab {
     @include tokens-builder.tokens(md-comp-primary-tab.values(), primary-tab);
+    --_container-shape-start-start: var(--md-primary-tab-container-shape-start-start, var(--_container-shape));
+    --_container-shape-start-end: var(--md-primary-tab-container-shape-start-end, var(--_container-shape));
+    --_container-shape-end-end: var(--md-primary-tab-container-shape-end-end, var(--_container-shape));
+    --_container-shape-end-start: var(--md-primary-tab-container-shape-end-start, var(--_container-shape));
     @include tab.theme((
       font-size: var(--_label-text-size),
       font-weight: var(--_label-text-weight),
@@ -22,6 +27,12 @@
     @include ripple.theme((
       hover-color: var(--_hover-state-layer-color),
       pressed-color: var(--_pressed-state-layer-color)
+    ));
+    @include focus-ring.theme((
+      shape-start-start: var(--_container-shape-start-start),
+      shape-start-end: var(--_container-shape-start-end),
+      shape-end-start: var(--_container-shape-end-start),
+      shape-end-end: var(--_container-shape-end-end),
     ));
     background: var(--_container-color);
     block-size: var(--_container-height);

@@ -2,10 +2,6 @@
 @use "../../builder/background";
 @use "../../Menu/internal/menu";
 
-@mixin theme($tokens) {
-
-}
-
 @mixin styles() {
   .date-picker-panel {
     @include background.theme((

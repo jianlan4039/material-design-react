@@ -130,6 +130,7 @@ function useRipple<R extends HTMLElement>(
 
   const mouseDownHandler = (e: ReactMouseEvent<R>) => {
     onMouseDown?.(e)
+    e.stopPropagation();
     if (!surfaceRef.current || isTouchEvent) {
       return
     }
@@ -139,6 +140,7 @@ function useRipple<R extends HTMLElement>(
 
   const mouseUpHandler = (e: ReactMouseEvent<R>) => {
     onMouseUp?.(e)
+    e.stopPropagation();
     if (isTouchEvent) {
       return
     }
@@ -147,6 +149,7 @@ function useRipple<R extends HTMLElement>(
 
   const mouseEnterHandler = (e: ReactMouseEvent<R>) => {
     onMouseOver?.(e)
+    e.stopPropagation();
     if (isTouchEvent) {
       return
     }
@@ -155,6 +158,7 @@ function useRipple<R extends HTMLElement>(
 
   const mouseLeaveHandler = (e: ReactMouseEvent<R>) => {
     onMouseOut?.(e)
+    e.stopPropagation();
     if (isTouchEvent) {
       return
     }

@@ -1,6 +1,6 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-outlined-card";
-@use "./card";
+@use "./shared";
 
 $tokens: md-comp-outlined-card.values();
 $supported-tokens: md-comp-outlined-card.$supported-tokens;
@@ -15,5 +15,5 @@ $supported-tokens: md-comp-outlined-card.$supported-tokens;
   --_container-shape-start-end: var(--_md-outlined-card-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-start: var(--_md-outlined-card-container-shape-end-start, var(--_container-shape));
   --_container-shape-end-end: var(--_md-outlined-card-container-shape-end-end, var(--_container-shape));
-  @include card.styles;
+  @include shared.styles;
 }

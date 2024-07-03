@@ -2,6 +2,7 @@
 @use "../../Focus/internal/focus-ring";
 @use "../../builder/background";
 @use "../../Elevation/internal/elevation";
+@use "../../Ripple/internal/ripple";
 
 @mixin styles() {
   --_chip-padding-inline-start: var(--_leading-space);
@@ -16,12 +17,23 @@
   --_chip-icon-size: var(--_icon-size);
 
   @include outline.theme((
+    style: solid,
     width: var(--_outline-width),
     color: var(--_outline-color)
   ));
+
   @include focus-ring.theme((
-    shape: var(--_container-shape)
+    shape-start-start: var(--_container-shape-start-start),
+    shape-start-end: var(--_container-shape-start-end),
+    shape-end-start: var(--_container-shape-end-start),
+    shape-end-end: var(--_container-shape-end-end),
   ));
+
+  @include ripple.theme((
+    hover-color: var(--_hover-state-layer-color),
+    pressed-color: var(--_pressed-state-layer-color)
+  ));
+
   position: relative;
   display: inline-flex;
   justify-content: center;

@@ -3,6 +3,7 @@
 @use "../../builder/background";
 @use "../../Ripple/internal/ripple";
 @use "../../Elevation/internal/elevation";
+@use "../../Focus/internal/focus-ring";
 @use "shared";
 
 $token: md-comp-elevated-button.values();
@@ -13,7 +14,6 @@ $token: md-comp-elevated-button.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($token, elevated-button);
-  @include background.styles;
   @include elevation.theme((
     level: var(--_container-elevation)
   ));
@@ -21,9 +21,19 @@ $token: md-comp-elevated-button.values();
     hover-color: var(--_hover-state-layer-color),
     pressed-color: var(--_pressed-state-layer-color)
   ));
+  @include background.theme((
+    color: var(--_container-color)
+  ));
   --_container-shape-start-start: var(--md-elevated-button-container-shape-start-start, var(--_container-shape));
   --_container-shape-start-end: var(--md-elevated-button-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-elevated-button-container-shape-end-end, var(--_container-shape));
   --_container-shape-end-start: var(--md-elevated-button-container-shape-end-start, var(--_container-shape));
+  @include focus-ring.theme((
+    shape-start-start: var(--_container-shape-start-start),
+    shape-start-end: var(--_container-shape-start-end),
+    shape-end-start: var(--_container-shape-end-start),
+    shape-end-end: var(--_container-shape-end-end),
+  ));
+  @include background.styles;
   @include shared.styles;
 }

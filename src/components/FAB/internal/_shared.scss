@@ -5,10 +5,6 @@
 @use "../../Ripple/internal/ripple";
 @use "color";
 
-@mixin theme() {
-
-}
-
 @mixin styles() {
   & {
     @include background.styles;

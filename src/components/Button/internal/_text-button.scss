@@ -1,7 +1,8 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-text-button";
-@use "shared";
+@use "../../Focus/internal/focus-ring";
 @use "../../Ripple/internal/ripple";
+@use "shared";
 
 $tokens: md-comp-text-button.values();
 
@@ -19,5 +20,11 @@ $tokens: md-comp-text-button.values();
   --_container-shape-start-end: var(--md-text-button-container-shape-start-end, var(--_container-shape));
   --_container-shape-end-end: var(--md-text-button-container-shape-end-end, var(--_container-shape));
   --_container-shape-end-start: var(--md-text-button-container-shape-end-start, var(--_container-shape));
+  @include focus-ring.theme((
+    shape-start-start: var(--_container-shape-start-start),
+    shape-start-end: var(--_container-shape-start-end),
+    shape-end-start: var(--_container-shape-end-start),
+    shape-end-end: var(--_container-shape-end-end),
+  ));
   @include shared.styles;
 }
