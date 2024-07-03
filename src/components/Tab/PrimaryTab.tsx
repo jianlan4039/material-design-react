@@ -10,6 +10,7 @@ import React, {
   useId, useImperativeHandle
 } from 'react'
 import './PrimaryTab.scss'
+import classNames from "classnames";
 import {IndicatorActiveContext} from "../internal/context/IndicatorActiveContext";
 import {EASING} from "../internal/motion/animation";
 import useRipple from "../Ripple/useRipple";
@@ -106,7 +107,10 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
   return (
     <div
       ref={wrapperRef}
-      className={`tab primary-tab ${isActive && 'primary-tab--active'} ${icon && 'tab--with-icon'}`}
+      className={classNames(`tab primary-tab`, {
+        'primary-tab--active': isActive,
+        'tab--with-icon': icon
+      })}
       onClick={clickHandler}
       tabIndex={0}
       {...rippleProps}
@@ -115,7 +119,11 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
     >
       {ripple}
       {focusRing}
-      <div className={`tab__presentation ${inline && 'tab__presentation--inline'}`}>
+      <div
+        className={classNames(`tab__presentation`, {
+          'tab__presentation--inline': inline
+        })}
+      >
         {icon && <div className={'tab__presentation__icon'}>{icon}</div>}
         {text && <div className={'tab__presentation__text'}>{text}</div>}
         <span

@@ -36,7 +36,7 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   })
 
   return (
-    <IndicatorActiveContext.Provider value={{active: current, previous: last, setActive: setCurrentAndLast, init}}>
+    <IndicatorActiveContext.Provider value={{active: current, previous: last, setActive: setCurrentAndLast}}>
       <div ref={ref} className={'nd-tabs'} {...rest}>
         {children}
         <Divider/>

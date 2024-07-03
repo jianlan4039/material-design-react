@@ -45,7 +45,7 @@ const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, r
   } = props
 
   const id = useId()
-  const {active: _active, previous, setActive,} = useContext(IndicatorActiveContext)
+  const {active, previous, setActive,} = useContext(IndicatorActiveContext)
   const [isActive, setIsActive] = useState<boolean>(false)
   const indicator = useRef<HTMLSpanElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -67,6 +67,10 @@ const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, r
       animateIndicating()
     }
   }, [isActive]);
+
+  useEffect(() => {
+    setIsActive(active?.id === id)
+  }, [active]);
 
   useImperativeHandle(ref, () => ({
     tab: wrapperRef.current
