@@ -12,7 +12,7 @@ import SubMenu, {SubMenuHandle} from "./SubMenu";
 import {outsideHandler} from "../internal/common/handlers";
 import {Option} from "./internal/menuTypes";
 import './MenuItem.scss'
-import {SelectionContext} from "../internal/context/SelectionContext";
+import {MultiSelectContext} from "../internal/context/MultiSelectContext";
 
 export interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
   children?: ReactNode
@@ -57,7 +57,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
 
   const [anchor, setAnchor] = useState<HTMLDivElement>()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const {multiple = false, list = [], setList} = useContext(SelectionContext)
+  const {multiple = false, list = [], setList} = useContext(MultiSelectContext)
 
   const mouseOverHandler = (e: MouseEvent<HTMLLIElement>) => {
     onMouseOver?.(e)
@@ -124,8 +124,8 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
       ref={listItemRef}
       className={`menu-item ${selected || isOpen ? 'selected' : ''}`}
       label={label}
-      start={start}
-      end={subMenu ? customOpenIcon ? customOpenIcon :
+      icon={start}
+      trailingIcon={subMenu ? customOpenIcon ? customOpenIcon :
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
           <path d="M400-280v-400l200 200-200 200Z"/>
         </svg> : end

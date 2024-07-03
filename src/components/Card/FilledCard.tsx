@@ -14,6 +14,7 @@ const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCar
     children,
     style,
     disabled,
+    className,
     ...rest
   } = props
 
@@ -22,7 +23,7 @@ const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCar
   return (
     <div
       ref={ref}
-      className={cln('nd-filled-card', {
+      className={cln('nd-filled-card', className, {
         'nd-disabled': disabled
       })}
       style={style}

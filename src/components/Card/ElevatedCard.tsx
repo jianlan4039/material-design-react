@@ -14,6 +14,7 @@ const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) 
   const {
     children,
     style,
+    className,
     disabled,
     ...rest
   } = props
@@ -23,7 +24,7 @@ const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) 
   return (
     <div
       ref={ref}
-      className={cln('nd-elevated-card', {
+      className={cln('nd-elevated-card', className, {
         'nd-disabled': disabled
       })}
       style={style}

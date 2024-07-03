@@ -1,11 +1,11 @@
-import React, {ReactNode, useEffect, useRef, useState, MouseEvent} from 'react'
-import {IndicatorRectContextProvider} from "../internal/context/indicator";
-import './NavigationDrawer.scss'
+import React, {ReactNode, useEffect, useRef, useState, MouseEvent, useMemo} from 'react';
+import {IndicatorActiveContextProvider} from "../internal/context/IndicatorActiveContext";
 import NavigationEnter, {NavigationEnterProps} from "./internal/NavigationEnter";
-import Divider from "../Divider/Divider";
-import c from 'classnames'
-import Elevation from "../Elevation";
 import {EASING, DURATION} from "../internal/motion/animation";
+import Divider from "../Divider/Divider";
+import Elevation from "../Elevation";
+import './NavigationDrawer.scss';
+import c from 'classnames';
 
 export interface Block {
   headline: string
@@ -20,6 +20,7 @@ export interface INavigationDrawerProps {
   show?: boolean
   onClose?: () => void
   stayOpenOnOutsideClick?: boolean
+  active?: string
 }
 
 export default function NavigationDrawer(props: INavigationDrawerProps) {
@@ -30,7 +31,8 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     modal,
     show,
     stayOpenOnOutsideClick = false,
-    onClose
+    onClose,
+    active,
   } = props
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -40,6 +42,32 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
 
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isAnimating, setIsAnimating] = useState<boolean | undefined>(undefined)
+
+  const Items = useMemo(() => {
+    return items?.map((enter, index) => {
+      return (
+        <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
+      )
+    })
+  }, [items])
+
+  const Blocks = useMemo(() => {
+    if (!block) return;
+    const {headline, items} = block
+    return (
+      <>
+        <h3 className={'headline'}>{headline}</h3>
+        {
+          items?.map((enter, index) => {
+            return (
+              <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
+            )
+          })
+        }
+        <Divider variant={'inset'}></Divider>
+      </>
+    )
+  }, [block])
 
   useEffect(() => {
     if (dialogRef.current && modal) {
@@ -69,7 +97,6 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     setIsAnimating(true)
     const {width} = contentRef.current.getBoundingClientRect()
     const {paddingInline} = contentRef.current.style
-    console.log(width)
     const contentAnimation = contentRef.current.animate([
       {inlineSize: 0, paddingInline: 0, opacity: 0},
       {inlineSize: `${width}px`, paddingInline: `${paddingInline}`, opacity: 1}
@@ -92,7 +119,6 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     setIsAnimating(true)
     const {width} = contentRef.current.getBoundingClientRect()
     const {paddingInline} = contentRef.current.style
-    console.log(width)
     const contentAnimation = contentRef.current.animate([
       {inlineSize: `${width}px`, paddingInline: `${paddingInline}`, opacity: 1},
       {inlineSize: 0, paddingInline: 0, opacity: 0},
@@ -131,37 +157,16 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
   };
 
   return (
-    <IndicatorRectContextProvider>
+    <IndicatorActiveContextProvider active={active}>
       <div className={c('navigation-drawer-container')}>
         <dialog ref={dialogRef} className={c('navigation-drawer-dialog')}>
           <ul ref={contentRef} className={c('navigation-drawer', {'modal': modal})}>
             {modal && <Elevation></Elevation>}
-            {
-              items?.map((enter, index) => {
-                return (
-                  <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
-                )
-              })
-            }
-            {
-              block &&
-              <>
-                <h3 className={'headline'}>{block.headline}</h3>
-                {
-                  block.items?.map((enter, index) => {
-                    return (
-                      <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
-                    )
-                  })
-                }
-                <Divider variant={'inset'}></Divider>
-              </>
-            }
-            {children}
+            {Items || Blocks || children}
           </ul>
           {modal && <div ref={scrimRef} className={c('navigation-drawer-scrim')} onClick={scrimClickHandler}></div>}
         </dialog>
       </div>
-    </IndicatorRectContextProvider>
+    </IndicatorActiveContextProvider>
   )
 }

@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import './MonthView.scss'
 import {StateElement} from "../../internal/common/StateElement";
 import MonthViewDate from "./MonthViewDate";
-import {SelectionContextProvider} from "../../internal/context/SelectionContext";
+import {SelectionContextProvider} from "../../internal/context/MultiSelectContext";
 
 interface IMonthViewProps extends StateElement {
   year: number;

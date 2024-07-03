@@ -1,5 +1,5 @@
 import React, {ReactNode, useState} from 'react'
-import {SelectionContextProvider} from "../internal/context/SelectionContext";
+import {SelectionContextProvider} from "../internal/context/MultiSelectContext";
 
 export interface RadioGroupProps {
   children?: ReactNode

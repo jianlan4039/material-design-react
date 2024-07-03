@@ -51,7 +51,7 @@ $_motion: md-sys-motion.values();
     }
 
 
-    .nd-state-layer {
+    .nd-ripple {
       margin-inline: auto;
       block-size: var(--_active-indicator-height);
       border-radius: var(--_active-indicator-shape);

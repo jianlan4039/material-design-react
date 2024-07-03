@@ -11,7 +11,7 @@ import React, {
 import ListItem, {ListItemProps} from "../../List/ListItem";
 import './NavigationEnter.scss';
 import c from 'classnames'
-import {IndicatorRectContext} from "../../internal/context/indicator";
+import {IndicatorActiveContext} from "../../internal/context/IndicatorActiveContext";
 import {EASING, DURATION} from "../../internal/motion/animation";
 
 export interface NavigationEnterProps extends ListItemProps {
@@ -27,13 +27,12 @@ export interface NavigationEnterHandle {
 const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterProps>((props, ref) => {
   const {
     id = useId(),
-    active,
     subEntries,
-    end,
+    trailingIcon,
     ...rest
   } = props
 
-  const {current, setCurrent} = useContext(IndicatorRectContext)
+  const {active, setActive} = useContext(IndicatorActiveContext)
   const listRef = useRef<NavigationEnterHandle>(null);
   const subEntryRef = useRef<HTMLUListElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -51,15 +50,15 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
 
   useEffect(() => {
     if (listRef.current && listRef.current.root) {
-      active && setCurrent?.({id: id})
+      active && setActive?.({id: id})
     }
   }, [listRef]);
 
   useEffect(() => {
-    if (current) {
-      setIsActive(current.id === id)
+    if (active) {
+      setIsActive(active.id === id)
     }
-  }, [current]);
+  }, [active]);
 
   useEffect(() => {
     if (isOpen) {
@@ -80,7 +79,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     if (subEntries) {
       setIsOpen(!isOpen)
     } else {
-      setCurrent?.({id: id})
+      setActive?.({id: id})
     }
   }
 
@@ -141,7 +140,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
       })}
       onClick={clickHandler}
       interactive={!isOpen}
-      end={subEntries ? isOpen ? <UpArrow></UpArrow> : <DownArrow></DownArrow> : end}
+      trailingIcon={subEntries ? isOpen ? <UpArrow></UpArrow> : <DownArrow></DownArrow> : trailingIcon}
       {...rest}
     >
       <div ref={indicatorRef} className={'indicator'}></div>

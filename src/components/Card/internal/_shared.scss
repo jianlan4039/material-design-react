@@ -17,7 +17,6 @@
   @include background.styles;
 
   position: relative;
-  display: inline-flex;
   border-start-start-radius: var(--_container-shape-start-start);
   border-start-end-radius: var(--_container-shape-start-end);
   border-end-start-radius: var(--_container-shape-end-start);
@@ -27,7 +26,6 @@
   .nd-card-content {
     border-radius: inherit;
     position: relative;
-    display: inline-flex;
     block-size: inherit;
     inline-size: inherit;
   }

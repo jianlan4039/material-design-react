@@ -32,7 +32,7 @@ $values: (
     @include tokens-builder.tokens($values, navigation-indicator);
     @include background.styles;
     $_easing: map.get($_motion, 'easing-emphasized-decelerate');
-    $_duration: map.get($_motion, 'duration-short3');
+    $_duration: map.get($_motion, 'duration-medium1');
     position: absolute;
     block-size: var(--_height);
     inline-size: var(--_width);
@@ -40,9 +40,10 @@ $values: (
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
-    .nd-state-layer, &::before {
-      transition: inline-size $_easing $_duration;
+    .nd-ripple, &::before {
+      transition: background-color $_easing $_duration;
       inline-size: inherit;
       block-size: inherit;
       inset: unset;
@@ -52,13 +53,6 @@ $values: (
       @include background.theme((
         color: var(--_color)
       ));
-    }
-
-    &.animating {
-      &::before, .nd-state-layer {
-        inset: auto;
-        inline-size: var(--_height);
-      }
     }
   }
 }

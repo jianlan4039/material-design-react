@@ -14,6 +14,7 @@ const OutlineCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) =>
   const {
     children,
     style,
+    className,
     disabled,
     ...rest
   } = props
@@ -23,7 +24,7 @@ const OutlineCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) =>
   return (
     <div
       ref={ref}
-      className={cln('nd-outline-card', {
+      className={cln('nd-outline-card', className, {
         'nd-disabled': disabled
       })}
       style={style}
