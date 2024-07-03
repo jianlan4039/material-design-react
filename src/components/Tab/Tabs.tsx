@@ -17,12 +17,6 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   const [last, setLast] = useState<Target>()
   const currentBuffer = useRef<Target>();
 
-  const init = (newCurrent: Target, force?: boolean) => {
-    if (!currentBuffer.current || force) {
-      currentBuffer.current = newCurrent
-    }
-  }
-
   const setCurrentAndLast = (newCurrent: Target) => {
     setLast(current)
     setCurrent(newCurrent)
