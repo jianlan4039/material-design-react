@@ -7,6 +7,7 @@ import Elevation from "../Elevation";
 import './NavigationDrawer.scss';
 import c from 'classnames';
 import {BaseElement} from "../internal/common/BaseElement";
+import List from "../List/List";
 
 export interface Block {
   headline: string
@@ -161,15 +162,13 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
 
   return (
     <IndicatorActiveContextProvider active={active}>
-      <div className={c('navigation-drawer-container')} style={style}>
-        <dialog ref={dialogRef} className={c('navigation-drawer-dialog', className, {'modal': modal})}>
-          <Elevation></Elevation>
-          <ul ref={contentRef} className={c('navigation-drawer')}>
-            {Items || Blocks || children}
-          </ul>
-          {modal && <div ref={scrimRef} className={c('navigation-drawer-scrim')} onClick={scrimClickHandler}></div>}
-        </dialog>
-      </div>
+      <dialog ref={dialogRef} className={c('navigation-drawer', className, {'modal': modal})}>
+        <Elevation></Elevation>
+        <List ref={contentRef}>
+          {Items || Blocks || children}
+        </List>
+        {modal && <div ref={scrimRef} className={c('navigation-drawer-scrim')} onClick={scrimClickHandler}></div>}
+      </dialog>
     </IndicatorActiveContextProvider>
   )
 }

@@ -19,81 +19,85 @@ $_values: (
 );
 
 @mixin styles() {
-  .navigation-drawer-container {
+  .navigation-drawer {
     @include tokens-builder.tokens(md-comp-navigation-drawer.values(), navigation-drawer);
-    display: contents;
+    @include background.theme((
+      color: var(--_standard-container-color),
+    ));
+    --_container-shape-start-start: var(--md-navigation-drawer-container-shape-start-start, 0);
+    --_container-shape-start-end: var(--md-navigation-drawer-container-shape-start-end, 16px);
+    --_container-shape-end-end: var(--md-navigation-drawer-container-shape-end-end, 16px);
+    --_container-shape-end-start: var(--md-navigation-drawer-container-shape-end-start, 0);
 
-    .navigation-drawer-dialog {
+    padding: 0;
+    border-radius: var(--_container-shape-start-start) var(--_container-shape-start-end) var(--_container-shape-end-end) var(--_container-shape-end-start);
+    border-width: 0;
+    border-style: none;
+    border-color: transparent;
+    outline: none;
+    background-color: transparent;
+    overflow: hidden;
+    margin-left: 0;
+    left: 0;
+    top: 0;
+
+    &.modal {
       @include background.theme((
-        color: var(--_standard-container-color),
-        z-index: 1
+        color: var(--_modal-container-color)
       ));
-      padding: 0;
-      position: fixed;
-      inset: 0 0 auto 0;
-      border-radius: var(--_container-shape);
-      border-width: 0;
-      border-style: none;
-      border-color: transparent;
-      outline: none;
-      margin: 0;
-      background-color: transparent;
+      @include elevation.theme((
+        level: var(--_modal-container-elevation)
+      ));
+      block-size: 100vh;
+      margin-bottom: 0;
+      margin-top: 0;
+      left: 0;
+    }
+
+    .list {
+      @include list-item.theme((
+        one-line-container-height: var(--_active-indicator-height)
+      ));
+      display: block;
+      inline-size: var(--_container-width);
       block-size: var(--_container-height);
-      overflow: hidden;
-      @include background.styles;
+      border-radius: inherit;
+      padding-inline: 12px;
+      box-sizing: border-box;
+      margin: 0;
+      list-style: none;
+      overflow: scroll;
+      background-color: var(--_standard-container-color);
 
-      &.modal {
-        @include background.theme((
-          color: var(--_modal-container-color)
-        ));
-        @include elevation.theme((
-          level: var(--_modal-container-elevation)
-        ));
-        position: fixed;
-        inset: 0 auto 0 0;
+      &::before {
+        background: none;
       }
 
-      .navigation-drawer {
-        @include list-item.theme((
-          one-line-container-height: var(--_active-indicator-height)
-        ));
-        display: block;
-        position: relative;
-        inline-size: var(--_container-width);
-        block-size: inherit;
-        border-radius: inherit;
-        padding-inline: 12px;
-        box-sizing: border-box;
+      .headline {
         margin: 0;
-        list-style: none;
-        overflow: scroll;
-
-        .headline {
-          margin: 0;
-          padding-inline-start: 16px;
-          font-family: var(--_headline-font), serif;
-          font-size: var(--_headline-size);
-          font-weight: var(--_headline-weight);
-          line-height: calc(var(--_headline-line-height) * 3);
-          color: var(--_headline-color);
-        }
-
-        .nd-divider {
-          margin-block-start: 4px;
-        }
+        padding-inline-start: 16px;
+        font-family: var(--_headline-font), serif;
+        font-size: var(--_headline-size);
+        font-weight: var(--_headline-weight);
+        line-height: calc(var(--_headline-line-height) * 3);
+        color: var(--_headline-color);
       }
 
-      .navigation-drawer-scrim {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        opacity: 0.4;
-        background-color: map.get($_default, 'palette', 'neutral-variant20');
+      .nd-divider {
+        margin-block-start: 4px;
       }
+    }
 
-      &::backdrop {
-        background-color: transparent;
-      }
+    .navigation-drawer-scrim {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.4;
+      background-color: map.get($_default, 'palette', 'neutral-variant20');
+    }
+
+    &::backdrop {
+      background-color: transparent;
     }
   }
 }
