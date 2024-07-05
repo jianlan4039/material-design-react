@@ -6,13 +6,14 @@ import Divider from "../Divider/Divider";
 import Elevation from "../Elevation";
 import './NavigationDrawer.scss';
 import c from 'classnames';
+import {BaseElement} from "../internal/common/BaseElement";
 
 export interface Block {
   headline: string
   items?: NavigationEnterProps[]
 }
 
-export interface INavigationDrawerProps {
+export interface INavigationDrawerProps extends BaseElement {
   children?: ReactNode
   items?: NavigationEnterProps[]
   block?: Block
@@ -33,6 +34,8 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     stayOpenOnOutsideClick = false,
     onClose,
     active,
+    className,
+    style
   } = props
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -82,7 +85,7 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     } else if (!modal && dialogRef.current) {
       dialogRef.current.show()
     }
-  }, [show, isVisible]);
+  }, [show, isVisible, modal]);
 
   useEffect(() => {
     if (isAnimating === false) {
@@ -158,10 +161,10 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
 
   return (
     <IndicatorActiveContextProvider active={active}>
-      <div className={c('navigation-drawer-container')}>
-        <dialog ref={dialogRef} className={c('navigation-drawer-dialog')}>
-          <ul ref={contentRef} className={c('navigation-drawer', {'modal': modal})}>
-            {modal && <Elevation></Elevation>}
+      <div className={c('navigation-drawer-container')} style={style}>
+        <dialog ref={dialogRef} className={c('navigation-drawer-dialog', className, {'modal': modal})}>
+          <Elevation></Elevation>
+          <ul ref={contentRef} className={c('navigation-drawer')}>
             {Items || Blocks || children}
           </ul>
           {modal && <div ref={scrimRef} className={c('navigation-drawer-scrim')} onClick={scrimClickHandler}></div>}

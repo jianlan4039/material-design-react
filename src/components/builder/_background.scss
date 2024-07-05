@@ -1,7 +1,7 @@
 @use "tokens-builder";
 
 @mixin theme($tokens) {
-  @include tokens-builder.theme($tokens, ('color', 'opacity'), background);
+  @include tokens-builder.theme($tokens, ('color', 'opacity', 'z-index'), background);
 }
 
 @mixin styles() {
@@ -12,6 +12,6 @@
     border-radius: inherit;
     background-color: var(--md-background-color, var(--_container-color));
     opacity: var(--md-background-opacity, 1);
-    z-index: -1;
+    z-index: var(--md-background-z-index, -1);
   }
 }

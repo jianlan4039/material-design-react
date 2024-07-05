@@ -14,7 +14,7 @@ import {EASING} from "../internal/motion/animation";
 import Elevation from "../Elevation";
 import {alignToAnchor, setPosition} from "../internal/alignment/locate";
 import {OptionValue} from "./internal/menuTypes";
-import {SelectionContextProvider} from "../internal/context/MultiSelectContext";
+import {SelectionContextProvider} from "../internal/context/MultiSelectContextProvider";
 import {BaseElement} from "../internal/common/BaseElement";
 import './Menu.scss'
 import c from 'classnames'

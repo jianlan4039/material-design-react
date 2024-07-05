@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useEffect, useState} from "react";
+import React, {createContext, ReactNode, useEffect, useState} from "react";
 
 export type Target = { target?: HTMLElement, id: string };
 
@@ -11,12 +11,15 @@ export interface IndicatorOperation {
 
 export const IndicatorActiveContext = createContext<IndicatorOperation>({})
 
-export const IndicatorActiveContextProvider = ({children, active: _active}: { children?: ReactNode, active?: string }) => {
+export const IndicatorActiveContextProvider = ({children, active: _active}: {
+  children?: ReactNode,
+  active?: string
+}) => {
   const [previous, setPrevious] = useState<Target>()
   const [active, setActive] = useState<Target>()
 
   useEffect(() => {
-    if(_active){
+    if (_active) {
       handleActive({id: _active})
     }
   }, [_active]);

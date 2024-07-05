@@ -18,24 +18,112 @@ export const Primary: Story = {
     show: false,
     items: [
       {
-        icon: <span className={'material-icons'}>home</span>,
-        label: 'Home',
-        id: 'home'
+        label: 'Button',
+        id: 'button',
+        subEntries: [
+          {
+            label: 'Common Button',
+            id: 'common-button'
+          },
+          {
+            label: 'Icon Button',
+            id: 'icon-button'
+          },
+          {
+            label: 'FAB',
+            id: 'fab'
+          },
+          {
+            label: 'Extended FAB',
+            id: 'extended-fab'
+          },
+          {
+            label: 'Segmented Button',
+            id: 'segmented-button'
+          },
+        ]
       },
       {
-        icon: <span className={'material-icons'}>search</span>,
-        label: 'Search',
-        id: 'search'
+        label: 'Card',
+        id: 'card'
       },
       {
-        icon: <span className={'material-icons'}>settings</span>,
-        label: 'Settings',
-        id: 'settings'
+        label: 'Checkbox',
+        id: 'checkbox'
       },
       {
-        icon: <span className={'material-icons'}>help</span>,
-        label: 'Help',
-        id: 'help'
+        label: 'Chips',
+        id: 'chips'
+      },
+      {
+        label: 'Date Picker',
+        id: 'date-picker'
+      },
+      {
+        label: 'Dialogs',
+        id: 'dialogs'
+      },
+      {
+        label: 'Divider',
+        id: 'divider'
+      },
+      {
+        label: 'Lists',
+        id: 'lists'
+      },
+      {
+        label: 'Menus',
+        id: 'menus'
+      },
+      {
+        label: 'Navigation',
+        id: 'navigation',
+        subEntries: [
+          {
+            label: 'Navigation Rail',
+            id: 'navigation-rail',
+          },
+          {
+            label: 'Navigation Drawer',
+            id: 'navigation-drawer',
+          },
+          {
+            label: 'Navigation Bar',
+            id: 'navigation-bar',
+          }
+        ]
+      },
+      {
+        label: 'Progress Indicators',
+        id: 'progress-indicators'
+      },
+      {
+        label: 'Radio Button',
+        id: 'radio-button',
+      },
+      {
+        label: 'Sliders',
+        id: 'sliders'
+      },
+      {
+        label: 'Snackbar',
+        id: 'snackbar'
+      },
+      {
+        label: 'Switch',
+        id: 'switch'
+      },
+      {
+        label: 'Tabs',
+        id: 'tabs'
+      },
+      {
+        label: 'Text Field',
+        id: 'text-field'
+      },
+      {
+        label: 'Tool Tips',
+        id: 'tooltip'
       }
     ]
   }

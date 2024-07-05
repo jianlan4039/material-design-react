@@ -12,7 +12,7 @@ import SubMenu, {SubMenuHandle} from "./SubMenu";
 import {outsideHandler} from "../internal/common/handlers";
 import {Option} from "./internal/menuTypes";
 import './MenuItem.scss'
-import {MultiSelectContext} from "../internal/context/MultiSelectContext";
+import {MultiSelectContextProvider} from "../internal/context/MultiSelectContextProvider";
 
 export interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
   children?: ReactNode
@@ -57,7 +57,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
 
   const [anchor, setAnchor] = useState<HTMLDivElement>()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const {multiple = false, list = [], setList} = useContext(MultiSelectContext)
+  const {multiple = false, list = [], setList} = useContext(MultiSelectContextProvider)
 
   const mouseOverHandler = (e: MouseEvent<HTMLLIElement>) => {
     onMouseOver?.(e)

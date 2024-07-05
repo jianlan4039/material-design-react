@@ -18,66 +18,70 @@ $_values: (
   scrim: map.get($_default, 'palette', 'neutral-variant20')
 );
 
-@mixin theme($tokens) {
-
-}
-
 @mixin styles() {
   .navigation-drawer-container {
     @include tokens-builder.tokens(md-comp-navigation-drawer.values(), navigation-drawer);
     display: contents;
-  }
 
-  .navigation-drawer {
-    @include background.theme((
-      color: var(--_standard-container-color)
-    ));
-    @include list-item.theme((
-      one-line-container-height: var(--_active-indicator-height)
-    ));
-    position: fixed;
-    z-index: 10;
-    inset: 0 auto 0 0;
-    inline-size: var(--_container-width);
-    block-size: var(--_container-height);
-    border-radius: var(--_container-shape);
-    padding-inline: 12px;
-    box-sizing: border-box;
-    margin: 0;
-    list-style: none;
-    overflow: hidden;
-    @include background.styles;
-
-    .headline {
-      margin: 0;
-      padding-inline-start: 16px;
-      font-family: var(--_headline-font), serif;
-      font-size: var(--_headline-size);
-      font-weight: var(--_headline-weight);
-      line-height: calc(var(--_headline-line-height) * 3);
-      color: var(--_headline-color);
-    }
-
-    .nd-divider {
-      margin-block-start: 4px;
-    }
-
-    &.modal {
-      @include background.theme((
-        color: var(--_modal-container-color)
-      ));
-      @include elevation.theme((
-        level: var(--_modal-container-elevation)
-      ));
-    }
-  }
-
-  .navigation-drawer-container {
     .navigation-drawer-dialog {
+      @include background.theme((
+        color: var(--_standard-container-color),
+        z-index: 1
+      ));
       padding: 0;
-      border: none;
+      position: fixed;
+      inset: 0 0 auto 0;
+      border-radius: var(--_container-shape);
+      border-width: 0;
+      border-style: none;
+      border-color: transparent;
       outline: none;
       margin: 0;
+      background-color: transparent;
+      block-size: var(--_container-height);
+      overflow: hidden;
+      @include background.styles;
+
+      &.modal {
+        @include background.theme((
+          color: var(--_modal-container-color)
+        ));
+        @include elevation.theme((
+          level: var(--_modal-container-elevation)
+        ));
+        position: fixed;
+        inset: 0 auto 0 0;
+      }
+
+      .navigation-drawer {
+        @include list-item.theme((
+          one-line-container-height: var(--_active-indicator-height)
+        ));
+        display: block;
+        position: relative;
+        inline-size: var(--_container-width);
+        block-size: inherit;
+        border-radius: inherit;
+        padding-inline: 12px;
+        box-sizing: border-box;
+        margin: 0;
+        list-style: none;
+        overflow: scroll;
+
+        .headline {
+          margin: 0;
+          padding-inline-start: 16px;
+          font-family: var(--_headline-font), serif;
+          font-size: var(--_headline-size);
+          font-weight: var(--_headline-weight);
+          line-height: calc(var(--_headline-line-height) * 3);
+          color: var(--_headline-color);
+        }
+
+        .nd-divider {
+          margin-block-start: 4px;
+        }
+      }
 
       .navigation-drawer-scrim {
         position: fixed;

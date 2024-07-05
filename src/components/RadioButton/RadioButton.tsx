@@ -1,6 +1,6 @@
 import React, {useState, useEffect, forwardRef, HTMLProps, useContext, useRef, useImperativeHandle} from 'react';
 import './RadioButton.scss'
-import {MultiSelectContext} from "../internal/context/MultiSelectContext";
+import {MultiSelectContextProvider} from "../internal/context/MultiSelectContextProvider";
 import c from 'classnames'
 import useRipple from "../Ripple/useRipple";
 import useFocusRing from "../Focus/useFocusRing";
@@ -32,7 +32,7 @@ const RadioButton = forwardRef<RadioButtonHandle, RadioButtonProps>((props, ref)
   } = props
 
   const [isSelected, setIsSelected] = useState<boolean>(selected || false);
-  const {list: selectedList, setList} = useContext(MultiSelectContext)
+  const {list: selectedList, setList} = useContext(MultiSelectContextProvider)
 
   const radio = useRef<HTMLInputElement>(null);
   const [parent, setParent] = useState<HTMLInputElement>()
