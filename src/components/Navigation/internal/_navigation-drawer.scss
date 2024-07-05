@@ -36,7 +36,6 @@ $_values: (
     border-color: transparent;
     outline: none;
     background-color: transparent;
-    overflow: hidden;
     margin-left: 0;
     left: 0;
     top: 0;
@@ -98,6 +97,12 @@ $_values: (
 
     &::backdrop {
       background-color: transparent;
+    }
+
+    &:hover {
+      @include elevation.theme((
+        level: 1
+      ));
     }
   }
 }
