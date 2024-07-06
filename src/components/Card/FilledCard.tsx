@@ -7,6 +7,7 @@ import useRipple from "../Ripple/useRipple";
 
 export interface FilledCardProps extends CardProps {
   children?: ReactNode
+  interactive?: boolean
 }
 
 const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCardProps, ref) => {
@@ -15,6 +16,7 @@ const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCar
     style,
     disabled,
     className,
+    interactive = true,
     ...rest
   } = props
 
@@ -24,13 +26,14 @@ const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCar
     <div
       ref={ref}
       className={cln('nd-filled-card', className, {
-        'nd-disabled': disabled
+        'nd-disabled': disabled,
+        'nd-card--static': !interactive,
       })}
       style={style}
       {...rippleProps}
     >
       <Elevation></Elevation>
-      {ripple}
+      {interactive && ripple}
       <Card disabled={disabled} {...rest}>{children}</Card>
     </div>
   )

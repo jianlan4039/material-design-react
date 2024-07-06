@@ -1,5 +1,3 @@
 @use "internal/filled-button";
 
-.nd-filled-button{
-  @include filled-button.styles;
-}
+@include filled-button.styles;

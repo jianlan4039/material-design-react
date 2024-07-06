@@ -13,28 +13,33 @@ $tokens: md-comp-filled-tonal-button.values();
 }
 
 @mixin styles() {
-  @include tokens-builder.tokens($tokens, filled-tonal-button);
-
-  @include elevation.theme((
-    level: var(--_container-elevation)
-  ));
-  @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
-  ));
-  @include background.theme((
-    color: var(--_container-color)
-  ));
-  --_container-shape-start-start: var(--md-filled-tonal-button-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-filled-tonal-button-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-filled-tonal-button-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-filled-tonal-button-container-shape-end-start, var(--_container-shape));
-  @include focus-ring.theme((
-    shape-start-start: var(--_container-shape-start-start),
-    shape-start-end: var(--_container-shape-start-end),
-    shape-end-start: var(--_container-shape-end-start),
-    shape-end-end: var(--_container-shape-end-end),
-  ));
-  @include background.styles;
-  @include shared.styles;
+  .nd-filled-tonal-button{
+    @include tokens-builder.tokens($tokens, filled-tonal-button);
+    @include elevation.theme((
+      level: var(--_container-elevation)
+    ));
+    @include ripple.theme((
+      hover-color: var(--_hover-state-layer-color),
+      hover-opacity: var(--_hover-state-layer-opacity),
+      pressed-color: var(--_pressed-state-layer-color),
+      pressed-opacity: var(--_pressed-state-layer-opacity)
+    ));
+    @include background.theme((
+      color: var(--_container-color),
+      opacity: 1,
+      z-index: -1
+    ));
+    @include focus-ring.theme((
+      shape-start-start: var(--_container-shape-start-start),
+      shape-start-end: var(--_container-shape-start-end),
+      shape-end-start: var(--_container-shape-end-start),
+      shape-end-end: var(--_container-shape-end-end),
+    ));
+    --_container-shape-start-start: var(--md-filled-tonal-button-container-shape-start-start, var(--_container-shape));
+    --_container-shape-start-end: var(--md-filled-tonal-button-container-shape-start-end, var(--_container-shape));
+    --_container-shape-end-end: var(--md-filled-tonal-button-container-shape-end-end, var(--_container-shape));
+    --_container-shape-end-start: var(--md-filled-tonal-button-container-shape-end-start, var(--_container-shape));
+    @include background.styles;
+    @include shared.styles;
+  }
 }

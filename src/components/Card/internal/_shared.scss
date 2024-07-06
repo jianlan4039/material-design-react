@@ -26,11 +26,12 @@
   .nd-card-content {
     border-radius: inherit;
     position: relative;
-    block-size: inherit;
-    inline-size: inherit;
+    block-size: 100%;
+    inline-size: 100%;
+    overflow: auto;
   }
 
-  &:focus-visible {
+  &:not(.nd-card--static):focus-visible {
     @include background.theme((
       color: var(--_focus-state-layer-color),
       opacity: var(--_focus-state-layer-opacity)
@@ -40,13 +41,13 @@
     ));
   }
 
-  &:hover {
+  &:not(.nd-card--static):hover {
     @include elevation.theme((
       level: var(--_hover-container-elevation),
     ));
   }
 
-  &:active {
+  &:not(.nd-card--static):active {
     @include elevation.theme((
       level: var(--_pressed-container-elevation),
     ));

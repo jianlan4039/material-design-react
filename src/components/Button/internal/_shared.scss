@@ -28,11 +28,11 @@
     font-size: var(--_label-text-size);
     font-family: var(--_label-text-font), serif;
     line-height: var(--_label-text-line-height);
+    block-size: 100%;
     font-weight: var(--_label-text-weight);
     justify-content: center;
     align-items: center;
     gap: 8px;
-    block-size: 40px;
     cursor: pointer;
     $single-line-height: max(var(--_label-text-line-height), var(--_icon-size));
     padding-block: calc((var(--_container-height) - $single-line-height) / 2);

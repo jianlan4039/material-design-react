@@ -8,6 +8,7 @@ import useRipple from "../Ripple/useRipple";
 
 export interface ElevatedCardProps extends CardProps {
   children?: ReactNode
+  interactive?: boolean
 }
 
 const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) => {
@@ -16,6 +17,7 @@ const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) 
     style,
     className,
     disabled,
+    interactive = true,
     ...rest
   } = props
 
@@ -25,13 +27,14 @@ const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) 
     <div
       ref={ref}
       className={cln('nd-elevated-card', className, {
-        'nd-disabled': disabled
+        'nd-disabled': disabled,
+        'nd-card--static': !interactive,
       })}
       style={style}
       {...rippleProps}
     >
       <Elevation></Elevation>
-      {ripple}
+      {interactive && ripple}
       <Card disabled={disabled} {...rest}>{children}</Card>
     </div>
   )
