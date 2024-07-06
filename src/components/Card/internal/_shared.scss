@@ -4,7 +4,9 @@
 
 @mixin styles() {
   @include background.theme((
-    color: var(--_container-color)
+    color: var(--_container-color),
+    opacity: 1,
+    z-index: -1
   ));
   @include elevation.theme((
     level: var(--_container-elevation),
@@ -12,16 +14,21 @@
   ));
   @include ripple.theme((
     hover-color:var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
+    hover-opacity: var(--_hover-state-layer-opacity),
+    pressed-color: var(--_pressed-state-layer-color),
+    pressed-opacity: var(--_pressed-state-layer-opacity)
   ));
   @include background.styles;
 
   position: relative;
+  display: inline-block;
   border-start-start-radius: var(--_container-shape-start-start);
   border-start-end-radius: var(--_container-shape-start-end);
   border-end-start-radius: var(--_container-shape-end-start);
   border-end-end-radius: var(--_container-shape-end-end);
   z-index: 10;
+  min-block-size: 50px;
+  min-inline-size: 50px;
 
   .nd-card-content {
     border-radius: inherit;

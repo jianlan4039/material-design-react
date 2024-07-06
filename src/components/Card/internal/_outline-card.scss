@@ -10,10 +10,12 @@ $supported-tokens: md-comp-outlined-card.$supported-tokens;
 }
 
 @mixin styles() {
-  @include tokens-builder.tokens($tokens, outlined-card);
-  --_container-shape-start-start: var(--_md-outlined-card-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--_md-outlined-card-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-start: var(--_md-outlined-card-container-shape-end-start, var(--_container-shape));
-  --_container-shape-end-end: var(--_md-outlined-card-container-shape-end-end, var(--_container-shape));
-  @include shared.styles;
+  .nd-outline-card {
+    @include tokens-builder.tokens($tokens, outlined-card);
+    --_container-shape-start-start: var(--_md-outlined-card-container-shape-start-start, var(--_container-shape));
+    --_container-shape-start-end: var(--_md-outlined-card-container-shape-start-end, var(--_container-shape));
+    --_container-shape-end-start: var(--_md-outlined-card-container-shape-end-start, var(--_container-shape));
+    --_container-shape-end-end: var(--_md-outlined-card-container-shape-end-end, var(--_container-shape));
+    @include shared.styles;
+  }
 }

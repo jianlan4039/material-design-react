@@ -1,5 +1,3 @@
 @use "internal/outline-card";
 
-.nd-outline-card{
-  @include outline-card.styles;
-}
+@include outline-card.styles;
