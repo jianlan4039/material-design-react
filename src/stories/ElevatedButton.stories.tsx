@@ -15,9 +15,7 @@ type Story = StoryObj<typeof ElevatedButton>;
 export const Primary: Story = {
   render: () => {
     return (
-      <ElevatedCard style={{width: '500px', height: '500px'}}>
-        <ElevatedButton>Elevated Button</ElevatedButton>
-      </ElevatedCard>
+      <ElevatedButton disabled>Elevated Button</ElevatedButton>
     )
   }
 }
