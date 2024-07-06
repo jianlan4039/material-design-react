@@ -15,7 +15,7 @@ type Story = StoryObj<typeof ElevatedButton>;
 export const Primary: Story = {
   render: () => {
     return (
-      <ElevatedButton disabled>Elevated Button</ElevatedButton>
+      <ElevatedButton>Elevated Button</ElevatedButton>
     )
   }
 }

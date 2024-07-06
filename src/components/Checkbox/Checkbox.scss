@@ -3,6 +3,7 @@
 @use "../builder/background";
 @use "../tokens/md-comp-checkbox";
 @use "../Ripple/internal/ripple";
+@use "../Focus/internal/focus-ring";
 
 $tokens: md-comp-checkbox.values();
 $supported-tokens: md-comp-checkbox.$supported-tokens;
@@ -11,10 +12,22 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
   @include tokens-builder.tokens($tokens, checkbox);
   @include ripple.theme((
     hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
+    hover-opacity: var(--_hover-state-layer-opacity),
+    pressed-color: var(--_pressed-state-layer-color),
+    pressed-opacity: var(--_pressed-state-layer-opacity),
+  ));
+  --_container-shape-start-start: var(--md-checkbox-shape-start-start, var(--_state-layer-shape));
+  --_container-shape-start-end: var(--md-checkbox-shape-start-end, var(--_state-layer-shape));
+  --_container-shape-end-end: var(--md-checkbox-shape-end-end, var(--_state-layer-shape));
+  --_container-shape-end-start: var(--md-checkbox-shape-end-start, var(--_state-layer-shape));
+  @include focus-ring.theme((
+    shape-start-start: var(--_container-shape-start-start),
+    shape-start-end: var(--_container-shape-start-end),
+    shape-end-start: var(--_container-shape-end-start),
+    shape-end-end: var(--_container-shape-end-end),
   ));
   @include check-box.styles;
-  border-radius: var(--_state-layer-shape);
+  border-radius: var(--_container-shape-start-start) var(--_container-shape-start-end) var(--_container-shape-end-start) var(--_container-shape-end-end);
   block-size: 24px;
   inline-size: 24px;
 

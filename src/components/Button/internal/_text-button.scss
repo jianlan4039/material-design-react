@@ -19,16 +19,16 @@ $tokens: md-comp-text-button.values();
       pressed-color: var(--_pressed-state-layer-color),
       pressed-opacity: var(--_pressed-state-layer-opacity)
     ));
+    --_container-shape-start-start: var(--md-text-button-container-shape-start-start, var(--_container-shape));
+    --_container-shape-start-end: var(--md-text-button-container-shape-start-end, var(--_container-shape));
+    --_container-shape-end-end: var(--md-text-button-container-shape-end-end, var(--_container-shape));
+    --_container-shape-end-start: var(--md-text-button-container-shape-end-start, var(--_container-shape));
     @include focus-ring.theme((
       shape-start-start: var(--_container-shape-start-start),
       shape-start-end: var(--_container-shape-start-end),
       shape-end-start: var(--_container-shape-end-start),
       shape-end-end: var(--_container-shape-end-end),
     ));
-    --_container-shape-start-start: var(--md-text-button-container-shape-start-start, var(--_container-shape));
-    --_container-shape-start-end: var(--md-text-button-container-shape-start-end, var(--_container-shape));
-    --_container-shape-end-end: var(--md-text-button-container-shape-end-end, var(--_container-shape));
-    --_container-shape-end-start: var(--md-text-button-container-shape-end-start, var(--_container-shape));
     @include shared.styles;
   }
 }
