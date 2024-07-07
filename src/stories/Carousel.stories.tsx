@@ -3,7 +3,7 @@ import Carousel from "../components/Carousel/Carousel";
 
 const meta: Meta = {
   component: Carousel,
-  title: "Container/Carousel",
+  title: "Carousel",
 }
 
 export default meta;
