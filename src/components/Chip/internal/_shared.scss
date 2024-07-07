@@ -23,15 +23,27 @@
   ));
 
   @include focus-ring.theme((
-    shape-start-start: var(--_container-shape-start-start),
-    shape-start-end: var(--_container-shape-start-end),
-    shape-end-start: var(--_container-shape-end-start),
-    shape-end-end: var(--_container-shape-end-end),
+    shape-start-start: var(--_chip-shape-start-start),
+    shape-start-end: var(--_chip-shape-start-end),
+    shape-end-start: var(--_chip-shape-end-start),
+    shape-end-end: var(--_chip-shape-end-end),
   ));
 
   @include ripple.theme((
     hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
+    hover-opacity: var(--_hover-state-layer-opacity),
+    pressed-color: var(--_pressed-state-layer-color),
+    pressed-opacity: var(--_pressed-state-layer-opacity),
+  ));
+
+  @include background.theme((
+    color: transparent,
+    opacity: 1
+  ));
+
+  @include elevation.theme((
+    level: 0,
+    shadow-color: transparent,
   ));
 
   position: relative;
@@ -43,11 +55,56 @@
   border-end-start-radius: var(--_chip-shape-end-start, var(--_container-shape));
   border-end-end-radius: var(--_chip-shape-end-end, var(--_container-shape));
   z-index: 10;
+  block-size: var(--_chip-height);
+
+  .nd-chip__button {
+    border: none;
+    outline: none;
+    background: transparent;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    block-size: 100%;
+    gap: 8px;
+    padding-inline-start: var(--_chip-padding-inline-start);
+    padding-inline-end: var(--_chip-padding-inline-end);
+    $single-line-height: max(var(--_chip-line-height), var(--_chip-icon-size));
+    padding-block: calc((var(--_chip-height) - $single-line-height) / 2);
+    border-radius: inherit;
+
+    .nd-chip__icon-slot {
+      display: contents;
+    }
+
+    .nd-chip__icon-slot,
+    .nd-chip__icon-slot > * {
+      color: var(--_chip-icon-color);
+      font-size: var(--_chip-icon-size);
+    }
+
+    .nd-chip__label {
+      font-family: var(--_chip-font-family), serif;
+      font-size: var(--_chip-font-size);
+      color: var(--_chip-font-color);
+      line-height: var(--_chip-line-height);
+      font-weight: var(--_chip-font-weight);
+    }
+
+    &.nd-chip--with-icon {
+      --_chip-padding-inline-start: var(--_with-leading-icon-leading-space)
+    }
+
+    &.nd-chip--with-trailing-icon {
+      --_chip-padding-inline-end: var(--_with-trailing-icon-trailing-space);
+    }
+  }
 
   &:focus-visible {
     --_chip-font-color: var(--_focus-label-text-color);
     --_chip-icon-color: var(--_focus-leading-icon-color);
     --_chip-trail-color: var(--_focus-trailing-icon-color);
+
     @include outline.theme((
       color: var(--_focus-outline-color)
     ))
@@ -86,12 +143,14 @@
       color: var(--_elevated-container-color)
     ));
     @include elevation.theme((
-      level: var(--_elevated-container-elevation)
+      level: var(--_elevated-container-elevation),
+      shadow-color: var(--_elevated-container-shadow-color)
     ));
 
     &:focus-visible {
       @include elevation.theme((
-        level: var(--_elevated-focus-container-elevation)
+        level: var(--_elevated-focus-container-elevation),
+        shadow-color: var(--_elevated-container-shadow-color)
       ));
     }
 
@@ -115,49 +174,6 @@
       @include elevation.theme((
         level: var(--_elevated-disabled-container-elevation)
       ));
-    }
-  }
-
-  .nd-chip__button {
-    border: none;
-    outline: none;
-    background: transparent;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    block-size: var(--_chip-height);
-    gap: 8px;
-    padding-inline-start: var(--_chip-padding-inline-start);
-    padding-inline-end: var(--_chip-padding-inline-end);
-    $single-line-height: max(var(--_chip-line-height), var(--_chip-icon-size));
-    padding-block: calc((var(--_chip-height) - $single-line-height) / 2);
-    border-radius: inherit;
-
-    .nd-chip__icon-slot {
-      display: contents;
-    }
-
-    .nd-chip__icon-slot,
-    .nd-chip__icon-slot > * {
-      color: var(--_chip-icon-color);
-      font-size: var(--_chip-icon-size);
-    }
-
-    .nd-chip__label {
-      font-family: var(--_chip-font-family), serif;
-      font-size: var(--_chip-font-size);
-      color: var(--_chip-font-color);
-      line-height: var(--_chip-line-height);
-      font-weight: var(--_chip-font-weight);
-    }
-
-    &.nd-chip--with-icon {
-      --_chip-padding-inline-start: var(--_with-leading-icon-leading-space)
-    }
-
-    &.nd-chip--with-trailing-icon {
-      --_chip-padding-inline-end: var(--_with-trailing-icon-trailing-space);
     }
   }
 }
