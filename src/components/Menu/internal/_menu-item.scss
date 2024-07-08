@@ -1,5 +1,6 @@
 @use "../../tokens/md-comp-menu-item";
 @use "../../builder/tokens-builder";
+@use "../../builder/background";
 
 @mixin theme($tokens) {
 
@@ -11,9 +12,14 @@
     position: relative;
     cursor: pointer;
     z-index: 1;
+    @include background.theme((
+      color: var(--_container-color),
+      opacity: 1
+    ));
+    @include background.styles;
 
-    .lsc{
-      .lsc__end{
+    .lsc {
+      .lsc__end {
         padding-inline-end: 12px;
       }
     }
@@ -23,11 +29,23 @@
     }
 
     &.selected {
-      background: var(--_selected-container-color);
+      @include background.theme((
+        color: var(--_selected-container-color),
+      ));
 
       .list-item__label {
         color: var(--_selected-label-text-color);
       }
+    }
+
+    &:first-child {
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
     }
   }
 }
