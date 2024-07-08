@@ -47,7 +47,14 @@ export const Primary: Story = {
     return <>
       <div style={{position: 'relative'}}>
         <ElevatedButton ref={btn} onClick={openMenu}>Open Menu</ElevatedButton>
-        <Menu items={months} anchorEl={menuAnchor} open={open} onClosed={openMenu} onValueChange={changeHandler}></Menu>
+        <Menu
+          items={months}
+          anchorEl={menuAnchor}
+          open={open}
+          onClosed={openMenu}
+          onValueChange={changeHandler}
+          preset={['2']}
+        ></Menu>
       </div>
     </>
   }

@@ -95,7 +95,7 @@ const Panel = React.memo((props: PanelProps) => {
     }
   }
 
-  const yearScrollHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+  const yearScrollHandler = (e: ReactMouseEvent<HTMLOListElement>) => {
     const {scrollTop, clientHeight, scrollHeight} = e.currentTarget;
     if (scrollHeight - scrollTop === clientHeight) {
       loadMoreYears(true)

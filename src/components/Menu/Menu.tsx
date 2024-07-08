@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
-  MouseEvent as ReactMouseEvent, useMemo, HTMLAttributes,
+  useMemo,
 } from 'react'
 import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
@@ -14,7 +14,6 @@ import Elevation from "../Elevation";
 import {alignToAnchor, setPosition} from "../internal/alignment/locate";
 import {OptionValue} from "./internal/menuTypes";
 import {SelectionContextProvider} from "./internal/context";
-import {BaseElement} from "../internal/common/BaseElement";
 import './Menu.scss'
 import c from 'classnames'
 import {outsideHandler} from "../internal/common/handlers";
@@ -36,6 +35,7 @@ export interface MenuProps extends ListProps {
   keepOpen?: boolean
   multiple?: boolean
   position?: 'absolute' | 'fixed'
+  preset?: (string | number)[]
   onOpening?: () => void
   onOpened?: () => void
   onClosing?: () => void
@@ -62,6 +62,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     stayOpenOnOutsideClick,
     keepOpen = false,
     multiple = false,
+    preset = [],
     position = 'absolute',
     onOpening,
     onOpened,
@@ -83,7 +84,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const animationBuffer = useRef<Animation[]>([])
-  const [selectedList, setSelectedList] = useState<string[]>([])
+  const [selectedList, setSelectedList] = useState<(string | number)[]>(preset)
 
   useEffect(() => {
     let outsideHandlerCleaner: () => void;
@@ -239,7 +240,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     })
   }
 
-  const setListWithOption = (list: string[]) => {
+  const setListWithOption = (list: (string | number) []) => {
     setSelectedList(list)
     if (list.length > 1) {
       const value: string[] = []

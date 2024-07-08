@@ -23,7 +23,7 @@ export interface MenuItemProps extends ListItemProps {
   trailingIcon?: ReactNode
   label?: string
   keepOpen?: boolean
-  value?: string
+  value?: string | number
   setIsMenuOpen?: (open: boolean) => void
 }
 
