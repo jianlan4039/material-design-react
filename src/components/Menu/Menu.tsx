@@ -62,7 +62,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     stayOpenOnOutsideClick,
     keepOpen = false,
     multiple = false,
-    preset = [],
+    preset,
     position = 'absolute',
     onOpening,
     onOpened,
@@ -78,13 +78,11 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const listRef = useRef<HTMLOListElement>(null)
 
   const [menuOffsetStyle, setMenuOffsetStyle] = useState<CSSProperties>();
-
   const [isVisible, setIsVisible] = useState<boolean | undefined>();
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-
   const animationBuffer = useRef<Animation[]>([])
-  const [selectedList, setSelectedList] = useState<(string | number)[]>(preset)
+  const [selectedList, setSelectedList] = useState<(string | number)[]>()
 
   useEffect(() => {
     let outsideHandlerCleaner: () => void;
@@ -111,11 +109,12 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       outsideHandlerCleaner?.()
       document.removeEventListener('click', clickHandler)
     }
-
   }, [menuRef, anchorEl, anchorCorner, menuCorner]);
 
   useEffect(() => {
-    setIsOpen(Boolean(open))
+    if (open !== undefined) {
+      setIsOpen(Boolean(open))
+    }
   }, [open]);
 
   useEffect(() => {
@@ -144,6 +143,12 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   useImperativeHandle(ref, () => ({
     root: menuRef.current
   }))
+
+  useEffect(() => {
+    if (preset) {
+      setSelectedList(preset)
+    }
+  }, [preset]);
 
   const animateOpen = async () => {
     const rootEl = menuRef.current
@@ -289,7 +294,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
                   ></MenuItem>
                 )
               })
-            }, [items, setIsOpen])
+            }, [items])
           }
         </ol>
       </div>
