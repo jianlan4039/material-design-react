@@ -1,12 +1,11 @@
 import React, {
   CSSProperties,
   forwardRef,
-  HTMLProps,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
-  MouseEvent as ReactMouseEvent, useMemo,
+  MouseEvent as ReactMouseEvent, useMemo, HTMLAttributes,
 } from 'react'
 import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
@@ -14,22 +13,23 @@ import {EASING} from "../internal/motion/animation";
 import Elevation from "../Elevation";
 import {alignToAnchor, setPosition} from "../internal/alignment/locate";
 import {OptionValue} from "./internal/menuTypes";
-import {SelectionContextProvider} from "../internal/context/MultiSelectContextProvider";
+import {SelectionContextProvider} from "./internal/context";
 import {BaseElement} from "../internal/common/BaseElement";
 import './Menu.scss'
 import c from 'classnames'
 import {outsideHandler} from "../internal/common/handlers";
+import {ListProps} from "../List/List";
 
 type NodeRef = MenuItemHandle | null;
 
-export interface MenuProps extends BaseElement {
+export interface MenuProps extends ListProps {
   items?: MenuItemProps[]
   open?: boolean
   anchorEl?: HTMLElement
   menuCorner?: Corner
   anchorCorner?: Corner
   quick?: boolean
-  onChange?: (value: OptionValue, option?: MenuItemProps) => void
+  onValueChange?: (value: OptionValue, option?: MenuItemProps) => void
   offsetX?: number
   offsetY?: number
   stayOpenOnOutsideClick?: boolean
@@ -40,10 +40,9 @@ export interface MenuProps extends BaseElement {
   onOpened?: () => void
   onClosing?: () => void
   onClosed?: () => void
-  onScroll?: (e: ReactMouseEvent<HTMLDivElement>) => void
 }
 
-export interface MenuHandle extends HTMLProps<HTMLDivElement> {
+export interface MenuHandle {
   root?: HTMLDivElement | null
 }
 
@@ -57,7 +56,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     anchorEl,
     className,
     quick = false,
-    onChange,
+    onValueChange,
     offsetY,
     offsetX,
     stayOpenOnOutsideClick,
@@ -75,7 +74,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   const itemsRef = useRef<NodeRef[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null)
+  const listRef = useRef<HTMLOListElement>(null)
 
   const [menuOffsetStyle, setMenuOffsetStyle] = useState<CSSProperties>();
 
@@ -84,20 +83,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const animationBuffer = useRef<Animation[]>([])
-  const [selectedList, setSelectedList] = useState<OptionValue[]>([])
-
-  const getChildren = useMemo(() => {
-    return items?.map((item, index) => {
-      return (
-        <MenuItem
-          key={`menu-item-${index}-${item.label}`}
-          ref={(node) => itemsRef.current.push(node)}
-          style={style}
-          {...item}
-        ></MenuItem>
-      )
-    })
-  }, [items])
+  const [selectedList, setSelectedList] = useState<string[]>([])
 
   useEffect(() => {
     let outsideHandlerCleaner: () => void;
@@ -253,17 +239,14 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     })
   }
 
-  const setListWithOption = (list: OptionValue[], option?: MenuItemProps) => {
+  const setListWithOption = (list: string[]) => {
     setSelectedList(list)
     if (list.length > 1) {
       const value: string[] = []
       list.forEach(i => i && value.push(i.toString()))
-      onChange?.(value, option);
+      onValueChange?.(value);
     } else {
-      onChange?.(list[0], option)
-    }
-    if (!keepOpen && !option?.keepOpen) {
-      setIsOpen(false)
+      onValueChange?.(list[0])
     }
   }
 
@@ -277,7 +260,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   return (
     <SelectionContextProvider
-      multiple={multiple}
+      config={{multiple: multiple}}
       list={selectedList}
       setList={setListWithOption}
     >
@@ -288,12 +271,26 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
           'visible': isVisible === true,
           'hidden': isVisible === false
         })}
-        onScroll={onScroll}
       >
         <Elevation></Elevation>
-        <ul ref={listRef} className={'menu__list'}>
-          {getChildren}
-        </ul>
+        <ol ref={listRef} className={'menu__list'} onScroll={onScroll}>
+          {
+            useMemo(() => {
+              return items?.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={`menu-item-${index}-${item.label}`}
+                    ref={(node) => itemsRef.current.push(node)}
+                    style={style}
+                    keepOpen={keepOpen || item.keepOpen}
+                    setIsMenuOpen={setIsOpen}
+                    {...item}
+                  ></MenuItem>
+                )
+              })
+            }, [items, setIsOpen])
+          }
+        </ol>
       </div>
     </SelectionContextProvider>
   )

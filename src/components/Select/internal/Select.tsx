@@ -101,7 +101,7 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
           anchorCorner={Corner.END_START}
           items={items}
           onClosed={closeHandler}
-          onChange={changeHandler}
+          onValueChange={changeHandler}
           multiple={multiple}
         ></Menu>
       </div>

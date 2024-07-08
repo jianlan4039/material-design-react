@@ -191,7 +191,7 @@ const Panel = React.memo((props: PanelProps) => {
         open={monthMenuIsOpen}
         style={{blockSize: '392px'}}
         onClosed={() => setMonthMenuIsOpen(false)}
-        onChange={monthChangeHandler}
+        onValueChange={monthChangeHandler}
         stayOpenOnOutsideClick={true}
       ></Menu>
       <Menu
@@ -201,7 +201,7 @@ const Panel = React.memo((props: PanelProps) => {
         style={{blockSize: '392px'}}
         onScroll={yearScrollHandler}
         onClosed={() => setYearMenuIsOpen(false)}
-        onChange={yearChangeHandler}
+        onValueChange={yearChangeHandler}
         stayOpenOnOutsideClick={true}
       ></Menu>
     </div>
