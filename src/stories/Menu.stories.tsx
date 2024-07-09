@@ -19,7 +19,7 @@ const months = Array.from(
   (_, i) => {
     return {
       label: new Intl.DateTimeFormat('en-US', {month: 'long'}).format(new Date(2020, i)),
-      value: i.toString()
+      id: i.toString()
     }
   }
 )
@@ -40,7 +40,7 @@ export const Primary: Story = {
       setOpen(!open)
     }
 
-    const changeHandler = (values: OptionValue) => {
+    const changeHandler = (values: string[]) => {
       console.log(values)
     };
 
@@ -52,8 +52,7 @@ export const Primary: Story = {
           anchorEl={menuAnchor}
           open={open}
           onClosed={openMenu}
-          onValueChange={changeHandler}
-          preset={['2']}
+          onSelected={changeHandler}
         ></Menu>
       </div>
     </>
@@ -68,12 +67,13 @@ export const SubMenu: Story = {
     const items = [
       {
         label: '2023',
-        value: '2023'
+        value: '2023',
+        subMenu: months
       },
       {
         label: '2024',
         value: '2024',
-        subMenu: months
+
       },
       {
         label: '2025',

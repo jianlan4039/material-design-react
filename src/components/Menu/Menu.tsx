@@ -12,7 +12,6 @@ import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
 import Elevation from "../Elevation";
 import {alignToAnchor, setPosition} from "../internal/alignment/locate";
-import {OptionValue} from "./internal/menuTypes";
 import {SelectionContextProvider} from "./internal/context";
 import './Menu.scss'
 import c from 'classnames'
@@ -28,13 +27,18 @@ export interface MenuProps extends ListProps {
   menuCorner?: Corner
   anchorCorner?: Corner
   quick?: boolean
-  onValueChange?: (value: OptionValue, option?: MenuItemProps) => void
+  onSelected?: (ids: string[]) => void
   offsetX?: number
   offsetY?: number
   stayOpenOnOutsideClick?: boolean
   keepOpen?: boolean
   multiple?: boolean
   position?: 'absolute' | 'fixed'
+  /**
+   * menu will re-render after closed, any preset list passed in will be treated as a new array, which cause menu's
+   * selection always be the same. For farther usage, user should keep updating preset by event onSelected when it
+   * returns a new selected list.
+   */
   preset?: (string | number)[]
   onOpening?: () => void
   onOpened?: () => void
@@ -56,7 +60,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     anchorEl,
     className,
     quick = false,
-    onValueChange,
+    onSelected,
     offsetY,
     offsetX,
     stayOpenOnOutsideClick,
@@ -247,13 +251,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   const setListWithOption = (list: (string | number) []) => {
     setSelectedList(list)
-    if (list.length > 1) {
-      const value: string[] = []
-      list.forEach(i => i && value.push(i.toString()))
-      onValueChange?.(value);
-    } else {
-      onValueChange?.(list[0])
-    }
+    onSelected?.(list.map(i => i.toString()))
   }
 
   const clearAnimations = () => {

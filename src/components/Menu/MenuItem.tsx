@@ -7,11 +7,11 @@ import React, {
   useState,
   MouseEvent,
   useContext,
-} from 'react'
+} from 'react';
 import ListItem, {ListItemHandle, ListItemProps} from "../List/ListItem";
 import SubMenu, {SubMenuHandle} from "./SubMenu";
 import {outsideHandler} from "../internal/common/handlers";
-import './MenuItem.scss'
+import './MenuItem.scss';
 import classNames from "classnames";
 import {SelectionContext} from "./internal/context";
 
@@ -41,6 +41,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     label,
     keepOpen,
     value,
+    id,
     onMouseEnter,
     onMouseLeave,
     setIsMenuOpen,
@@ -86,17 +87,20 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     }, 500)
   }
 
+  /**
+   * 点击回调函数，如果设置了id，那么就有选中效果，以及可以预制选中项。
+   */
   const onSelected = () => {
-    if (value === undefined || value === null) {
-      return
+    if (!(id === undefined || id === null)) {
+      if (multiple) {
+        const index = list.indexOf(id)
+        index >= 0 ? list.splice(index, 1) : list.push(id)
+        !subMenu && setList?.([...list])
+      } else {
+        !subMenu && setList?.([id])
+      }
     }
-    if (multiple) {
-      const index = list.indexOf(value)
-      index >= 0 ? list.splice(index, 1) : list.push(value)
-      !subMenu && setList?.([...list])
-    } else {
-      !subMenu && setList?.([value])
-    }
+
     if (!keepOpen) {
       setIsMenuOpen?.(false)
       setIsSubmenuOpen(false)
@@ -107,7 +111,8 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     <ListItem
       ref={listItemRef}
       className={classNames(`menu-item`, {
-        'selected': isSubmenuOpen || value && list?.includes(value)
+        'selected': isSubmenuOpen || id && list?.includes(id),
+        'open': isSubmenuOpen
       })}
       label={label}
       icon={icon}
@@ -117,6 +122,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
         </svg> : trailingIcon
       }
       value={value}
+      id={id}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
       onClick={onSelected}

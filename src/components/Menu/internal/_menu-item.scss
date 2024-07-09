@@ -32,10 +32,15 @@
       @include background.theme((
         color: var(--_selected-container-color),
       ));
+      z-index: 10;
 
       .list-item__label {
         color: var(--_selected-label-text-color);
       }
+    }
+
+    &.open {
+      z-index: 20;
     }
 
     &:first-child {

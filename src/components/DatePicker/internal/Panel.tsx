@@ -191,7 +191,7 @@ const Panel = React.memo((props: PanelProps) => {
         open={monthMenuIsOpen}
         style={{blockSize: '392px'}}
         onClosed={() => setMonthMenuIsOpen(false)}
-        onValueChange={monthChangeHandler}
+        onSelected={monthChangeHandler}
         preset={[monthViewerDate.getMonth()]}
         stayOpenOnOutsideClick={true}
       ></Menu>
@@ -202,7 +202,7 @@ const Panel = React.memo((props: PanelProps) => {
         style={{blockSize: '392px'}}
         onScroll={yearScrollHandler}
         onClosed={() => setYearMenuIsOpen(false)}
-        onValueChange={yearChangeHandler}
+        onSelected={yearChangeHandler}
         preset={[monthViewerDate.getFullYear()]}
         stayOpenOnOutsideClick={true}
       ></Menu>

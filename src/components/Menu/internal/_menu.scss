@@ -17,25 +17,23 @@
     opacity: 0;
     border-radius: var(--_container-shape);
     background: var(--_container-color);
-    //overflow-y: auto;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-    &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
 
     .menu__list {
       border-radius: inherit;
       list-style: none;
       padding-inline: 0;
       margin: 0;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+      &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
     }
 
     &.hidden {
       display: none;
       opacity: 0;
       block-size: 0;
-
       .menu-item {
         opacity: 0;
       }
@@ -45,7 +43,6 @@
       display: block;
       opacity: 1;
       block-size: auto;
-
       .menu-item {
         opacity: 1;
       }
@@ -54,7 +51,6 @@
     &.animation {
       display: block;
       opacity: 1;
-
       .menu-item {
         opacity: 1;
       }
