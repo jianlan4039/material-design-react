@@ -4,7 +4,7 @@
 
 @mixin styles($colors) {
   @include background.theme((
-    opacify: 1,
+    opacity: 1,
     color: map.get($colors, 'container-color')
   ));
 

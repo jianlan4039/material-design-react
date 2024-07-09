@@ -6,7 +6,6 @@ $tokens: md-comp-fab-branded.values();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, fab);
-  @include shared.styles;
 
   // Support logical shape properties
   --_container-shape-start-start: var(--md-fab-branded-container-shape-start-start, var(--_container-shape));
@@ -18,6 +17,7 @@ $tokens: md-comp-fab-branded.values();
   --_large-container-shape-end-end: var(--md-fab-branded-large-container-shape-end-end, var(--_large-container-shape));
   --_large-container-shape-end-start: var(--md-fab-branded-large-container-shape-end-start, var(--_large-container-shape));
   min-inline-size: var(--_container-width);
+  @include shared.styles;
 
   .nd-fab__button {
     padding-inline-start: 16px;
