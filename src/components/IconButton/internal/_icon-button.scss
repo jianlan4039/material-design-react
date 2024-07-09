@@ -17,7 +17,9 @@ $tokens: md-comp-icon-button.values();
   @include tokens-builder.tokens($tokens, icon-button);
   @include ripple.theme((
     hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
+    hover-opacity: var(--_hover-state-layer-opacity),
+    pressed-color: var(--_pressed-state-layer-color),
+    pressed-opacity: var(--_hover-state-layer-opacity),
   ));
   --_container-shape-start-start: var(--md-icon-button-container-shape-start-start, var(--_state-layer-shape));
   --_container-shape-start-end: var(--md-icon-button-container-shape-start-end, var(--_state-layer-shape));
