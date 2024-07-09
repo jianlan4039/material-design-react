@@ -9,7 +9,7 @@ import useRipple from "../Ripple/useRipple";
 
 export interface BrandedFABProps extends Omit<FABProps, 'variant'>, ButtonProps {
   children?: ReactNode
-  large?: boolean
+  // large?: boolean
 }
 
 export interface BrandedFABHandle {
@@ -21,7 +21,7 @@ const BrandedFAB = forwardRef<BrandedFABHandle, BrandedFABProps>((props, ref) =>
     children,
     label,
     icon,
-    large,
+    // large,
     lowered,
     onBlur,
     onFocus,
@@ -47,7 +47,7 @@ const BrandedFAB = forwardRef<BrandedFABHandle, BrandedFABProps>((props, ref) =>
   return (
     <div
       className={cln('nd-branded-fab', {
-        'large': large,
+        // 'large': large,
         'lowered': lowered
       })}
       {...rippleProps}
