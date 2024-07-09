@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
-  useMemo,
+  useMemo, MouseEvent as ReactMouseEvent,
 } from 'react'
 import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
@@ -44,10 +44,12 @@ export interface MenuProps extends ListProps {
   onOpened?: () => void
   onClosing?: () => void
   onClosed?: () => void
+  scrollConfig?: ScrollIntoViewOptions
 }
 
 export interface MenuHandle {
   root?: HTMLDivElement | null
+  list?: HTMLOListElement | null
 }
 
 const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
@@ -72,7 +74,11 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     onOpened,
     onClosing,
     onClosed,
-    onScroll,
+    scrollConfig = {
+      block: 'start',
+      behavior: 'smooth'
+    },
+    ...rest
   } = props
 
   const openDirection = menuCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
@@ -145,7 +151,8 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   }, [isAnimating, isOpen])
 
   useImperativeHandle(ref, () => ({
-    root: menuRef.current
+    root: menuRef.current,
+    list: listRef.current,
   }))
 
   useEffect(() => {
@@ -153,6 +160,18 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       setSelectedList(preset)
     }
   }, [preset]);
+
+  useEffect(() => {
+    scrollIntoItem()
+  }, [selectedList]);
+
+  const scrollIntoItem = () => {
+    if (selectedList && listRef.current) {
+      const theFirstId = selectedList[0]
+      const theFirstItem = listRef.current.querySelector(`#${theFirstId}`)
+      theFirstItem?.scrollIntoView(scrollConfig);
+    }
+  }
 
   const animateOpen = async () => {
     const rootEl = menuRef.current
@@ -196,6 +215,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     animationBuffer.current.push(rootHeightAnimation, rootOpacityAnimation, upPositionCorrectionAnimation)
     return await Promise.all([rootHeightAnimation.finished, rootOpacityAnimation.finished, upPositionCorrectionAnimation.finished]).then(() => {
       onOpened?.()
+      scrollIntoItem()
     })
   }
 
@@ -277,7 +297,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
         })}
       >
         <Elevation></Elevation>
-        <ol ref={listRef} className={'nd-menu__list'} onScroll={onScroll}>
+        <ol ref={listRef} className={'nd-menu__list'} {...rest}>
           {
             useMemo(() => {
               return items?.map((item, index) => {

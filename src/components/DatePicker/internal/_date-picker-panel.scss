@@ -21,7 +21,7 @@
       padding-inline: 12px;
     }
 
-    & .menu {
+    & .nd-menu {
       @include menu.theme((
         container-elevation: 0
       ));
