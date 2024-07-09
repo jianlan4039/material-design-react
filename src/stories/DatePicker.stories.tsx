@@ -5,7 +5,6 @@ import {DatePicker} from "../index";
 const meta: Meta = {
   title: 'Form/DatePicker',
   component: DatePicker,
-  tags: ['autotags']
 }
 
 export default meta;

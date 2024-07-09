@@ -26,7 +26,6 @@ $md-sys-color: md-sys-color.values-light();
     display: none;
     inset: 0;
     opacity: 32%;
-    //pointer-events: none;
 
     &.nd-show {
       display: flex;
@@ -53,7 +52,8 @@ $md-sys-color: md-sys-color.values-light();
 
     .nd-dialog-container {
       @include background.theme((
-        color: var(--_container-color)
+        color: var(--_container-color),
+        opacity: 1
       ));
       @include background.styles;
       border-radius: inherit;

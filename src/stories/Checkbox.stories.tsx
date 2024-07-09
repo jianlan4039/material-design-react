@@ -3,7 +3,7 @@ import './styles';
 import {Checkbox} from "../index";
 
 const meta: Meta = {
-  title: 'Form/checkbox',
+  title: 'Form/Checkbox',
   component: Checkbox,
   tags: ['autodocs']
 };
