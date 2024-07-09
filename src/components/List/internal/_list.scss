@@ -11,7 +11,8 @@
   .list {
     @include tokens-builder.tokens(md-comp-list.values(), list);
     @include background.theme((
-      color: var(--_container-color)
+      color: var(--_container-color),
+      opacity: 1
     ));
     @include background.styles;
     display: flex;
