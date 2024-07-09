@@ -5,7 +5,6 @@ import Menu, {MenuHandle} from "../../Menu/Menu";
 import {MenuItemProps} from "../../Menu/MenuItem";
 import TextButton from "../../Button/TextButton";
 import MonthView from "./MonthView";
-import {OptionValue} from "../../Menu/internal/menuTypes";
 import SlideViewer from "../../SlideViewer/SlideViewer";
 
 export interface PanelProps {
@@ -17,6 +16,8 @@ export interface PanelProps {
   locale?: string;      // 可选的本地化设置，默认为英文; zh-CN：中文，en-US：英文
   onDateChange?: (date: Date[]) => void
   onOutsideClick?: () => void
+  onError?: (msg: string) => void
+  onCancel?: () => void
 }
 
 const Panel = React.memo((props: PanelProps) => {
@@ -26,6 +27,8 @@ const Panel = React.memo((props: PanelProps) => {
     year,
     month,
     onDateChange,
+    onError,
+    onCancel,
   } = props
 
   // 生成本地化月份名称
@@ -65,21 +68,13 @@ const Panel = React.memo((props: PanelProps) => {
   const [alternativeDateView, setAlternativeDateView] = useState<ReactNode>()
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>()
   const yearMenuRef = useRef<MenuHandle>(null);
-  // const scrollBefore = useRef<{ scrollTop?: number, scrollHeight?: number }>({});
+  const selectedDate = useRef<Date>();
 
   useEffect(() => {
     if (navigatorRef.current) {
       setNavigatorAnchor(navigatorRef.current)
     }
   }, [navigatorRef]);
-
-  // useEffect(() => {
-  //   if (yearList && yearMenuRef.current?.list && scrollBefore.current.scrollHeight && scrollBefore.current.scrollTop) {
-  //     const scrollHeightAfter = yearMenuRef.current.list.scrollHeight
-  //     const deltaHeight = scrollHeightAfter - scrollBefore.current.scrollHeight
-  //     yearMenuRef.current.list.scrollTop = deltaHeight + scrollBefore.current.scrollTop
-  //   }
-  // }, [yearList, yearMenuRef]);
 
   const monthClickHandler = () => {
     setMonthMenuIsOpen(!monthMenuIsOpen)
@@ -118,7 +113,6 @@ const Panel = React.memo((props: PanelProps) => {
 
   const yearScrollHandler = (e: ReactMouseEvent<HTMLOListElement>) => {
     const {scrollTop, clientHeight, scrollHeight} = e.currentTarget;
-    // scrollBefore.current = {scrollTop, scrollHeight}
     if (scrollHeight - scrollTop === clientHeight) {
       loadMoreYears(true)
     }
@@ -195,7 +189,8 @@ const Panel = React.memo((props: PanelProps) => {
   };
 
   const dateChangeHandler = (date: Date) => {
-    onDateChange?.([date])
+    // onDateChange?.([date])
+    selectedDate.current = date;
   }
 
   function getDates(date: Date) {
@@ -206,6 +201,26 @@ const Panel = React.memo((props: PanelProps) => {
         startOfWeek={startOfWeek}
         onDateChange={dateChangeHandler}/>
     </>
+  }
+
+  /**
+   * 如果有日期被选中，那么就上报选中日期，如果没有日期被选中就触发错误事件onError；
+   *
+   */
+  const confirmHandler = () => {
+    if (selectedDate.current) {
+      onDateChange?.([selectedDate.current])
+    } else {
+      onError?.('Date Not Selected!')
+    }
+  }
+
+  /**
+   * 撤销选中的日期，关闭窗口
+   */
+  const cancelHandler = () => {
+    selectedDate.current = undefined
+    onCancel?.()
   }
 
   return (
@@ -230,8 +245,8 @@ const Panel = React.memo((props: PanelProps) => {
         {getDates(monthViewerDate)}
       </SlideViewer>
       <div className={'actions'}>
-        <TextButton>Cancel</TextButton>
-        <TextButton>OK</TextButton>
+        <TextButton onClick={cancelHandler}>Cancel</TextButton>
+        <TextButton onClick={confirmHandler}>OK</TextButton>
       </div>
       <Menu
         items={monthList}
@@ -253,6 +268,10 @@ const Panel = React.memo((props: PanelProps) => {
         onClosed={() => setYearMenuIsOpen(false)}
         onSelected={yearChangeHandler}
         preset={yearPreset}
+        scrollConfig={{
+          behavior: 'smooth',
+          block: 'center'
+        }}
         stayOpenOnOutsideClick={true}
       ></Menu>
     </div>

@@ -1,15 +1,16 @@
 import React, {CSSProperties, forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import './DatePicker.scss'
 import Panel from "./internal/Panel";
-import OutlinedTextField from "../TextField/OutlinedTextField";
+import OutlinedTextField, {OutlinedTextFieldProps} from "../TextField/OutlinedTextField";
 import {outsideHandler} from "../internal/common/handlers";
+import {OptionValue} from "../Menu/internal/menuTypes";
 
-export interface DatePickerProps {
+export interface DatePickerProps extends OutlinedTextFieldProps {
   children?: ReactNode
   label?: string
   style?: CSSProperties
   format?: string
-  onChange?: (date: Date[]) => void
+  onDateChange?: (date: Date[]) => void
 }
 
 export interface DatePickerHandle {
@@ -21,12 +22,18 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
     label = 'Date',
     style,
     format = "mm/dd/yyyy",
-    onChange
+    onDateChange,
+    id,
+    value,
+    name,
+    error,
+    supportingText,
   } = props
 
-  const [value, setValue] = useState<string>()
+  const [internalValue, setInternalValue] = useState<OptionValue>(value)
   const [showDatePanel, setShowDatePanel] = useState<boolean>(false)
   const rootRef = useRef<HTMLDivElement>(null);
+  const [internalError, setInternalError] = useState<string>()
 
   useEffect(() => {
     if (!rootRef.current) {
@@ -43,9 +50,15 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
     }
   })
 
+  useEffect(() => {
+    setInternalValue(value)
+  }, [value]);
+
   function dateChangeHandler(dates: Date[]) {
-    onChange?.(dates)
-    setValue(formatDate(dates[0], format))
+    onDateChange?.(dates)
+    setInternalValue(formatDate(dates[0], format))
+    setShowDatePanel(false)
+    setInternalError(undefined)
   }
 
   function formatDate(date: Date, format: string) {
@@ -75,24 +88,49 @@ const DatePicker = forwardRef<DatePickerHandle, DatePickerProps>((props, ref) =>
     </svg>
   )
 
-  function focusHandler() {
+  const errorHandler = (msg: string) => {
+    setInternalError(msg)
+  };
+
+  const cancelHandler = () => {
+    setInternalError(undefined)
+    setShowDatePanel(false)
+  };
+
+  const clickHandler = () => {
+    if (!showDatePanel) {
+      setShowDatePanel(true)
+    }
+  };
+
+  const focusHandler = () => {
     setShowDatePanel(true)
-  }
+  };
 
   return (
-    <div ref={rootRef} className={'date-picker'} style={style} onFocus={focusHandler}>
+    <div ref={rootRef} className={'date-picker'} style={style} onFocus={focusHandler} onClick={clickHandler}>
       <OutlinedTextField
+        id={id}
+        value={internalValue}
+        name={name}
         label={label}
-        supportingText={format.toUpperCase()}
-        value={value}
+        supportingText={internalError || supportingText || format.toUpperCase()}
         trailingIcon={CalendarIcon}
         readOnly
         populated={showDatePanel}
         focus={showDatePanel}
         showSupportingText={showDatePanel}
         placeholder={label}
+        error={Boolean(internalError || error)}
       ></OutlinedTextField>
-      {showDatePanel && <Panel onDateChange={dateChangeHandler}></Panel>}
+      {
+        showDatePanel &&
+        <Panel
+          onDateChange={dateChangeHandler}
+          onError={errorHandler}
+          onCancel={cancelHandler}
+        ></Panel>
+      }
     </div>
   )
 })
