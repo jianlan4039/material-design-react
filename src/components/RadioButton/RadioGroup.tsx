@@ -3,7 +3,6 @@ import {SelectionContextProvider} from "../internal/context/MultiSelectContextPr
 
 export interface RadioGroupProps {
   children?: ReactNode
-  options?: RadioGroupProps[]
 }
 
 type Value = string | readonly string[] | number | undefined;

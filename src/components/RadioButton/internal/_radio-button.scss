@@ -11,8 +11,10 @@
   .radio-button {
     @include tokens-builder.tokens(md-comp-radio.values(), radio);
     @include ripple.theme((
-      hover-color: var(--_hover-ripple-color),
-      pressed-color: var(--_pressed-ripple-color)
+      hover-color: var(--_hover-state-layer-color),
+      hover-opacity: var(--_hover-state-layer-opacity),
+      pressed-color: var(--_pressed-state-layer-color),
+      pressed-opacity: var(--_hover-state-layer-opacity),
     ));
 
     position: relative;
