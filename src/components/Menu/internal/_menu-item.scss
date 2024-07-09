@@ -7,7 +7,7 @@
 }
 
 @mixin styles() {
-  .menu-item {
+  .nd-menu-item {
     @include tokens-builder.tokens(md-comp-menu-item.values(), menu-list);
     position: relative;
     cursor: pointer;
@@ -24,11 +24,11 @@
       }
     }
 
-    &.hidden {
+    &.nd-menu-item--hidden {
       opacity: 0;
     }
 
-    &.selected {
+    &.nd-menu-item--selected {
       @include background.theme((
         color: var(--_selected-container-color),
       ));
@@ -39,7 +39,7 @@
       }
     }
 
-    &.open {
+    &.nd-menu-item--open {
       z-index: 20;
     }
 

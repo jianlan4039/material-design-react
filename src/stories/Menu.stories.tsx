@@ -3,7 +3,6 @@ import './styles'
 import {Menu} from "../index";
 import ElevatedButton, {ElevatedButtonHandle} from "../components/Button/ElevatedButton";
 import {useEffect, useRef, useState} from "react";
-import {OptionValue} from "../components/Menu/internal/menuTypes";
 
 const meta: Meta = {
   title: 'Menu',

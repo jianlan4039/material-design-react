@@ -11,7 +11,7 @@ export interface SubMenuProps extends MenuProps {
 }
 
 export interface SubMenuHandle extends MenuHandle {
-  menu: HTMLMenuElement | null
+  menu: HTMLDivElement | null
 }
 
 const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
@@ -22,7 +22,7 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
     style,
   } = props
 
-  const rootRef = useRef<HTMLMenuElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
   const [offsetStyles, setOffsetStyles] = useState<CSSProperties>()
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
@@ -52,17 +52,19 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
   }))
 
   return (
-    <menu
+    <div
       ref={rootRef}
-      className={c('sub-menu menu', {
-        'visible': isVisible,
-        'hidden': !isVisible,
+      className={c('nd-sub-menu nd-menu', {
+        'nd-menu--visible': isVisible,
+        'nd-menu--hidden': !isVisible,
       })}
       style={{...style, ...offsetStyles}}
     >
       <Elevation></Elevation>
-      {getChildren()}
-    </menu>
+      <ol className={'nd-menu__list'}>
+        {getChildren()}
+      </ol>
+    </div>
   )
 })
 

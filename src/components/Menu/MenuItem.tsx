@@ -110,9 +110,9 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   return (
     <ListItem
       ref={listItemRef}
-      className={classNames(`menu-item`, {
-        'selected': isSubmenuOpen || id && list?.includes(id),
-        'open': isSubmenuOpen
+      className={classNames(`nd-menu-item`, {
+        'nd-menu-item--selected': isSubmenuOpen || id && list?.includes(id),
+        'nd-menu-item--open': isSubmenuOpen
       })}
       label={label}
       icon={icon}

@@ -271,13 +271,13 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       <div
         ref={menuRef}
         style={{...style, ...menuOffsetStyle}}
-        className={c('menu', className, {
-          'visible': isVisible === true,
-          'hidden': isVisible === false
+        className={c('nd-menu', className, {
+          'nd-menu--visible': isVisible === true,
+          'nd-menu--hidden': isVisible === false
         })}
       >
         <Elevation></Elevation>
-        <ol ref={listRef} className={'menu__list'} onScroll={onScroll}>
+        <ol ref={listRef} className={'nd-menu__list'} onScroll={onScroll}>
           {
             useMemo(() => {
               return items?.map((item, index) => {
