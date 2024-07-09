@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
-  useMemo, MouseEvent as ReactMouseEvent,
+  useMemo,
 } from 'react'
 import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
