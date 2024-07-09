@@ -15,11 +15,14 @@
   .nd-filled-field {
     @include tokens-builder.tokens(md-comp-filled-field.values(), filled-field);
     @include background.theme((
-      color: var(--_container-color)
+      color: var(--_container-color),
+      opacity: 1
     ));
     @include ripple.theme((
       hover-color: var(--_hover-state-layer-color),
-      pressed-color: transparent
+      hover-opacity: var(--_hover-state-layer-opacity),
+      pressed-color: transparent,
+      pressed-opacity: var(--_pressed-state-layer-opacity)
     ));
     @include basic-field.theme((
       leading-content-color: var(--_leading-content-color),
@@ -39,7 +42,7 @@
     }
 
     .nd-field {
-      block-size: inherit;
+      block-size: 100%;
 
       .nd-container__start {
         padding-inline-start: 12px;
