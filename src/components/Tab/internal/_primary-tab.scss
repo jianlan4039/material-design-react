@@ -26,7 +26,9 @@
     ));
     @include ripple.theme((
       hover-color: var(--_hover-state-layer-color),
-      pressed-color: var(--_pressed-state-layer-color)
+      hover-opacity: var(--_hover-state-layer-opacity),
+      pressed-color: var(--_pressed-state-layer-color),
+      pressed-opacity: var(--_pressed-state-layer-opacity)
     ));
     @include focus-ring.theme((
       shape-start-start: var(--_container-shape-start-start),
@@ -40,7 +42,6 @@
     cursor: pointer;
     outline: none;
     position: relative;
-    //z-index: 10;
 
     .nd-focus-ring-container {
       z-index: 10;
@@ -58,7 +59,7 @@
 
     .tab__presentation {
       inline-size: fit-content;
-      block-size: inherit;
+      block-size: 100%;
     }
 
     &.primary-tab--focus {

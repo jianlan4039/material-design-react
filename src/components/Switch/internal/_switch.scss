@@ -47,8 +47,8 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 
     .switch__checkbox {
       position: absolute;
-      block-size: inherit;
-      inline-size: inherit;
+      block-size: 100%;
+      inline-size: 100%;
       opacity: 0;
       border: none;
       outline: none;

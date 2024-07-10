@@ -28,6 +28,12 @@ $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
     color: transparent,
     opacity: 0
   ));
+  @include focus-ring.theme((
+    shape-start-start: 0,
+    shape-start-end: 0,
+    shape-end-start: 0,
+    shape-end-end: 0,
+  ));
 
   display: inline-flex;
   z-index: 10;
@@ -42,10 +48,19 @@ $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
   &:first-child {
     border-top-left-radius: var(--_shape);
     border-bottom-left-radius: var(--_shape);
+
+    @include focus-ring.theme((
+      shape-start-start: var(--_shape),
+      shape-end-start: var(--_shape),
+    ));
   }
   &:last-child {
     border-top-right-radius: var(--_shape);
     border-bottom-right-radius: var(--_shape);
+    @include focus-ring.theme((
+      shape-start-end: var(--_shape),
+      shape-end-end: var(--_shape),
+    ));
   }
   @include background.styles;
 
