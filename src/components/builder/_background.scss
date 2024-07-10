@@ -13,5 +13,6 @@
     background-color: var(--md-background-color, var(--_container-color));
     opacity: var(--md-background-opacity, 1);
     z-index: var(--md-background-z-index, -1);
+    transition: background-color 300ms ease;
   }
 }

@@ -3,6 +3,7 @@
 @use "../../tokens/md-comp-outlined-segmented-button";
 @use "../../Outline/internal/outline";
 @use "../../Ripple/internal/ripple";
+@use "../../Focus/internal/focus-ring";
 
 $tokens: md-comp-outlined-segmented-button.values();
 $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
@@ -19,11 +20,19 @@ $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
   ));
   @include ripple.theme((
     hover-color: var(--_unselected-hover-state-layer-color),
-    pressed-color: var(--_unselected-pressed-state-layer-color)
+    hover-opacity: var(--_unselected-hover-state-layer-opacity),
+    pressed-color: var(--_unselected-pressed-state-layer-color),
+    pressed-opacity: var(--_unselected-pressed-state-layer-opacity)
   ));
+  @include background.theme((
+    color: transparent,
+    opacity: 0
+  ));
+
   display: inline-flex;
   z-index: 10;
   position: relative;
+  block-size: 40px;
 
   & + div.nd-segmented-button {
     .nd-outline {
@@ -50,7 +59,7 @@ $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
     justify-content: center;
     align-items: center;
     white-space: nowrap;
-    block-size: 40px;
+    block-size: 100%;
     box-sizing: border-box;
     gap: 8px;
     padding-inline: 12px;
@@ -110,7 +119,8 @@ $supported-tokens: md-comp-outlined-segmented-button.$supported-tokens;
 
 @mixin state($selected:'unselected') {
   @include background.theme((
-    color: var(--_#{$selected}-container-color)
+    color: var(--_#{$selected}-container-color),
+    opacity: 1
   ));
   @include ripple.theme((
     hover-color: var(--_#{$selected}-hover-state-layer-color),

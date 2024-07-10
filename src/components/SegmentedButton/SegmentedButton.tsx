@@ -35,6 +35,8 @@ const SegmentedButton = forwardRef<SegmentedButtonHandle, SegmentedButtonProps>(
   const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
   const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur})
 
+
+
   useEffect(() => {
     setSelected(list?.includes(id) ?? false)
   }, [list]);
