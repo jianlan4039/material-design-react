@@ -17,6 +17,8 @@ const OutlinedField = forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref
     icon,
     error,
     disabled,
+    showSupportingText,
+    className,
     ...rest
   } = props
 
@@ -39,12 +41,13 @@ const OutlinedField = forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref
   return (
     <div
       ref={ref}
-      className={c('nd-outlined-field', {
+      className={c('nd-outlined-field', className, {
         'focus': focus,
         'populated': populated,
         'hover': hover,
         'error': error,
-        'disabled': disabled
+        'disabled': disabled,
+        'show-supporting-text': showSupportingText,
       })}
       onMouseOver={mouseOverHandler}
       onMouseOut={mouseOutHandler}
@@ -55,6 +58,7 @@ const OutlinedField = forwardRef<HTMLDivElement, OutlinedFieldProps>((props, ref
         label={label}
         populated={populated}
         icon={icon}
+        showSupportingText={showSupportingText}
         {...rest}
       >
         {children}

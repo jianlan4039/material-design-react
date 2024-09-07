@@ -162,7 +162,7 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
 
   return (
     <IndicatorActiveContextProvider active={active}>
-      <dialog ref={dialogRef} className={c('navigation-drawer', className, {'modal': modal})} style={style}>
+      <dialog ref={dialogRef} className={c('nd-navigation-drawer', className, {'modal': modal})} style={style}>
         <Elevation></Elevation>
         <List ref={contentRef}>
           {Items || Blocks || children}

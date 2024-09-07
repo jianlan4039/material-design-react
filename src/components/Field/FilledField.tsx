@@ -15,6 +15,7 @@ const FilledField = forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledF
     focus,
     disabled,
     error,
+    showSupportingText,
     ...rest
   } = props
 
@@ -43,13 +44,14 @@ const FilledField = forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledF
         'hover': hover,
         'focus': focus,
         'error': error,
-        'disabled': disabled
+        'disabled': disabled,
+        'show-supporting-text': showSupportingText
       })}
       {...rippleProps}
     >
       {ripple}
       <div className={c('nd-filled-field__indicator', {'active': focus})}></div>
-      <Field label={label} {...rest}>
+      <Field label={label} showSupportingText={showSupportingText} {...rest}>
         {children}
       </Field>
     </div>

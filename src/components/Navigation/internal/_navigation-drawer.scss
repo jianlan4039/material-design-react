@@ -19,7 +19,7 @@ $_values: (
 );
 
 @mixin styles() {
-  .navigation-drawer {
+  .nd-navigation-drawer {
     @include tokens-builder.tokens(md-comp-navigation-drawer.values(), navigation-drawer);
     @include background.theme((
       color: var(--_standard-container-color),
@@ -58,7 +58,7 @@ $_values: (
         one-line-container-height: var(--_active-indicator-height)
       ));
       display: block;
-      inline-size: var(--_container-width);
+      //inline-size: var(--_container-width);
       block-size: var(--_container-height);
       border-radius: inherit;
       padding-inline: 12px;

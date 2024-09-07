@@ -21,7 +21,7 @@
   @include background.styles;
 
   position: relative;
-  display: inline-block;
+  display: block;
   border-start-start-radius: var(--_container-shape-start-start);
   border-start-end-radius: var(--_container-shape-start-end);
   border-end-start-radius: var(--_container-shape-end-start);
@@ -35,7 +35,7 @@
     position: relative;
     block-size: 100%;
     inline-size: 100%;
-    overflow: auto;
+    //overflow: auto;
   }
 
   &:not(.nd-card--static):focus-visible {

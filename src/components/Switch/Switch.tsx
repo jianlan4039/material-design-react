@@ -73,7 +73,7 @@ const Switch = forwardRef<SwitchHandle, SwitchProps>((props, ref) => {
 
   return (
     <div
-      className={c('switch', {
+      className={c('nd-switch', {
         'switch--checked': checked,
         'switch--unchecked': !checked,
         'switch--disabled': disabled

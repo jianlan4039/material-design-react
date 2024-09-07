@@ -12,7 +12,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 }
 
 @mixin styles() {
-  .switch {
+  .nd-switch {
     @include tokens-builder.tokens(md-comp-switch.values(), switch);
     @include ripple.theme((
       hover-color: var(--_hover-ripple-color),

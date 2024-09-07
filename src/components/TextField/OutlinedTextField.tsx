@@ -41,8 +41,9 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
     supportingTextTrailing,
     showSupportingText,
     value: _value,
-    populated,
     focus: _focus,
+    populated,
+    className,
     ...rest
   } = props
 
@@ -98,6 +99,7 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
       onMouseDownOutside={mouseDownOutsideHandler}
     >
       <OutlinedField
+        className={className}
         icon={leadingIcon}
         trailingIcon={trailingIcon}
         populated={Boolean(value) || focus || populated}
