@@ -1,0 +1,61 @@
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../tokens/_nd-comp-table";
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, nd-comp-table.$supported-tokens, table);
+}
+
+@mixin styles() {
+  .nd-table {
+    @include tokens-builder.tokens(nd-comp-table.values(), table);
+    inline-size: 100%;
+
+    .nd-table__table {
+      position: relative;
+      border-collapse: collapse;
+      background: transparent;
+      border-radius: inherit;
+      inline-size: 100%;
+      @include background.styles;
+
+      .nd-table__header {
+        background-color: var(--_header-container-color);
+        border-start-start-radius: var(--_container-shape);
+        border-start-end-radius: var(--_container-shape);
+
+        .nd-table__cell {
+          color: var(--_header-text-color);
+
+          &:first-child {
+            border-start-start-radius: inherit;
+          }
+
+          &:last-child {
+            border-start-end-radius: inherit;
+          }
+        }
+      }
+
+      .nd-table__cell {
+        text-align: center;
+        block-size: 40px;
+        color: var(--_label-text-color);
+        //font-size: var(--_label-text-size);
+        //font-family: var(--_label-text-font), serif;
+        //line-height: var(--_label-text-line-height);
+      }
+
+      .nd-table__row {
+        border-color: var(--_border-color);
+        border-style: solid;
+        border-block-width: 1px;
+        border-inline-width: 0;
+
+        &:last-child {
+          border-block-end: 0;
+        }
+      }
+    }
+  }
+}
