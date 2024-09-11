@@ -29,6 +29,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     id = useId(),
     subEntries,
     trailingIcon,
+    value,
     ...rest
   } = props
 
@@ -50,7 +51,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
 
   useEffect(() => {
     if (listRef.current && listRef.current.root) {
-      active && setActive?.({id: id})
+      active && setActive?.({id: id, value: value})
     }
   }, [listRef]);
 
@@ -79,7 +80,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     if (subEntries) {
       setIsOpen(!isOpen)
     } else {
-      setActive?.({id: id})
+      setActive?.({id: id, value: value})
     }
   }
 

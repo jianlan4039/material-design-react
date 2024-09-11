@@ -1,5 +1,5 @@
 import React, {ReactNode, useEffect, useRef, useState, MouseEvent, useMemo} from 'react';
-import {IndicatorActiveContextProvider} from "../internal/context/IndicatorActiveContext";
+import {IndicatorActiveContextProvider, Target} from "../internal/context/IndicatorActiveContext";
 import NavigationEnter, {NavigationEnterProps} from "./internal/NavigationEnter";
 import {EASING, DURATION} from "../internal/motion/animation";
 import Divider from "../Divider/Divider";
@@ -23,6 +23,7 @@ export interface INavigationDrawerProps extends BaseElement {
   onClose?: () => void
   stayOpenOnOutsideClick?: boolean
   active?: string
+  onChange?: (target: Target) => void
 }
 
 export default function NavigationDrawer(props: INavigationDrawerProps) {
@@ -36,7 +37,8 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     onClose,
     active,
     className,
-    style
+    style,
+    onChange,
   } = props
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -160,8 +162,12 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     }
   };
 
+  const changeHandler = (target: Target) => {
+    onChange?.(target)
+  }
+
   return (
-    <IndicatorActiveContextProvider active={active}>
+    <IndicatorActiveContextProvider active={active} onChange={changeHandler}>
       <dialog ref={dialogRef} className={c('nd-navigation-drawer', className, {'modal': modal})} style={style}>
         <Elevation></Elevation>
         <List ref={contentRef}>

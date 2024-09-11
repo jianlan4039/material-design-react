@@ -10,6 +10,10 @@
 
 $tokens: md-comp-outlined-icon-button.values();
 
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, md-comp-outlined-icon-button.$supported-tokens, outlined-icon-button);
+}
+
 @mixin styles() {
   @include tokens-builder.tokens($tokens, icon-button);
   @include outline.theme((

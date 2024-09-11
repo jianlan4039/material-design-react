@@ -14,46 +14,56 @@ type Story = StoryObj<typeof NavigationDrawer>;
 
 export const Primary: Story = {
   args: {
-    modal: true,
+    modal: false,
     show: false,
+    onChange: (target) => { console.log(target); },
     items: [
       {
         label: 'Button',
         id: 'button',
+        value: 'button',
         subEntries: [
           {
             label: 'Common Button',
-            id: 'common-button'
+            id: 'common-button',
+            value: 'common-button'
           },
           {
             label: 'Icon Button',
-            id: 'icon-button'
+            id: 'icon-button',
+            value: 'icon-button'
           },
           {
             label: 'FAB',
-            id: 'fab'
+            id: 'fab',
+            value: 'fab'
           },
           {
             label: 'Extended FAB',
-            id: 'extended-fab'
+            id: 'extended-fab',
+            value: 'extended-fab'
           },
           {
             label: 'Segmented Button',
-            id: 'segmented-button'
+            id: 'segmented-button',
+            value: 'segmented-button'
           },
         ]
       },
       {
         label: 'Card',
-        id: 'card'
+        id: 'card',
+        value: 'card'
       },
       {
         label: 'Checkbox',
-        id: 'checkbox'
+        id: 'checkbox',
+        value: 'checkbox'
       },
       {
         label: 'Chips',
-        id: 'chips'
+        id: 'chips',
+        value: 'chips'
       },
       // {
       //   label: 'Date Picker',

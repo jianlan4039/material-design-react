@@ -1,6 +1,10 @@
 import React, {createContext, ReactNode, useEffect, useState} from "react";
 
-export type Target = { target?: HTMLElement, id: string };
+export type Target = {
+  target?: HTMLElement,
+  id: string,
+  value?: string | number | readonly string[] | undefined
+};
 
 export interface IndicatorOperation {
   previous?: Target
@@ -11,9 +15,10 @@ export interface IndicatorOperation {
 
 export const IndicatorActiveContext = createContext<IndicatorOperation>({})
 
-export const IndicatorActiveContextProvider = ({children, active: _active}: {
+export const IndicatorActiveContextProvider = ({children, active: _active, onChange}: {
   children?: ReactNode,
-  active?: string
+  active?: string,
+  onChange?: (target: Target) => void
 }) => {
   const [previous, setPrevious] = useState<Target>()
   const [active, setActive] = useState<Target>()
@@ -27,6 +32,7 @@ export const IndicatorActiveContextProvider = ({children, active: _active}: {
   const handleActive = (newOne: Target) => {
     setPrevious(active)
     setActive(newOne)
+    onChange?.(newOne)
   }
 
   return (

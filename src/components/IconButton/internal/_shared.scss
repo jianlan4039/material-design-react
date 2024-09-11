@@ -15,11 +15,14 @@ $support-tokens: (
 @mixin styles() {
   & {
     position: relative;
+    display: inline-block;
     border-start-start-radius: var(--_container-shape-start-start);
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
     z-index: 10;
+    inline-size: var(--_container-width);
+    block-size: var(--_container-height);
 
     .nd-icon-button__button {
       display: inline-flex;
@@ -29,8 +32,8 @@ $support-tokens: (
       background: transparent;
       border: none;
       outline: none;
-      block-size: var(--_container-height);
-      inline-size: var(--_container-width);
+      block-size: 100%;
+      inline-size: 100%;
       padding: 0;
       border-radius: inherit;
       box-sizing: border-box;
