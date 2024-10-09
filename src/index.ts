@@ -59,8 +59,3 @@ export {default as PlanTooltips} from './components/Tooltip/PlainTooltip';
 export {default as RichTooltips} from './components/Tooltip/RichTooltip';
 export {IndicatorActiveContextProvider} from './components/internal/context/IndicatorActiveContext';
 export {MultiSelectContextProvider} from './components/internal/context/MultiSelectContextProvider';
-export {default as Table} from './components/Table';
-export {default as TableHeader} from './components/Table/internal/TableHeader'
-export {default as TableCell} from './components/Table/internal/TableCell'
-export {default as TableRow} from './components/Table/internal/TableRow'
-export {default as Pagination} from './components/Pagination/index'

@@ -1,6 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import './styles'
-import {Dialog, TextButton} from "../index";
+import {DatePicker, Dialog, ElevatedButton, TextButton} from "../index";
+import {useState} from "react";
 
 const meta: Meta = {
   title: "Dialog",
@@ -26,5 +27,26 @@ export const Primary: Story = {
     </>,
     headerDivider: true,
     footerDivider: true
+  }
+}
+
+export const Secondary: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false)
+
+    const clickHandler = () => {
+      setOpen(!open)
+    }
+
+    return (
+      <>
+        <ElevatedButton onClick={clickHandler}>Open</ElevatedButton>
+        <Dialog show={open}>
+          <form action="">
+            <DatePicker label={'JoinAt'}></DatePicker>
+          </form>
+        </Dialog>
+      </>
+    )
   }
 }
