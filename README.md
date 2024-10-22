@@ -18,5 +18,3 @@ We welcome contributions from the community! To contribute, please follow the gu
 
 The project is actively maintained and new features are regularly added.
 We use JetBrains tools for development, and a free open-source license would greatly assist in continuing to maintain and improve this project.
-
-This project is open-source and non-commercial. All code is freely available for public use and contribution.
