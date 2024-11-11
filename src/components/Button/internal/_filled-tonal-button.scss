@@ -16,31 +16,32 @@ $tokens: md-comp-filled-tonal-button.values();
   .nd-filled-tonal-button {
     @include tokens-builder.tokens($tokens, filled-tonal-button);
     @include elevation.theme((
-      level: var(--_container-elevation)
+      level: var(--md-filled-tonal-button-container-elevation),
+      shadow-color: var(--md-filled-tonal-button-container-shadow-color),
     ));
     @include ripple.theme((
-      hover-color: var(--_hover-state-layer-color),
-      hover-opacity: var(--_hover-state-layer-opacity),
-      pressed-color: var(--_pressed-state-layer-color),
-      pressed-opacity: var(--_pressed-state-layer-opacity)
+      hover-color: var(--md-filled-tonal-button-hover-state-layer-color),
+      hover-opacity: var(--md-filled-tonal-button-hover-state-layer-opacity),
+      pressed-color: var(--md-filled-tonal-button-pressed-state-layer-color),
+      pressed-opacity: var(--md-filled-tonal-button-pressed-state-layer-opacity)
     ));
     @include background.theme((
-      color: var(--_container-color),
+      color: var(--md-filled-tonal-button-container-color),
       opacity: 1,
       z-index: -1
-    ));
-    --_container-shape-start-start: var(--md-filled-tonal-button-container-shape-start-start, var(--_container-shape));
-    --_container-shape-start-end: var(--md-filled-tonal-button-container-shape-start-end, var(--_container-shape));
-    --_container-shape-end-end: var(--md-filled-tonal-button-container-shape-end-end, var(--_container-shape));
-    --_container-shape-end-start: var(--md-filled-tonal-button-container-shape-end-start, var(--_container-shape));
+    ), filled-tonal-button);
+    --md-filled-tonal-button-container-shape-start-start: var(--md-filled-tonal-button-container-shape);
+    --md-filled-tonal-button-container-shape-start-end: var(--md-filled-tonal-button-container-shape);
+    --md-filled-tonal-button-container-shape-end-end: var(--md-filled-tonal-button-container-shape);
+    --md-filled-tonal-button-container-shape-end-start: var(--md-filled-tonal-button-container-shape);
     @include focus-ring.theme((
-      shape-start-start: var(--_container-shape-start-start),
-      shape-start-end: var(--_container-shape-start-end),
-      shape-end-start: var(--_container-shape-end-start),
-      shape-end-end: var(--_container-shape-end-end),
+      shape-start-start: var(--md-filled-tonal-button-container-shape-start-start),
+      shape-start-end: var(--md-filled-tonal-button-container-shape-start-end),
+      shape-end-start: var(--md-filled-tonal-button-container-shape-end-start),
+      shape-end-end: var(--md-filled-tonal-button-container-shape-end-end),
     ));
 
-    @include background.styles;
-    @include shared.styles;
+    @include background.styles(filled-tonal-button);
+    @include shared.styles(filled-tonal-button);
   }
 }
