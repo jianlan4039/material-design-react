@@ -6,7 +6,7 @@
       @error 'Token `#{$token}` is not a supported token.';
     }
     @if $value {
-      --md-#{$comp}-#{$token}: #{$value};
+      --md-cust-#{$comp}-#{$token}: #{$value};
     }
   }
 }
