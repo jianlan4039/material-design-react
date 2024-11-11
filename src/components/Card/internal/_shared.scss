@@ -2,30 +2,30 @@
 @use "../../Elevation/internal/elevation";
 @use "../../Ripple/internal/ripple";
 
-@mixin styles() {
+@mixin styles($comp:"") {
   @include background.theme((
-    color: var(--_container-color),
     opacity: 1,
-    z-index: -1
-  ));
+    z-index: -1,
+    color: var(--md-#{$comp}-container-color),
+  ), $comp);
   @include elevation.theme((
-    level: var(--_container-elevation),
-    shadow-color: var(--_container-shadow-color)
+    level: var(--md-#{$comp}-container-elevation),
+    shadow-color: var(--md-#{$comp}-container-shadow-color)
   ));
   @include ripple.theme((
-    hover-color:var(--_hover-state-layer-color),
-    hover-opacity: var(--_hover-state-layer-opacity),
-    pressed-color: var(--_pressed-state-layer-color),
-    pressed-opacity: var(--_pressed-state-layer-opacity)
+    hover-color:var(--md-#{$comp}-hover-state-layer-color),
+    hover-opacity: var(--md-#{$comp}-hover-state-layer-opacity),
+    pressed-color: var(--md-#{$comp}-pressed-state-layer-color),
+    pressed-opacity: var(--md-#{$comp}-pressed-state-layer-opacity)
   ));
-  @include background.styles;
+  @include background.styles($comp);
 
   position: relative;
   display: block;
-  border-start-start-radius: var(--_container-shape-start-start);
-  border-start-end-radius: var(--_container-shape-start-end);
-  border-end-start-radius: var(--_container-shape-end-start);
-  border-end-end-radius: var(--_container-shape-end-end);
+  border-start-start-radius: var(--md-#{$comp}-container-shape-start-start);
+  border-start-end-radius: var(--md-#{$comp}-container-shape-start-end);
+  border-end-start-radius: var(--md-#{$comp}-container-shape-end-start);
+  border-end-end-radius: var(--md-#{$comp}-container-shape-end-end);
   z-index: 10;
   min-block-size: 50px;
   min-inline-size: 50px;
@@ -40,43 +40,43 @@
 
   &:not(.nd-card--static):focus-visible {
     @include background.theme((
-      color: var(--_focus-state-layer-color),
-      opacity: var(--_focus-state-layer-opacity)
-    ));
+      color: var(--md-#{$comp}-focus-state-layer-color),
+      opacity: var(--md-#{$comp}-focus-state-layer-opacity)
+    ), $comp);
     @include elevation.theme((
-      level: var(--_focus-container-elevation),
+      level: var(--md-#{$comp}-focus-container-elevation),
     ));
   }
 
   &:not(.nd-card--static):hover {
     @include elevation.theme((
-      level: var(--_hover-container-elevation),
+      level: var(--md-#{$comp}-hover-container-elevation),
     ));
   }
 
   &:not(.nd-card--static):active {
     @include elevation.theme((
-      level: var(--_pressed-container-elevation),
+      level: var(--md-#{$comp}-pressed-container-elevation),
     ));
   }
 
   &.nd-dragged {
     @include elevation.theme((
-      level: var(--_dragged-container-elevation),
+      level: var(--md-#{$comp}-dragged-container-elevation),
     ));
     @include background.theme((
-      color: var(--_dragged-state-layer-color),
-      opacity: var(--_dragged-state-layer-opacity)
-    ))
+      color: var(--md-#{$comp}-dragged-state-layer-color),
+      opacity: var(--md-#{$comp}-dragged-state-layer-opacity)
+    ), $comp);
   }
 
   &.nd-disabled {
     @include elevation.theme((
-      level: var(--_disabled-container-elevation),
+      level: var(--md-#{$comp}-disabled-container-elevation),
     ));
     @include background.theme((
-      color: var(--_disabled-container-color),
-      opacity: var(--_disabled-container-opacity)
-    ))
+      color: var(--md-#{$comp}-disabled-container-color),
+      opacity: var(--md-#{$comp}-disabled-container-opacity)
+    ), $comp);
   }
 }

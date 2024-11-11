@@ -12,10 +12,10 @@ $supported-tokens: md-comp-elevated-card.$supported-tokens;
 @mixin styles() {
   .nd-elevated-card {
     @include tokens-builder.tokens($tokens, elevated-card);
-    --_container-shape-start-start: var(--_md-elevated-card-container-shape-start-start, var(--_container-shape));
-    --_container-shape-start-end: var(--_md-elevated-card-container-shape-start-end, var(--_container-shape));
-    --_container-shape-end-start: var(--_md-elevated-card-container-shape-end-start, var(--_container-shape));
-    --_container-shape-end-end: var(--_md-elevated-card-container-shape-end-end, var(--_container-shape));
-    @include shared.styles;
+    --md-elevated-card-container-shape-start-start: var(--md-elevated-card-container-shape);
+    --md-elevated-card-container-shape-start-end: var(--md-elevated-card-container-shape);
+    --md-elevated-card-container-shape-end-start: var(--md-elevated-card-container-shape);
+    --md-elevated-card-container-shape-end-end: var(--md-elevated-card-container-shape);
+    @include shared.styles(elevated-card);
   }
 }
