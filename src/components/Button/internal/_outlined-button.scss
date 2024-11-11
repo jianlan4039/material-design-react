@@ -16,29 +16,29 @@ $tokens: md-comp-outlined-button.values();
   .nd-outlined-button{
     @include tokens-builder.tokens($tokens, outlined-button);
     @include elevation.theme((
-      level: var(--_container-elevation)
+      level: var(--md-outlined-button-container-elevation)
     ));
     @include ripple.theme((
-      hover-color: var(--_hover-state-layer-color),
-      hover-opacity: var(--_hover-state-layer-opacity),
-      pressed-color: var(--_pressed-state-layer-color),
-      pressed-opacity: var(--_pressed-state-layer-opacity)
+      hover-color: var(--md-outlined-button-hover-state-layer-color),
+      hover-opacity: var(--md-outlined-button-hover-state-layer-opacity),
+      pressed-color: var(--md-outlined-button-pressed-state-layer-color),
+      pressed-opacity: var(--md-outlined-button-pressed-state-layer-opacity)
     ));
-    --_container-shape-start-start: var(--md-outlined-button-container-shape-start-start, var(--_container-shape));
-    --_container-shape-start-end: var(--md-outlined-button-container-shape-start-end, var(--_container-shape));
-    --_container-shape-end-end: var(--md-outlined-button-container-shape-end-end, var(--_container-shape));
-    --_container-shape-end-start: var(--md-outlined-button-container-shape-end-start, var(--_container-shape));
+    --md-outlined-button-container-shape-start-start: var(--md-outlined-button-container-shape);
+    --md-outlined-button-container-shape-start-end: var(--md-outlined-button-container-shape);
+    --md-outlined-button-container-shape-end-end: var(--md-outlined-button-container-shape);
+    --md-outlined-button-container-shape-end-start: var(--md-outlined-button-container-shape);
     @include focus-ring.theme((
-      shape-start-start: var(--_container-shape-start-start),
-      shape-start-end: var(--_container-shape-start-end),
-      shape-end-start: var(--_container-shape-end-start),
-      shape-end-end: var(--_container-shape-end-end),
+      shape-start-start: var(--md-outlined-button-container-shape-start-start),
+      shape-start-end: var(--md-outlined-button-container-shape-start-end),
+      shape-end-start: var(--md-outlined-button-container-shape-end-start),
+      shape-end-end: var(--md-outlined-button-container-shape-end-end),
     ));
     @include outline.theme((
-      color: var(--_outline-color),
-      width: var(--_outline-width)
+      color: var(--md-outlined-button-outline-color),
+      width: var(--md-outlined-button-outline-width)
     ));
-    @include shared.styles;
+    @include shared.styles(outlined-button);
   }
 
 }
