@@ -14,21 +14,21 @@ $tokens: md-comp-text-button.values();
   .nd-text-button {
     @include tokens-builder.tokens($tokens, text-button);
     @include ripple.theme((
-      hover-color: var(--_hover-state-layer-color),
-      hover-opacity: var(--_hover-state-layer-opacity),
-      pressed-color: var(--_pressed-state-layer-color),
-      pressed-opacity: var(--_pressed-state-layer-opacity)
+      hover-color: var(--md-text-button-hover-state-layer-color),
+      hover-opacity: var(--md-text-button-hover-state-layer-opacity),
+      pressed-color: var(--md-text-button-pressed-state-layer-color),
+      pressed-opacity: var(--md-text-button-pressed-state-layer-opacity)
     ));
-    --_container-shape-start-start: var(--md-text-button-container-shape-start-start, var(--_container-shape));
-    --_container-shape-start-end: var(--md-text-button-container-shape-start-end, var(--_container-shape));
-    --_container-shape-end-end: var(--md-text-button-container-shape-end-end, var(--_container-shape));
-    --_container-shape-end-start: var(--md-text-button-container-shape-end-start, var(--_container-shape));
+    --md-text-button-container-shape-start-start: var(--md-text-button-container-shape);
+    --md-text-button-container-shape-start-end: var(--md-text-button-container-shape);
+    --md-text-button-container-shape-end-end: var(--md-text-button-container-shape);
+    --md-text-button-container-shape-end-start: var(--md-text-button-container-shape);
     @include focus-ring.theme((
-      shape-start-start: var(--_container-shape-start-start),
-      shape-start-end: var(--_container-shape-start-end),
-      shape-end-start: var(--_container-shape-end-start),
-      shape-end-end: var(--_container-shape-end-end),
+      shape-start-start: var(--md-text-button-container-shape-start-start),
+      shape-start-end: var(--md-text-button-container-shape-start-end),
+      shape-end-start: var(--md-text-button-container-shape-end-start),
+      shape-end-end: var(--md-text-button-container-shape-end-end),
     ));
-    @include shared.styles;
+    @include shared.styles(text-button);
   }
 }
