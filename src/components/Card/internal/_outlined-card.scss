@@ -1,0 +1,21 @@
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-outlined-card";
+@use "./shared";
+
+$tokens: md-comp-outlined-card.values();
+$supported-tokens: md-comp-outlined-card.$supported-tokens;
+
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, $supported-tokens, outlined-card);
+}
+
+@mixin styles() {
+  .nd-outline-card {
+    @include tokens-builder.tokens($tokens, outlined-card);
+    --md-outlined-card-container-shape-start-start: var(--md-outlined-card-container-shape);
+    --md-outlined-card-container-shape-start-end: var(--md-outlined-card-container-shape);
+    --md-outlined-card-container-shape-end-start: var(--md-outlined-card-container-shape);
+    --md-outlined-card-container-shape-end-end: var(--md-outlined-card-container-shape);
+    @include shared.styles(outlined-card);
+  }
+}

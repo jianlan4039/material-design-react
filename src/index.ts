@@ -6,7 +6,7 @@ export {default as OutlinedButton} from './components/Button/OutlinedButton';
 export {default as TextButton} from './components/Button/TextButton';
 export {default as ElevatedCard} from './components/Card/ElevatedCard';
 export {default as FilledCard} from './components/Card/FilledCard';
-export {default as OutlinedCard} from './components/Card/OutlineCard';
+export {default as OutlinedCard} from './components/Card/OutlinedCard';
 export {default as Checkbox} from './components/Checkbox/Checkbox';
 export {default as ChipSet} from './components/Chip/ChipSet';
 export {default as AssistChip} from './components/Chip/AssistChip';

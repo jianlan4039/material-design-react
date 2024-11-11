@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode} from 'react'
 import Card, {CardProps} from "./internal/Card";
 import Elevation from "../Elevation";
 import cln from "classnames";
-import './OutlineCard.scss'
+import './OutlinedCard.scss'
 import Outline from "../Outline/Outline";
 import useRipple from "../Ripple/useRipple";
 
@@ -11,13 +11,13 @@ export interface OutlineCardProps extends CardProps {
   interactive?: boolean
 }
 
-const OutlineCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) => {
+const OutlinedCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) => {
   const {
     children,
     style,
     className,
     disabled,
-    interactive,
+    interactive = true,
     ...rest
   } = props
 
@@ -41,4 +41,4 @@ const OutlineCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) =>
   )
 })
 
-export default OutlineCard
+export default OutlinedCard
