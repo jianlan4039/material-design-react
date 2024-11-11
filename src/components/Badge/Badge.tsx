@@ -17,7 +17,7 @@ export interface BadgeHandle {
 const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, ref) => {
   const {
     children,
-    size,
+    size = 'small',
     count = 0,
     stayShow = false
   } = props
