@@ -25,7 +25,7 @@ $token: md-comp-elevated-button.values();
       pressed-color: var(--md-elevated-button-pressed-state-layer-color),
       pressed-opacity: var(--md-elevated-button-pressed-state-layer-opacity)
     ));
-    @include background.theme-with((
+    @include background.theme((
       color: var(--md-elevated-button-container-color),
       opacity: 1,
       z-index: -1
@@ -41,7 +41,7 @@ $token: md-comp-elevated-button.values();
       shape-end-end: var(--md-elevated-button-container-shape-end-end),
     ));
 
-    @include background.styles-with(elevated-button);
+    @include background.styles(elevated-button);
     @include shared.styles(elevated-button);
   }
 }

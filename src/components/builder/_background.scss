@@ -1,28 +1,10 @@
 @use "tokens-builder";
 
-@mixin theme($tokens) {
-  @include tokens-builder.theme($tokens, ('color', 'opacity', 'z-index'), background);
-}
-
-@mixin theme-with($tokens, $comp) {
+@mixin theme($tokens, $comp: "") {
   @include tokens-builder.theme($tokens, ('color', 'opacity', 'z-index'), #{$comp}-background);
 }
 
-
-@mixin styles() {
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background-color: var(--md-background-color, #fff);
-    opacity: var(--md-background-opacity, 1);
-    z-index: var(--md-background-z-index, -1);
-    transition: background-color 300ms ease;
-  }
-}
-
-@mixin styles-with($comp) {
+@mixin styles($comp:"") {
   &::before {
     content: '';
     position: absolute;
