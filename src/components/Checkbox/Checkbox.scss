@@ -11,29 +11,29 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
 .nd-checkbox {
   @include tokens-builder.tokens($tokens, checkbox);
   @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    hover-opacity: var(--_hover-state-layer-opacity),
-    pressed-color: var(--_pressed-state-layer-color),
-    pressed-opacity: var(--_pressed-state-layer-opacity),
+    hover-color: var(--md-checkbox-hover-state-layer-color),
+    hover-opacity: var(--md-checkbox-hover-state-layer-opacity),
+    pressed-color: var(--md-checkbox-pressed-state-layer-color),
+    pressed-opacity: var(--md-checkbox-pressed-state-layer-opacity),
   ));
-  --_container-shape-start-start: var(--md-checkbox-shape-start-start, var(--_state-layer-shape));
-  --_container-shape-start-end: var(--md-checkbox-shape-start-end, var(--_state-layer-shape));
-  --_container-shape-end-end: var(--md-checkbox-shape-end-end, var(--_state-layer-shape));
-  --_container-shape-end-start: var(--md-checkbox-shape-end-start, var(--_state-layer-shape));
+  --md-checkbox-container-shape-start-start: var(--md-checkbox-state-layer-shape);
+  --md-checkbox-container-shape-start-end: var(--md-checkbox-state-layer-shape);
+  --md-checkbox-container-shape-end-end: var(--md-checkbox-state-layer-shape);
+  --md-checkbox-container-shape-end-start: var(--md-checkbox-state-layer-shape);
   @include focus-ring.theme((
-    shape-start-start: var(--_container-shape-start-start),
-    shape-start-end: var(--_container-shape-start-end),
-    shape-end-start: var(--_container-shape-end-start),
-    shape-end-end: var(--_container-shape-end-end),
+    shape-start-start: var(--md-checkbox-container-shape-start-start),
+    shape-start-end: var(--md-checkbox-container-shape-start-end),
+    shape-end-start: var(--md-checkbox-container-shape-end-start),
+    shape-end-end: var(--md-checkbox-container-shape-end-end),
   ));
   @include check-box.styles;
-  border-radius: var(--_container-shape-start-start) var(--_container-shape-start-end) var(--_container-shape-end-start) var(--_container-shape-end-end);
+  border-radius: var(--md-checkbox-container-shape-start-start) var(--md-checkbox-container-shape-start-end) var(--md-checkbox-container-shape-end-start) var(--md-checkbox-container-shape-end-end);
   block-size: 24px;
   inline-size: 24px;
 
   .nd-ripple {
-    block-size: var(--_state-layer-size);
-    inline-size: var(--_state-layer-size);
+    block-size: var(--md-checkbox-state-layer-size);
+    inline-size: var(--md-checkbox-state-layer-size);
     inset: unset;
   }
 
@@ -53,50 +53,50 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
     & > .nd-check,
     & > .nd-indeterminate {
       @include background.theme((
-        color: var(--_selected-disabled-container-color),
-        opacity: var(--_selected-disabled-container-opacity)
-      ))
+        color: var(--md-checkbox-selected-disabled-container-color),
+        opacity: var(--md-checkbox-selected-disabled-container-opacity)
+      ), checkbox)
     }
 
     & > .nd-uncheck {
       svg {
-        fill: var(--_disabled-outline-color);
-        opacity: var(--_disabled-container-opacity)
+        fill: var(--md-checkbox-disabled-outline-color);
+        opacity: var(--md-checkbox-disabled-container-opacity)
       }
     }
   }
 
   &.nd-selected {
     @include ripple.theme((
-      hover-color: var(--_selected-hover-state-layer-color),
-      pressed-color: var(--_selected-pressed-state-layer-color)
+      hover-color: var(--md-checkbox-selected-hover-state-layer-color),
+      pressed-color: var(--md-checkbox-selected-pressed-state-layer-color)
     ))
   }
 
   &.nd-error {
     @include ripple.theme((
-      hover-color: var(--_error-hover-state-layer-color),
-      pressed-color: var(--_error-pressed-state-layer-color)
+      hover-color: var(--md-checkbox-error-hover-state-layer-color),
+      pressed-color: var(--md-checkbox-error-pressed-state-layer-color)
     ));
 
     .nd-checkbox-content > svg {
-      fill: var(--_error-outline-color);
+      fill: var(--md-checkbox-error-outline-color);
     }
 
     &.nd-selected {
       @include ripple.theme((
-        hover-color: var(--_error-hover-state-layer-color),
-        pressed-color: var(--_error-pressed-state-layer-color)
+        hover-color: var(--md-checkbox-error-hover-state-layer-color),
+        pressed-color: var(--md-checkbox-error-pressed-state-layer-color)
       ));
 
       & > .nd-checkbox-content.nd-check,
       & > .nd-checkbox-content.nd-indeterminate {
         @include background.theme((
-          color: var(--_selected-error-container-color)
-        ));
+          color: var(--md-checkbox-selected-error-container-color)
+        ), checkbox);
 
         svg {
-          fill: var(--_selected-error-icon-color);
+          fill: var(--md-checkbox-selected-error-icon-color);
         }
       }
     }
