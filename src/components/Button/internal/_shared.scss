@@ -2,15 +2,15 @@
 @use "../../Ripple/internal/ripple";
 @use "../../Elevation/internal/elevation";
 
-@mixin styles() {
+@mixin styles($comp: "") {
   position: relative;
   display: inline-flex;
-  border-start-start-radius: var(--_container-shape-start-start);
-  border-start-end-radius: var(--_container-shape-start-end);
-  border-end-start-radius: var(--_container-shape-end-start);
-  border-end-end-radius: var(--_container-shape-end-end);
+  border-start-start-radius: var(--md-#{$comp}-container-shape-start-start);
+  border-start-end-radius: var(--md-#{$comp}-container-shape-start-end);
+  border-end-start-radius: var(--md-#{$comp}-container-shape-end-start);
+  border-end-end-radius: var(--md-#{$comp}-container-shape-end-end);
   z-index: 10;
-  block-size: var(--_container-height);
+  block-size: var(--md-#{$comp}-container-height);
 
   button {
     -webkit-tap-highlight-color: transparent;
@@ -24,10 +24,10 @@
     outline: none;
     margin: 0;
     border-radius: inherit;
-    color: var(--_label-text-color);
-    font-size: var(--_label-text-size);
-    font-family: var(--_label-text-font), serif;
-    line-height: var(--_label-text-line-height);
+    color: var(--md-#{$comp}-label-text-color);
+    font-size: var(--md-#{$comp}-label-text-size);
+    font-family: var(--md-#{$comp}-label-text-font), serif;
+    line-height: var(--md-#{$comp}-label-text-line-height);
     block-size: 100%;
     inline-size: 100%;
     font-weight: var(--_label-text-weight);
@@ -35,19 +35,19 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    $single-line-height: max(var(--_label-text-line-height), var(--_icon-size));
-    padding-block: calc((var(--_container-height) - $single-line-height) / 2);
-    padding-inline-start: var(--_leading-space);
-    padding-inline-end: var(--_trailing-space);
+    $single-line-height: max(var(--md-#{$comp}-label-text-line-height), var(--md-#{$comp}-icon-size));
+    padding-block: calc((var(--md-#{$comp}-container-height) - $single-line-height) / 2);
+    padding-inline-start: var(--md-#{$comp}-leading-space);
+    padding-inline-end: var(--md-#{$comp}-trailing-space);
     min-width: 64px;
     white-space: nowrap;
 
     .nd-button__icon-slot > * {
-      font-size: var(--_icon-size);
-      block-size: var(--_icon-size);
-      inline-size: var(--_icon-size);
-      color: var(--_label-text-color);
-      fill: var(--_label-text-color);;
+      font-size: var(--md-#{$comp}-icon-size);
+      block-size: var(--md-#{$comp}-icon-size);
+      inline-size: var(--md-#{$comp}-icon-size);
+      color: var(--md-#{$comp}-label-text-color);
+      fill: var(--md-#{$comp}-label-text-color);;
     }
 
     .nd-button__icon-slot {
@@ -64,46 +64,46 @@
     }
 
     &.nd-button--has-icon {
-      padding-inline-start: var(--_with-leading-icon-leading-space);
-      padding-inline-end: var(--_with-leading-icon-trailing-space);
+      padding-inline-start: var(--md-#{$comp}-with-leading-icon-leading-space);
+      padding-inline-end: var(--md-#{$comp}-with-leading-icon-trailing-space);
     }
 
     &.nd-button--has-trailing-icon {
-      padding-inline-start: var(--_with-trailing-icon-leading-space);
-      padding-inline-end: var(--_with-trailing-icon-trailing-space);
+      padding-inline-start: var(--md-#{$comp}-with-trailing-icon-leading-space);
+      padding-inline-end: var(--md-#{$comp}-with-trailing-icon-trailing-space);
     }
   }
 
   &:hover {
     @include elevation.theme((
-      level: var(--_hover-container-elevation)
+      level: var(--md-#{$comp}-hover-container-elevation)
     ))
   }
 
   &:focus-visible {
     @include elevation.theme((
-      level: var(--_focus-container-elevation)
+      level: var(--md-#{$comp}-focus-container-elevation)
     ))
   }
 
   &:active {
     @include elevation.theme((
-      level: var(--_pressed-container-elevation)
+      level: var(--md-#{$comp}-pressed-container-elevation)
     ))
   }
 
   &.nd-disabled {
     @include elevation.theme((
-      level: var(--_disabled-container-elevation)
+      level: var(--md-#{$comp}-disabled-container-elevation)
     ));
     @include background.theme((
-      color: var(--_disabled-container-color),
-      opacity: var(--_disabled-container-opacity)
+      color: var(--md-#{$comp}-disabled-container-color),
+      opacity: var(--md-#{$comp}-disabled-container-opacity)
     ));
 
     .nd-button {
-      color: var(--_disabled-label-text-color);
-      opacity: var(--_disabled-label-text-opacity);
+      color: var(--md-#{$comp}-disabled-label-text-color);
+      opacity: var(--md-#{$comp}-disabled-label-text-opacity);
       cursor: auto;
     }
   }

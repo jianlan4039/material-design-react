@@ -16,32 +16,32 @@ $token: md-comp-elevated-button.values();
   .nd-elevated-button {
     @include tokens-builder.tokens($token, elevated-button);
     @include elevation.theme((
-      level: var(--_container-elevation),
-      shadow-color: var(--_container-shadow-color)
+      level: var(--md-elevated-button-container-elevation),
+      shadow-color: var(--md-elevated-button-container-shadow-color)
     ));
     @include ripple.theme((
-      hover-color: var(--_hover-state-layer-color),
-      hover-opacity: var(--_hover-state-layer-opacity),
-      pressed-color: var(--_pressed-state-layer-color),
-      pressed-opacity: var(--_pressed-state-layer-opacity)
+      hover-color: var(--md-elevated-button-hover-state-layer-color),
+      hover-opacity: var(--md-elevated-button-hover-state-layer-opacity),
+      pressed-color: var(--md-elevated-button-pressed-state-layer-color),
+      pressed-opacity: var(--md-elevated-button-pressed-state-layer-opacity)
     ));
-    @include background.theme((
-      color: var(--_container-color),
+    @include background.theme-with((
+      color: var(--md-elevated-button-container-color),
       opacity: 1,
       z-index: -1
-    ));
-    --_container-shape-start-start: var(--md-elevated-button-container-shape-start-start, var(--_container-shape));
-    --_container-shape-start-end: var(--md-elevated-button-container-shape-start-end, var(--_container-shape));
-    --_container-shape-end-end: var(--md-elevated-button-container-shape-end-end, var(--_container-shape));
-    --_container-shape-end-start: var(--md-elevated-button-container-shape-end-start, var(--_container-shape));
+    ), elevated-button);
+    --md-elevated-button-container-shape-start-start: var(--md-elevated-button-container-shape);
+    --md-elevated-button-container-shape-start-end: var(--md-elevated-button-container-shape);
+    --md-elevated-button-container-shape-end-end: var(--md-elevated-button-container-shape);
+    --md-elevated-button-container-shape-end-start: var(--md-elevated-button-container-shape);
     @include focus-ring.theme((
-      shape-start-start: var(--_container-shape-start-start),
-      shape-start-end: var(--_container-shape-start-end),
-      shape-end-start: var(--_container-shape-end-start),
-      shape-end-end: var(--_container-shape-end-end),
+      shape-start-start: var(--md-elevated-button-container-shape-start-start),
+      shape-start-end: var(--md-elevated-button-container-shape-start-end),
+      shape-end-start: var(--md-elevated-button-container-shape-end-start),
+      shape-end-end: var(--md-elevated-button-container-shape-end-end),
     ));
 
-    @include background.styles;
-    @include shared.styles;
+    @include background.styles-with(elevated-button);
+    @include shared.styles(elevated-button);
   }
 }
