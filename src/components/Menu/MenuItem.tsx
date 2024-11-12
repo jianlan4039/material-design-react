@@ -21,7 +21,7 @@ export interface MenuItemProps extends ListItemProps {
   subMenu?: MenuItemProps[]
   icon?: ReactNode
   trailingIcon?: ReactNode
-  label?: string
+  headline?: string
   keepOpen?: boolean
   value?: string | number
   setIsMenuOpen?: (open: boolean) => void
@@ -38,7 +38,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     customOpenIcon,
     trailingIcon,
     icon,
-    label,
+    headline,
     keepOpen,
     value,
     id,
@@ -114,7 +114,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
         'nd-menu-item--selected': isSubmenuOpen || id && list?.includes(id),
         'nd-menu-item--open': isSubmenuOpen
       })}
-      label={label}
+      headline={headline}
       icon={icon}
       trailingIcon={subMenu ? customOpenIcon ? customOpenIcon :
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">

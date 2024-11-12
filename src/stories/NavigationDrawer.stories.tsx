@@ -19,49 +19,49 @@ export const Primary: Story = {
     onChange: (target) => { console.log(target); },
     items: [
       {
-        label: 'Button',
+        headline: 'Button',
         id: 'button',
         value: 'button',
         subEntries: [
           {
-            label: 'Common Button',
+            headline: 'Common Button',
             id: 'common-button',
             value: 'common-button'
           },
           {
-            label: 'Icon Button',
+            headline: 'Icon Button',
             id: 'icon-button',
             value: 'icon-button'
           },
           {
-            label: 'FAB',
+            headline: 'FAB',
             id: 'fab',
             value: 'fab'
           },
           {
-            label: 'Extended FAB',
+            headline: 'Extended FAB',
             id: 'extended-fab',
             value: 'extended-fab'
           },
           {
-            label: 'Segmented Button',
+            headline: 'Segmented Button',
             id: 'segmented-button',
             value: 'segmented-button'
           },
         ]
       },
       {
-        label: 'Card',
+        headline: 'Card',
         id: 'card',
         value: 'card'
       },
       {
-        label: 'Checkbox',
+        headline: 'Checkbox',
         id: 'checkbox',
         value: 'checkbox'
       },
       {
-        label: 'Chips',
+        headline: 'Chips',
         id: 'chips',
         value: 'chips'
       },

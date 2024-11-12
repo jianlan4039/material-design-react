@@ -303,7 +303,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
               return items?.map((item, index) => {
                 return (
                   <MenuItem
-                    key={`menu-item-${index}-${item.label}`}
+                    key={`menu-item-${index}-${item.headline}`}
                     ref={(node) => itemsRef.current.push(node)}
                     style={style}
                     keepOpen={keepOpen || item.keepOpen}

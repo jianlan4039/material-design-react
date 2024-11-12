@@ -3,15 +3,15 @@
 
 @include list-item.styles;
 
-.list-item{
+.list-item {
   @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    hover-opacity: var(--_hover-state-layer-opacity),
-    pressed-color: var(--_pressed-state-layer-color),
-    pressed-opacity: var(--_pressed-state-layer-opacity)
+    hover-color: var(--md-list-item-hover-state-layer-color),
+    hover-opacity: var(--md-list-item-hover-state-layer-opacity),
+    pressed-color: var(--md-list-item-pressed-state-layer-color),
+    pressed-opacity: var(--md-list-item-pressed-state-layer-opacity)
   ));
 
   &.disabled{
-    opacity: var(--_disabled-opacity);
+    opacity: var(--md-list-item-disabled-opacity);
   }
 }

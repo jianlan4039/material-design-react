@@ -48,7 +48,7 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
     const changeHandler = (value: OptionValue, option?: MenuItemProps) => {
       setValue(value)
       onChange?.(value)
-      option && setShowLabel(option.label)
+      option && setShowLabel(option.headline)
     }
 
     const mouseDownHandler = () => {

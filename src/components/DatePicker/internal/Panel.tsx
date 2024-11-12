@@ -36,7 +36,7 @@ const Panel = React.memo((props: PanelProps) => {
     {length: 12},
     (_, i) => {
       return {
-        label: new Intl.DateTimeFormat(locale, {month: 'long'}).format(new Date(2020, i)),
+        headline: new Intl.DateTimeFormat(locale, {month: 'long'}).format(new Date(2020, i)),
         id: setMonthId(i),
         value: i
       }
@@ -50,7 +50,7 @@ const Panel = React.memo((props: PanelProps) => {
     let start = year - 10
     for (let i = 0; i < 20; i++) {
       const value = start + i
-      yearsList.push({label: (start + i).toString(), id: setYearId(value), value: value})
+      yearsList.push({headline: (start + i).toString(), id: setYearId(value), value: value})
     }
     return yearsList
   }, []);
@@ -99,7 +99,7 @@ const Panel = React.memo((props: PanelProps) => {
     }
     for (let i = 0; i < 10; i++) {
       start += 1
-      newYearList.push({label: start.toString(), value: start, id: setYearId(start)})
+      newYearList.push({headline: start.toString(), value: start, id: setYearId(start)})
     }
     if (toEnd) {
       setYearList([...yearList, ...newYearList])
