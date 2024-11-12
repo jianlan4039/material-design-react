@@ -12,17 +12,17 @@ $supported-tokens: (
 }
 
 @mixin styles() {
-  --_outline-style: solid;
-  --_outline-width: 1px;
-  --_outline-color: #79747E;
+  --md-outline-style: solid;
+  --md-outline-width: 1px;
+  --md-outline-color: #79747E;
 
   position: absolute;
   display: inline-flex;
   inset: 0;
-  border-style: var(--md-outline-style, var(--_outline-style));
-  border-width: var(--md-outline-width, var(--_outline-width));
-  border-color: var(--md-outline-color, var(--_outline-color));
-  opacity: var(--md-outline-opacity, var(--_outline-opacity, 1));
+  border-style: var(--md-cust-outline-style, var(--md-outline-style));
+  border-width: var(--md-cust-outline-width, var(--md-outline-width));
+  border-color: var(--md-cust-outline-color, var(--md-outline-color));
+  opacity: var(--md-cust-outline-opacity, var(--md-outline-opacity, 1));
   border-radius: inherit;
   z-index: -1;
 

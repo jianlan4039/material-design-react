@@ -13,5 +13,5 @@ $supported-tokens: md-comp-assist-chip.$supported-tokens;
   --md-assist-chip-shape-end-start: var(--md-assist-chip-container-shape);
   --md-assist-chip-shape-end-end: var(--md-assist-chip-container-shape);
   @include background.styles(assist-chip);
-  @include shared.styles;
+  @include shared.styles(assist-chip);
 }

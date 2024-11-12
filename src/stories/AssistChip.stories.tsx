@@ -16,5 +16,6 @@ export const Primary: Story = {
     label: 'Assist Chip',
     elevated: false,
     disabled: false,
+    icon: <span className={'material-icons-round'}>home</span>
   }
 }

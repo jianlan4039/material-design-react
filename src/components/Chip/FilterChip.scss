@@ -9,31 +9,31 @@ $supported-tokens: md-comp-filter-chip.$supported-tokens;
 
 .nd-filter-chip {
   @include tokens-builder.tokens($tokens, filter-chip);
-  --_chip-shape-start-start: var(--_md-filter-chip-shape-start-start, var(--_container-shape));
-  --_chip-shape-start-end: var(--_md-filter-chip-shape-start-end, var(--_container-shape));
-  --_chip-shape-end-start: var(--_md-filter-chip-shape-end-start, var(--_container-shape));
-  --_chip-shape-end-end: var(--_md-filter-chip-shape-end-end, var(--_container-shape));
-  @include background.styles;
-  @include shared.styles;
+  --md-filter-chip-shape-start-start: var(--md-filter-chip-container-shape);
+  --md-filter-chip-shape-start-end: var(--md-filter-chip-container-shape);
+  --md-filter-chip-shape-end-start: var(--md-filter-chip-container-shape);
+  --md-filter-chip-shape-end-end: var(--md-filter-chip-container-shape);
+  @include background.styles(filter-chip);
+  @include shared.styles(filter-chip);
 
   &.nd-selected {
     @include background.theme((
-      color: var(--_selected-container-color)
-    ));
+      color: var(--md-filter-chip-selected-container-color)
+    ), filter-chip);
     @include ripple.theme((
-      hover-color: var(--_selected-hover-state-layer-color),
-      pressed-color: var(--_selected-pressed-state-layer-color)
+      hover-color: var(--md-filter-chip-selected-hover-state-layer-color),
+      pressed-color: var(--md-filter-chip-selected-pressed-state-layer-color)
     ));
 
     svg {
-      fill: var(--_selected-leading-icon-color);
+      fill: var(--md-filter-chip-selected-leading-icon-color);
     }
 
     &.nd-disabled{
       @include background.theme((
-        color: var(--_disabled-selected-container-color),
-        opacity: var(--_disabled-selected-container-opacity)
-      ));
+        color: var(--md-filter-chip-disabled-selected-container-color),
+        opacity: var(--md-filter-chip-disabled-selected-container-opacity)
+      ))
     }
   }
 }
