@@ -8,9 +8,9 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
 
 .nd-input-chip {
   @include tokens-builder.tokens($tokens, input-chip);
-  --_chip-trail-icon-size: var(--_icon-size);
+  --md-input-chip-trail-icon-size: var(--md-input-chip-icon-size);
   @include background.styles;
-  @include shared.styles;
+  @include shared.styles(input-chip);
 
   .nd-chip__button {
     position: static;
@@ -25,20 +25,20 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
     border: none;
     outline: none;
     background: transparent;
-    block-size: var(--_chip-height);
-    padding-inline-start: var(--_icon-label-space);
-    padding-inline-end: var(--_with-trailing-icon-trailing-space);
+    block-size: var(--md-input-chip-height);
+    padding-inline-start: var(--md-input-chip-icon-label-space);
+    padding-inline-end: var(--md-input-chip-with-trailing-icon-trailing-space);
 
     svg {
-      block-size: var(--_chip-icon-size);
-      inline-size: var(--_chip-icon-size);
-      fill: var(--_trailing-icon-color);
+      block-size: var(--md-input-chip-icon-size);
+      inline-size: var(--md-input-chip-icon-size);
+      fill: var(--md-input-chip-trailing-icon-color);
     }
 
     .nd-ripple {
       border-radius: 50%;
-      height: calc(4 / 3 * var(--_icon-size)); // 24px default
-      width: calc(4 / 3 * var(--_icon-size)); // 24px default
+      height: calc(4 / 3 * var(--md-input-chip-icon-size)); // 24px default
+      width: calc(4 / 3 * var(--md-input-chip-icon-size)); // 24px default
       margin: auto;
     }
   }
@@ -46,8 +46,8 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
   &.nd-disabled {
     .nd-input-chip__trail {
       svg {
-        fill: var(--_disabled-trailing-icon-color);
-        opacity: var(--_disabled-trailing-icon-opacity);
+        fill: var(--md-input-chip-disabled-trailing-icon-color);
+        opacity: var(--md-input-chip-disabled-trailing-icon-opacity);
       }
     }
   }
