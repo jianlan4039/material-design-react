@@ -76,7 +76,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   const mouseEnterHandler = (e: MouseEvent<HTMLLIElement>) => {
     onMouseEnter?.(e)
     clearTimeout(closeTimeoutIdRef.current)
-    setIsSubmenuOpen(Boolean(subMenu) && true)
+    setIsSubmenuOpen(Boolean(subMenu))
   }
 
   const mouseLeaveHandler = (e: MouseEvent<HTMLLIElement>) => {
@@ -114,7 +114,6 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
         'nd-menu-item--selected': isSubmenuOpen || id && list?.includes(id),
         'nd-menu-item--open': isSubmenuOpen
       })}
-      headline={headline}
       icon={icon}
       trailingIcon={subMenu ? customOpenIcon ? customOpenIcon :
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -127,6 +126,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
       onMouseLeave={mouseLeaveHandler}
       onClick={onSelected}
     >
+      {headline}
       {
         subMenu && <SubMenu
           ref={subMenuRef}

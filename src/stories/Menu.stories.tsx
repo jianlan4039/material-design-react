@@ -68,16 +68,19 @@ export const SubMenu: Story = {
       {
         headline: '2023',
         value: '2023',
-        subMenu: months
+        subMenu: months,
+        id: 'id_2023'
       },
       {
         headline: '2024',
         value: '2024',
+        id: 'id_2024'
 
       },
       {
         headline: '2025',
         value: '2025',
+        id: 'id_2025'
       }
     ]
 
