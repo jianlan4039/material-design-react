@@ -11,9 +11,9 @@ import React, {
 import ListItem, {ListItemHandle, ListItemProps} from "../List/ListItem";
 import SubMenu, {SubMenuHandle} from "./SubMenu";
 import {outsideHandler} from "../internal/common/handlers";
-import './MenuItem.scss';
 import classNames from "classnames";
 import {SelectionContext} from "./internal/context";
+import './MenuItem.scss';
 
 export interface MenuItemProps extends ListItemProps {
   children?: ReactNode

@@ -10,13 +10,13 @@
   .nd-menu {
     @include tokens-builder.tokens(md-comp-menu.values(), menu);
     @include elevation.theme((
-      level: var(--_container-elevation)
+      level: var(--md-menu-container-elevation)
     ));
     position: absolute;
     z-index: 10;
     opacity: 0;
-    border-radius: var(--_container-shape);
-    background: var(--_container-color);
+    border-radius: var(--md-menu-container-shape);
+    background: var(--md-menu-container-color);
 
     .nd-menu__list {
       border-radius: inherit;

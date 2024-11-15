@@ -9,7 +9,7 @@
 
   .nd-checkbox-content {
     --md-checkbox-icon-color: var(--md-checkbox-outline-color);
-    @include background.styles;
+    @include background.styles("checkbox");
     display: flex;
     position: relative;
     justify-content: center;
@@ -47,7 +47,7 @@
       @include background.theme((
         // change it at different state
         color: var(--md-checkbox-selected-container-color)
-      ));
+      ), checkbox);
 
       svg {
         // change it at different state

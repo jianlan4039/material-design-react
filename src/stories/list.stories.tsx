@@ -20,6 +20,7 @@ export const Primary: Story = {
           icon={<span className={'material-icons-round'}>home</span>}
           headline={'Item 1'}
           supportingText={"Lorem ipsum dolor sit amet."}
+          trailingIcon={<span className="material-icons-outlined">chevron_right</span>}
         ></ListItem>
         <ListItem headline={'Item 2'} supportingText={"Lorem ipsum dolor sit amet."}></ListItem>
         <ListItem headline={'Item 3'} supportingText={"Lorem ipsum dolor sit amet."}></ListItem>

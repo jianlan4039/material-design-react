@@ -8,15 +8,17 @@
 
 @mixin styles() {
   .nd-menu-item {
-    @include tokens-builder.tokens(md-comp-menu-item.values(), menu-list);
+    @include tokens-builder.tokens(md-comp-menu-item.values(), menu-item);
+    @include background.theme((
+      color: var(--md-menu-item-container-color),
+      opacity: 1
+    ), menu-item);
+
     position: relative;
     cursor: pointer;
     z-index: 1;
-    @include background.theme((
-      color: var(--_container-color),
-      opacity: 1
-    ));
-    @include background.styles;
+
+    @include background.styles(menu-item);
 
     .lsc {
       .lsc__end {
@@ -30,12 +32,12 @@
 
     &.nd-menu-item--selected {
       @include background.theme((
-        color: var(--_selected-container-color),
-      ));
+        color: var(--md-menu-item-selected-container-color),
+      ), menu-item);
       z-index: 10;
 
       .list-item__label {
-        color: var(--_selected-label-text-color);
+        color: var(--md-menu-item-selected-label-text-color);
       }
     }
 

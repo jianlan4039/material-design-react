@@ -13,8 +13,8 @@
     @include background.theme((
       color: var(--md-list-container-color),
       opacity: 1
-    ));
-    @include background.styles;
+    ), list);
+    @include background.styles(list);
     display: flex;
     position: relative;
     flex-direction: column;

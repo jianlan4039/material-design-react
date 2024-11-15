@@ -33,7 +33,7 @@ $supported-tokens: md-comp-filter-chip.$supported-tokens;
       @include background.theme((
         color: var(--md-filter-chip-disabled-selected-container-color),
         opacity: var(--md-filter-chip-disabled-selected-container-opacity)
-      ))
+      ), filter-chip);
     }
   }
 }

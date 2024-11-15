@@ -39,7 +39,7 @@
   @include background.theme((
     color: transparent,
     opacity: 1
-  ));
+  ), $comp);
 
   @include elevation.theme((
     level: 0,
@@ -141,7 +141,7 @@
   &.nd-elevated {
     @include background.theme((
       color: var(--md-#{$comp}-elevated-container-color)
-    ));
+    ), $comp);
     @include elevation.theme((
       level: var(--md-#{$comp}-elevated-container-elevation),
       shadow-color: var(--md-#{$comp}-elevated-container-shadow-color)
@@ -170,7 +170,7 @@
       @include background.theme((
         color: var(--md-#{$comp}-elevated-disabled-container-color),
         opacity: var(--md-#{$comp}-elevated-disabled-container-opacity)
-      ));
+      ), $comp);
       @include elevation.theme((
         level: var(--md-#{$comp}-elevated-disabled-container-elevation)
       ));

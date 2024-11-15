@@ -9,7 +9,7 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
 .nd-input-chip {
   @include tokens-builder.tokens($tokens, input-chip);
   --md-input-chip-trail-icon-size: var(--md-input-chip-icon-size);
-  @include background.styles;
+  @include background.styles(input-chip);
   @include shared.styles(input-chip);
 
   .nd-chip__button {

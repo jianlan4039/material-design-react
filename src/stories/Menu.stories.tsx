@@ -5,7 +5,7 @@ import ElevatedButton, {ElevatedButtonHandle} from "../components/Button/Elevate
 import {useEffect, useRef, useState} from "react";
 
 const meta: Meta = {
-  title: 'Menu',
+  title: 'Collection/Menu',
   component: Menu,
   tags: ['autodocs']
 };
@@ -16,9 +16,10 @@ type Story = StoryObj<typeof Menu>;
 const months = Array.from(
   {length: 12},
   (_, i) => {
+    const headline = new Intl.DateTimeFormat('en-US', {month: 'long'}).format(new Date(2020, i))
     return {
-      label: new Intl.DateTimeFormat('en-US', {month: 'long'}).format(new Date(2020, i)),
-      id: i.toString()
+      headline: headline,
+      id: `${headline}-${i}`
     }
   }
 )
@@ -65,17 +66,17 @@ export const SubMenu: Story = {
     const [open, setOpen] = useState(false)
     const items = [
       {
-        label: '2023',
+        headline: '2023',
         value: '2023',
         subMenu: months
       },
       {
-        label: '2024',
+        headline: '2024',
         value: '2024',
 
       },
       {
-        label: '2025',
+        headline: '2025',
         value: '2025',
       }
     ]
