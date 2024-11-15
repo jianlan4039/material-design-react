@@ -11,7 +11,7 @@ $supported-tokens: md-comp-ripple.$supported-tokens;
   'pressed-color',
   'pressed-opacity',
  */
-@mixin theme($new-tokens, $comp: "") {
+@mixin theme($new-tokens) {
   @include tokens-builder.theme($new-tokens, $supported-tokens, ripple);
 }
 

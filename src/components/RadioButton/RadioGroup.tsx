@@ -15,7 +15,7 @@ export default function RadioGroup(props: RadioGroupProps) {
   const [options, setOptions] = useState<Value[]>()
 
   return (
-    <div>
+    <div className={'nd-radio-group'}>
       <SelectionContextProvider multiple={false} list={options} setList={setOptions}>
         {children}
       </SelectionContextProvider>
