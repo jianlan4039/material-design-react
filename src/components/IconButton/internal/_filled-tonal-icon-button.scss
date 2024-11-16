@@ -10,29 +10,29 @@
 $tokens: md-comp-filled-tonal-icon-button.values();
 
 @mixin styles() {
-  @include tokens-builder.tokens($tokens, icon-button);
+  @include tokens-builder.tokens($tokens, filled-tonal-icon-button);
   @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    hover-opacity: var(--_hover-state-layer-opacity),
-    pressed-color: var(--_pressed-state-layer-color),
-    pressed-opacity: var(--_hover-state-layer-opacity),
+    hover-color: var(--md-filled-tonal-icon-button-hover-state-layer-color),
+    hover-opacity: var(--md-filled-tonal-icon-button-hover-state-layer-opacity),
+    pressed-color: var(--md-filled-tonal-icon-button-pressed-state-layer-color),
+    pressed-opacity: var(--md-filled-tonal-icon-button-hover-state-layer-opacity),
   ));
-  --_container-shape-start-start: var(--md-filled-tonal-icon-button-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-filled-tonal-icon-button-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-filled-tonal-icon-button-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-filled-tonal-icon-button-container-shape-end-start, var(--_container-shape));
+  --md-filled-tonal-icon-button-container-shape-start-start: var(--md-filled-tonal-icon-button-container-shape);
+  --md-filled-tonal-icon-button-container-shape-start-end: var(--md-filled-tonal-icon-button-container-shape);
+  --md-filled-tonal-icon-button-container-shape-end-end: var(--md-filled-tonal-icon-button-container-shape);
+  --md-filled-tonal-icon-button-container-shape-end-start: var(--md-filled-tonal-icon-button-container-shape);
   @include background.theme((
-    color: var(--_container-color),
+    color: var(--md-filled-tonal-icon-button-container-color),
     opacity: 1
-  ));
+  ), filled-tonal-icon-button);
   @include focus-ring.theme((
-    shape-start-start: var(--_container-shape-start-start),
-    shape-start-end: var(--_container-shape-start-end),
-    shape-end-start: var(--_container-shape-end-start),
-    shape-end-end: var(--_container-shape-end-end),
+    shape-start-start: var(--md-filled-tonal-icon-button-container-shape-start-start),
+    shape-start-end: var(--md-filled-tonal-icon-button-container-shape-start-end),
+    shape-end-start: var(--md-filled-tonal-icon-button-container-shape-end-start),
+    shape-end-end: var(--md-filled-tonal-icon-button-container-shape-end-end),
   ));
-  @include shared.styles;
-  @include background.styles;
-  @include state.styles;
-  @include toggled.styles;
+  @include shared.styles(filled-tonal-icon-button);
+  @include background.styles(filled-tonal-icon-button);
+  @include state.styles(filled-tonal-icon-button);
+  @include toggled.styles(filled-tonal-icon-button);
 }
