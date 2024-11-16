@@ -2,64 +2,64 @@
 @use "../../Ripple/internal/ripple";
 @use "./shared";
 
-@mixin styles() {
+@mixin styles($comp:"") {
   &:not(.disabled).toggled {
     @include background.theme((
-      color: var(--_unselected-container-color)
+      color: var(--md-#{$comp}-unselected-container-color)
     ));
     @include ripple.theme((
-      hover-color: var(--_toggle-hover-state-layer-color),
-      pressed-color: var(--_toggle-pressed-state-layer-color)
+      hover-color: var(--md-#{$comp}-toggle-hover-state-layer-color),
+      pressed-color: var(--md-#{$comp}-toggle-pressed-state-layer-color)
     ));
     @include shared.theme((
-      icon-color: var(--_toggle-icon-color)
+      icon-color: var(--md-#{$comp}-toggle-icon-color)
     ));
 
     &:hover {
       @include shared.theme((
-        icon-color: var(--_toggle-hover-icon-color)
+        icon-color: var(--md-#{$comp}-toggle-hover-icon-color)
       ));
     }
 
     &:focus {
       @include shared.theme((
-        icon-color: var(--_toggle-focus-icon-color)
+        icon-color: var(--md-#{$comp}-toggle-focus-icon-color)
       ));
     }
 
     &:active {
       @include shared.theme((
-        icon-color: var(--_toggle-pressed-icon-color)
+        icon-color: var(--md-#{$comp}-toggle-pressed-icon-color)
       ));
     }
 
     &.selected {
       @include background.theme((
-        color: var(--_selected-container-color)
+        color: var(--md-#{$comp}-selected-container-color)
       ));
       @include ripple.theme((
-        hover-color: var(--_toggle-selected-hover-state-layer-color),
-        pressed-color: var(--_toggle-selected-pressed-state-layer-color)
+        hover-color: var(--md-#{$comp}-toggle-selected-hover-state-layer-color),
+        pressed-color: var(--md-#{$comp}-toggle-selected-pressed-state-layer-color)
       ));
       @include shared.theme((
-        icon-color: var(--_toggle-selected-icon-color)
+        icon-color: var(--md-#{$comp}-toggle-selected-icon-color)
       ));
 
       &:hover {
         @include shared.theme((
-          icon-color: var(--_toggle-selected-hover-icon-color)
+          icon-color: var(--md-#{$comp}-toggle-selected-hover-icon-color)
         ));
       }
 
       &:focus {
         @include shared.theme((
-          icon-color: var(--_toggle-selected-focus-icon-color)
+          icon-color: var(--md-#{$comp}-toggle-selected-focus-icon-color)
         ));
       }
 
       &:active {
         @include shared.theme((
-          icon-color: var(--_toggle-selected-pressed-icon-color)
+          icon-color: var(--md-#{$comp}-toggle-selected-pressed-icon-color)
         ));
       }
     }

@@ -10,29 +10,29 @@
 $tokens: md-comp-filled-icon-button.values();
 
 @mixin styles() {
-  @include tokens-builder.tokens($tokens, icon-button);
+  @include tokens-builder.tokens($tokens, filled-icon-button);
   @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    hover-opacity: var(--_hover-state-layer-opacity),
-    pressed-color: var(--_pressed-state-layer-color),
-    pressed-opacity: var(--_hover-state-layer-opacity),
+    hover-color: var(--md-filled-icon-button-hover-state-layer-color),
+    hover-opacity: var(--md-filled-icon-button-hover-state-layer-opacity),
+    pressed-color: var(--md-filled-icon-button-pressed-state-layer-color),
+    pressed-opacity: var(--md-filled-icon-button-hover-state-layer-opacity),
   ));
-  --_container-shape-start-start: var(--md-filled-icon-button-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-filled-icon-button-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-filled-icon-button-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-filled-icon-button-container-shape-end-start, var(--_container-shape));
+  --md-filled-icon-button-container-shape-start-start: var(--md-filled-icon-button-container-shape);
+  --md-filled-icon-button-container-shape-start-end: var(--md-filled-icon-button-container-shape);
+  --md-filled-icon-button-container-shape-end-end: var(--md-filled-icon-button-container-shape);
+  --md-filled-icon-button-container-shape-end-start: var(--md-filled-icon-button-container-shape);
   @include background.theme((
-    color: var(--_container-color),
+    color: var(--md-filled-icon-button-container-color),
     opacity: 1
-  ));
+  ), filled-icon-button);
   @include focus-ring.theme((
-    shape-start-start: var(--_container-shape-start-start),
-    shape-start-end: var(--_container-shape-start-end),
-    shape-end-start: var(--_container-shape-end-start),
-    shape-end-end: var(--_container-shape-end-end),
+    shape-start-start: var(--md-filled-icon-button-container-shape-start-start),
+    shape-start-end: var(--md-filled-icon-button-container-shape-start-end),
+    shape-end-start: var(--md-filled-icon-button-container-shape-end-start),
+    shape-end-end: var(--md-filled-icon-button-container-shape-end-end),
   ));
-  @include shared.styles;
-  @include background.styles;
+  @include shared.styles(filled-icon-button);
+  @include background.styles(filled-icon-button);
   @include state.styles;
-  @include toggled.styles;
+  @include toggled.styles(filled-icon-button);
 }

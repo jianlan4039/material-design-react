@@ -12,17 +12,17 @@ $support-tokens: (
   @include tokens-builder.theme($tokens, $support-tokens, icon-button);
 }
 
-@mixin styles() {
+@mixin styles($comp: "") {
   & {
     position: relative;
     display: inline-block;
-    border-start-start-radius: var(--_container-shape-start-start);
-    border-start-end-radius: var(--_container-shape-start-end);
-    border-end-start-radius: var(--_container-shape-end-start);
-    border-end-end-radius: var(--_container-shape-end-end);
+    border-start-start-radius: var(--md-#{$comp}-container-shape-start-start);
+    border-start-end-radius: var(--md-#{$comp}-container-shape-start-end);
+    border-end-start-radius: var(--md-#{$comp}-container-shape-end-start);
+    border-end-end-radius: var(--md-#{$comp}-container-shape-end-end);
     z-index: 10;
-    inline-size: var(--_container-width);
-    block-size: var(--_container-height);
+    inline-size: var(--md-#{$comp}-container-width);
+    block-size: var(--md-#{$comp}-container-height);
 
     .nd-icon-button__button {
       display: inline-flex;
@@ -42,11 +42,11 @@ $support-tokens: (
 
       .nd-icon-button__icon-slot,
       .nd-icon-button__icon-slot > * {
-        fill: var(--_icon-color);
-        color: var(--_icon-color);
-        font-size: var(--_icon-size);
-        block-size: var(--_icon-size);
-        inline-size: var(--_icon-size);
+        fill: var(--md-#{$comp}-icon-color);
+        color: var(--md-#{$comp}-icon-color);
+        font-size: var(--md-#{$comp}-icon-size);
+        block-size: var(--md-#{$comp}-icon-size);
+        inline-size: var(--md-#{$comp}-icon-size);
         opacity: var(--md-icon-button-opacity, 1);
       }
     }
