@@ -16,31 +16,31 @@ $tokens: md-comp-icon-button.values();
 @mixin styles() {
   @include tokens-builder.tokens($tokens, icon-button);
   @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    hover-opacity: var(--_hover-state-layer-opacity),
-    pressed-color: var(--_pressed-state-layer-color),
-    pressed-opacity: var(--_hover-state-layer-opacity),
+    hover-color: var(--md-icon-button-hover-state-layer-color),
+    hover-opacity: var(--md-icon-button-hover-state-layer-opacity),
+    pressed-color: var(--md-icon-button-pressed-state-layer-color),
+    pressed-opacity: var(--md-icon-button-hover-state-layer-opacity),
   ));
-  --_container-shape-start-start: var(--md-icon-button-container-shape-start-start, var(--_state-layer-shape));
-  --_container-shape-start-end: var(--md-icon-button-container-shape-start-end, var(--_state-layer-shape));
-  --_container-shape-end-end: var(--md-icon-button-container-shape-end-end, var(--_state-layer-shape));
-  --_container-shape-end-start: var(--md-icon-button-container-shape-end-start, var(--_state-layer-shape));
-  --_toggle-selected-icon-color: var(--md-icon-button-toggle-selected-icon-color, var(--_selected-icon-color));
-  --_toggle-selected-hover-icon-color: var(--md-icon-button-toggle-selected-hover-icon-color, var(--_selected-hover-icon-color));
-  --_toggle-selected-focus-icon-color: var(--md-icon-button-toggle-selected-focus-icon-color, var(--_selected-focus-icon-color));
-  --_toggle-selected-pressed-icon-color: var(--md-icon-button-toggle-selected-focus-icon-color, var(--_selected-pressed-icon-color));
-  --_toggle-selected-hover-state-layer-color: var(--md-icon-button-toggle-hover-state-layer-color, var(--_selected-hover-state-layer-color));
-  --_toggle-selected-pressed-state-layer-color: var(--md-icon-button-toggle-pressed-state-layer-color, var(--_selected-pressed-state-layer-color));
-  --_container-height: var(--md-icon-button-container-height, var(--_state-layer-height));
-  --_container-width: var(--md-icon-button-container-width, var(--_state-layer-width));
+  --md-icon-button-container-shape-start-start: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-container-shape-start-end: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-container-shape-end-end: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-container-shape-end-start: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-toggle-selected-icon-color: var(--md-icon-button-selected-icon-color);
+  --md-icon-button-toggle-selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color);
+  --md-icon-button-toggle-selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color);
+  --md-icon-button-toggle-selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color);
+  --md-icon-button-toggle-selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color);
+  --md-icon-button-toggle-selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color);
+  --md-icon-button-container-height: var(--md-icon-button-state-layer-height);
+  --md-icon-button-container-width: var(--md-icon-button-state-layer-width);
   @include focus-ring.theme((
-    shape-start-start: var(--_container-shape-start-start),
-    shape-start-end: var(--_container-shape-start-end),
-    shape-end-start: var(--_container-shape-end-start),
-    shape-end-end: var(--_container-shape-end-end),
+    shape-start-start: var(--md-icon-button-container-shape-start-start),
+    shape-start-end: var(--md-icon-button-container-shape-start-end),
+    shape-end-start: var(--md-icon-button-container-shape-end-start),
+    shape-end-end: var(--md-icon-button-container-shape-end-end),
   ));
-  @include shared.styles;
-  @include background.styles;
-  @include state.styles;
-  @include toggled.styles;
+  @include shared.styles(icon-button);
+  @include background.styles(icon-button);
+  @include state.styles(icon-button);
+  @include toggled.styles(icon-button);
 }
