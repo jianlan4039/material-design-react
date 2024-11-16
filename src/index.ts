@@ -55,7 +55,7 @@ export {default as SecondaryTab} from './components/Tab/SecondaryTab';
 export {default as Tabs} from './components/Tab/Tabs';
 export {default as FilledTextField} from './components/TextField/FilledTextField';
 export {default as OutlinedTextField} from './components/TextField/OutlinedTextField';
-export {default as PlanTooltips} from './components/Tooltip/PlainTooltip';
+export {default as PlainTooltips} from './components/Tooltip/PlainTooltip';
 export {default as RichTooltips} from './components/Tooltip/RichTooltip';
 export {IndicatorActiveContextProvider} from './components/internal/context/IndicatorActiveContext';
 export {MultiSelectContextProvider} from './components/internal/context/MultiSelectContextProvider';

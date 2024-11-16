@@ -18,9 +18,9 @@
     position: absolute;
     display: flex;
     align-items: center;
-    background: var(--_container-color);
-    color: var(--_supporting-text-color);
-    border-radius: var(--_container-shape);
+    background: var(--md-plain-tooltip-container-color);
+    color: var(--md-plain-tooltip-supporting-text-color);
+    border-radius: var(--md-plain-tooltip-container-shape);
     padding-inline: 8px;
     min-block-size: 24px;
     min-inline-size: 200px;
