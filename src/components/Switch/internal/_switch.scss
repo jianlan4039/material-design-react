@@ -15,22 +15,22 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
   .nd-switch {
     @include tokens-builder.tokens(md-comp-switch.values(), switch);
     @include ripple.theme((
-      hover-color: var(--_hover-ripple-color),
-      pressed-color: var(--_pressed-ripple-color),
-      hover-opacity: var(--_hover-ripple-opacity),
-      pressed-opacity: var(--_pressed-ripple-opacity)
+      hover-color: var(--md-switch-hover-ripple-color),
+      pressed-color: var(--md-switch-pressed-ripple-color),
+      hover-opacity: var(--md-switch-hover-ripple-opacity),
+      pressed-opacity: var(--md-switch-pressed-ripple-opacity)
     ));
     @include outline.theme((
-      width: var(--_track-outline-width),
-      color: var(--_track-outline-color)
+      width: var(--md-switch-track-outline-width),
+      color: var(--md-switch-track-outline-color)
     ));
 
     position: relative;
     border: none;
     outline: none;
-    border-radius: var(--_track-shape);
-    block-size: var(--_track-height);
-    inline-size: var(--_track-width);
+    border-radius: var(--md-switch-track-shape);
+    block-size: var(--md-switch-track-height);
+    inline-size: var(--md-switch-track-width);
     display: flex;
     z-index: 10;
     align-items: center;
@@ -42,7 +42,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      background-color: var(--_track-color);
+      background-color: var(--md-switch-track-color);
     }
 
     .switch__checkbox {
@@ -60,7 +60,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 
     .switch__handle-container {
       position: relative;
-      border-radius: var(--_track-shape);
+      border-radius: var(--md-switch-track-shape);
       transition: margin 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
       justify-content: center;
@@ -68,14 +68,14 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
 
       .switch__handle__state {
         position: absolute;
-        block-size: var(--_ripple-size);
-        inline-size: var(--_ripple-size);
-        border-radius: var(--_ripple-shape);
+        block-size: var(--md-switch-ripple-size);
+        inline-size: var(--md-switch-ripple-size);
+        border-radius: var(--md-switch-ripple-shape);
       }
 
       .switch__handle {
-        block-size: var(--_handle-height);
-        inline-size: var(--_handle-width);
+        block-size: var(--md-switch-handle-height);
+        inline-size: var(--md-switch-handle-width);
         position: relative;
         border-radius: inherit;
         display: flex;
@@ -93,60 +93,60 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
           position: absolute;
           inset: 0;
           border-radius: inherit;
-          background-color: var(--_handle-color);
+          background-color: var(--md-switch-handle-color);
           z-index: -1;
         }
 
         &.with-selected-icon {
-          block-size: var(--_with-icon-handle-height);
-          inline-size: var(--_with-icon-handle-width);
+          block-size: var(--md-switch-with-icon-handle-height);
+          inline-size: var(--md-switch-with-icon-handle-width);
         }
 
         &.with-unchecked-icon {
-          block-size: var(--_with-icon-handle-height);
-          inline-size: var(--_with-icon-handle-width);
+          block-size: var(--md-switch-with-icon-handle-height);
+          inline-size: var(--md-switch-with-icon-handle-width);
         }
       }
 
       .switch__handle, .switch__handle > * {
-        color: var(--_icon-color);
-        font-size: var(--_icon-size);
+        color: var(--md-switch-icon-color);
+        font-size: var(--md-switch-icon-size);
       }
     }
 
     &:not(.switch--disabled):focus-visible {
       @include outline.theme((
-        color: var(--_focus-track-outline-color)
+        color: var(--md-switch-focus-track-outline-color)
       ));
 
       &::before {
-        background-color: var(--_focus-track-color);
+        background-color: var(--md-switch-focus-track-color);
       }
 
       .switch__handle {
-        background-color: var(--_focus-handle-color);
+        background-color: var(--md-switch-focus-handle-color);
       }
 
       .switch__handle, .switch__handle > * {
-        color: var(--_focus-icon-color);
+        color: var(--md-switch-focus-icon-color);
       }
     }
 
     &:not(.switch--disabled):hover {
       @include outline.theme((
-        color: var(--_hover-track-outline-color)
+        color: var(--md-switch-hover-track-outline-color)
       ));
 
       &::before {
-        background-color: var(--_hover-track-color);
+        background-color: var(--md-switch-hover-track-color);
       }
 
       .switch__handle {
-        background-color: var(--_hover-handle-color);
+        background-color: var(--md-switch-hover-handle-color);
       }
 
       .switch__handle, .switch__handle > * {
-        color: var(--_hover-icon-color);
+        color: var(--md-switch-hover-icon-color);
       }
     }
 
@@ -156,26 +156,26 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       ));
 
       &::before {
-        background-color: var(--_pressed-track-color);
+        background-color: var(--md-switch-pressed-track-color);
       }
 
       .switch__handle {
-        block-size: var(--_pressed-handle-height);
-        inline-size: var(--_pressed-handle-width);
+        block-size: var(--md-switch-pressed-handle-height);
+        inline-size: var(--md-switch-pressed-handle-width);
         transition-timing-function: linear;
         transition-duration: 100ms;
 
         &::before {
-          background-color: var(--_pressed-handle-color);
+          background-color: var(--md-switch-pressed-handle-color);
         }
       }
 
       .switch__handle, .switch__handle > * {
-        color: var(--_pressed-icon-color);
+        color: var(--md-switch-pressed-icon-color);
       }
     }
 
-    $margin: calc(var(--_track-width) - var(--_track-height));
+    $margin: calc(var(--md-switch-track-width) - var(--md-switch-track-height));
 
     &.switch--unchecked {
       .switch__handle-container {
@@ -189,7 +189,7 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       ));
 
       &::before {
-        background-color: var(--_selected-track-color);
+        background-color: var(--md-switch-selected-track-color);
       }
 
       .switch__handle-container {
@@ -197,95 +197,95 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
       }
 
       .switch__handle {
-        block-size: var(--_selected-handle-width);
-        inline-size: var(--_selected-handle-height);
-        font-size: var(--_selected-icon-size);
+        block-size: var(--md-switch-selected-handle-width);
+        inline-size: var(--md-switch-selected-handle-height);
+        font-size: var(--md-switch-selected-icon-size);
 
         &::before {
-          background-color: var(--_selected-handle-color);
+          background-color: var(--md-switch-selected-handle-color);
         }
       }
 
       .switch__handle, .switch__handle > * {
-        color: var(--_selected-icon-color);
+        color: var(--md-switch-selected-icon-color);
       }
 
       &:not(.switch--disabled):focus-visible {
         &::before {
-          background-color: var(--_selected-focus-track-color);
+          background-color: var(--md-switch-selected-focus-track-color);
         }
 
         .switch__handle {
-          background-color: var(--_selected-focus-handle-color);
+          background-color: var(--md-switch-selected-focus-handle-color);
         }
 
         .switch__handle, .switch__handle > * {
-          color: var(--_selected-focus-icon-color);
+          color: var(--md-switch-selected-focus-icon-color);
         }
       }
 
       &:not(.switch--disabled):hover {
         &::before {
-          background-color: var(--_selected-hover-track-color);
+          background-color: var(--md-switch-selected-hover-track-color);
         }
 
         .switch__handle {
-          background-color: var(--_selected-hover-handle-color);
+          background-color: var(--md-switch-selected-hover-handle-color);
         }
 
         .switch__handle, .switch__handle > * {
-          color: var(--_selected-hover-icon-color);
+          color: var(--md-switch-selected-hover-icon-color);
         }
       }
 
       &:not(.switch--disabled):active {
         &::before {
-          background-color: var(--_selected-pressed-track-color);
+          background-color: var(--md-switch-selected-pressed-track-color);
         }
 
         .switch__handle {
-          block-size: var(--_pressed-handle-height);
-          inline-size: var(--_pressed-handle-width);
+          block-size: var(--md-switch-pressed-handle-height);
+          inline-size: var(--md-switch-pressed-handle-width);
           transition-timing-function: linear;
           transition-duration: 100ms;
 
           &::before {
-            background-color: var(--_selected-pressed-handle-color);
+            background-color: var(--md-switch-selected-pressed-handle-color);
           }
         }
 
         .switch__handle, .switch__handle > * {
-          color: var(--_selected-pressed-icon-color);
+          color: var(--md-switch-selected-pressed-icon-color);
         }
       }
     }
 
     &.switch--disabled {
       @include outline.theme((
-        color: var(--_disabled-track-outline-color),
-        opacity: var(--_disabled-track-opacity)
+        color: var(--md-switch-disabled-track-outline-color),
+        opacity: var(--md-switch-disabled-track-opacity)
       ));
 
       &::before {
-        background-color: var(--_disabled-track-color);
-        opacity: var(--_disabled-track-opacity)
+        background-color: var(--md-switch-disabled-track-color);
+        opacity: var(--md-switch-disabled-track-opacity)
       }
 
       .switch__handle-container {
 
         .switch__handle {
           &::before {
-            opacity: var(--_disabled-handle-opacity);
-            background-color: var(--_disabled-handle-color);
+            opacity: var(--md-switch-disabled-handle-opacity);
+            background-color: var(--md-switch-disabled-handle-color);
           }
         }
 
         .switch__handle, .switch__handle > * {
-          color: var(--_disabled-icon-color)
+          color: var(--md-switch-disabled-icon-color)
         }
 
         .switch__handle > * {
-          opacity: var(--_disabled-icon-opacity);
+          opacity: var(--md-switch-disabled-icon-opacity);
         }
       }
 
@@ -295,24 +295,24 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
         ));
 
         &::before {
-          background-color: var(--_disabled-selected-track-color);
+          background-color: var(--md-switch-disabled-selected-track-color);
         }
 
         .switch__handle-container {
           .switch__handle {
 
             &::before {
-              background-color: var(--_disabled-selected-handle-color);
-              opacity: var(--_disabled-selected-handle-opacity);
+              background-color: var(--md-switch-disabled-selected-handle-color);
+              opacity: var(--md-switch-disabled-selected-handle-opacity);
             }
           }
 
           .switch__handle, .switch__handle > * {
-            color: var(--_disabled-selected-icon-color)
+            color: var(--md-switch-disabled-selected-icon-color)
           }
 
           .switch__handle > * {
-            opacity: var(--_disabled-selected-icon-opacity);
+            opacity: var(--md-switch-disabled-selected-icon-opacity);
           }
         }
       }
