@@ -65,7 +65,7 @@
 
     @keyframes buffering {
       0% {
-        $_dot-size: calc(var(--_track-height) / 2);
+        $_dot-size: calc(var(--md-linear-progress-track-height) / 2);
         // the amount to animate is aligned with the default track background
         $_dot-background-width: calc($_dot-size * 5);
         transform: translateX(#{$_dot-background-width});
@@ -123,33 +123,33 @@
 
     @keyframes linear-progress__animation--four-color {
       0% {
-        background: var(--_four-color-active-indicator-one-color);
+        background: var(--md-linear-progress-four-color-active-indicator-one-color);
       }
 
       15% {
-        background: var(--_four-color-active-indicator-one-color);
+        background: var(--md-linear-progress-four-color-active-indicator-one-color);
       }
       25% {
-        background: var(--_four-color-active-indicator-two-color);
+        background: var(--md-linear-progress-four-color-active-indicator-two-color);
       }
       40% {
-        background: var(--_four-color-active-indicator-two-color);
+        background: var(--md-linear-progress-four-color-active-indicator-two-color);
       }
 
       50% {
-        background: var(--_four-color-active-indicator-three-color);
+        background: var(--md-linear-progress-four-color-active-indicator-three-color);
       }
       65% {
-        background: var(--_four-color-active-indicator-three-color);
+        background: var(--md-linear-progress-four-color-active-indicator-three-color);
       }
       75% {
-        background: var(--_four-color-active-indicator-four-color);
+        background: var(--md-linear-progress-four-color-active-indicator-four-color);
       }
       90% {
-        background: var(--_four-color-active-indicator-four-color);
+        background: var(--md-linear-progress-four-color-active-indicator-four-color);
       }
       100% {
-        background: var(--_four-color-active-indicator-one-color);
+        background: var(--md-linear-progress-four-color-active-indicator-one-color);
       }
     }
 
@@ -174,12 +174,12 @@
     $_determinate-easing: cubic-bezier(0.4, 0, 0.6, 1);
     // see https://github.com/material-components/material-components-web/blob/main/packages/mdc-linear-progress/_linear-progress.scss#L218
     $_indeterminate-duration: 2s;
-    border-radius: var(--_track-shape);
+    border-radius: var(--md-linear-progress-track-shape);
     position: relative;
     z-index: 10;
     display: flex;
     min-width: 80px;
-    block-size: var(--_track-height);
+    block-size: var(--md-linear-progress-track-height);
     contain: strict;
     content-visibility: auto;
     // Animations need to be in LTR. We support RTL by flipping the indicator
@@ -198,7 +198,7 @@
 
     .linear-progress__bar {
       inline-size: 100%;
-      block-size: var(--_active-indicator-height);
+      block-size: var(--md-linear-progress-active-indicator-height);
       animation: none;
       transform-origin: left center;
       transition: transform $_determinate-duration $_determinate-easing;
@@ -206,7 +206,7 @@
 
     .linear-progress__inactive-track {
       inset: 0;
-      background-color: var(--_track-color);
+      background-color: var(--md-linear-progress-track-color);
       transform-origin: left center;
       transition: transform $_determinate-duration $_determinate-easing;
     }
@@ -218,14 +218,14 @@
     .linear-progress__bar__inner {
       //animation: none;
       inset: 0;
-      background-color: var(--_active-indicator-color);
+      background-color: var(--md-linear-progress-active-indicator-color);
     }
 
     .linear-progress__dots-bar {
       inset: 0;
       animation: linear infinite $_determinate-duration;
       animation-name: buffering;
-      background-color: var(--_track-color);
+      background-color: var(--md-linear-progress-track-color);
       background-repeat: repeat-x;
       $svg: "./dots.svg";
       -webkit-mask-image: url($svg);
