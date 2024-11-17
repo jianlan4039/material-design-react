@@ -132,7 +132,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     </svg>
   )
 
-  return <>
+  return (
     <ListItem
       ref={listRef}
       className={c('navigation-enter', {
@@ -154,7 +154,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
         </ul>
       }
     </ListItem>
-  </>
+  )
 }))
 
 export default NavigationEnter;

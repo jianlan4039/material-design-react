@@ -22,15 +22,15 @@ $_values: (
   .nd-navigation-drawer {
     @include tokens-builder.tokens(md-comp-navigation-drawer.values(), navigation-drawer);
     @include background.theme((
-      color: var(--_standard-container-color),
+      color: var(--md-navigation-drawer-standard-container-color),
     ));
-    --_container-shape-start-start: var(--md-navigation-drawer-container-shape-start-start, 0);
-    --_container-shape-start-end: var(--md-navigation-drawer-container-shape-start-end, 16px);
-    --_container-shape-end-end: var(--md-navigation-drawer-container-shape-end-end, 16px);
-    --_container-shape-end-start: var(--md-navigation-drawer-container-shape-end-start, 0);
+    --md-navigation-drawer-container-shape-start-start: var(--md-cust-navigation-drawer-container-shape-start-start, 0);
+    --md-navigation-drawer-container-shape-start-end: var(--md-cust-navigation-drawer-container-shape-start-end, 16px);
+    --md-navigation-drawer-container-shape-end-end: var(--md-cust-navigation-drawer-container-shape-end-end, 16px);
+    --md-navigation-drawer-container-shape-end-start: var(--md-cust-navigation-drawer-container-shape-end-start, 0);
 
     padding: 0;
-    border-radius: var(--_container-shape-start-start) var(--_container-shape-start-end) var(--_container-shape-end-end) var(--_container-shape-end-start);
+    border-radius: var(--md-navigation-drawer-container-shape-start-start) var(--md-navigation-drawer-container-shape-start-end) var(--md-navigation-drawer-container-shape-end-end) var(--md-navigation-drawer-container-shape-end-start);
     border-width: 0;
     border-style: none;
     border-color: transparent;
@@ -42,10 +42,10 @@ $_values: (
 
     &.modal {
       @include background.theme((
-        color: var(--_modal-container-color)
+        color: var(--md-navigation-drawer-modal-container-color)
       ));
       @include elevation.theme((
-        level: var(--_modal-container-elevation)
+        level: var(--md-navigation-drawer-modal-container-elevation)
       ));
       block-size: 100vh;
       margin-bottom: 0;
@@ -55,18 +55,18 @@ $_values: (
 
     .list {
       @include list-item.theme((
-        one-line-container-height: var(--_active-indicator-height)
+        one-line-container-height: var(--md-navigation-drawer-active-indicator-height)
       ));
       display: block;
-      //inline-size: var(--_container-width);
-      block-size: var(--_container-height);
+      //inline-size: var(--md-navigation-drawer-container-width);
+      block-size: var(--md-navigation-drawer-container-height);
       border-radius: inherit;
       padding-inline: 12px;
       box-sizing: border-box;
       margin: 0;
       list-style: none;
       overflow: scroll;
-      background-color: var(--_standard-container-color);
+      background-color: var(--md-navigation-drawer-standard-container-color);
 
       &::before {
         background: none;
@@ -75,11 +75,11 @@ $_values: (
       .headline {
         margin: 0;
         padding-inline-start: 16px;
-        font-family: var(--_headline-font), serif;
-        font-size: var(--_headline-size);
-        font-weight: var(--_headline-weight);
-        line-height: calc(var(--_headline-line-height) * 3);
-        color: var(--_headline-color);
+        font-family: var(--md-navigation-drawer-headline-font), serif;
+        font-size: var(--md-navigation-drawer-headline-size);
+        font-weight: var(--md-navigation-drawer-headline-weight);
+        line-height: calc(var(--md-navigation-drawer-headline-line-height) * 3);
+        color: var(--md-navigation-drawer-headline-color);
       }
 
       .nd-divider {

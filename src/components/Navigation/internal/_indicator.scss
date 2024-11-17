@@ -34,9 +34,9 @@ $values: (
     $_easing: map.get($_motion, 'easing-emphasized-decelerate');
     $_duration: map.get($_motion, 'duration-medium1');
     position: absolute;
-    block-size: var(--_height);
-    inline-size: var(--_width);
-    border-radius: var(--_shape);
+    block-size: var(--md-navigation-indicator-height);
+    inline-size: var(--md-navigation-indicator-width);
+    border-radius: var(--md-navigation-indicator-shape);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@ $values: (
 
     &.active {
       @include background.theme((
-        color: var(--_color)
+        color: var(--md-navigation-indicator-color)
       ));
     }
   }

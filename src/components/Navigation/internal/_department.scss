@@ -55,25 +55,25 @@ $values: (
     align-items: center;
     justify-content: center;
     cursor: default;
-    gap: var(--_gap);
+    gap: var(--md-navigation-department-gap);
 
     .icon {
-      color: var(--_icon-color);
+      color: var(--md-navigation-department-icon-color);
       display: inline-flex;
       align-items: center;
       justify-content: center;
     }
 
     .icon, .icon > * {
-      font-size: var(--_icon-size);
+      font-size: var(--md-navigation-department-icon-size);
     }
 
     .label {
-      font-family: var(--_label-font), serif;
-      font-size: var(--_label-size);
-      font-weight: var(--_label-font-weight);
-      line-height: var(--_label-line-height);
-      color: var(--_label-color);
+      font-family: var(--md-navigation-department-label-font), serif;
+      font-size: var(--md-navigation-department-label-size);
+      font-weight: var(--md-navigation-department-label-font-weight);
+      line-height: var(--md-navigation-department-label-line-height);
+      color: var(--md-navigation-department-label-color);
     }
 
     .navigation-indicator {
@@ -82,12 +82,12 @@ $values: (
 
     &.active {
       .icon {
-        color: var(--_active-icon-color);
+        color: var(--md-navigation-department-active-icon-color);
       }
 
       .label {
-        color: var(--_active-label-color);
-        font-weight: var(--_active-font-weight);
+        color: var(--md-navigation-department-active-label-color);
+        font-weight: var(--md-navigation-department-active-font-weight);
       }
     }
   }

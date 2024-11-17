@@ -87,8 +87,9 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
         start={icon}
         end={trailingIcon}
       >
-        <div className={'list-item__label'}>{headline || children}</div>
+        {headline && <div className={'list-item__label'}>{headline}</div>}
         {supportingText && <div className={'list-item__spt-txt'}>{supportingText}</div>}
+        {children}
       </LinearSectionContainer>
     </li>
   )
