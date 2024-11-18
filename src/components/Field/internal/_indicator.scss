@@ -7,12 +7,21 @@ $support-tokens: (
   'active-color'
 );
 
-@mixin theme($tokens) {
-  @include tokens-builder.theme($tokens, $support-tokens, indicator)
+$default-tokens: (
+  inactive-height: 1px,
+  inactive-color: #49454f,
+  active-height: 3px,
+  active-color: #6750a4
+);
+
+@mixin theme($tokens, $comp:"") {
+  @include tokens-builder.theme($tokens, $support-tokens, #{$comp}-indicator)
 }
 
-@mixin styles() {
+@mixin styles($comp: "") {
   & {
+    @include tokens-builder.tokens($default-tokens, indicator);
+
     position: absolute;
     inline-size: 100%;
     block-size: 3px;
@@ -29,19 +38,19 @@ $support-tokens: (
     }
 
     &::before {
-      border-color: var(--md-indicator-inactive-color, var(--_active-indicator-color));
-      border-width: var(--md-indicator-inactive-height, var(--_active-indicator-height));
+      border-color: var(--md-cust-#{$comp}-indicator-inactive-color, var(--md-indicator-inactive-color));
+      border-width: var(--md-cust-#{$comp}-indicator-inactive-height, var(--md-indicator-inactive-height));
     }
 
     &::after {
       transition: inherit;
-      border-color: var(--md-indicator-active-color, var(--_focus-active-indicator-color));
+      border-color: var(--md-cust-#{$comp}-indicator-active-color, var(--md-indicator-active-color));
       border-width: 0;
     }
 
     &.active {
       &::after {
-        border-width: var(--md-indicator-active-height, var(--_focus-active-indicator-height));
+        border-width: var(--md-cust-#{$comp}-indicator-active-height, var(--md-indicator-active-height));
       }
     }
   }

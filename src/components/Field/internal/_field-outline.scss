@@ -20,7 +20,7 @@ $supported-tokens: (
     display: flex;
     align-items: center;
     border-radius: inherit;
-    border-color: var(--md-field-outline-outline-color, var(--_outline-color));
+    border-color: var(--md-cust-field-outline-color, var(--md-field-outline-color));
     block-size: inherit;
 
     .nd-field-outline__start::after,
@@ -52,11 +52,11 @@ $supported-tokens: (
       }
 
       &::before {
-        border-width: var(--md-field-outline-outline-width, var(--_outline-width));
+        border-width: var(--md-cust-field-outline-width, var(--md-field-outline-width));
       }
 
       &::after {
-        border-width: var(--md-field-outline-active-outline-width, 0);
+        border-width: var(--md-cust-field-outline-active-outline-width, 0);
       }
     }
 
@@ -94,8 +94,8 @@ $supported-tokens: (
 
       .nd-field-outline__notch__label {
         opacity: 0;
-        font-size: var(--md-field-outline-label-text-size, var(--_label-text-size));
-        line-height: var(--md-field-outline-label-text-line-height, var(--_label-text-line-height));
+        font-size: var(--md-cust-field-outline-label-text-size, var(--md-field-outline-label-text-size));
+        line-height: var(--md-cust-field-outline-label-text-line-height, var(--md-field-outline-label-text-line-height));
       }
 
       .nd-field-outline__panel-inactive,
@@ -109,7 +109,7 @@ $supported-tokens: (
         &::after {
           content: '';
           position: absolute;
-          inline-size: var(--md-field-outline-notch-size, 50%);
+          inline-size: var(--md-cust-field-outline-notch-size, 50%);
           border-block-start-style: solid;
           border-color: inherit;
         }
@@ -128,11 +128,11 @@ $supported-tokens: (
       }
 
       .nd-field-outline__panel-inactive {
-        border-block-end-width: var(--md-field-outline-outline-width, var(--_outline-width));
+        border-block-end-width: var(--md-cust-field-outline-width, var(--md-field-outline-width));
 
         &::before,
         &::after {
-          border-block-start-width: var(--md-field-outline-outline-width, var(--_outline-width));
+          border-block-start-width: var(--md-cust-field-outline-width, var(--md-field-outline-width));
         }
       }
 

@@ -14,11 +14,11 @@ $support-tokens: (
 
 @mixin styles() {
   & {
-    color: var(--md-input-wrapper-font-color, var(--_content-color));
-    font-family: var(--md-input-wrapper-font, var(--_content-font)), serif;
-    line-height: var(--md-input-wrapper-line-height, var(--_content-line-height));
-    font-size: var(--md-input-wrapper-font-size, var(--_content-size));
-    font-weight: var(--md-input-wrapper-font-weight, var(--_content-weight));
+    color: var(--md-cust-input-wrapper-font-color, var(--md-input-wrapper-content-color));
+    font-family: var(--md-cust-input-wrapper-font, var(--md-input-wrapper-content-font)), serif;
+    line-height: var(--md-cust-input-wrapper-line-height, var(--md-input-wrapper-content-line-height));
+    font-size: var(--md-cust-input-wrapper-font-size, var(--md-input-wrapper-content-size));
+    font-weight: var(--md-cust-input-wrapper-font-weight, var(--md-input-wrapper-content-weight));
     display: flex;
     align-items: center;
     z-index: 10;

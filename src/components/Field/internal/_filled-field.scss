@@ -15,30 +15,33 @@
   .nd-filled-field {
     @include tokens-builder.tokens(md-comp-filled-field.values(), filled-field);
     @include background.theme((
-      color: var(--_container-color),
+      color: var(--md-filled-field-container-color),
       opacity: 1
-    ));
+    ), filled-field);
     @include ripple.theme((
-      hover-color: var(--_hover-state-layer-color),
-      hover-opacity: var(--_hover-state-layer-opacity),
+      hover-color: var(--md-filled-field-hover-state-layer-color),
+      hover-opacity: var(--md-filled-field-hover-state-layer-opacity),
       pressed-color: transparent,
-      pressed-opacity: var(--_pressed-state-layer-opacity)
+      pressed-opacity: var(--md-filled-field-pressed-state-layer-opacity)
     ));
     @include basic-field.theme((
-      leading-content-color: var(--_leading-content-color),
-      trailing-content-color: var(--_trailing-content-color)
-    ));
+      leading-content-color: var(--md-filled-field-leading-content-color),
+      trailing-content-color: var(--md-filled-field-trailing-content-color)
+    ), filled-field);
     @include supporting-text.theme((
-      color: var(--_supporting-text-color)
+      color: var(--md-filled-field-supporting-text-color)
     ));
-    @include background.styles;
+
     position: relative;
     block-size: 56px;
-    border-radius: var(--_container-shape);
+    border-radius: var(--md-filled-field-container-shape);
     min-width: inherit;
 
+    @include basic-field.styles(filled-field);
+    @include background.styles(filled-field);
+
     .nd-filled-field__indicator {
-      @include indicator.styles;
+      @include indicator.styles(filled-field);
     }
 
     .nd-field {
@@ -57,16 +60,16 @@
       .nd-container__middle {
         box-sizing: border-box;
         block-size: inherit;
-        padding-block-start: var(--_top-space);
-        padding-block-end: var(--_bottom-space);
-        padding-inline-start: var(--_leading-space);
-        padding-inline-end: var(--_trailing-space);
+        padding-block-start: var(--md-filled-field-top-space);
+        padding-block-end: var(--md-filled-field-bottom-space);
+        padding-inline-start: var(--md-filled-field-leading-space);
+        padding-inline-end: var(--md-filled-field-trailing-space);
         display: flex;
         align-items: flex-end;
 
         .nd-field__label-wrapper {
           .nd-field__label-wrapper__label.floating {
-            inset-block-start: var(--_with-label-top-space);
+            inset-block-start: var(--md-filled-field-with-label-top-space);
           }
         }
       }
@@ -74,138 +77,138 @@
 
     &.with-label {
       .nd-container__middle {
-        padding-block-start: var(--_with-label-top-space);
-        padding-block-end: var(--_with-label-bottom-space);
+        padding-block-start: var(--md-filled-field-with-label-top-space);
+        padding-block-end: var(--md-filled-field-with-label-bottom-space);
       }
     }
 
     &.hover {
       @include indicator.theme((
-        active-color: var(--_hover-active-indicator-color),
-        active-height: var(--_hover-active-indicator-height)
-      ));
+        active-color: var(--md-filled-field-hover-active-indicator-color),
+        active-height: var(--md-filled-field-hover-active-indicator-height)
+      ), filled-field);
       @include basic-field.theme((
-        content-color: var(--_hover-content-color),
-        label-text-color: var(--_hover-label-text-color),
-        leading-content-color: var(--_hover-leading-content-color),
-        trailing-content-color: var(--_hover-supporting-text-color)
-      ));
+        content-color: var(--md-filled-field-hover-content-color),
+        label-text-color: var(--md-filled-field-hover-label-text-color),
+        leading-content-color: var(--md-filled-field-hover-leading-content-color),
+        trailing-content-color: var(--md-filled-field-hover-supporting-text-color)
+      ), filled-field);
       @include supporting-text.theme((
-        color: var(--_hover-supporting-text-color),
+        color: var(--md-filled-field-hover-supporting-text-color),
       ));
     }
 
     &.focus {
       @include indicator.theme((
-        active-color: var(--_focus-active-indicator-color),
-        active-height: var(--_focus-active-indicator-height)
-      ));
+        active-color: var(--md-filled-field-focus-active-indicator-color),
+        active-height: var(--md-filled-field-focus-active-indicator-height)
+      ), filled-field);
       @include basic-field.theme((
-        content-color: var(--_focus-content-color),
-        label-text-color: var(--_focus-label-text-color),
-        leading-content-color: var(--_focus-leading-content-color),
-        trailing-content-color: var(--_focus-supporting-text-color)
-      ));
+        content-color: var(--md-filled-field-focus-content-color),
+        label-text-color: var(--md-filled-field-focus-label-text-color),
+        leading-content-color: var(--md-filled-field-focus-leading-content-color),
+        trailing-content-color: var(--md-filled-field-focus-supporting-text-color)
+      ), filled-field);
       @include supporting-text.theme((
-        color: var(--_focus-supporting-text-color),
+        color: var(--md-filled-field-focus-supporting-text-color),
       ));
     }
 
     &.error {
       @include indicator.theme((
-        active-color: var(--_error-active-indicator-color),
-        inactive-color: var(--_error-active-indicator-color),
-      ));
+        active-color: var(--md-filled-field-error-active-indicator-color),
+        inactive-color: var(--md-filled-field-error-active-indicator-color),
+      ), filled-field);
       @include basic-field.theme((
-        content-color: var(--_error-content-color),
-        label-text-color: var(--_error-label-text-color),
-        leading-content-color: var(--_error-leading-content-color),
-        trailing-content-color: var(--_error-trailing-content-color)
-      ));
+        content-color: var(--md-filled-field-error-content-color),
+        label-text-color: var(--md-filled-field-error-label-text-color),
+        leading-content-color: var(--md-filled-field-error-leading-content-color),
+        trailing-content-color: var(--md-filled-field-error-trailing-content-color)
+      ), filled-field);
       @include supporting-text.theme((
-        color: var(--_error-supporting-text-color),
+        color: var(--md-filled-field-error-supporting-text-color),
       ));
 
       &.hover {
         @include indicator.theme((
-          active-color: var(--_error-hover-active-indicator-color)
-        ));
+          active-color: var(--md-filled-field-error-hover-active-indicator-color)
+        ), filled-field);
         @include basic-field.theme((
-          content-color: var(--_error-hover-content-color),
-          label-text-color: var(--_error-hover-label-text-color),
-          leading-content-color: var(--_error-hover-leading-content-color),
-          trailing-content-color: var(--_error-hover-trailing-content-color)
-        ));
+          content-color: var(--md-filled-field-error-hover-content-color),
+          label-text-color: var(--md-filled-field-error-hover-label-text-color),
+          leading-content-color: var(--md-filled-field-error-hover-leading-content-color),
+          trailing-content-color: var(--md-filled-field-error-hover-trailing-content-color)
+        ), filled-field);
         @include supporting-text.theme((
-          color: var(--_error-hover-supporting-text-color),
+          color: var(--md-filled-field-error-hover-supporting-text-color),
         ));
         @include ripple.theme((
-          hover-color: var(--_error-hover-state-layer-color)
+          hover-color: var(--md-filled-field-error-hover-state-layer-color)
         ));
       }
 
       &.focus {
         @include indicator.theme((
-          active-color: var(--_error-focus-active-indicator-color)
-        ));
+          active-color: var(--md-filled-field-error-focus-active-indicator-color)
+        ), filled-field);
         @include basic-field.theme((
-          content-color: var(--_error-focus-content-color),
-          label-text-color: var(--_error-focus-label-text-color),
-          leading-content-color: var(--_error-focus-leading-content-color),
-          trailing-content-color: var(--_error-focus-trailing-content-color)
-        ));
+          content-color: var(--md-filled-field-error-focus-content-color),
+          label-text-color: var(--md-filled-field-error-focus-label-text-color),
+          leading-content-color: var(--md-filled-field-error-focus-leading-content-color),
+          trailing-content-color: var(--md-filled-field-error-focus-trailing-content-color)
+        ), filled-field);
         @include supporting-text.theme((
-          color: var(--_error-focus-supporting-text-color),
+          color: var(--md-filled-field-error-focus-supporting-text-color),
         ));
       }
     }
 
     &.disabled {
       @include indicator.theme((
-        inactive-color: var(--_disabled-active-indicator-color),
-        inactive-height: var(--_disabled-active-indicator-height)
-      ));
+        inactive-color: var(--md-filled-field-disabled-active-indicator-color),
+        inactive-height: var(--md-filled-field-disabled-active-indicator-height)
+      ), filled-field);
       @include basic-field.theme((
-        content-color: var(--_disabled-content-color),
-        label-text-color: var(--_disabled-label-text-color),
-        leading-content-color: var(--_disabled-leading-content-color),
-        trailing-content-color: var(--_disabled-trailing-content-color)
-      ));
+        content-color: var(--md-filled-field-disabled-content-color),
+        label-text-color: var(--md-filled-field-disabled-label-text-color),
+        leading-content-color: var(--md-filled-field-disabled-leading-content-color),
+        trailing-content-color: var(--md-filled-field-disabled-trailing-content-color)
+      ), filled-field);
       @include background.theme((
-        color: var(--_disabled-container-color),
-        opacity: var(--_disabled-container-opacity)
-      ));
+        color: var(--md-filled-field-disabled-container-color),
+        opacity: var(--md-filled-field-disabled-container-opacity)
+      ), filled-field);
       @include supporting-text.theme((
-        color: var(--_disabled-supporting-text-color),
+        color: var(--md-filled-field-disabled-supporting-text-color),
       ));
 
       .nd-filled-field__indicator {
-        opacity: var(--_disabled-active-indicator-opacity);
+        opacity: var(--md-filled-field-disabled-active-indicator-opacity);
       }
 
       .nd-field {
         .nd-container {
           .nd-container__start {
-            opacity: var(--_disabled-leading-content-opacity);
+            opacity: var(--md-filled-field-disabled-leading-content-opacity);
           }
 
           .nd-container__middle {
             .nd-container__content {
-              opacity: var(--_disabled-container-opacity);
+              opacity: var(--md-filled-field-disabled-container-opacity);
             }
 
             .nd-field__label-wrapper {
-              opacity: var(--_disabled-label-text-opacity);
+              opacity: var(--md-filled-field-disabled-label-text-opacity);
             }
           }
 
           .nd-container__end {
-            opacity: var(--_disabled-trailing-content-opacity);
+            opacity: var(--md-filled-field-disabled-trailing-content-opacity);
           }
         }
 
         .nd-supporting-text {
-          opacity: var(--_disabled-supporting-text-opacity);
+          opacity: var(--md-filled-field-disabled-supporting-text-opacity);
         }
       }
     }
