@@ -2,18 +2,20 @@
 @use "../../builder/background";
 @use "../../Ripple/internal/ripple";
 
-@mixin styles($colors) {
+@mixin styles($colors, $comp:"") {
   @include background.theme((
     opacity: 1,
     color: map.get($colors, 'container-color')
-  ));
+  ), $comp);
 
   @include ripple.theme((
-    hover-color: map.get($colors, hover-state-layer-color),
-    hover-opacity: var(--_hover-state-layer-opacity),
-    pressed-color: map.get($colors, pressed-state-layer-color),
-    pressed-opacity: var(--_pressed-state-layer-opacity)
+    hover-color: map.get($colors, hover-ripple-color),
+    hover-opacity: var(--md-#{#comp}-hover-state-layer-opacity),
+    pressed-color: map.get($colors, pressed-ripple-color),
+    pressed-opacity: var(--md-#{#comp}-pressed-state-layer-opacity)
   ));
+
+  @include background.styles($comp);
 
   &:focus {
     .nd-fab__icon-slot {

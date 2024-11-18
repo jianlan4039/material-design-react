@@ -14,6 +14,6 @@ export const Primary: Story = {
   args: {
     label: 'Primary',
     icon: <span className={'material-icons'}>home</span>,
-    lowered: true
+    lowered: false,
   }
 }

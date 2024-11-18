@@ -12,7 +12,7 @@ type Story = StoryObj<typeof FAB>;
 export const Primary: Story = {
   args: {
     children: <span className={'material-icons'}>home</span>,
-    variant: 'secondary',
-    size: 'large'
+    variant: 'tertiary',
+    size: 'large',
   }
 }

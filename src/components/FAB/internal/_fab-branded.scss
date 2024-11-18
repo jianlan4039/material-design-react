@@ -5,19 +5,19 @@
 $tokens: md-comp-fab-branded.values();
 
 @mixin styles() {
-  @include tokens-builder.tokens($tokens, fab);
+  @include tokens-builder.tokens($tokens, branded-fab);
 
   // Support logical shape properties
-  --_container-shape-start-start: var(--md-fab-branded-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-fab-branded-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-fab-branded-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-fab-branded-container-shape-end-start, var(--_container-shape));
-  --_large-container-shape-start-start: var(--md-fab-branded-large-container-shape-start-start, var(--_large-container-shape));
-  --_large-container-shape-start-end: var(--md-fab-branded-large-container-shape-start-end, var(--_large-container-shape));
-  --_large-container-shape-end-end: var(--md-fab-branded-large-container-shape-end-end, var(--_large-container-shape));
-  --_large-container-shape-end-start: var(--md-fab-branded-large-container-shape-end-start, var(--_large-container-shape));
-  min-inline-size: var(--_container-width);
-  @include shared.styles;
+  --md-branded-fab-container-shape-start-start: var(--md-branded-fab-container-shape);
+  --md-branded-fab-container-shape-start-end:  var(--md-branded-fab-container-shape);
+  --md-branded-fab-container-shape-end-end: var(--md-branded-fab-container-shape);
+  --md-branded-fab-container-shape-end-start:  var(--md-branded-fab-container-shape);
+  --md-branded-fab-large-container-shape-start-start:  var(--md-branded-fab-large-container-shape);
+  --md-branded-fab-large-container-shape-start-end: var(--md-branded-fab-large-container-shape);
+  --md-branded-fab-large-container-shape-end-end: var(--md-branded-fab-large-container-shape);
+  --md-branded-fab-large-container-shape-end-start: var(--md-branded-fab-large-container-shape);
+  min-inline-size: var(--md-branded-fab-container-width);
+  @include shared.styles(branded-fab);
 
   .nd-fab__button {
     padding-inline-start: 16px;
