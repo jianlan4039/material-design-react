@@ -29,24 +29,3 @@ export const Primary: Story = {
     footerDivider: true
   }
 }
-
-export const Secondary: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false)
-
-    const clickHandler = () => {
-      setOpen(!open)
-    }
-
-    return (
-      <>
-        <ElevatedButton onClick={clickHandler}>Open</ElevatedButton>
-        <Dialog show={open}>
-          <form action="">
-            <DatePicker label={'JoinAt'}></DatePicker>
-          </form>
-        </Dialog>
-      </>
-    )
-  }
-}
