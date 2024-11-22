@@ -1,5 +1,4 @@
 import React, {ReactNode} from 'react'
-import './FieldOutline.scss'
 import c from 'classnames'
 
 export interface FieldOutlineProps {

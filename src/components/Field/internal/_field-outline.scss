@@ -9,18 +9,27 @@ $supported-tokens: (
   'notch-size',
 );
 
-@mixin theme($tokens) {
-  @include tokens-builder.theme($tokens, $supported-tokens, field-outline)
+$default-tokens: (
+  outline-color: #6750a4,
+  outline-width: 1px,
+  active-outline-width: 3px,
+  label-text-size: 1rem,
+  label-text-line-height: 1.5rem,
+  notch-size: 50%
+);
+
+@mixin theme($tokens, $comp: "") {
+  @include tokens-builder.theme($tokens, $supported-tokens, #{$comp}-field-outline)
 }
 
-@mixin styles() {
+@mixin styles($comp: "") {
   .nd-field-outline {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     border-radius: inherit;
-    border-color: var(--md-cust-field-outline-color, var(--md-field-outline-color));
+    border-color: var(--md-cust-#{$comp}-field-outline-outline-color, var(--md-outlined-field-outline-color));
     block-size: inherit;
 
     .nd-field-outline__start::after,
@@ -52,11 +61,11 @@ $supported-tokens: (
       }
 
       &::before {
-        border-width: var(--md-cust-field-outline-width, var(--md-field-outline-width));
+        border-width: var(--md-cust-#{$comp}-field-outline-outline-width, var(--md-field-outline-outline-width));
       }
 
       &::after {
-        border-width: var(--md-cust-field-outline-active-outline-width, 0);
+        border-width: var(--md-cust-#{$comp}-field-outline-active-outline-width, 0);
       }
     }
 
@@ -94,8 +103,8 @@ $supported-tokens: (
 
       .nd-field-outline__notch__label {
         opacity: 0;
-        font-size: var(--md-cust-field-outline-label-text-size, var(--md-field-outline-label-text-size));
-        line-height: var(--md-cust-field-outline-label-text-line-height, var(--md-field-outline-label-text-line-height));
+        font-size: var(--md-cust-#{$comp}-field-outline-label-text-size, var(--md-field-outline-label-text-size));
+        line-height: var(--md-cust-#{$comp}-field-outline-label-text-line-height, var(--md-field-outline-label-text-line-height));
       }
 
       .nd-field-outline__panel-inactive,
@@ -109,7 +118,7 @@ $supported-tokens: (
         &::after {
           content: '';
           position: absolute;
-          inline-size: var(--md-cust-field-outline-notch-size, 50%);
+          inline-size: var(--md-cust-#{$comp}-field-outline-notch-size, 50%);
           border-block-start-style: solid;
           border-color: inherit;
         }
@@ -128,20 +137,20 @@ $supported-tokens: (
       }
 
       .nd-field-outline__panel-inactive {
-        border-block-end-width: var(--md-cust-field-outline-width, var(--md-field-outline-width));
+        border-block-end-width: var(--md-cust-#{$comp}-field-outline-outline-width, var(--md-field-outline-outline-width));
 
         &::before,
         &::after {
-          border-block-start-width: var(--md-cust-field-outline-width, var(--md-field-outline-width));
+          border-block-start-width: var(--md-cust-#{$comp}-field-outline-outline-width, var(--md-field-outline-outline-width));
         }
       }
 
       .nd-field-outline__panel-active {
-        border-block-end-width: var(--md-field-outline-active-outline-width, 0);
+        border-block-end-width: var(--md-cust-#{$comp}-field-outline-active-outline-width, 0);
 
         &::before,
         &::after {
-          border-block-start-width: var(--md-field-outline-active-outline-width, 0);
+          border-block-start-width: var(--md-cust-#{$comp}-field-outline-active-outline-width, 0);
         }
       }
     }

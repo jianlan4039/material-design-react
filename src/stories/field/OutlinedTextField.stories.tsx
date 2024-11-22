@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {OutlinedTextField} from "../index";
-import "./styles"
+import {OutlinedTextField} from "../../index";
+import "../styles"
 
 const meta: Meta = {
   title: 'Form/OutlinedTextField',
@@ -17,8 +17,6 @@ export const Primary: Story = {
     return (
       <>
         <OutlinedTextField label={"Username"} showSupportingText supportingText={'abc'}></OutlinedTextField>
-        <OutlinedTextField label={"Password"}></OutlinedTextField>
-        <OutlinedTextField label={"Age"}></OutlinedTextField>
       </>
     )
   }
