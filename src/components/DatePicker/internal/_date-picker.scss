@@ -9,6 +9,8 @@
   .date-picker {
     @include tokens-builder.tokens(nd-comp-date-picker.values(), date-picker);
     inline-size: var(--_container-width);
+    position: relative;
+    z-index: 10;
 
     .date-picker-panel {
       position: absolute;

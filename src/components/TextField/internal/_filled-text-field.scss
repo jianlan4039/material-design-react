@@ -12,12 +12,13 @@
     cursor: text;
     position: relative;
     min-width: 210px;
+    z-index: 10;
 
     .nd-field {
       .nd-container__middle {
         .nd-container__content {
           @include input-wrapper.theme((
-            font-color: var(--md-field-content-color)
+            font-color: var(--md-filled-text-field-content-color)
           ));
           opacity: 0;
         }

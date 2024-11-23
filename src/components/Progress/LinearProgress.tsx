@@ -9,13 +9,11 @@ export interface LinearProgressProps extends ProgressProps {
 
 export default function LinearProgress(props: LinearProgressProps) {
   const {
-    children,
     indeterminate,
     value = 0,
     max = 1,
     buffer = 1,
-    fourColor,
-    ...rest
+    fourColor
   } = props
 
   const dotStyles: CSSProperties = {

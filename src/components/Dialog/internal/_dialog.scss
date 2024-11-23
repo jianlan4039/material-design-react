@@ -14,10 +14,11 @@ $md-sys-color: md-sys-color.values-light();
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, dialog);
-  --_container-shape-start-start: var(--md-dialog-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-dialog-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-dialog-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-dialog-container-shape-end-start, var(--_container-shape));
+  --md-dialog-container-shape-start-start: var(--md-dialog-container-shape);
+  --md-dialog-container-shape-start-end: var(--md-dialog-container-shape);
+  --md-dialog-container-shape-end-end: var(--md-dialog-container-shape);
+  --md-dialog-container-shape-end-start: var(--md-dialog-container-shape);
+  z-index: 10;
 
   .nd-dialog-scrim {
     background: map.get($md-sys-color, 'scrim');
@@ -25,7 +26,6 @@ $md-sys-color: md-sys-color.values-light();
     display: none;
     inset: 0;
     opacity: 32%;
-    //pointer-events: none;
 
     &.nd-show {
       display: flex;
@@ -33,10 +33,10 @@ $md-sys-color: md-sys-color.values-light();
   }
 
   .nd-dialog {
-    border-start-start-radius: var(--_container-shape-start-start);
-    border-start-end-radius: var(--_container-shape-start-end);
-    border-end-end-radius: var(--_container-shape-end-end);
-    border-end-start-radius: var(--_container-shape-end-start);
+    border-start-start-radius: var(--md-dialog-container-shape-start-start);
+    border-start-end-radius: var(--md-dialog-container-shape-start-end);
+    border-end-end-radius: var(--md-dialog-container-shape-end-end);
+    border-end-start-radius: var(--md-dialog-container-shape-end-start);
     border: none;
     outline: none;
     padding: 0;
@@ -52,7 +52,8 @@ $md-sys-color: md-sys-color.values-light();
 
     .nd-dialog-container {
       @include background.theme((
-        color: var(--_container-color)
+        color: var(--md-dialog-container-color),
+        opacity: 1
       ));
       @include background.styles;
       border-radius: inherit;
@@ -63,14 +64,14 @@ $md-sys-color: md-sys-color.values-light();
       .nd-dialog-header {
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
         opacity: 0;
 
         .nd-dialog-header__icon {
-          block-size: var(--_icon-size);
-          inline-size: var(--_icon-size);
-          color: var(--_icon-color);
-          font-size: var(--_icon-color);
+          block-size: var(--md-dialog-icon-size);
+          inline-size: var(--md-dialog-icon-size);
+          color: var(--md-dialog-icon-color);
+          font-size: var(--md-dialog-icon-color);
           display: contents;
         }
 
@@ -80,20 +81,20 @@ $md-sys-color: md-sys-color.values-light();
         }
 
         .nd-dialog-header__headline {
-          font-family: var(--_headline-font);
-          font-size: var(--_headline-size);
-          color: var(--_headline-color);
-          line-height: var(--_headline-line-height);
-          font-weight: var(--_headline-weight);
+          font-family: var(--md-dialog-headline-font), serif;
+          font-size: var(--md-dialog-headline-size);
+          color: var(--md-dialog-headline-color);
+          line-height: var(--md-dialog-headline-line-height);
+          font-weight: var(--md-dialog-headline-weight);
           padding-block-start: 16px;
         }
 
         .nd-dialog-header__supporting-text {
-          font-family: var(--_supporting-text-font);
-          font-size: var(--_supporting-text-size);
-          color: var(--_supporting-text-color);
-          line-height: var(--_supporting-text-line-height);
-          font-weight: var(--_supporting-text-weight);
+          font-family: var(--md-dialog-supporting-text-font), serif;
+          font-size: var(--md-dialog-supporting-text-size);
+          color: var(--md-dialog-supporting-text-color);
+          line-height: var(--md-dialog-supporting-text-line-height);
+          font-weight: var(--md-dialog-supporting-text-weight);
           padding-block: 16px;
         }
 
@@ -113,7 +114,7 @@ $md-sys-color: md-sys-color.values-light();
         .nd-dialog-actions__actions-slot {
           padding-block-start: 16px;
           display: flex;
-          justify-content: end;
+          justify-content: flex-end;
           gap: 8px;
         }
       }

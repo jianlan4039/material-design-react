@@ -2,18 +2,14 @@
 @use "../../builder/background";
 @use "../../Menu/internal/menu";
 
-@mixin theme($tokens) {
-
-}
-
 @mixin styles() {
   .date-picker-panel {
     @include background.theme((
-      color: var(--_container-color)
+      color: var(--md-date-picker-container-color)
     ));
-    block-size: var(--_container-height);
-    inline-size: var(--_container-width);
-    border-radius: var(--_container-shape);
+    block-size: var(--md-date-picker-container-height);
+    inline-size: var(--md-date-picker-container-width);
+    border-radius: var(--md-date-picker-container-shape);
     position: relative;
     overflow: hidden;
     @include background.styles;
@@ -25,14 +21,14 @@
       padding-inline: 12px;
     }
 
-    & .menu {
+    & .nd-menu {
       @include menu.theme((
         container-elevation: 0
       ));
       overflow-y: auto;
-      inline-size: var(--_container-width);
-      border-bottom-left-radius: var(--_container-shape);
-      border-bottom-right-radius: var(--_container-shape);
+      inline-size: var(--md-date-picker-container-width);
+      border-bottom-left-radius: var(--md-date-picker-container-shape);
+      border-bottom-right-radius: var(--md-date-picker-container-shape);
     }
 
     & .weekdays {
@@ -40,11 +36,11 @@
       grid-template-columns: repeat(7, 1fr);
       justify-items: center;
       align-items: center;
-      font-family: var(--_weekdays-label-text-font);
-      font-size: var(--_weekdays-label-text-size);
-      font-weight: var(--_weekdays-label-text-weight);
-      line-height: var(--_weekdays-label-text-line-height);
-      color: var(--_weekdays-label-text-color);
+      font-family: var(--md-date-picker-weekdays-label-text-font), serif;
+      font-size: var(--md-date-picker-weekdays-label-text-size);
+      font-weight: var(--md-date-picker-weekdays-label-text-weight);
+      line-height: var(--md-date-picker-weekdays-label-text-line-height);
+      color: var(--md-date-picker-weekdays-label-text-color);
       block-size: 40px;
       padding-inline: 12px;
     }
@@ -55,7 +51,7 @@
 
     & > .actions {
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       padding-block-start: 12px;
       padding-inline: 12px;
       padding-block-end: 12px;

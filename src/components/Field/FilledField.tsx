@@ -1,4 +1,4 @@
-import React, {forwardRef, useState, MouseEvent} from 'react'
+import React, {forwardRef, useState} from 'react'
 import Field, {FieldProps} from "./internal/Field";
 import './FilledField.scss'
 import c from 'classnames'
@@ -15,6 +15,7 @@ const FilledField = forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledF
     focus,
     disabled,
     error,
+    showSupportingText,
     ...rest
   } = props
 
@@ -25,12 +26,12 @@ const FilledField = forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledF
     onMouseOut: mouseOutHandler,
   })
 
-  function mouseOverHandler(e: MouseEvent<HTMLDivElement>) {
+  function mouseOverHandler() {
     if (disabled) return;
     setHover(true)
   }
 
-  function mouseOutHandler(e: MouseEvent<HTMLDivElement>) {
+  function mouseOutHandler() {
     if (disabled) return;
     setHover(false)
   }
@@ -43,13 +44,14 @@ const FilledField = forwardRef<HTMLDivElement, FilledFieldProps>((props: FilledF
         'hover': hover,
         'focus': focus,
         'error': error,
-        'disabled': disabled
+        'disabled': disabled,
+        'show-supporting-text': showSupportingText
       })}
       {...rippleProps}
     >
       {ripple}
       <div className={c('nd-filled-field__indicator', {'active': focus})}></div>
-      <Field label={label} {...rest}>
+      <Field label={label} showSupportingText={showSupportingText} {...rest}>
         {children}
       </Field>
     </div>

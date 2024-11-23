@@ -1,0 +1,46 @@
+@use "shared";
+@use "toggled";
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-icon-button";
+@use "../../builder/background";
+@use "../../Ripple/internal/ripple";
+@use "../../Focus/internal/focus-ring";
+@use "./state";
+
+$tokens: md-comp-icon-button.values();
+
+@mixin theme($new-tokens) {
+  @include tokens-builder.theme($new-tokens, md-comp-icon-button.$supported-tokens, icon-button);
+}
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, icon-button);
+  @include ripple.theme((
+    hover-color: var(--md-icon-button-hover-state-layer-color),
+    hover-opacity: var(--md-icon-button-hover-state-layer-opacity),
+    pressed-color: var(--md-icon-button-pressed-state-layer-color),
+    pressed-opacity: var(--md-icon-button-hover-state-layer-opacity),
+  ));
+  --md-icon-button-container-shape-start-start: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-container-shape-start-end: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-container-shape-end-end: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-container-shape-end-start: var(--md-icon-button-state-layer-shape);
+  --md-icon-button-toggle-selected-icon-color: var(--md-icon-button-selected-icon-color);
+  --md-icon-button-toggle-selected-hover-icon-color: var(--md-icon-button-selected-hover-icon-color);
+  --md-icon-button-toggle-selected-focus-icon-color: var(--md-icon-button-selected-focus-icon-color);
+  --md-icon-button-toggle-selected-pressed-icon-color: var(--md-icon-button-selected-pressed-icon-color);
+  --md-icon-button-toggle-selected-hover-state-layer-color: var(--md-icon-button-selected-hover-state-layer-color);
+  --md-icon-button-toggle-selected-pressed-state-layer-color: var(--md-icon-button-selected-pressed-state-layer-color);
+  --md-icon-button-container-height: var(--md-icon-button-state-layer-height);
+  --md-icon-button-container-width: var(--md-icon-button-state-layer-width);
+  @include focus-ring.theme((
+    shape-start-start: var(--md-icon-button-container-shape-start-start),
+    shape-start-end: var(--md-icon-button-container-shape-start-end),
+    shape-end-start: var(--md-icon-button-container-shape-end-start),
+    shape-end-end: var(--md-icon-button-container-shape-end-end),
+  ));
+  @include shared.styles(icon-button);
+  @include background.styles(icon-button);
+  @include state.styles(icon-button);
+  @include toggled.styles(icon-button);
+}

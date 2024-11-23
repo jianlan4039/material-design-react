@@ -51,6 +51,8 @@ const Dialog = forwardRef<DialogHandle, DialogProps>((props, ref) => {
     onSubmit,
     quick,
     returnValue,
+    headerDivider,
+    footerDivider,
     ...rest
   } = props
 
@@ -170,6 +172,8 @@ const Dialog = forwardRef<DialogHandle, DialogProps>((props, ref) => {
           icon={icon}
           supportingText={supportingText}
           actions={actions}
+          headerDivider={headerDivider}
+          footerDivider={footerDivider}
         >
           {children}
         </DialogContent>

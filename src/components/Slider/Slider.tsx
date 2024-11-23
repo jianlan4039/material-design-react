@@ -272,7 +272,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
   return (
     <div
       ref={ref}
-      className={'slider-container'}
+      className={'nd-slider-container'}
       onMouseDown={handleMouseDownHandler}
       onTouchStart={handleMouseDownHandler}
       onMouseMove={mouseMoveHandler}

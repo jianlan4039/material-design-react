@@ -1,14 +1,15 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef, ReactNode, useMemo} from 'react'
 import './NavigationRail.scss';
-import c from 'classnames';
 import Department, {DepartmentProps} from "./internal/Department";
-import {IndicatorRectContextProvider} from "../internal/context/indicator";
+import {IndicatorActiveContextProvider} from "../internal/context/IndicatorActiveContext";
 import IconButton from "../IconButton/IconButton";
 
 export interface NavigationRailProps {
   children?: ReactNode
   icon?: ReactNode
   items?: DepartmentProps[]
+  labelType?: 'none' | 'selected' | 'all'
+  active?: string
 }
 
 const NavigationRail = forwardRef<HTMLDivElement, NavigationRailProps>((props, ref) => {
@@ -16,25 +17,26 @@ const NavigationRail = forwardRef<HTMLDivElement, NavigationRailProps>((props, r
     children,
     icon,
     items,
-    ...rest
+    active,
   } = props
 
+  const Items = useMemo(() => {
+    return items?.map((item, index) => {
+      return (
+        <Department key={item.id ?? `nav-rail-${index}`} {...item}></Department>
+      )
+    })
+  }, [items])
+
   return (
-    <IndicatorRectContextProvider>
+    <IndicatorActiveContextProvider active={active}>
       <div ref={ref} className={'navigation-rail-container'}>
         <div className={'navigation-rail'}>
           {icon && <IconButton>{icon}</IconButton>}
-          {
-            items?.map((item, index) => {
-              return (
-                <Department key={item.id ?? `nav-rail-${index}`} {...item}></Department>
-              )
-            })
-          }
-          {children}
+          {Items || children}
         </div>
       </div>
-    </IndicatorRectContextProvider>
+    </IndicatorActiveContextProvider>
   )
 })
 

@@ -1,4 +1,4 @@
-import React, {CSSProperties, forwardRef, HTMLProps, useEffect, useId, useRef, useState, MouseEvent} from 'react'
+import React, {CSSProperties, forwardRef, useEffect, useId, useImperativeHandle, useRef, useState} from 'react'
 import {Corner} from "../internal/alignment/geometry";
 import {MenuHandle, MenuProps} from "./Menu";
 import MenuItem from "./MenuItem";
@@ -11,6 +11,7 @@ export interface SubMenuProps extends MenuProps {
 }
 
 export interface SubMenuHandle extends MenuHandle {
+  menu: HTMLDivElement | null
 }
 
 const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
@@ -21,7 +22,7 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
     style,
   } = props
 
-  const rootRef = useRef<HTMLMenuElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
   const [offsetStyles, setOffsetStyles] = useState<CSSProperties>()
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
@@ -46,18 +47,24 @@ const SubMenu = forwardRef<SubMenuHandle, SubMenuProps>((props, ref) => {
     }
   }, [open]);
 
+  useImperativeHandle(ref, () => ({
+    menu: rootRef.current
+  }))
+
   return (
-    <menu
+    <div
       ref={rootRef}
-      className={c('sub-menu menu', {
-        'visible': isVisible,
-        'hidden': !isVisible,
+      className={c('nd-sub-menu nd-menu', {
+        'nd-menu--visible': isVisible,
+        'nd-menu--hidden': !isVisible,
       })}
       style={{...style, ...offsetStyles}}
     >
       <Elevation></Elevation>
-      {getChildren()}
-    </menu>
+      <ol className={'nd-menu__list'}>
+        {getChildren()}
+      </ol>
+    </div>
   )
 })
 

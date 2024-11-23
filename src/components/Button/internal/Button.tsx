@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, MouseEvent} from 'react'
+import React, {forwardRef, ReactNode, MouseEvent} from 'react';
 import cln from "classnames";
 import {linkHandler} from "../../internal/common/handlers";
 

@@ -1,50 +1,55 @@
 import React, {
   CSSProperties,
   forwardRef,
-  HTMLProps,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
-  MouseEvent as ReactMouseEvent, useMemo,
+  useMemo,
 } from 'react'
 import MenuItem, {MenuItemHandle, MenuItemProps} from "./MenuItem";
 import {Corner} from "../internal/alignment/geometry";
 import {EASING} from "../internal/motion/animation";
 import Elevation from "../Elevation";
 import {alignToAnchor, setPosition} from "../internal/alignment/locate";
-import {OptionValue} from "./internal/menuTypes";
-import {SelectionContextProvider} from "../internal/context/SelectionContext";
-import {BaseElement} from "../internal/common/BaseElement";
+import {SelectionContextProvider} from "./internal/context";
 import './Menu.scss'
 import c from 'classnames'
 import {outsideHandler} from "../internal/common/handlers";
+import {ListProps} from "../List/List";
 
 type NodeRef = MenuItemHandle | null;
 
-export interface MenuProps extends BaseElement {
+export interface MenuProps extends ListProps {
   items?: MenuItemProps[]
   open?: boolean
   anchorEl?: HTMLElement
   menuCorner?: Corner
   anchorCorner?: Corner
   quick?: boolean
-  onChange?: (value: OptionValue, option?: MenuItemProps) => void
+  onSelected?: (ids: string[]) => void
   offsetX?: number
   offsetY?: number
   stayOpenOnOutsideClick?: boolean
   keepOpen?: boolean
   multiple?: boolean
   position?: 'absolute' | 'fixed'
+  /**
+   * menu will re-render after closed, any preset list passed in will be treated as a new array, which cause menu's
+   * selection always be the same. For farther usage, user should keep updating preset by event onSelected when it
+   * returns a new selected list.
+   */
+  preset?: (string | number)[]
   onOpening?: () => void
   onOpened?: () => void
   onClosing?: () => void
   onClosed?: () => void
-  onScroll?: (e: ReactMouseEvent<HTMLDivElement>) => void
+  scrollConfig?: ScrollIntoViewOptions
 }
 
-export interface MenuHandle extends HTMLProps<HTMLDivElement> {
+export interface MenuHandle {
   root?: HTMLDivElement | null
+  list?: HTMLOListElement | null
 }
 
 const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
@@ -57,47 +62,37 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     anchorEl,
     className,
     quick = false,
-    onChange,
+    onSelected,
     offsetY,
     offsetX,
     stayOpenOnOutsideClick,
     keepOpen = false,
     multiple = false,
+    preset,
     position = 'absolute',
     onOpening,
     onOpened,
     onClosing,
     onClosed,
-    onScroll,
+    scrollConfig = {
+      block: 'start',
+      behavior: 'smooth'
+    },
+    ...rest
   } = props
 
   const openDirection = menuCorner.toString().startsWith('end') ? 'UP' : 'DOWN'
 
   const itemsRef = useRef<NodeRef[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null)
+  const listRef = useRef<HTMLOListElement>(null)
 
   const [menuOffsetStyle, setMenuOffsetStyle] = useState<CSSProperties>();
-
   const [isVisible, setIsVisible] = useState<boolean | undefined>();
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-
   const animationBuffer = useRef<Animation[]>([])
-  const [selectedList, setSelectedList] = useState<OptionValue[]>([])
-
-  const getChildren = useMemo(() => {
-    return items?.map((item, index) => {
-      return (
-        <MenuItem
-          key={`menu-item-${index}-${item.label}`}
-          ref={(node) => itemsRef.current.push(node)}
-          style={style}
-          {...item}
-        ></MenuItem>
-      )
-    })
-  }, [items])
+  const [selectedList, setSelectedList] = useState<(string | number)[]>()
 
   useEffect(() => {
     let outsideHandlerCleaner: () => void;
@@ -124,11 +119,12 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       outsideHandlerCleaner?.()
       document.removeEventListener('click', clickHandler)
     }
-
   }, [menuRef, anchorEl, anchorCorner, menuCorner]);
 
   useEffect(() => {
-    setIsOpen(Boolean(open))
+    if (open !== undefined) {
+      setIsOpen(Boolean(open))
+    }
   }, [open]);
 
   useEffect(() => {
@@ -155,8 +151,27 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   }, [isAnimating, isOpen])
 
   useImperativeHandle(ref, () => ({
-    root: menuRef.current
+    root: menuRef.current,
+    list: listRef.current,
   }))
+
+  useEffect(() => {
+    if (preset) {
+      setSelectedList(preset)
+    }
+  }, [preset]);
+
+  useEffect(() => {
+    scrollIntoItem()
+  }, [selectedList]);
+
+  const scrollIntoItem = () => {
+    if (selectedList && listRef.current) {
+      const theFirstId = selectedList[0]
+      const theFirstItem = listRef.current.querySelector(`#${theFirstId}`)
+      theFirstItem?.scrollIntoView(scrollConfig);
+    }
+  }
 
   const animateOpen = async () => {
     const rootEl = menuRef.current
@@ -200,6 +215,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     animationBuffer.current.push(rootHeightAnimation, rootOpacityAnimation, upPositionCorrectionAnimation)
     return await Promise.all([rootHeightAnimation.finished, rootOpacityAnimation.finished, upPositionCorrectionAnimation.finished]).then(() => {
       onOpened?.()
+      scrollIntoItem()
     })
   }
 
@@ -253,18 +269,9 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     })
   }
 
-  const setListWithOption = (list: OptionValue[], option?: MenuItemProps) => {
+  const setListWithOption = (list: (string | number) []) => {
     setSelectedList(list)
-    if (list.length > 1) {
-      const value: string[] = []
-      list.forEach(i => i && value.push(i.toString()))
-      onChange?.(value, option);
-    } else {
-      onChange?.(list[0], option)
-    }
-    if (!keepOpen && !option?.keepOpen) {
-      setIsOpen(false)
-    }
+    onSelected?.(list.map(i => i.toString()))
   }
 
   const clearAnimations = () => {
@@ -277,23 +284,37 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   return (
     <SelectionContextProvider
-      multiple={multiple}
+      config={{multiple: multiple}}
       list={selectedList}
       setList={setListWithOption}
     >
       <div
         ref={menuRef}
         style={{...style, ...menuOffsetStyle}}
-        className={c('menu', className, {
-          'visible': isVisible === true,
-          'hidden': isVisible === false
+        className={c('nd-menu', className, {
+          'nd-menu--visible': isVisible === true,
+          'nd-menu--hidden': isVisible === false
         })}
-        onScroll={onScroll}
       >
         <Elevation></Elevation>
-        <ul ref={listRef} className={'menu__list'}>
-          {getChildren}
-        </ul>
+        <ol ref={listRef} className={'nd-menu__list'} {...rest}>
+          {
+            useMemo(() => {
+              return items?.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={`menu-item-${index}-${item.headline}`}
+                    ref={(node) => itemsRef.current.push(node)}
+                    style={style}
+                    keepOpen={keepOpen || item.keepOpen}
+                    setIsMenuOpen={setIsOpen}
+                    {...item}
+                  ></MenuItem>
+                )
+              })
+            }, [items])
+          }
+        </ol>
       </div>
     </SelectionContextProvider>
   )

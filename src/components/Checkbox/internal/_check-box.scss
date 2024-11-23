@@ -5,15 +5,16 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 
   .nd-checkbox-content {
-    --_icon-color: var(--_outline-color);
-    @include background.styles;
+    --md-checkbox-icon-color: var(--md-checkbox-outline-color);
+    @include background.styles("checkbox");
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
-    border-radius: var(--_container-shape);
+    border-radius: var(--md-checkbox-container-shape);
     block-size: 24px;
     inline-size: 24px;
 
@@ -34,7 +35,7 @@
 
     svg {
       // change it at different state
-      fill: var(--_icon-color);
+      fill: var(--md-checkbox-icon-color);
 
       &.nd-uncheck{
         scale: 1.2;
@@ -45,12 +46,12 @@
     &.nd-indeterminate {
       @include background.theme((
         // change it at different state
-        color: var(--_selected-container-color)
-      ));
+        color: var(--md-checkbox-selected-container-color)
+      ), checkbox);
 
       svg {
         // change it at different state
-        fill: var(--_selected-icon-color);
+        fill: var(--md-checkbox-selected-icon-color);
       }
     }
   }

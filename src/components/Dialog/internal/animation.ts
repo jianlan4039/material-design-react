@@ -145,4 +145,3 @@ export const DIALOG_DEFAULT_CLOSE_ANIMATION: DialogAnimation = {
     ],
   ],
 };
-//# sourceMappingURL=animations.js.map

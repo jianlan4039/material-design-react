@@ -10,7 +10,8 @@ import React, {
   useId, useImperativeHandle
 } from 'react'
 import './PrimaryTab.scss'
-import {IndicatorRectContext} from "../internal/context/indicator";
+import classNames from "classnames";
+import {IndicatorActiveContext} from "../internal/context/IndicatorActiveContext";
 import {EASING} from "../internal/motion/animation";
 import useRipple from "../Ripple/useRipple";
 import useFocusRing from "../Focus/useFocusRing";
@@ -19,7 +20,6 @@ export interface PrimaryTabProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   icon?: ReactNode
   text?: string
-  active?: boolean
   inline?: boolean
 }
 
@@ -32,7 +32,6 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
     children,
     icon,
     text,
-    active,
     inline,
     onClick,
     onMouseOver,
@@ -47,7 +46,7 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
   } = props
 
   const id = useId()
-  const {current, last, setCurrent, init} = useContext(IndicatorRectContext)
+  const {active, previous, setActive} = useContext(IndicatorActiveContext)
   const [isActive, setIsActive] = useState<boolean>(false)
   const indicator = useRef<HTMLSpanElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -58,15 +57,6 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
   })
   const [focusRingProps, focusRing] = useFocusRing<HTMLDivElement>({parent, onFocus, onBlur})
 
-  /**
-   * For the first child of tabs, active the first tab
-   */
-  useEffect(() => {
-    if (indicator.current) {
-      init?.({rect: indicator.current.getBoundingClientRect(), id: id}, active)
-    }
-  }, [indicator])
-
   useEffect(() => {
     if (wrapperRef.current) {
       setParent(wrapperRef.current)
@@ -74,8 +64,8 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
   }, [wrapperRef]);
 
   useEffect(() => {
-    setIsActive(current?.id === id)
-  }, [current]);
+    setIsActive(active?.id === id)
+  }, [active]);
 
   useEffect(() => {
     if (isActive) {
@@ -88,10 +78,10 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
   }))
 
   const animateIndicating = () => {
-    if (!indicator.current || !last?.rect) {
+    if (!indicator.current || !previous?.target) {
       return
     }
-    const {left: translateFrom, width: scaleFrom} = last.rect
+    const {left: translateFrom, width: scaleFrom} = previous.target.getBoundingClientRect()
     const {left: translateTo, width: scaleTo} = indicator.current.getBoundingClientRect()
     const scale = scaleFrom / scaleTo
 
@@ -110,14 +100,17 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
     onClick?.(e)
     if (indicator.current) {
-      setCurrent?.({rect: indicator.current.getBoundingClientRect(), id: id})
+      setActive?.({target: indicator.current, id: id})
     }
   }
 
   return (
     <div
       ref={wrapperRef}
-      className={`tab primary-tab ${isActive && 'primary-tab--active'} ${icon && 'tab--with-icon'}`}
+      className={classNames(`tab primary-tab`, {
+        'primary-tab--active': isActive,
+        'tab--with-icon': icon
+      })}
       onClick={clickHandler}
       tabIndex={0}
       {...rippleProps}
@@ -126,7 +119,11 @@ const PrimaryTab = forwardRef<PrimaryTabHandle, PrimaryTabProps>((props, ref) =>
     >
       {ripple}
       {focusRing}
-      <div className={`tab__presentation ${inline && 'tab__presentation--inline'}`}>
+      <div
+        className={classNames(`tab__presentation`, {
+          'tab__presentation--inline': inline
+        })}
+      >
         {icon && <div className={'tab__presentation__icon'}>{icon}</div>}
         {text && <div className={'tab__presentation__text'}>{text}</div>}
         <span

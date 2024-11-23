@@ -13,13 +13,13 @@ import c from 'classnames'
 import useRipple from "../Ripple/useRipple";
 
 export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
-  label?: string
+  headline?: string
   supportingText?: string
   disabled?: boolean
   url?: string
   interactive?: boolean
-  start?: ReactNode,
-  end?: ReactNode
+  icon?: ReactNode,
+  trailingIcon?: ReactNode
 }
 
 export interface ListItemHandle extends HTMLAttributes<HTMLLIElement> {
@@ -30,9 +30,9 @@ export interface ListItemHandle extends HTMLAttributes<HTMLLIElement> {
 const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   const {
     children,
-    start,
-    end,
-    label,
+    icon,
+    trailingIcon,
+    headline,
     supportingText,
     disabled,
     url,
@@ -84,13 +84,13 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
       {interactive && ripple}
       <LinearSectionContainer
         ref={contentRef}
-        start={start}
-        end={end}
+        start={icon}
+        end={trailingIcon}
       >
-        <div className={'list-item__label'}>{label}</div>
+        {headline && <div className={'list-item__label'}>{headline}</div>}
         {supportingText && <div className={'list-item__spt-txt'}>{supportingText}</div>}
+        {children}
       </LinearSectionContainer>
-      {children}
     </li>
   )
 })

@@ -1,7 +1,7 @@
 import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
 import './Tabs.scss'
 import Divider from "../Divider/Divider";
-import {CurrentIndicator, IndicatorRectContext} from "../internal/context/indicator";
+import {Target, IndicatorActiveContext} from "../internal/context/IndicatorActiveContext";
 
 export interface TabsProps {
   children?: ReactNode
@@ -13,17 +13,11 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     ...rest
   } = props
 
-  const [current, setCurrent] = useState<CurrentIndicator>()
-  const [last, setLast] = useState<CurrentIndicator>()
-  const currentBuffer = useRef<CurrentIndicator>();
+  const [current, setCurrent] = useState<Target>()
+  const [last, setLast] = useState<Target>()
+  const currentBuffer = useRef<Target>();
 
-  const init = (newCurrent: CurrentIndicator, force?: boolean) => {
-    if (!currentBuffer.current || force) {
-      currentBuffer.current = newCurrent
-    }
-  }
-
-  const setCurrentAndLast = (newCurrent: CurrentIndicator) => {
+  const setCurrentAndLast = (newCurrent: Target) => {
     setLast(current)
     setCurrent(newCurrent)
   }
@@ -36,12 +30,12 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   })
 
   return (
-    <IndicatorRectContext.Provider value={{current, last, setCurrent: setCurrentAndLast, init}}>
+    <IndicatorActiveContext.Provider value={{active: current, previous: last, setActive: setCurrentAndLast}}>
       <div ref={ref} className={'nd-tabs'} {...rest}>
         {children}
         <Divider/>
       </div>
-    </IndicatorRectContext.Provider>
+    </IndicatorActiveContext.Provider>
   )
 })
 

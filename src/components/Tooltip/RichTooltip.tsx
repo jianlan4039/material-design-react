@@ -1,4 +1,4 @@
-import React, {CSSProperties, forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {CSSProperties, forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import {alignToAnchor} from "../internal/alignment/locate";
 import {Corner} from "../internal/alignment/geometry";
 import './RichTooltip.scss'
@@ -15,7 +15,11 @@ export interface RichTooltipProps {
   offsetY?: number
 }
 
-const RichTooltip = forwardRef<HTMLDivElement, RichTooltipProps>((props, ref) => {
+export interface RichToolTipHandle{
+  wrapper?: HTMLDivElement | null
+}
+
+const RichTooltip = forwardRef<RichToolTipHandle, RichTooltipProps>((props, ref) => {
   const {
     children,
     subhead,
@@ -56,6 +60,10 @@ const RichTooltip = forwardRef<HTMLDivElement, RichTooltipProps>((props, ref) =>
       setIsVisible(false)
     }
   }, [anchorRef, tooltipRef]);
+
+  useImperativeHandle(ref, () => ({
+    wrapper: rootRef.current
+  }))
 
   return (
     <div ref={rootRef} className={'tooltip__host'} {...rest}>

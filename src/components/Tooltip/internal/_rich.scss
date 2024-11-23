@@ -13,45 +13,46 @@
     position: absolute;
     inline-size: fit-content;
     block-size: fit-content;
+    z-index: 10;
   }
   .tooltip--rich {
     @include tokens-builder.tokens(nd-comp-rich-tooltip.values(), rich-tooltip);
     @include elevation.theme((
-      level: var(--_container-elevation),
-      shadow-color: var(--_shadow-color)
+      level: var(--md-rich-tooltip-container-elevation),
+      shadow-color: var(--md-rich-tooltip-shadow-color)
     ));
     @include ripple.theme((
-      hover-color: var(--_hover-state-layer-color),
-      pressed-color: var(--_pressed-state-layer-color)
+      hover-color: var(--md-rich-tooltip-hover-state-layer-color),
+      pressed-color: var(--md-rich-tooltip-pressed-state-layer-color)
     ));
     @include background.theme((
-      color: var(--_container-color)
+      color: var(--md-rich-tooltip-container-color)
     ));
     position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     opacity: 0;
-    border-radius: var(--_container-shape);
+    border-radius: var(--md-rich-tooltip-container-shape);
     min-inline-size: 300px;
     max-inline-size: 600px;
     @include background.styles;
 
     .tooltip--rich__subhead {
-      font-family: var(--_subhead-font);
-      line-height: var(--_subhead-line-height);
-      font-size: var(--_subhead-font-size);
-      font-weight: var(--_subhead-font-weight);
-      color: var(--_subhead-color);
+      font-family: var(--md-rich-tooltip-subhead-font), serif;
+      line-height: var(--md-rich-tooltip-subhead-line-height);
+      font-size: var(--md-rich-tooltip-subhead-font-size);
+      font-weight: var(--md-rich-tooltip-subhead-font-weight);
+      color: var(--md-rich-tooltip-subhead-color);
       padding: 12px 12px 4px;
     }
 
     .tooltip--rich__supporting-text {
-      font-family: var(--_supporting-text-font);
-      line-height: var(--_supporting-text-line-height);
-      font-size: var(--_supporting-text-size);
-      font-weight: var(--_supporting-text-weight);
-      color: var(--_supporting-text-color);
+      font-family: var(--md-rich-tooltip-supporting-text-font), serif;
+      line-height: var(--md-rich-tooltip-supporting-text-line-height);
+      font-size: var(--md-rich-tooltip-supporting-text-size);
+      font-weight: var(--md-rich-tooltip-supporting-text-weight);
+      color: var(--md-rich-tooltip-supporting-text-color);
       padding: 0 12px 0;
     }
 

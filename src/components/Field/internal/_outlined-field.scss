@@ -8,30 +8,31 @@
   @include tokens-builder.theme($tokens, md-comp-outlined-field.$supported-tokens, outlined-field);
 }
 
-
 @mixin styles() {
   .nd-outlined-field {
     @include tokens-builder.tokens(md-comp-outlined-field.values(), outlined-field);
     @include field-outline.theme((
-      label-text-size: var(--_label-text-populated-size),
-      label-text-line-height: var(--_label-text-populated-line-height),
-      outline-width: var(--_outline-width)
-    ));
+      label-text-size: var(--md-outlined-field-label-text-populated-size),
+      label-text-line-height: var(--md-outlined-field-label-text-populated-line-height),
+      outline-width: var(--md-outlined-field-outline-width)
+    ), outlined-field);
     @include basic-field.theme((
-      content-color: var(--_content-color),
-      label-text-color: var(--_label-text-color),
-      leading-content-color: var(--_leading-content-color),
-      trailing-content-color: var(--_trailing-content-color)
-    ));
+      content-color: var(--md-outlined-field-content-color),
+      //label-text-color: var(--md-outlined-field-label-text-color),
+      leading-content-color: var(--md-outlined-field-leading-content-color),
+      trailing-content-color: var(--md-outlined-field-trailing-content-color)
+    ), outlined-field);
 
     position: relative;
     block-size: 56px;
-    border-radius: var(--_container-shape);
+    border-radius: var(--md-outlined-field-container-shape);
     min-width: inherit;
-    margin-block-end: 20px;
+
+    @include field-outline.styles(outlined-field);
+    @include basic-field.styles(outlined-field);
 
     .nd-field {
-      block-size: inherit;
+      block-size: 100%;
 
       .nd-container__start {
         padding-inline-start: 12px;
@@ -44,18 +45,19 @@
       .nd-container__middle {
         box-sizing: border-box;
         block-size: inherit;
-        padding-inline-start: var(--_leading-space);
-        padding-inline-end: var(--_trailing-space);
-        padding-block-start: var(--_top-space);
-        padding-block-end: var(--_bottom-space);
+        padding-inline-start: var(--md-outlined-field-leading-space);
+        padding-inline-end: var(--md-outlined-field-trailing-space);
+        padding-block-start: var(--md-outlined-field-top-space);
+        padding-block-end: var(--md-outlined-field-bottom-space);
 
         .nd-container__content {
           opacity: 0;
+          inline-size: 100%;
         }
 
         .nd-field__label-wrapper {
           .nd-field__label-wrapper__label.floating {
-            inset-block-start: calc(0px - var(--_label-text-populated-line-height) / 2);
+            inset-block-start: calc(0px - var(--md-outlined-field-label-text-populated-line-height) / 2);
           }
         }
       }
@@ -63,7 +65,7 @@
       &.with-leading-icon {
         .nd-field__label-wrapper {
           .nd-field__label-wrapper__label.floating {
-            inset-inline-start: calc(0px - (var(--_leading-space) + 24px - 4px));
+            inset-inline-start: calc(0px - (var(--md-outlined-field-leading-space) + 24px - 4px));
           }
         }
       }
@@ -72,142 +74,146 @@
     // outlined-filed states
     &.hover {
       @include basic-field.theme((
-        content-color: var(--_hover-content-color),
-        label-text-color: var(--_hover-label-text-color),
-        leading-content-color: var(--_hover-leading-content-color),
-        trailing-content-color: var(--_hover-trailing-content-color)
-      ));
+        content-color: var(--md-outlined-field-hover-content-color),
+        label-text-color: var(--md-outlined-field-hover-label-text-color),
+        leading-content-color: var(--md-outlined-field-hover-leading-content-color),
+        trailing-content-color: var(--md-outlined-field-hover-trailing-content-color)
+      ), outlined-field);
 
       @include field-outline.theme((
-        outline-color: var(--_hover-outline-color),
-        outline-width: var(--_hover-outline-width)
-      ));
+        outline-color: var(--md-outlined-field-hover-outline-color),
+        outline-width: var(--md-outlined-field-hover-outline-width)
+      ), outlined-field);
 
       @include supporting-text.theme((
-        color: var(--_hover-supporting-text-color)
+        color: var(--md-outlined-field-hover-supporting-text-color)
       ))
     }
 
     &.focus {
       @include field-outline.theme((
-        outline-color: var(--_focus-outline-color),
-        active-outline-width: var(--_focus-outline-width),
-      ));
+        outline-color: var(--md-outlined-field-focus-outline-color),
+        active-outline-width: var(--md-outlined-field-focus-outline-width),
+      ), outlined-field);
       @include supporting-text.theme((
-        color: var(--_focus-supporting-text-color)
+        color: var(--md-outlined-field-focus-supporting-text-color)
       ));
       @include basic-field.theme((
-        trailing-content-color: var(--_focus-trailing-content-color)
-      ));
+        trailing-content-color: var(--md-outlined-field-focus-trailing-content-color)
+      ), outlined-field);
     }
 
     &.populated {
       @include field-outline.theme((
         notch-size: 0
-      ));
+      ), outlined-field);
     }
 
     &.error {
       @include basic-field.theme((
-        content-color: var(--_error-content-color),
-        label-text-color: var(--_error-label-text-color),
-        leading-content-color: var(--_error-leading-content-color),
-        trailing-content-color: var(--_error-trailing-content-color)
-      ));
+        content-color: var(--md-outlined-field-error-content-color),
+        label-text-color: var(--md-outlined-field-error-label-text-color),
+        leading-content-color: var(--md-outlined-field-error-leading-content-color),
+        trailing-content-color: var(--md-outlined-field-error-trailing-content-color)
+      ), outlined-field);
       @include field-outline.theme((
-        outline-color: var(--_error-outline-color),
-      ));
+        outline-color: var(--md-outlined-field-error-outline-color),
+      ), outlined-field);
       @include supporting-text.theme((
-        color: var(--_error-supporting-text-color)
+        color: var(--md-outlined-field-error-supporting-text-color)
       ));
 
       &.hover {
         @include basic-field.theme((
-          content-color: var(--_error-hover-content-color),
-          label-text-color: var(--_error-hover-label-text-color),
-          leading-content-color: var(--_error-hover-leading-content-color),
-          trailing-content-color: var(--_error-hover-trailing-content-color),
-        ));
+          content-color: var(--md-outlined-field-error-hover-content-color),
+          label-text-color: var(--md-outlined-field-error-hover-label-text-color),
+          leading-content-color: var(--md-outlined-field-error-hover-leading-content-color),
+          trailing-content-color: var(--md-outlined-field-error-hover-trailing-content-color),
+        ), outlined-field);
 
         @include field-outline.theme((
-          outline-color: var(--_error-hover-outline-color),
-        ));
+          outline-color: var(--md-outlined-field-error-hover-outline-color),
+        ), outlined-field);
 
         @include supporting-text.theme((
-          color: var(--_error-hover-supporting-text-color)
+          color: var(--md-outlined-field-error-hover-supporting-text-color)
         ))
       }
 
       &.focus {
         @include basic-field.theme((
-          content-color: var(--_error-focus-content-color),
-          label-text-color: var(--_error-focus-label-text-color),
-          leading-content-color: var(--_error-focus-leading-content-color),
-          trailing-content-color: var(--_error-focus-trailing-content-color),
-        ));
+          content-color: var(--md-outlined-field-error-focus-content-color),
+          label-text-color: var(--md-outlined-field-error-focus-label-text-color),
+          leading-content-color: var(--md-outlined-field-error-focus-leading-content-color),
+          trailing-content-color: var(--md-outlined-field-error-focus-trailing-content-color),
+        ), outlined-field);
 
         @include field-outline.theme((
-          outline-color: var(--_error-focus-outline-color),
-        ));
+          outline-color: var(--md-outlined-field-error-focus-outline-color),
+        ), outlined-field);
 
         @include supporting-text.theme((
-          color: var(--_error-focus-supporting-text-color)
+          color: var(--md-outlined-field-error-focus-supporting-text-color)
         ))
       }
     }
 
     &.disabled {
       @include field-outline.theme((
-        outline-color: var(--_disabled-outline-color),
-        active-outline-width: var(--_disabled-outline-width)
-      ));
+        outline-color: var(--md-outlined-field-disabled-outline-color),
+        active-outline-width: var(--md-outlined-field-disabled-outline-width)
+      ), outlined-field);
       @include supporting-text.theme((
-        color: var(--_disabled-supporting-text-color)
+        color: var(--md-outlined-field-disabled-supporting-text-color)
       ));
       @include basic-field.theme((
-        content-color: var(--_disabled-content-color),
-        label-text-color: var(--_disabled-label-text-color),
-        leading-content-color: var(--_disabled-leading-content-color),
-        trailing-content-color: var(--_disabled-trailing-content-color)
-      ));
+        content-color: var(--md-outlined-field-disabled-content-color),
+        label-text-color: var(--md-outlined-field-disabled-label-text-color),
+        leading-content-color: var(--md-outlined-field-disabled-leading-content-color),
+        trailing-content-color: var(--md-outlined-field-disabled-trailing-content-color)
+      ), outlined-field);
 
       .nd-field-outline {
-        opacity: var(--_disabled-outline-opacity);
+        opacity: var(--md-outlined-field-disabled-outline-opacity);
       }
 
       .nd-field-supporting-text {
         .nd-field-supporting-text__content {
-          opacity: var(--_disabled-supporting-text-opacity);
+          opacity: var(--md-outlined-field-disabled-supporting-text-opacity);
         }
 
         .nd-field-supporting-text__trailing {
-          opacity: var(--_disabled-trailing-content-opacity);
+          opacity: var(--md-outlined-field-disabled-trailing-content-opacity);
         }
       }
 
       .nd-field {
         .nd-container__middle {
           .nd-field__label-wrapper {
-            opacity: var(--_disabled-label-text-opacity);
+            opacity: var(--md-outlined-field-disabled-label-text-opacity);
           }
         }
 
         .nd-container__start {
-          opacity: var(--_disabled-leading-content-opacity);
+          opacity: var(--md-outlined-field-disabled-leading-content-opacity);
         }
 
         .nd-container__end {
-          opacity: var(--_disabled-trailing-content-opacity);
+          opacity: var(--md-outlined-field-disabled-trailing-content-opacity);
         }
 
         &.populated {
           .nd-container__middle {
             .nd-container__content {
-              opacity: var(--_disabled-content-opacity);
+              opacity: var(--md-outlined-field-disabled-content-opacity);
             }
           }
         }
       }
+    }
+
+    &.show-supporting-text {
+      margin-block-end: 20px;
     }
   }
 }

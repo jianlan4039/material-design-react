@@ -1,0 +1,49 @@
+@use "shared";
+@use "toggled";
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-outlined-icon-button";
+@use "../../Outline/internal/outline";
+@use "../../builder/background";
+@use "../../Ripple/internal/ripple";
+@use "../../Focus/internal/focus-ring";
+@use "./state";
+
+$tokens: md-comp-outlined-icon-button.values();
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, md-comp-outlined-icon-button.$supported-tokens, outlined-icon-button);
+}
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, outlined-icon-button);
+  @include outline.theme((
+    color: var(--md-outlined-icon-button-outline-color),
+    width: var(--md-outlined-icon-button-outline-width)
+  ));
+  @include ripple.theme((
+    hover-color: var(--md-outlined-icon-button-hover-state-layer-color),
+    hover-opacity: var(--md-outlined-icon-button-hover-state-layer-opacity),
+    pressed-color: var(--md-outlined-icon-button-pressed-state-layer-color),
+    pressed-opacity: var(--md-outlined-icon-button-hover-state-layer-opacity),
+  ));
+  --md-outlined-icon-button-container-shape-start-start: var(--md-outlined-icon-button-container-shape);
+  --md-outlined-icon-button-container-shape-start-end: var(--md-outlined-icon-button-container-shape);
+  --md-outlined-icon-button-container-shape-end-end: var(--md-outlined-icon-button-container-shape);
+  --md-outlined-icon-button-container-shape-end-start: var(--md-outlined-icon-button-container-shape);
+  --md-outlined-icon-button-toggle-selected-icon-color: var(--md-outlined-icon-button-selected-icon-color);
+  --md-outlined-icon-button-toggle-selected-hover-icon-color: var(--md-outlined-icon-button-selected-hover-icon-color);
+  --md-outlined-icon-button-toggle-selected-focus-icon-color: var(--md-outlined-icon-button-selected-focus-icon-color);
+  --md-outlined-icon-button-toggle-selected-pressed-icon-color: var(--md-outlined-icon-button-selected-pressed-icon-color);
+  --md-outlined-icon-button-toggle-selected-hover-state-layer-color: var(--md-outlined-icon-button-selected-hover-state-layer-color);
+  --md-outlined-icon-button-toggle-selected-pressed-state-layer-color: var(--md-outlined-icon-button-selected-pressed-state-layer-color);
+  @include focus-ring.theme((
+    shape-start-start: var(--md-outlined-icon-button-container-shape-start-start),
+    shape-start-end: var(--md-outlined-icon-button-container-shape-start-end),
+    shape-end-start: var(--md-outlined-icon-button-container-shape-end-start),
+    shape-end-end: var(--md-outlined-icon-button-container-shape-end-end),
+  ));
+  @include shared.styles(outlined-icon-button);
+  @include background.styles(outlined-icon-button);
+  @include state.styles(outlined-icon-button);
+  @include toggled.styles(outlined-icon-button);
+}

@@ -25,12 +25,13 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
 }
 
 @mixin styles() {
-  .slider-container {
+  .nd-slider-container {
     @include theme($new-tokens);
     @include tokens-builder.tokens(md-comp-slider.values(), slider);
     position: relative;
+    z-index: 10;
     padding-inline: 20px;
-    block-size: var(--_handle-height);
+    block-size: var(--md-slider-handle-height);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,16 +53,16 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
     display: flex;
     position: relative;
     inline-size: var(--_slider-size);
-    block-size: var(--_inactive-track-height);
+    block-size: var(--md-slider-inactive-track-height);
     justify-content: center;
     align-items: center;
-    border-radius: var(--_active-track-shape);
+    border-radius: var(--md-slider-active-track-shape);
 
     .active-track {
       @include background.theme((
-        color: var(--_active-track-color)
+        color: var(--md-slider-active-track-color)
       ));
-      block-size: var(--_active-track-height);
+      block-size: var(--md-slider-active-track-height);
       @include background.styles;
 
       &::before {
@@ -72,9 +73,9 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
 
     .inactive-track {
       @include background.theme((
-        color: var(--_inactive-track-color)
+        color: var(--md-slider-inactive-track-color)
       ));
-      block-size: var(--_inactive-track-height);
+      block-size: var(--md-slider-inactive-track-height);
       flex-grow: 10;
       @include background.styles;
 
@@ -113,43 +114,43 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
       display: flex;
       align-items: center;
       justify-content: center;
-      inline-size: var(--_handle-width);
-      block-size: var(--_handle-height);
-      border-radius: var(--_handle-shape);
+      inline-size: var(--md-slider-handle-width);
+      block-size: var(--md-slider-handle-height);
+      border-radius: var(--md-slider-handle-shape);
       z-index: 10;
-      transform: translateX(calc((0px - var(--_handle-width)) / 2));
+      transform: translateX(calc((0px - var(--md-slider-handle-width)) / 2));
 
       .handle {
         @include elevation.theme((
-          level: var(--_handle-elevation),
-          shadow-color: var(--_handle-shadow-color)
+          level: var(--md-slider-handle-elevation),
+          shadow-color: var(--md-slider-handle-shadow-color)
         ));
         position: relative;
         block-size: inherit;
         inline-size: inherit;
         border-radius: inherit;
-        background-color: var(--_handle-color);
+        background-color: var(--md-slider-handle-color);
         display: flex;
         justify-content: center;
 
         .label {
           position: absolute;
-          inset-block-end: calc(var(--_label-container-height));
+          inset-block-end: calc(var(--md-slider-label-container-height));
           inline-size: 0;
           block-size: 0;
-          background-color: var(--_label-container-color);
-          border-radius: var(--_handle-shape);
+          background-color: var(--md-slider-label-container-color);
+          border-radius: var(--md-slider-handle-shape);
           display: flex;
           justify-content: center;
           align-items: center;
           white-space: nowrap;
           overflow: hidden;
           opacity: 0;
-          color: var(--_label-text-color);
-          font-family: var(--_label=text-font);
-          line-height: var(--_label-text-line-height);
-          font-size: var(--_label-text-size);
-          font-weight: var(--_label-text-weight);
+          color: var(--md-slider-label-text-color);
+          font-family: var(--md-slider-label=text-font);
+          line-height: var(--md-slider-label-text-line-height);
+          font-size: var(--md-slider-label-text-size);
+          font-weight: var(--md-slider-label-text-weight);
           transition-property: opacity, inset, inline-size, block-size;
           transition-timing-function: $easing-emphasized;
           transition-duration: 200ms, 100ms, 150ms, 150ms;
@@ -158,15 +159,15 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
         }
 
         .handle-touch {
-          block-size: var(--_handle-height);
-          inline-size: calc(12px + var(--_handle-width));
+          block-size: var(--md-slider-handle-height);
+          inline-size: calc(12px + var(--md-slider-handle-width));
           position: absolute;
         }
       }
 
       &.pressed {
         .handle {
-          inline-size: var(--_pressed-handle-width);
+          inline-size: var(--md-slider-pressed-handle-width);
 
           .label {
             z-index: 10;
@@ -178,22 +179,22 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
       &.labeled {
         .label {
           opacity: 1;
-          inline-size: var(--_label-container-width);
-          block-size: var(--_label-container-height);
-          inset-block-end: calc(var(--_label-container-height) + 4px);
+          inline-size: var(--md-slider-label-container-width);
+          block-size: var(--md-slider-label-container-height);
+          inset-block-end: calc(var(--md-slider-label-container-height) + 4px);
           transition-delay: 0ms;
         }
       }
     }
 
     .tick-marks {
-      --_tick-width: calc(var(--_slider-size) / var(--_slider-ticks-count));
-      --_active-ticks: 2;
+      --md-slider-tick-width: calc(var(--_slider-size) / var(--_slider-ticks-count));
+      --md-slider-active-ticks: 2;
       position: absolute;
       inset: 0;
       border-radius: inherit;
       overflow: hidden;
-      clip-path: inset(0 calc(var(--_inactive-track-height) / 2) 0 calc(var(--_inactive-track-height) / 2));
+      clip-path: inset(0 calc(var(--md-slider-inactive-track-height) / 2) 0 calc(var(--md-slider-inactive-track-height) / 2));
 
       &::before,
       &::after {
@@ -201,17 +202,17 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        background-size: calc(var(--_tick-width)) 16px;
-        background-position: calc(var(--_tick-width) / 2) 0;
+        background-size: calc(var(--md-slider-tick-width)) 16px;
+        background-position: calc(var(--md-slider-tick-width) / 2) 0;
       }
 
       &::after {
-        background-image: radial-gradient(var(--_indicator-size) at calc(0px + var(--_tick-width) / 2) 8px, var(--_indicator-color-active), transparent);
+        background-image: radial-gradient(var(--md-slider-indicator-size) at calc(0px + var(--md-slider-tick-width) / 2) 8px, var(--md-slider-indicator-color-active), transparent);
         clip-path: inset(0 calc(var(--_slider-size) - (var(--_primary-handle)) + 8px) 0 calc(var(--_second-handle) + 8px));
       }
 
       &::before {
-        background-image: radial-gradient(var(--_indicator-size) at calc(0px + var(--_tick-width) / 2) 8px, var(--_indicator-color), transparent);
+        background-image: radial-gradient(var(--md-slider-indicator-size) at calc(0px + var(--md-slider-tick-width) / 2) 8px, var(--md-slider-indicator-color), transparent);
         mask-image: linear-gradient(to right, black, black calc(var(--_second-handle) - 8px), transparent calc(var(--_second-handle) - 8px), transparent calc(var(--_primary-handle) + 8px), black calc(var(--_primary-handle) + 8px));
       }
     }
@@ -228,20 +229,20 @@ $easing-emphasized: map.get($motion, 'easing-emphasized');
     &.disabled {
       .inactive-track {
         @include background.theme((
-          color: var(--_disabled-inactive-track-color),
-          opacity: var(--_disabled-inactive-track-opacity)
+          color: var(--md-slider-disabled-inactive-track-color),
+          opacity: var(--md-slider-disabled-inactive-track-opacity)
         ))
       }
 
       .active-track {
         @include background.theme((
-          color: var(--_disabled-active-track-color),
-          opacity: var(--_disabled-active-track-opacity)
+          color: var(--md-slider-disabled-active-track-color),
+          opacity: var(--md-slider-disabled-active-track-opacity)
         ))
       }
 
       .handle {
-        background-color: var(--_disabled-handle-color);
+        background-color: var(--md-slider-disabled-handle-color);
       }
     }
   }

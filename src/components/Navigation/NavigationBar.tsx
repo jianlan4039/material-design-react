@@ -1,44 +1,43 @@
-import React, {forwardRef, ReactNode} from 'react'
+import React, {forwardRef, ReactNode, useMemo} from 'react'
 import './NavigationBar.scss'
 import Department from "./internal/Department";
-import {IndicatorRectContextProvider} from "../internal/context/indicator";
+import {IndicatorActiveContextProvider} from "../internal/context/IndicatorActiveContext";
 
 export type Item = {
   label?: string
   icon?: ReactNode
   id?: string
-  active?: boolean
 }
 
 export interface NavigationBarProps {
   children?: ReactNode
   items?: Item[]
   order?: number
+  active?: string
 }
 
 const NavigationBar = forwardRef<HTMLDivElement, NavigationBarProps>((props, ref) => {
   const {
-    children,
     items,
-    order = 0,
-    ...rest
+    children,
+    active,
   } = props
 
-  const Items = () => {
+  const Items = useMemo(() => {
     return items?.map((o, i) => {
-      return <Department icon={o.icon} label={o.label} key={i} id={o.id} active={o.active}></Department>
+      return <Department icon={o.icon} label={o.label} key={i} id={o.id}></Department>
     })
-  }
+  }, [items])
 
   return (
-    <IndicatorRectContextProvider>
+    <IndicatorActiveContextProvider active={active}>
       <div
         ref={ref}
         className={'navigation-bar container'}
       >
-        <Items/>
+        {Items || children}
       </div>
-    </IndicatorRectContextProvider>
+    </IndicatorActiveContextProvider>
   )
 })
 

@@ -5,25 +5,26 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
-  MouseEvent, LiHTMLAttributes, useContext
-} from 'react'
-import ListItem, {ListItemHandle} from "../List/ListItem";
-import SubMenu from "./SubMenu";
+  MouseEvent,
+  useContext,
+} from 'react';
+import ListItem, {ListItemHandle, ListItemProps} from "../List/ListItem";
+import SubMenu, {SubMenuHandle} from "./SubMenu";
 import {outsideHandler} from "../internal/common/handlers";
-import {MenuHandle} from "./Menu";
-import {Option} from "./internal/menuTypes";
-import './MenuItem.scss'
-import {SelectionContext} from "../internal/context/SelectionContext";
+import classNames from "classnames";
+import {SelectionContext} from "./internal/context";
+import './MenuItem.scss';
 
-export interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
+export interface MenuItemProps extends ListItemProps {
   children?: ReactNode
   customOpenIcon?: ReactNode
-  subMenu?: Option[]
-  start?: ReactNode
-  end?: ReactNode
-  label?: string
-  selected?: boolean
+  subMenu?: MenuItemProps[]
+  icon?: ReactNode
+  trailingIcon?: ReactNode
+  headline?: string
   keepOpen?: boolean
+  value?: string | number
+  setIsMenuOpen?: (open: boolean) => void
 }
 
 export interface MenuItemHandle {
@@ -32,75 +33,27 @@ export interface MenuItemHandle {
 
 const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   const {
-    children,
     subMenu,
-    //style仅仅中转给submenu，因为submenu的自定义样式必须保持与menu一致
-    style,
-    className,
+    style, //style仅仅中转给submenu，因为submenu的自定义样式必须保持与menu一致
     customOpenIcon,
-    end,
-    start,
-    onMouseOver,
-    onMouseDown,
+    trailingIcon,
+    icon,
+    headline,
+    keepOpen,
+    value,
+    id,
     onMouseEnter,
     onMouseLeave,
-    onClick,
-    label,
-    value,
-    selected,
-    keepOpen,
-    ...rest
+    setIsMenuOpen,
   } = props
 
   const listItemRef = useRef<ListItemHandle>(null);
-  const subMenuRef = useRef<MenuHandle>(null);
+  const subMenuRef = useRef<SubMenuHandle>(null);
   const closeTimeoutIdRef = useRef<NodeJS.Timeout>();
 
   const [anchor, setAnchor] = useState<HTMLDivElement>()
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const {multiple = false, list = [], setList} = useContext(SelectionContext)
-
-  const mouseOverHandler = (e: MouseEvent<HTMLLIElement>) => {
-    onMouseOver?.(e)
-    e.stopPropagation()
-  }
-
-  const mouseEnterHandler = (e: MouseEvent<HTMLLIElement>) => {
-    onMouseEnter?.(e)
-    clearTimeout(closeTimeoutIdRef.current)
-    setIsOpen(Boolean(subMenu) && true)
-  }
-
-  const mouseLeaveHandler = (e: MouseEvent<HTMLLIElement>) => {
-    onMouseLeave?.(e)
-    e.preventDefault()
-    closeTimeoutIdRef.current = setTimeout(() => {
-      setIsOpen(false)
-    }, 500)
-  }
-
-  const mouseDownHandler = (e: MouseEvent<HTMLLIElement>) => {
-    onMouseDown?.(e)
-    e.stopPropagation()
-  }
-
-  const mouseClickHandler = (e: MouseEvent<HTMLLIElement>) => {
-    onClick?.(e)
-    onSelected()
-  }
-
-  const onSelected = () => {
-    if (value === undefined || value === null) {
-      return
-    }
-    if (multiple) {
-      const index = list.indexOf(value)
-      index >= 0 ? list.splice(index, 1) : list.push(value)
-      !subMenu && setList?.([...list], props)
-    } else {
-      !subMenu && setList?.([value], props)
-    }
-  }
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState<boolean>(false)
+  const {config: {multiple}, list = [], setList} = useContext(SelectionContext)
 
   useImperativeHandle(ref, () => ({
     root: listItemRef.current?.root
@@ -115,37 +68,72 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   useEffect(() => {
     if (listItemRef.current && listItemRef.current.root) {
       subMenu && outsideHandler(listItemRef.current.root, () => {
-        setIsOpen(false)
+        setIsSubmenuOpen(false)
       })
     }
   }, [subMenuRef]);
 
+  const mouseEnterHandler = (e: MouseEvent<HTMLLIElement>) => {
+    onMouseEnter?.(e)
+    clearTimeout(closeTimeoutIdRef.current)
+    setIsSubmenuOpen(Boolean(subMenu))
+  }
+
+  const mouseLeaveHandler = (e: MouseEvent<HTMLLIElement>) => {
+    onMouseLeave?.(e)
+    e.preventDefault()
+    closeTimeoutIdRef.current = setTimeout(() => {
+      setIsSubmenuOpen(false)
+    }, 500)
+  }
+
+  /**
+   * 点击回调函数，如果设置了id，那么就有选中效果，以及可以预制选中项。
+   */
+  const onSelected = () => {
+    if (!(id === undefined || id === null)) {
+      if (multiple) {
+        const index = list.indexOf(id)
+        index >= 0 ? list.splice(index, 1) : list.push(id)
+        !subMenu && setList?.([...list])
+      } else {
+        !subMenu && setList?.([id])
+      }
+    }
+
+    if (!keepOpen) {
+      setIsMenuOpen?.(false)
+      setIsSubmenuOpen(false)
+    }
+  }
+
   return (
     <ListItem
       ref={listItemRef}
-      className={`menu-item ${selected || isOpen ? 'selected' : ''}`}
-      label={label}
-      start={start}
-      end={subMenu ? customOpenIcon ? customOpenIcon :
+      className={classNames(`nd-menu-item`, {
+        'nd-menu-item--selected': isSubmenuOpen || id && list?.includes(id),
+        'nd-menu-item--open': isSubmenuOpen
+      })}
+      icon={icon}
+      trailingIcon={subMenu ? customOpenIcon ? customOpenIcon :
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
           <path d="M400-280v-400l200 200-200 200Z"/>
-        </svg> : end
+        </svg> : trailingIcon
       }
       value={value}
-      onMouseOver={mouseOverHandler}
-      onMouseDown={mouseDownHandler}
+      id={id}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
-      onClick={mouseClickHandler}
-      {...rest}
+      onClick={onSelected}
     >
+      {headline}
       {
         subMenu && <SubMenu
           ref={subMenuRef}
           items={subMenu}
           anchorEl={anchor}
           style={style}
-          open={isOpen}
+          open={isSubmenuOpen}
         ></SubMenu>
       }
     </ListItem>

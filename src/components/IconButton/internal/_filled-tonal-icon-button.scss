@@ -1,0 +1,38 @@
+@use "shared";
+@use "toggled";
+@use "../../builder/tokens-builder";
+@use "../../tokens/md-comp-filled-tonal-icon-button";
+@use "../../builder/background";
+@use "../../Ripple/internal/ripple";
+@use "../../Focus/internal/focus-ring";
+@use "./state";
+
+$tokens: md-comp-filled-tonal-icon-button.values();
+
+@mixin styles() {
+  @include tokens-builder.tokens($tokens, filled-tonal-icon-button);
+  @include ripple.theme((
+    hover-color: var(--md-filled-tonal-icon-button-hover-state-layer-color),
+    hover-opacity: var(--md-filled-tonal-icon-button-hover-state-layer-opacity),
+    pressed-color: var(--md-filled-tonal-icon-button-pressed-state-layer-color),
+    pressed-opacity: var(--md-filled-tonal-icon-button-hover-state-layer-opacity),
+  ));
+  --md-filled-tonal-icon-button-container-shape-start-start: var(--md-filled-tonal-icon-button-container-shape);
+  --md-filled-tonal-icon-button-container-shape-start-end: var(--md-filled-tonal-icon-button-container-shape);
+  --md-filled-tonal-icon-button-container-shape-end-end: var(--md-filled-tonal-icon-button-container-shape);
+  --md-filled-tonal-icon-button-container-shape-end-start: var(--md-filled-tonal-icon-button-container-shape);
+  @include background.theme((
+    color: var(--md-filled-tonal-icon-button-container-color),
+    opacity: 1
+  ), filled-tonal-icon-button);
+  @include focus-ring.theme((
+    shape-start-start: var(--md-filled-tonal-icon-button-container-shape-start-start),
+    shape-start-end: var(--md-filled-tonal-icon-button-container-shape-start-end),
+    shape-end-start: var(--md-filled-tonal-icon-button-container-shape-end-start),
+    shape-end-end: var(--md-filled-tonal-icon-button-container-shape-end-end),
+  ));
+  @include shared.styles(filled-tonal-icon-button);
+  @include background.styles(filled-tonal-icon-button);
+  @include state.styles(filled-tonal-icon-button);
+  @include toggled.styles(filled-tonal-icon-button);
+}

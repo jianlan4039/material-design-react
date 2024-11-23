@@ -1,5 +1,3 @@
 @use "internal/filled-card";
 
-.nd-filled-card{
-  @include filled-card.styles;
-}
+@include filled-card.styles;

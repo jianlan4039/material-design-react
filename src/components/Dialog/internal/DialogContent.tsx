@@ -1,4 +1,4 @@
-import React, {forwardRef, HTMLAttributes, ReactNode, useImperativeHandle, useRef} from 'react'
+import React, {forwardRef, ReactNode, useImperativeHandle, useRef} from 'react'
 import Divider from "../../Divider/Divider";
 import c from 'classnames'
 
@@ -8,6 +8,8 @@ export interface DialogContentProps {
   headline?: ReactNode
   supportingText?: ReactNode
   actions?: ReactNode
+  headerDivider?: boolean
+  footerDivider?: boolean
 }
 
 export interface InnerRefHandle extends React.HTMLProps<HTMLDivElement> {
@@ -24,6 +26,8 @@ const DialogContent = forwardRef<InnerRefHandle, DialogContentProps>((props, ref
     headline,
     supportingText,
     actions,
+    headerDivider,
+    footerDivider,
     ...rest
   } = props
 
@@ -46,13 +50,13 @@ const DialogContent = forwardRef<InnerRefHandle, DialogContentProps>((props, ref
         {icon && <span className="nd-dialog-header__icon">{icon}</span>}
         {headline && <h2 className="nd-dialog-header__headline">{headline}</h2>}
         {supportingText && <p className="nd-dialog-header__supporting-text">{supportingText}</p>}
-        <Divider></Divider>
+        {headerDivider && <Divider></Divider>}
       </div>
       <div ref={contentRef} className="nd-dialog-content">
         {children}
       </div>
       <div ref={actionRef} className={"nd-dialog-actions"}>
-        <Divider></Divider>
+        {footerDivider && <Divider></Divider>}
         <div className={'nd-dialog-actions__actions-slot'}>
           {actions}
         </div>

@@ -1,6 +1,6 @@
-import React, {useState, useEffect, forwardRef, HTMLProps, useContext, useRef} from 'react';
+import React, {useState, useEffect, forwardRef, HTMLProps, useContext, useRef, useImperativeHandle} from 'react';
 import './RadioButton.scss'
-import {SelectionContext} from "../internal/context/SelectionContext";
+import {MultiSelectContextProvider} from "../internal/context/MultiSelectContextProvider";
 import c from 'classnames'
 import useRipple from "../Ripple/useRipple";
 import useFocusRing from "../Focus/useFocusRing";
@@ -9,7 +9,11 @@ interface RadioButtonProps extends HTMLProps<HTMLInputElement> {
   disabled?: boolean
 }
 
-const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) => {
+interface RadioButtonHandle {
+  input?: HTMLInputElement | null
+}
+
+const RadioButton = forwardRef<RadioButtonHandle, RadioButtonProps>((props, ref) => {
   const {
     selected,
     onChange,
@@ -28,7 +32,7 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) 
   } = props
 
   const [isSelected, setIsSelected] = useState<boolean>(selected || false);
-  const {list: selectedList, setList} = useContext(SelectionContext)
+  const {list: selectedList, setList} = useContext(MultiSelectContextProvider)
 
   const radio = useRef<HTMLInputElement>(null);
   const [parent, setParent] = useState<HTMLInputElement>()
@@ -41,6 +45,10 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>((props, ref) 
       setParent(radio.current)
     }
   }, [radio]);
+
+  useImperativeHandle(ref, () => ({
+    input: radio.current
+  }))
 
   const selectedIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">

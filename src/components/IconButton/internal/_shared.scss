@@ -1,0 +1,54 @@
+@use "../../Elevation/internal/elevation";
+@use "../../Focus/internal/focus-ring";
+@use "../../builder/tokens-builder";
+@use "../../builder/forbidden-highlight";
+
+$support-tokens: (
+  'icon-color',
+  'opacity'
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.theme($tokens, $support-tokens, icon-button);
+}
+
+@mixin styles($comp: "") {
+  & {
+    position: relative;
+    display: inline-block;
+    border-start-start-radius: var(--md-#{$comp}-container-shape-start-start);
+    border-start-end-radius: var(--md-#{$comp}-container-shape-start-end);
+    border-end-start-radius: var(--md-#{$comp}-container-shape-end-start);
+    border-end-end-radius: var(--md-#{$comp}-container-shape-end-end);
+    z-index: 10;
+    inline-size: var(--md-#{$comp}-container-width);
+    block-size: var(--md-#{$comp}-container-height);
+
+    .nd-icon-button__button {
+      display: inline-flex;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      border: none;
+      outline: none;
+      block-size: 100%;
+      inline-size: 100%;
+      padding: 0;
+      border-radius: inherit;
+      box-sizing: border-box;
+      cursor: pointer;
+      @include forbidden-highlight.no-highlight;
+
+      .nd-icon-button__icon-slot,
+      .nd-icon-button__icon-slot > * {
+        fill: var(--md-#{$comp}-icon-color);
+        color: var(--md-#{$comp}-icon-color);
+        font-size: var(--md-#{$comp}-icon-size);
+        block-size: var(--md-#{$comp}-icon-size);
+        inline-size: var(--md-#{$comp}-icon-size);
+        opacity: var(--md-icon-button-opacity, 1);
+      }
+    }
+  }
+}

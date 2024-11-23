@@ -38,6 +38,10 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
     }
   }, [checkbox]);
 
+  useEffect(() => {
+    setState(_setState(_chk, _indeterm))
+  }, [_chk, _indeterm]);
+
   useImperativeHandle(ref, () => ({
     checkbox: checkbox.current
   }))
@@ -52,10 +56,6 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
     }
   }
 
-  useEffect(() => {
-    setState(_setState(_chk, _indeterm))
-  }, [_chk, _indeterm]);
-
   return (
     <div
       className={cln('nd-checkbox', {
@@ -66,7 +66,7 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
       onClick={clickHandler}
       {...rippleProps}
     >
-      {ripple}
+      {!disabled && ripple}
       {focusRing}
       <CheckboxContent
         ref={checkbox}

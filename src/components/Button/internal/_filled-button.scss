@@ -1,29 +1,47 @@
 @use "../../builder/tokens-builder";
 @use "../../tokens/md-comp-filled-button";
-@use "shared";
 @use "../../builder/background";
 @use "../../Ripple/internal/ripple";
 @use "../../Elevation/internal/elevation";
+@use "../../Focus/internal/focus-ring";
+@use "shared";
 
 $tokens: md-comp-filled-button.values();
 
-@mixin theme($tokens){
+@mixin theme($tokens) {
   @include tokens-builder.theme($tokens, md-comp-filled-button.$supported-tokens, filled-button);
 }
 
 @mixin styles() {
-  @include tokens-builder.tokens($tokens, filled-button);
-  @include background.styles;
-  @include elevation.theme((
-    level: var(--_container-elevation)
-  ));
-  @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
-  ));
-  --_container-shape-start-start: var(--md-filled-button-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-filled-button-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-filled-button-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-filled-button-container-shape-end-start, var(--_container-shape));
-  @include shared.styles;
+  .nd-filled-button {
+    @include tokens-builder.tokens($tokens, filled-button);
+    @include elevation.theme((
+      level: var(--md-filled-button-container-elevation),
+      shadow-color: var(--md-filled-button-container-shadow-color)
+    ));
+    @include ripple.theme((
+      hover-color: var(--md-filled-button-hover-state-layer-color),
+      hover-opacity: var(--md-filled-button-hover-state-layer-opacity),
+      pressed-color: var(--md-filled-button-pressed-state-layer-color),
+      pressed-opacity: var(--md-filled-button-pressed-state-layer-opacity)
+    ));
+    @include background.theme((
+      color: var(--md-filled-button-container-color),
+      opacity: 1,
+      z-index: -1
+    ), filled-button);
+    --md-filled-button-container-shape-start-start: var(--md-filled-button-container-shape);
+    --md-filled-button-container-shape-start-end: var(--md-filled-button-container-shape);
+    --md-filled-button-container-shape-end-end: var(--md-filled-button-container-shape);
+    --md-filled-button-container-shape-end-start: var(--md-filled-button-container-shape);
+    @include focus-ring.theme((
+      shape-start-start: var(--md-filled-button-container-shape-start-start),
+      shape-start-end: var(--md-filled-button-container-shape-start-end),
+      shape-end-start: var(--md-filled-button-container-shape-end-start),
+      shape-end-end: var(--md-filled-button-container-shape-end-end),
+    ));
+
+    @include background.styles(filled-button);
+    @include shared.styles(filled-button);
+  }
 }

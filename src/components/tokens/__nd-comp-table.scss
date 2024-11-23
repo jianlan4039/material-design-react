@@ -1,0 +1,77 @@
+@use 'sass:map';
+@use './md-sys-color';
+@use './md-sys-shape';
+@use './md-sys-state';
+@use './md-sys-typescale';
+@use "./md-sys-elevation";
+@use './values';
+
+$supported-tokens: (
+  'border-color',
+
+  'caption-text-color',
+  'caption-text-font',
+  'caption-text-line-height',
+  'caption-text-size',
+  'caption-text-weight',
+
+  'label-text-color',
+  'label-text-font',
+  'label-text-line-height',
+  'label-text-size',
+  'label-text-tracking',
+  'label-text-weight',
+
+  'icon-color',
+  'icon-size',
+
+  'hover-label-text-color',
+  'hover-state-layer-color',
+  'hover-state-layer-opacity',
+  'fous-label-text-color',
+  'focus-state-layer-color',
+  'focus-state-layer-opacity',
+  'pressed-label-text-color',
+  'pressed-state-layer-color',
+  'pressed-state-layer-opacity',
+);
+
+$_default: (
+  'md-sys-color': md-sys-color.values-light(),
+  'md-sys-shape': md-sys-shape.values(),
+  'md-sys-state': md-sys-state.values(),
+  'md-sys-elevation': md-sys-elevation.values(),
+  'md-sys-typescale': md-sys-typescale.values(),
+);
+
+@function values($deps: $_default, $exclude-hardcoded-values: false) {
+  @return (
+    'border-color': map.get($deps, 'md-sys-color', 'outline-variant'),
+
+    'caption-text-color': map.get($deps, 'md-sys-color', 'on-surface'),
+    'caption-text-font': map.get($deps, 'md-sys-typescale', 'title-medium-font'),
+    'caption-text-line-height': map.get($deps, 'md-sys-typescale', 'title-medium-line-height'),
+    'caption-text-size': map.get($deps, 'md-sys-typescale', 'title-medium-size'),
+    'caption-text-weight': map.get($deps, 'md-sys-typescale', 'title-medium-weight'),
+
+    'label-text-color': map.get($deps, 'md-sys-color', 'on-surface'),
+    'label-text-font': map.get($deps, 'md-sys-typescale', 'label-large-font'),
+    'label-text-line-height': map.get($deps, 'md-sys-typescale', 'label-large-line-height'),
+    'label-text-size': map.get($deps, 'md-sys-typescale', 'label-large-size'),
+    'label-text-tracking': map.get($deps, 'md-sys-typescale', 'label-large-tracking'),
+    'label-text-weight': map.get($deps, 'md-sys-typescale', 'label-large-weight',),
+
+    'icon-color': map.get($deps, 'md-sys-color', 'inverse-on-surface'),
+    'icon-size': 24px,
+
+    'hover-label-text-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'hover-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'hover-state-layer-opacity': map.get($deps, 'md-sys-state', 'hover-state-layer-opacity'),
+    'fous-label-text-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'focus-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'focus-state-layer-opacity': map.get($deps, 'md-sys-state', 'focus-state-layer-opacity'),
+    'pressed-label-text-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'pressed-state-layer-color': map.get($deps, 'md-sys-color', 'inverse-primary'),
+    'pressed-state-layer-opacity': map.get($deps, 'md-sys-state', 'pressed-state-layer-opacity'),
+  )
+}

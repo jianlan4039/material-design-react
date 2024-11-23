@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState
 } from 'react'
-import {IndicatorRectContext} from "../internal/context/indicator";
+import {IndicatorActiveContext} from "../internal/context/IndicatorActiveContext";
 import {EASING} from "../internal/motion/animation";
 import './SecondaryTab.scss'
 import useRipple from "../Ripple/useRipple";
@@ -20,7 +20,6 @@ export interface SecondaryTabProps extends HTMLAttributes<HTMLDivElement> {
   icon?: ReactNode
   text?: string
   inline?: boolean
-  active?: boolean
 }
 
 export interface SecondaryTabHandle {
@@ -32,7 +31,6 @@ const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, r
     children,
     icon,
     text,
-    active,
     inline,
     onClick,
     onMouseOver,
@@ -47,7 +45,7 @@ const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, r
   } = props
 
   const id = useId()
-  const {current, last, setCurrent, init} = useContext(IndicatorRectContext)
+  const {active, previous, setActive,} = useContext(IndicatorActiveContext)
   const [isActive, setIsActive] = useState<boolean>(false)
   const indicator = useRef<HTMLSpanElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -58,15 +56,6 @@ const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, r
   })
   const [focusRingProps, focusRing] = useFocusRing<HTMLDivElement>({parent, onFocus, onBlur})
 
-  /**
-   * For the first child of tabs, active the first tab
-   */
-  useEffect(() => {
-    if (indicator.current) {
-      init?.({rect: indicator.current.getBoundingClientRect(), id: id}, active)
-    }
-  }, [indicator])
-
   useEffect(() => {
     if (wrapperRef.current) {
       setParent(wrapperRef.current)
@@ -74,24 +63,24 @@ const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, r
   }, [wrapperRef]);
 
   useEffect(() => {
-    setIsActive(current?.id === id)
-  }, [current]);
-
-  useEffect(() => {
     if (isActive) {
       animateIndicating()
     }
   }, [isActive]);
+
+  useEffect(() => {
+    setIsActive(active?.id === id)
+  }, [active]);
 
   useImperativeHandle(ref, () => ({
     tab: wrapperRef.current
   }))
 
   const animateIndicating = () => {
-    if (!indicator.current || !last?.rect) {
+    if (!indicator.current || !previous?.target) {
       return
     }
-    const {left: translateFrom} = last.rect
+    const {left: translateFrom} = previous.target.getBoundingClientRect()
     const {left: translateTo} = indicator.current.getBoundingClientRect()
 
     if (translateFrom !== undefined && translateTo !== undefined) {
@@ -109,7 +98,7 @@ const SecondaryTab = forwardRef<SecondaryTabHandle, SecondaryTabProps>((props, r
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
     onClick?.(e)
     if (indicator.current) {
-      setCurrent?.({rect: indicator.current.getBoundingClientRect(), id: id})
+      setActive?.({target: indicator.current, id: id})
     }
   }
 

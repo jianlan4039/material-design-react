@@ -1,5 +1,5 @@
 import React, {HTMLAttributes, useContext, useRef} from "react";
-import {SelectionContext} from "../../internal/context/SelectionContext";
+import {MultiSelectContextProvider} from "../../internal/context/MultiSelectContextProvider";
 import c from 'classnames'
 import useRipple from "../../Ripple/useRipple";
 
@@ -30,7 +30,7 @@ const MonthViewDate: React.FC<IMonthViewDateProps> = (
   })
 
   const now = new Date()
-  const {setList, list} = useContext(SelectionContext)
+  const {setList, list} = useContext(MultiSelectContextProvider)
   const selectedDate = useRef<number>(new Date(
         year ?? now.getFullYear(),
         month ? month - 1 : now.getMonth(),

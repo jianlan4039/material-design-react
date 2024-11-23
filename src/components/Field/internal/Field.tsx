@@ -1,6 +1,5 @@
 import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
 import Container from "../../Container/Container";
-import './Field.scss'
 import c from 'classnames'
 import {EASING} from "../../internal/motion/animation";
 import SupportingText from "./SupportingText";

@@ -1,11 +1,10 @@
 import React, {ReactNode, useEffect, useMemo, useRef, useState, MouseEvent as ReactMouseEvent} from 'react'
 import Navigator from "./Navigator";
 import './Panel.scss'
-import Menu from "../../Menu/Menu";
+import Menu, {MenuHandle} from "../../Menu/Menu";
 import {MenuItemProps} from "../../Menu/MenuItem";
 import TextButton from "../../Button/TextButton";
 import MonthView from "./MonthView";
-import {OptionValue} from "../../Menu/internal/menuTypes";
 import SlideViewer from "../../SlideViewer/SlideViewer";
 
 export interface PanelProps {
@@ -17,6 +16,8 @@ export interface PanelProps {
   locale?: string;      // 可选的本地化设置，默认为英文; zh-CN：中文，en-US：英文
   onDateChange?: (date: Date[]) => void
   onOutsideClick?: () => void
+  onError?: (msg: string) => void
+  onCancel?: () => void
 }
 
 const Panel = React.memo((props: PanelProps) => {
@@ -26,6 +27,8 @@ const Panel = React.memo((props: PanelProps) => {
     year,
     month,
     onDateChange,
+    onError,
+    onCancel,
   } = props
 
   // 生成本地化月份名称
@@ -33,7 +36,8 @@ const Panel = React.memo((props: PanelProps) => {
     {length: 12},
     (_, i) => {
       return {
-        label: new Intl.DateTimeFormat(locale, {month: 'long'}).format(new Date(2020, i)),
+        headline: new Intl.DateTimeFormat(locale, {month: 'long'}).format(new Date(2020, i)),
+        id: setMonthId(i),
         value: i
       }
     }
@@ -45,7 +49,8 @@ const Panel = React.memo((props: PanelProps) => {
     const year = now.getFullYear()
     let start = year - 10
     for (let i = 0; i < 20; i++) {
-      yearsList.push({label: (start + i).toString(), value: start + i})
+      const value = start + i
+      yearsList.push({headline: (start + i).toString(), id: setYearId(value), value: value})
     }
     return yearsList
   }, []);
@@ -53,7 +58,8 @@ const Panel = React.memo((props: PanelProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const now = new Date()
   const [monthViewerDate, setMonthViewerDate] = useState<Date>(new Date(year ?? now.getFullYear(), month ?? now.getMonth(), 1))
-
+  const [monthPreset, setMonthPreset] = useState<string[]>([setMonthId(monthViewerDate.getMonth())])
+  const [yearPreset, setYearPreset] = useState<string[]>([setYearId(monthViewerDate.getFullYear())])
   const navigatorRef = useRef<HTMLDivElement>(null);
   const [navigatorAnchor, setNavigatorAnchor] = useState<HTMLDivElement>()
   const [monthMenuIsOpen, setMonthMenuIsOpen] = useState<boolean>()
@@ -61,6 +67,8 @@ const Panel = React.memo((props: PanelProps) => {
   const [yearList, setYearList] = useState<MenuItemProps[]>(yearsMemo)
   const [alternativeDateView, setAlternativeDateView] = useState<ReactNode>()
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>()
+  const yearMenuRef = useRef<MenuHandle>(null);
+  const selectedDate = useRef<Date>();
 
   useEffect(() => {
     if (navigatorRef.current) {
@@ -76,6 +84,11 @@ const Panel = React.memo((props: PanelProps) => {
     setYearMenuIsOpen(!yearMenuIsOpen)
   };
 
+  /**
+   * 加载更多年选项
+   *
+   * @param toEnd 朝下加载还是朝上加载
+   */
   const loadMoreYears = (toEnd: boolean) => {
     const newYearList: MenuItemProps[] = []
     let start: number
@@ -86,16 +99,19 @@ const Panel = React.memo((props: PanelProps) => {
     }
     for (let i = 0; i < 10; i++) {
       start += 1
-      newYearList.push({label: start.toString(), value: start})
+      newYearList.push({headline: start.toString(), value: start, id: setYearId(start)})
     }
     if (toEnd) {
       setYearList([...yearList, ...newYearList])
     } else {
       setYearList([...newYearList, ...yearList])
+      if (yearMenuRef.current?.list) {
+        yearMenuRef.current.list.scrollTop += 560
+      }
     }
   }
 
-  const yearScrollHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
+  const yearScrollHandler = (e: ReactMouseEvent<HTMLOListElement>) => {
     const {scrollTop, clientHeight, scrollHeight} = e.currentTarget;
     if (scrollHeight - scrollTop === clientHeight) {
       loadMoreYears(true)
@@ -105,41 +121,67 @@ const Panel = React.memo((props: PanelProps) => {
     }
   }
 
+  function setYearId(year: number | string): string {
+    return `year-${year}`
+  }
+
+  function setMonthId(month: number | string): string {
+    return `month-${month}`
+  }
+
   const nextYear = () => {
+    const nextYear = monthViewerDate.getFullYear() + 1
     setSlideDirection('left')
-    monthViewerDate.setFullYear(monthViewerDate.getFullYear() + 1)
+    monthViewerDate.setFullYear(nextYear)
+    setYearPreset([setYearId(nextYear)])
     setAlternativeDateView(getDates(monthViewerDate))
     setMonthViewerDate(new Date(monthViewerDate))
   };
 
   const lastYear = () => {
+    const lastYear = monthViewerDate.getFullYear() - 1
     setSlideDirection('right')
-    monthViewerDate.setFullYear(monthViewerDate.getFullYear() - 1)
+    monthViewerDate.setFullYear(lastYear)
+    setYearPreset([setYearId(lastYear)])
     setAlternativeDateView(getDates(monthViewerDate))
     setMonthViewerDate(new Date(monthViewerDate))
   };
 
   const nextMonth = () => {
-    monthViewerDate.setMonth(monthViewerDate.getMonth() + 1)
+    const nextMonth = monthViewerDate.getMonth() + 1
+    monthViewerDate.setMonth(nextMonth)
+    setMonthPreset([setMonthId(nextMonth > 11 ? 0 : nextMonth)])
     setSlideDirection('left')
     setAlternativeDateView(getDates(monthViewerDate))
     setMonthViewerDate(new Date(monthViewerDate))
   };
   const lastMonth = () => {
-    monthViewerDate.setMonth(monthViewerDate.getMonth() - 1)
+    const lastMonth = monthViewerDate.getMonth() - 1
+    monthViewerDate.setMonth(lastMonth)
+    setMonthPreset([setMonthId(lastMonth < 0 ? 11 : lastMonth)])
     setSlideDirection('right')
     setAlternativeDateView(getDates(monthViewerDate))
     setMonthViewerDate(new Date(monthViewerDate))
   };
 
-  const monthChangeHandler = (value: OptionValue) => {
+  const monthChangeHandler = (ids: string[]) => {
+    if (!ids) return;
+    const id = ids[0];
+    const index = monthList.findIndex((month) => month.id === id);
+    const value = monthList[index].value
+    setMonthPreset([setMonthId(value as number)])
     setSlideDirection((value as number) > monthViewerDate.getMonth() ? 'left' : 'right')
     monthViewerDate.setMonth(value as number)
     setAlternativeDateView(getDates(monthViewerDate))
     setMonthViewerDate(new Date(monthViewerDate))
   };
 
-  const yearChangeHandler = (value: OptionValue) => {
+  const yearChangeHandler = (ids: string[]) => {
+    if (!ids) return;
+    const id = ids[0];
+    const index = yearList.findIndex((year) => year.id === id);
+    const value = yearList[index].value
+    setYearPreset([setYearId(value as number)])
     setSlideDirection((value as number) > monthViewerDate.getFullYear() ? 'left' : 'right')
     monthViewerDate.setFullYear(value as number)
     setAlternativeDateView(getDates(monthViewerDate))
@@ -147,7 +189,8 @@ const Panel = React.memo((props: PanelProps) => {
   };
 
   const dateChangeHandler = (date: Date) => {
-    onDateChange?.([date])
+    // onDateChange?.([date])
+    selectedDate.current = date;
   }
 
   function getDates(date: Date) {
@@ -158,6 +201,26 @@ const Panel = React.memo((props: PanelProps) => {
         startOfWeek={startOfWeek}
         onDateChange={dateChangeHandler}/>
     </>
+  }
+
+  /**
+   * 如果有日期被选中，那么就上报选中日期，如果没有日期被选中就触发错误事件onError；
+   *
+   */
+  const confirmHandler = () => {
+    if (selectedDate.current) {
+      onDateChange?.([selectedDate.current])
+    } else {
+      onError?.('Date Not Selected!')
+    }
+  }
+
+  /**
+   * 撤销选中的日期，关闭窗口
+   */
+  const cancelHandler = () => {
+    selectedDate.current = undefined
+    onCancel?.()
   }
 
   return (
@@ -182,8 +245,8 @@ const Panel = React.memo((props: PanelProps) => {
         {getDates(monthViewerDate)}
       </SlideViewer>
       <div className={'actions'}>
-        <TextButton>Cancel</TextButton>
-        <TextButton>OK</TextButton>
+        <TextButton onClick={cancelHandler}>Cancel</TextButton>
+        <TextButton onClick={confirmHandler}>OK</TextButton>
       </div>
       <Menu
         items={monthList}
@@ -191,17 +254,24 @@ const Panel = React.memo((props: PanelProps) => {
         open={monthMenuIsOpen}
         style={{blockSize: '392px'}}
         onClosed={() => setMonthMenuIsOpen(false)}
-        onChange={monthChangeHandler}
+        onSelected={monthChangeHandler}
+        preset={monthPreset}
         stayOpenOnOutsideClick={true}
       ></Menu>
       <Menu
+        ref={yearMenuRef}
         items={yearList}
         anchorEl={navigatorAnchor}
         open={yearMenuIsOpen}
         style={{blockSize: '392px'}}
         onScroll={yearScrollHandler}
         onClosed={() => setYearMenuIsOpen(false)}
-        onChange={yearChangeHandler}
+        onSelected={yearChangeHandler}
+        preset={yearPreset}
+        scrollConfig={{
+          behavior: 'smooth',
+          block: 'center'
+        }}
         stayOpenOnOutsideClick={true}
       ></Menu>
     </div>

@@ -11,8 +11,7 @@ import React, {
 } from 'react'
 import './Department.scss'
 import Indicator from "./Indicator";
-import {IndicatorRectContext} from '../../internal/context/indicator'
-import {EASING, DURATION} from "../../internal/motion/animation";
+import {IndicatorActiveContext} from '../../internal/context/IndicatorActiveContext'
 
 export interface DepartmentProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
@@ -21,83 +20,36 @@ export interface DepartmentProps extends HTMLAttributes<HTMLDivElement> {
   badge?: 'small' | 'large' | 'none'
   badgeCount?: number
   id?: string
-  active?: boolean
+  showLabel?: boolean
 }
 
 const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
   const {
-    children,
     icon,
     label,
-    badge,
-    badgeCount,
     className = '',
     id = useId(),
-    active,
-    ...rest
+    showLabel = true
   } = props
 
-  const {init, setCurrent, last, current} = useContext(IndicatorRectContext)
+  const {setActive, previous, active} = useContext(IndicatorActiveContext)
   const indicatorRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState<boolean>(false)
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
 
   useEffect(() => {
-    if (indicatorRef.current) {
-      init?.({rect: indicatorRef.current.getBoundingClientRect(), id: id}, active)
-    }
-  }, [indicatorRef]);
-
-  useEffect(() => {
-    setIsActive(current?.id === id)
-  }, [current]);
-
-  useEffect(() => {
-    if (isActive) {
-      animatingIndicator()
-    }
-  }, [isActive]);
-
-  const animatingIndicator = () => {
-    if (!last?.rect || !current?.rect || !indicatorRef.current) {
-      return
-    }
-    const {top: lastTop, left: lastLeft} = last.rect
-    const {top: currentTop, left: currentLeft} = current.rect
-    setIsAnimating(true)
-    const indicatorAnimation = indicatorRef.current.animate([
-      {translate: `${lastLeft - currentLeft}px ${lastTop - currentTop}px`},
-      {translate: `none`}
-    ], {duration: DURATION.DURATION_SHORT4, easing: EASING.EMPHASIZED, pseudoElement: "::before"})
-    indicatorAnimation.addEventListener('finish', () => {
-      indicatorAnimation.cancel()
-      setIsAnimating(false)
-    })
-  }
+    setIsActive(active?.id === id)
+  }, [active]);
 
   const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
-    setCurrent?.({rect: e.currentTarget.getBoundingClientRect(), id: id})
+    setActive?.({target: e.currentTarget, id: id})
   };
 
   return (
-    <div
-      className={`navigation-department ${className}`}
-      onClick={clickHandler}
-    >
-      <Indicator
-        ref={indicatorRef}
-        animating={isAnimating}
-        active={isActive}
-      ></Indicator>
-      <div className={'icon'}>
-        {icon}
-      </div>
-      {
-        label &&
-        <div className={'label'}>
-          {label}
-        </div>
-      }
+    <div ref={ref} className={`navigation-department ${className}`}>
+      <Indicator ref={indicatorRef} animating={isAnimating} active={isActive} onClick={clickHandler}></Indicator>
+      <div className={'icon'}>{icon}</div>
+      {showLabel && label && <div className={'label'}>{label}</div>}
     </div>
   )
 })

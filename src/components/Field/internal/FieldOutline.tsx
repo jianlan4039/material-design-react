@@ -1,5 +1,4 @@
 import React, {ReactNode} from 'react'
-import './FieldOutline.scss'
 import c from 'classnames'
 
 export interface FieldOutlineProps {
@@ -10,10 +9,8 @@ export interface FieldOutlineProps {
 
 export default function FieldOutline(props: FieldOutlineProps) {
   const {
-    children,
     label,
-    supportingText,
-    ...rest
+    supportingText
   } = props
 
   return (

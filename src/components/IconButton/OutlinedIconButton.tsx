@@ -1,5 +1,5 @@
 import React, {forwardRef, ReactNode} from 'react'
-import {ButtonProps} from "./content/Button";
+import {ButtonProps} from "./internal/Button";
 import './OutlinedIconButton.scss'
 import Outline from "../Outline/Outline";
 import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";

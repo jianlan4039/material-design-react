@@ -1,8 +1,7 @@
-import React, {ChangeEvent, ComponentType, forwardRef, ReactNode, useEffect, useId, useRef, useState} from 'react'
+import React, { ComponentType, forwardRef, ReactNode, useEffect, useId, useRef, useState} from 'react'
 import Menu from "../../Menu/Menu";
 import {Corner} from "../../internal/alignment/geometry";
 import {MenuItemProps} from "../../Menu/MenuItem";
-import {BaseElement} from "../../internal/common/BaseElement";
 import './Select.scss'
 import {OptionValue} from "../../Menu/internal/menuTypes";
 import {FieldProps} from "../../Field/internal/Field";
@@ -26,8 +25,7 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
       id,
       name,
       onChange,
-      multiple,
-      ...rest
+      multiple
     } = props
 
     const internalId = useId()
@@ -50,7 +48,7 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
     const changeHandler = (value: OptionValue, option?: MenuItemProps) => {
       setValue(value)
       onChange?.(value)
-      option && setShowLabel(option.label)
+      option && setShowLabel(option.headline)
     }
 
     const mouseDownHandler = () => {
@@ -103,7 +101,7 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
           anchorCorner={Corner.END_START}
           items={items}
           onClosed={closeHandler}
-          onChange={changeHandler}
+          onSelected={changeHandler}
           multiple={multiple}
         ></Menu>
       </div>

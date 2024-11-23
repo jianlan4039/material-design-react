@@ -3,6 +3,7 @@
 @use "../../builder/background";
 @use "../../Ripple/internal/ripple";
 @use "../../Elevation/internal/elevation";
+@use "../../Focus/internal/focus-ring";
 @use "shared";
 
 $token: md-comp-elevated-button.values();
@@ -12,18 +13,35 @@ $token: md-comp-elevated-button.values();
 }
 
 @mixin styles() {
-  @include tokens-builder.tokens($token, elevated-button);
-  @include background.styles;
-  @include elevation.theme((
-    level: var(--_container-elevation)
-  ));
-  @include ripple.theme((
-    hover-color: var(--_hover-state-layer-color),
-    pressed-color: var(--_pressed-state-layer-color)
-  ));
-  --_container-shape-start-start: var(--md-elevated-button-container-shape-start-start, var(--_container-shape));
-  --_container-shape-start-end: var(--md-elevated-button-container-shape-start-end, var(--_container-shape));
-  --_container-shape-end-end: var(--md-elevated-button-container-shape-end-end, var(--_container-shape));
-  --_container-shape-end-start: var(--md-elevated-button-container-shape-end-start, var(--_container-shape));
-  @include shared.styles;
+  .nd-elevated-button {
+    @include tokens-builder.tokens($token, elevated-button);
+    @include elevation.theme((
+      level: var(--md-elevated-button-container-elevation),
+      shadow-color: var(--md-elevated-button-container-shadow-color)
+    ));
+    @include ripple.theme((
+      hover-color: var(--md-elevated-button-hover-state-layer-color),
+      hover-opacity: var(--md-elevated-button-hover-state-layer-opacity),
+      pressed-color: var(--md-elevated-button-pressed-state-layer-color),
+      pressed-opacity: var(--md-elevated-button-pressed-state-layer-opacity)
+    ));
+    @include background.theme((
+      color: var(--md-elevated-button-container-color),
+      opacity: 1,
+      z-index: -1
+    ), elevated-button);
+    --md-elevated-button-container-shape-start-start: var(--md-elevated-button-container-shape);
+    --md-elevated-button-container-shape-start-end: var(--md-elevated-button-container-shape);
+    --md-elevated-button-container-shape-end-end: var(--md-elevated-button-container-shape);
+    --md-elevated-button-container-shape-end-start: var(--md-elevated-button-container-shape);
+    @include focus-ring.theme((
+      shape-start-start: var(--md-elevated-button-container-shape-start-start),
+      shape-start-end: var(--md-elevated-button-container-shape-start-end),
+      shape-end-start: var(--md-elevated-button-container-shape-end-start),
+      shape-end-end: var(--md-elevated-button-container-shape-end-end),
+    ));
+
+    @include background.styles(elevated-button);
+    @include shared.styles(elevated-button);
+  }
 }

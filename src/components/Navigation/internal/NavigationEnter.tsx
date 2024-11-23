@@ -1,6 +1,5 @@
 import React, {
   forwardRef,
-  ReactNode,
   useContext,
   useEffect,
   useId,
@@ -9,10 +8,10 @@ import React, {
   MouseEvent,
   useImperativeHandle, memo
 } from 'react'
-import ListItem, {ListItemHandle, ListItemProps} from "../../List/ListItem";
+import ListItem, {ListItemProps} from "../../List/ListItem";
 import './NavigationEnter.scss';
 import c from 'classnames'
-import {IndicatorRectContext, CurrentIndicator} from "../../internal/context/indicator";
+import {IndicatorActiveContext} from "../../internal/context/IndicatorActiveContext";
 import {EASING, DURATION} from "../../internal/motion/animation";
 
 export interface NavigationEnterProps extends ListItemProps {
@@ -28,13 +27,13 @@ export interface NavigationEnterHandle {
 const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterProps>((props, ref) => {
   const {
     id = useId(),
-    active,
     subEntries,
-    end,
+    trailingIcon,
+    value,
     ...rest
   } = props
 
-  const {current, setCurrent, init} = useContext(IndicatorRectContext)
+  const {active, setActive} = useContext(IndicatorActiveContext)
   const listRef = useRef<NavigationEnterHandle>(null);
   const subEntryRef = useRef<HTMLUListElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -52,15 +51,15 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
 
   useEffect(() => {
     if (listRef.current && listRef.current.root) {
-      active && setCurrent?.({id: id})
+      active && setActive?.({id: id, value: value})
     }
   }, [listRef]);
 
   useEffect(() => {
-    if (current) {
-      setIsActive(current.id === id)
+    if (active) {
+      setIsActive(active.id === id)
     }
-  }, [current]);
+  }, [active]);
 
   useEffect(() => {
     if (isOpen) {
@@ -81,7 +80,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     if (subEntries) {
       setIsOpen(!isOpen)
     } else {
-      setCurrent?.({id: id})
+      setActive?.({id: id, value: value})
     }
   }
 
@@ -133,7 +132,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
     </svg>
   )
 
-  return <>
+  return (
     <ListItem
       ref={listRef}
       className={c('navigation-enter', {
@@ -142,7 +141,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
       })}
       onClick={clickHandler}
       interactive={!isOpen}
-      end={subEntries ? isOpen ? <UpArrow></UpArrow> : <DownArrow></DownArrow> : end}
+      trailingIcon={subEntries ? isOpen ? <UpArrow></UpArrow> : <DownArrow></DownArrow> : trailingIcon}
       {...rest}
     >
       <div ref={indicatorRef} className={'indicator'}></div>
@@ -155,7 +154,7 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
         </ul>
       }
     </ListItem>
-  </>
+  )
 }))
 
 export default NavigationEnter;

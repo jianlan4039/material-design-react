@@ -11,7 +11,7 @@ import React, {
 import Elevation from "../Elevation";
 import c from 'classnames'
 import useRipple from "../Ripple/useRipple";
-import Button from "./content/Button";
+import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
 
 export interface WrapperProps extends HTMLAttributes<HTMLButtonElement> {

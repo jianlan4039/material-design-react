@@ -1,18 +1,38 @@
-import {createContext, ReactNode} from "react";
+import React, { createContext, ReactNode } from 'react';
 
-export interface MultiSelection {
-  multiple: boolean
-  list?: Array<any>
-  setList?: (list: Array<any>, option?: any) => void
+// Define the configuration type for the selection context
+export type SelectionContextConfig = {
+  multiple: boolean;
+  [key: string]: any;
 }
 
-export const SelectionContext = createContext<MultiSelection>({
-  multiple: false
-})
+// Define the interface for the selection context
+export interface ISelectionContext<T> {
+  list?: Array<T>;
+  setList?: (list: Array<T>) => void;
+  config: SelectionContextConfig;
+}
 
-export const SelectionContextProvider = (props: MultiSelection & { children?: ReactNode }) => {
-  const {children, multiple = false, list, setList} = props
-  return <SelectionContext.Provider value={{multiple: multiple, list: list, setList: setList}}>
-    {children}
-  </SelectionContext.Provider>
+// Define the props type for the context provider component
+type ContextProps<T> = ISelectionContext<T> & { children: React.ReactNode }
+
+// Create a generic selection context provider function
+export function createSelectionContextProvider<T>():
+  [React.Context<ISelectionContext<T>>, (props: ContextProps<T>) => ReactNode] {
+
+  // Create a context with a default value
+  const SelectionContext = createContext<ISelectionContext<T>>({ config: { multiple: false } });
+
+  // Return the context and the provider component
+  return [
+    SelectionContext,
+    ({ children, list, setList, config }: ContextProps<T>) => {
+      return (
+        // Provide the context value to the children
+        <SelectionContext.Provider value={{ list, setList, config }}>
+          {children}
+        </SelectionContext.Provider>
+      )
+    }
+  ];
 }

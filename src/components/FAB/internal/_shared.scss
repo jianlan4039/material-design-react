@@ -5,105 +5,92 @@
 @use "../../Ripple/internal/ripple";
 @use "color";
 
-@mixin theme() {
-
-}
-
-@mixin styles() {
+@mixin styles($comp:"") {
   & {
-    @include background.styles;
-    @include focus-ring.theme((shape: var(--_container-shape)));
-    @include ripple.theme((
-      hover-color: var(--_hover-ripple-color),
-      pressed-color: var(--_pressed-ripple-color)
+    @include focus-ring.theme((
+      shape: var(--md-#{$comp}-container-shape)
     ));
     @include elevation.theme((
-      level: var(--_container-elevation)
+      level: var(--md-#{$comp}-container-elevation),
+      shadow-color: var(--md-#{$comp}-container-shadow-color)
     ));
+    @include background.theme((
+      color: var(--md-#{$comp}-container-color)
+    ), $comp);
     position: relative;
     display: inline-flex;
-    border-start-start-radius: var(--_container-shape-start-start);
-    border-start-end-radius: var(--_container-shape-start-end);
-    border-end-start-radius: var(--_container-shape-end-start);
-    border-end-end-radius: var(--_container-shape-end-end);
-    block-size: var(--_container-height);
+    border-start-start-radius: var(--md-#{$comp}-container-shape-start-start);
+    border-start-end-radius: var(--md-#{$comp}-container-shape-start-end);
+    border-end-start-radius: var(--md-#{$comp}-container-shape-end-start);
+    border-end-end-radius: var(--md-#{$comp}-container-shape-end-end);
+    block-size: var(--md-#{$comp}-container-height);
+    z-index: 10;
 
-    @include color.styles(
-        (
-          'focus-icon-color': var(--_focus-icon-color),
-          'hover-icon-color': var(--_hover-icon-color),
-          'icon-color': var(--_icon-color),
-          'pressed-icon-color': var(--_pressed-icon-color),
-        )
-    );
+    @include color.styles((
+      'focus-icon-color': var(--md-#{$comp}-focus-icon-color),
+      'hover-icon-color': var(--md-#{$comp}-hover-icon-color),
+      'icon-color': var(--md-#{$comp}-icon-color),
+      'pressed-icon-color': var(--md-#{$comp}-pressed-icon-color),
+    ), $comp);
 
     &.lowered {
       @include background.theme((
-        color: var(--_lowered-container-color)
+        color: var(--md-#{$comp}-lowered-container-color)
+      ), $comp);
+      @include _elevation((
+        'default': var(--md-#{$comp}-lowered-container-elevation),
+        'focus': var(--md-#{$comp}-lowered-focus-container-elevation),
+        'hover': var(--md-#{$comp}-lowered-hover-container-elevation),
+        'pressed': var(--md-#{$comp}-lowered-pressed-container-elevation),
       ));
-      @include _elevation(
-          (
-            'default': var(--_lowered-container-elevation),
-            'focus': var(--_lowered-focus-container-elevation),
-            'hover': var(--_lowered-hover-container-elevation),
-            'pressed': var(--_lowered-pressed-container-elevation),
-          )
-      );
     }
 
     &.nd-fab--primary {
-      @include color.styles(
-          (
-            'container-color': var(--_primary-container-color),
-            'focus-icon-color': var(--_primary-focus-icon-color),
-            'hover-icon-color': var(--_primary-hover-icon-color),
-            'hover-ripple-color': var(--_primary-hover-ripple-color),
-            'icon-color': var(--_primary-icon-color),
-            'pressed-icon-color': var(--_primary-pressed-icon-color),
-            'pressed-ripple-color': var(--_primary-pressed-ripple-color),
-            'label-text-color': var(--_primary-label-text-color),
-            'hover-label-text-color': var(--_primary-hover-label-text-color),
-            'focus-label-text-color': var(--_primary-focus-label-text-color),
-            'pressed-label-text-color': var(--_primary-pressed-label-text-color),
-          )
-      );
+      @include color.styles((
+        'container-color': var(--md-#{$comp}-primary-container-color),
+        'focus-icon-color': var(--md-#{$comp}-primary-focus-icon-color),
+        'hover-icon-color': var(--md-#{$comp}-primary-hover-icon-color),
+        'hover-ripple-color': var(--md-#{$comp}-primary-hover-state-layer-color),
+        'icon-color': var(--md-#{$comp}-primary-icon-color),
+        'pressed-icon-color': var(--md-#{$comp}-primary-pressed-icon-color),
+        'pressed-ripple-color': var(--md-#{$comp}-primary-pressed-state-layer-color),
+        'label-text-color': var(--md-#{$comp}-primary-label-text-color),
+        'hover-label-text-color': var(--md-#{$comp}-primary-hover-label-text-color),
+        'focus-label-text-color': var(--md-#{$comp}-primary-focus-label-text-color),
+        'pressed-label-text-color': var(--md-#{$comp}-primary-pressed-label-text-color),
+      ), $comp);
     }
 
     &.nd-fab--secondary {
-      @include color.styles(
-          (
-            'container-color': var(--_secondary-container-color),
-            'focus-icon-color': var(--_secondary-focus-icon-color),
-            'hover-icon-color': var(--_secondary-hover-icon-color),
-            'hover-ripple-color': var(--_secondary-hover-ripple-color),
-            'icon-color': var(--_secondary-icon-color),
-            'pressed-icon-color': var(--_secondary-pressed-icon-color),
-            'pressed-ripple-color':var(--_secondary-pressed-ripple-color),
-            'label-text-color': var(--_secondary-label-text-color),
-            'hover-label-text-color': var(--_secondary-hover-label-text-color),
-            'focus-label-text-color': var(--_secondary-focus-label-text-color),
-            'pressed-label-text-color': var(--_secondary-pressed-label-text-color),
-          )
-      );
+      @include color.styles((
+        'container-color': var(--md-#{$comp}-secondary-container-color),
+        'focus-icon-color': var(--md-#{$comp}-secondary-focus-icon-color),
+        'hover-icon-color': var(--md-#{$comp}-secondary-hover-icon-color),
+        'hover-ripple-color': var(--md-#{$comp}-secondary-hover-state-layer-color),
+        'icon-color': var(--md-#{$comp}-secondary-icon-color),
+        'pressed-icon-color': var(--md-#{$comp}-secondary-pressed-icon-color),
+        'pressed-ripple-color':var(--md-#{$comp}-secondary-pressed-state-layer-color),
+        'label-text-color': var(--md-#{$comp}-secondary-label-text-color),
+        'hover-label-text-color': var(--md-#{$comp}-secondary-hover-label-text-color),
+        'focus-label-text-color': var(--md-#{$comp}-secondary-focus-label-text-color),
+        'pressed-label-text-color': var(--md-#{$comp}-secondary-pressed-label-text-color),
+      ), $comp);
     }
 
     &.nd-fab--tertiary {
-      @include color.styles(
-          (
-            'container-color': var(--_tertiary-container-color),
-            'focus-icon-color': var(--_tertiary-focus-icon-color),
-            'hover-icon-color': var(--_tertiary-hover-icon-color),
-            'hover-ripple-color': var(--_tertiary-hover-ripple-color),
-            'icon-color': var(--_tertiary-icon-color),
-            'pressed-icon-color': var(--_tertiary-pressed-icon-color),
-            'pressed-ripple-color':
-            var(--_tertiary-pressed-ripple-color),
-            'label-text-color': var(--_tertiary-label-text-color),
-            'hover-label-text-color': var(--_tertiary-hover-label-text-color),
-            'focus-label-text-color': var(--_tertiary-focus-label-text-color),
-            'pressed-label-text-color': var(--_tertiary-pressed-label-text-color),
-          )
-      );
+      @include color.styles((
+        'container-color': var(--md-#{$comp}-tertiary-container-color),
+        'focus-icon-color': var(--md-#{$comp}-tertiary-focus-icon-color),
+        'hover-icon-color': var(--md-#{$comp}-tertiary-hover-icon-color),
+        'hover-ripple-color': var(--md-#{$comp}-tertiary-hover-state-layer-color),
+        'icon-color': var(--md-#{$comp}-tertiary-icon-color),
+        'pressed-icon-color': var(--md-#{$comp}-tertiary-pressed-icon-color),
+        'pressed-ripple-color': var(--md-#{$comp}-tertiary-pressed-state-layer-color),
+        'label-text-color': var(--md-#{$comp}-tertiary-label-text-color),
+        'hover-label-text-color': var(--md-#{$comp}-tertiary-hover-label-text-color),
+        'focus-label-text-color': var(--md-#{$comp}-tertiary-focus-label-text-color),
+        'pressed-label-text-color': var(--md-#{$comp}-tertiary-pressed-label-text-color),
+      ), $comp);
     }
 
     .nd-fab__button {
@@ -114,95 +101,84 @@
       border: none;
       outline: none;
       background: transparent;
-      block-size: inherit;
-      inline-size: inherit;
-      min-inline-size: inherit;
+      block-size: 100%;
+      inline-size: 100%;
       padding: 0;
-      color: var(--_label-text-color);
-      font-size: var(--_label-text-size);
-      font-family: var(--_label-text-font);
-      line-height: var(--_label-text-line-height);
-      font-weight: var(--_label-text-weight);
+      color: var(--md-#{$comp}-label-text-color);
+      font-size: var(--md-#{$comp}-label-text-size);
+      font-family: var(--md-#{$comp}-label-text-font), serif;
+      line-height: var(--md-#{$comp}-label-text-line-height);
+      font-weight: var(--md-#{$comp}-label-text-weight);
       cursor: pointer;
 
       .nd-fab__icon-slot,
       .nd-fab__label-slot {
         display: contents;
-        color: var(--_icon-color);
+        color: var(--md-#{$comp}-icon-color);
       }
 
       .nd-fab__icon-slot,
       .nd-fab__icon-slot > * {
-        font-size: var(--_icon-size);
+        font-size: var(--md-#{$comp}-icon-size);
       }
     }
 
     &.large {
-      @include focus-ring.theme((shape: var(--_large-container-shape)));
-      block-size: var(--_large-container-height);
-      inline-size: var(--_large-container-width);
-      border-start-start-radius: var(--_large-container-shape-start-start);
-      border-start-end-radius: var(--_large-container-shape-start-end);
-      border-end-start-radius: var(--_large-container-shape-end-start);
-      border-end-end-radius: var(--_large-container-shape-end-end);
+      @include focus-ring.theme((shape: var(--md-#{$comp}-large-container-shape)));
+      block-size: var(--md-#{$comp}-large-container-height);
+      inline-size: var(--md-#{$comp}-large-container-width);
+      border-start-start-radius: var(--md-#{$comp}-large-container-shape-start-start);
+      border-start-end-radius: var(--md-#{$comp}-large-container-shape-start-end);
+      border-end-start-radius: var(--md-#{$comp}-large-container-shape-end-start);
+      border-end-end-radius: var(--md-#{$comp}-large-container-shape-end-end);
 
       .nd-fab__icon-slot, .nd-fab__icon-slot > * {
-        font-size: var(--_large-icon-size);
+        font-size: var(--md-#{$comp}-large-icon-size);
       }
     }
 
     &.small {
-      @include focus-ring.theme((shape: var(--_small-container-shape)));
-      block-size: var(--_small-container-height);
-      inline-size: var(--_small-container-width);
-      border-start-start-radius: var(--_small-container-shape-start-start);
-      border-start-end-radius: var(--_small-container-shape-start-end);
-      border-end-start-radius: var(--_small-container-shape-end-start);
-      border-end-end-radius: var(--_small-container-shape-end-end);
+      @include focus-ring.theme((shape: var(--md-#{$comp}-small-container-shape)));
+      block-size: var(--md-#{$comp}-small-container-height);
+      inline-size: var(--md-#{$comp}-small-container-width);
+      border-start-start-radius: var(--md-#{$comp}-small-container-shape-start-start);
+      border-start-end-radius: var(--md-#{$comp}-small-container-shape-start-end);
+      border-end-start-radius: var(--md-#{$comp}-small-container-shape-end-start);
+      border-end-end-radius: var(--md-#{$comp}-small-container-shape-end-end);
 
       .nd-fab__icon-slot, .nd-fab__icon-slot > * {
-        font-size: var(--_small-icon-size);
+        font-size: var(--md-#{$comp}-small-icon-size);
       }
     }
   }
 }
 
 @mixin _elevation($states, $shadow-color: null) {
-  @include elevation.theme(
-      (
-        'level': map.get($states, 'default'),
-      )
-  );
+  @include elevation.theme((
+    'level': map.get($states, 'default'),
+  ));
 
   @if $shadow-color {
-    @include elevation.theme(
-        (
-          'shadow-color': $shadow-color,
-        )
-    );
+    @include elevation.theme((
+      'shadow-color': $shadow-color,
+    ));
   }
 
   &:focus {
-    @include elevation.theme(
-        (
-          'level': map.get($states, 'focus'),
-        )
-    );
+    @include elevation.theme((
+      'level': map.get($states, 'focus'),
+    ));
   }
 
   &:hover {
-    @include elevation.theme(
-        (
-          'level': map.get($states, 'hover'),
-        )
-    );
+    @include elevation.theme((
+      'level': map.get($states, 'hover'),
+    ));
   }
 
   &:active {
-    @include elevation.theme(
-        (
-          'level': map.get($states, 'pressed'),
-        )
-    );
+    @include elevation.theme((
+      'level': map.get($states, 'pressed'),
+    ));
   }
 }

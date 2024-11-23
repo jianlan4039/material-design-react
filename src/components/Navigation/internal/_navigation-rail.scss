@@ -8,28 +8,29 @@
 }
 
 @mixin styles() {
-
   .navigation-rail-container {
     @include tokens-builder.tokens(nd-comp-navigation-rail.values(), navigation-rail);
     position: fixed;
+    z-index: 10;
     inset: 0 auto 0 0;
-    inline-size: var(--_container-width);
+    inline-size: var(--md-navigation-rail-container-width);
     block-size: 100vh;
   }
 
   .navigation-rail {
     @include background.theme((
-      color: var(--_container-color)
+      color: var(--md-navigation-rail-container-color)
     ));
     @include elevation.theme((
-      level: var(--_container-elevation)
+      level: var(--md-navigation-rail-container-elevation)
     ));
     display: flex;
     flex-direction: column;
     align-items: center;
-    block-size: inherit;
+    block-size: 100%;
     inline-size: inherit;
-    border-radius: var(--_container-shape);
+    border-radius: var(--md-navigation-rail-container-shape);
+    overflow: scroll;
     @include background.styles;
   }
 }

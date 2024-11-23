@@ -1,33 +1,58 @@
 @use "../../tokens/md-comp-menu-item";
 @use "../../builder/tokens-builder";
+@use "../../builder/background";
 
 @mixin theme($tokens) {
 
 }
 
 @mixin styles() {
-  .menu-item {
-    @include tokens-builder.tokens(md-comp-menu-item.values(), menu-list);
+  .nd-menu-item {
+    @include tokens-builder.tokens(md-comp-menu-item.values(), menu-item);
+    @include background.theme((
+      color: var(--md-menu-item-container-color),
+      opacity: 1
+    ), menu-item);
+
     position: relative;
     cursor: pointer;
     z-index: 1;
 
-    .lsc{
-      .lsc__end{
+    @include background.styles(menu-item);
+
+    .lsc {
+      .lsc__end {
         padding-inline-end: 12px;
       }
     }
 
-    &.hidden {
+    &.nd-menu-item--hidden {
       opacity: 0;
     }
 
-    &.selected {
-      background: var(--_selected-container-color);
+    &.nd-menu-item--selected {
+      @include background.theme((
+        color: var(--md-menu-item-selected-container-color),
+      ), menu-item);
+      z-index: 10;
 
       .list-item__label {
-        color: var(--_selected-label-text-color);
+        color: var(--md-menu-item-selected-label-text-color);
       }
+    }
+
+    &.nd-menu-item--open {
+      z-index: 20;
+    }
+
+    &:first-child {
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
     }
   }
 }

@@ -18,6 +18,7 @@ export interface FilledTextFieldProps extends InputWrapperProps {
   trailingIcon?: ReactNode
   supportingText?: string
   supportingTextTrailing?: string
+  showSupportingText?: boolean
   label?: string
   error?: boolean
   disabled?: boolean
@@ -32,10 +33,12 @@ export default function FilledTextField(props: FilledTextFieldProps) {
     trailingIcon,
     supportingText,
     supportingTextTrailing,
+    showSupportingText,
     label,
     error,
     disabled,
     onChange,
+    className,
     ...rest
   } = props
 
@@ -86,6 +89,7 @@ export default function FilledTextField(props: FilledTextFieldProps) {
       onMouseDownOutside={mouseDownOutsideHandler}
     >
       <FilledField
+        className={className}
         icon={leadingIcon}
         trailingIcon={trailingIcon}
         label={label}
@@ -95,6 +99,7 @@ export default function FilledTextField(props: FilledTextFieldProps) {
         disabled={disabled}
         error={error}
         supportingTextTrailing={supportingTextTrailing}
+        showSupportingText={showSupportingText}
       >
         <InputWrapper
           ref={inputRef}

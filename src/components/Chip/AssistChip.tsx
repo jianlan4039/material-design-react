@@ -6,9 +6,11 @@ import Elevation from "../Elevation";
 import './AssistChip.scss'
 
 export interface AssistChipProps extends ButtonProps {
+
 }
 
 export interface AssistChipHandle extends ButtonHandle {
+
 }
 
 const AssistChip = forwardRef<AssistChipHandle, AssistChipProps>((props, ref) => {

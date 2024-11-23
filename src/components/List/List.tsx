@@ -1,5 +1,6 @@
-import React, {forwardRef, HTMLAttributes, OlHTMLAttributes, ReactNode} from 'react'
+import React, {forwardRef, OlHTMLAttributes, ReactNode} from 'react'
 import './List.scss'
+import classNames from 'classnames'
 
 export interface ListProps extends OlHTMLAttributes<HTMLOListElement>{
   children?: ReactNode
@@ -8,11 +9,12 @@ export interface ListProps extends OlHTMLAttributes<HTMLOListElement>{
 const List = forwardRef<HTMLUListElement, ListProps>((props, ref) => {
   const {
     children,
+    className,
     ...rest
   } = props
 
   return (
-    <ul ref={ref} className={'list'} {...rest}>
+    <ul ref={ref} className={classNames('list', className)} {...rest}>
       {children}
     </ul>
   )

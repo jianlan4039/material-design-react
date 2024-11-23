@@ -1,6 +1,5 @@
 import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useImperativeHandle, useRef, useState} from "react";
 import cln from "classnames";
-import Elevation from "../Elevation";
 import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
 import useRipple from "../Ripple/useRipple";
@@ -51,7 +50,7 @@ const Wrapper = forwardRef<ButtonHandle, WrapperProps>(
     return (
       <div className={cln(name, className, {'nd-disabled': disabled})} {...rippleProps}>
         {children}
-        {ripple}
+        {!disabled && ripple}
         {focusRing}
         <Button
           ref={btnRef}

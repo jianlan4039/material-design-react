@@ -11,8 +11,10 @@
   .list {
     @include tokens-builder.tokens(md-comp-list.values(), list);
     @include background.theme((
-      color: var(--_container-color)
-    ));
+      color: var(--md-list-container-color),
+      opacity: 1
+    ), list);
+    @include background.styles(list);
     display: flex;
     position: relative;
     flex-direction: column;
@@ -20,6 +22,6 @@
     list-style: none;
     padding-inline: 0;
     margin: 0;
-    @include background.styles;
+    z-index: 10;
   }
 }

@@ -11,13 +11,14 @@
   .navigation-bar {
     @include tokens-builder.tokens(md-comp-navigation-bar.values(), navigation-bar);
     @include background.theme((
-      color: var(--_container-color)
+      color: var(--md-navigation-bar-container-color)
     ));
     @include background.styles;
     position: fixed;
     inset: auto 0 0 0;
-    block-size: var(--_container-height);
-    border-radius: var(--_container-shape);
+    z-index: 10;
+    block-size: var(--md-navigation-bar-container-height);
+    border-radius: var(--md-navigation-bar-container-shape);
     display: grid;
     grid-auto-flow: column;
     //justify-items: center;

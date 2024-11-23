@@ -1,18 +1,20 @@
-import React, {ReactNode, useEffect, useRef, useState, MouseEvent, useId} from 'react'
-import {IndicatorRectContextProvider} from "../internal/context/indicator";
-import './NavigationDrawer.scss'
+import React, {ReactNode, useEffect, useRef, useState, MouseEvent, useMemo} from 'react';
+import {IndicatorActiveContextProvider, Target} from "../internal/context/IndicatorActiveContext";
 import NavigationEnter, {NavigationEnterProps} from "./internal/NavigationEnter";
-import Divider from "../Divider/Divider";
-import c from 'classnames'
-import Elevation from "../Elevation";
 import {EASING, DURATION} from "../internal/motion/animation";
+import Divider from "../Divider/Divider";
+import Elevation from "../Elevation";
+import './NavigationDrawer.scss';
+import c from 'classnames';
+import {BaseElement} from "../internal/common/BaseElement";
+import List from "../List/List";
 
 export interface Block {
   headline: string
   items?: NavigationEnterProps[]
 }
 
-export interface INavigationDrawerProps {
+export interface INavigationDrawerProps extends BaseElement {
   children?: ReactNode
   items?: NavigationEnterProps[]
   block?: Block
@@ -20,6 +22,8 @@ export interface INavigationDrawerProps {
   show?: boolean
   onClose?: () => void
   stayOpenOnOutsideClick?: boolean
+  active?: string
+  onChange?: (target: Target) => void
 }
 
 export default function NavigationDrawer(props: INavigationDrawerProps) {
@@ -31,7 +35,10 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     show,
     stayOpenOnOutsideClick = false,
     onClose,
-    ...rest
+    active,
+    className,
+    style,
+    onChange,
   } = props
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -42,20 +49,46 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isAnimating, setIsAnimating] = useState<boolean | undefined>(undefined)
 
+  const Items = useMemo(() => {
+    return items?.map((enter, index) => {
+      return (
+        <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
+      )
+    })
+  }, [items])
+
+  const Blocks = useMemo(() => {
+    if (!block) return;
+    const {headline, items} = block
+    return (
+      <>
+        <h3 className={'headline'}>{headline}</h3>
+        {
+          items?.map((enter, index) => {
+            return (
+              <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
+            )
+          })
+        }
+        <Divider variant={'inset'}></Divider>
+      </>
+    )
+  }, [block])
+
   useEffect(() => {
     if (dialogRef.current && modal) {
       if (show && !isVisible) {
         dialogRef.current!.showModal()
-        animatingOpen()
+        void animatingOpen()
       } else if (!show && isVisible) {
-        animatingClose()
+        void animatingClose()
       } else if (!show || !isVisible) {
         dialogRef.current!.close()
       }
     } else if (!modal && dialogRef.current) {
       dialogRef.current.show()
     }
-  }, [show, isVisible]);
+  }, [show, isVisible, modal]);
 
   useEffect(() => {
     if (isAnimating === false) {
@@ -70,7 +103,6 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     setIsAnimating(true)
     const {width} = contentRef.current.getBoundingClientRect()
     const {paddingInline} = contentRef.current.style
-    console.log(width)
     const contentAnimation = contentRef.current.animate([
       {inlineSize: 0, paddingInline: 0, opacity: 0},
       {inlineSize: `${width}px`, paddingInline: `${paddingInline}`, opacity: 1}
@@ -93,7 +125,6 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     setIsAnimating(true)
     const {width} = contentRef.current.getBoundingClientRect()
     const {paddingInline} = contentRef.current.style
-    console.log(width)
     const contentAnimation = contentRef.current.animate([
       {inlineSize: `${width}px`, paddingInline: `${paddingInline}`, opacity: 1},
       {inlineSize: 0, paddingInline: 0, opacity: 0},
@@ -112,7 +143,7 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
   }
 
   const controlledClose = () => {
-    animatingClose()
+    void animatingClose()
   }
 
   const cleanAnimation = () => {
@@ -131,38 +162,19 @@ export default function NavigationDrawer(props: INavigationDrawerProps) {
     }
   };
 
+  const changeHandler = (target: Target) => {
+    onChange?.(target)
+  }
+
   return (
-    <IndicatorRectContextProvider>
-      <div className={c('navigation-drawer-container')}>
-        <dialog ref={dialogRef} className={c('navigation-drawer-dialog')}>
-          <ul ref={contentRef} className={c('navigation-drawer', {'modal': modal})}>
-            {modal && <Elevation></Elevation>}
-            {
-              items?.map((enter, index) => {
-                return (
-                  <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
-                )
-              })
-            }
-            {
-              block &&
-              <>
-                <h3 className={'headline'}>{block.headline}</h3>
-                {
-                  block.items?.map((enter, index) => {
-                    return (
-                      <NavigationEnter key={enter.id ?? `nav-enter-${index}`} {...enter} ></NavigationEnter>
-                    )
-                  })
-                }
-                <Divider variant={'inset'}></Divider>
-              </>
-            }
-            {children}
-          </ul>
-          {modal && <div ref={scrimRef} className={c('navigation-drawer-scrim')} onClick={scrimClickHandler}></div>}
-        </dialog>
-      </div>
-    </IndicatorRectContextProvider>
+    <IndicatorActiveContextProvider active={active} onChange={changeHandler}>
+      <dialog ref={dialogRef} className={c('nd-navigation-drawer', className, {'modal': modal})} style={style}>
+        <Elevation></Elevation>
+        <List ref={contentRef}>
+          {Items || Blocks || children}
+        </List>
+        {modal && <div ref={scrimRef} className={c('navigation-drawer-scrim')} onClick={scrimClickHandler}></div>}
+      </dialog>
+    </IndicatorActiveContextProvider>
   )
 }

@@ -6,13 +6,13 @@
       @error 'Token `#{$token}` is not a supported token.';
     }
     @if $value {
-      --md-#{$comp}-#{$token}: #{$value};
+      --md-cust-#{$comp}-#{$token}: #{$value};
     }
   }
 }
 
 @mixin tokens($tokens, $comp){
   @each $token, $value in $tokens {
-    --_#{$token}: var(--md-#{$comp}-#{$token}, #{$value});
+    --md-#{$comp}-#{$token}: var(--md-cust-#{$comp}-#{$token}, #{$value});
   }
 }

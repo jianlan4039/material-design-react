@@ -7,8 +7,7 @@ export interface ChipSetProps {
 
 export default function ChipSet(props: ChipSetProps) {
   const {
-    children,
-    ...rest
+    children
   } = props
 
   return (

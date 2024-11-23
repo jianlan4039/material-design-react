@@ -1,0 +1,44 @@
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "./shared";
+
+$support-tokens: (
+);
+
+@mixin theme($tokens) {
+  @include tokens-builder.tokens($tokens, $support-tokens, icon-button)
+}
+
+@mixin styles($comp:"") {
+  & {
+    &:hover {
+      @include shared.theme((
+        icon-color: var(--md-#{$comp}-hover-icon-color)
+      ));
+    }
+
+    &:focus {
+      @include shared.theme((
+        icon-color: var(--md-#{$comp}-focus-icon-color)
+      ));
+    }
+
+    &:active {
+      @include shared.theme((
+        icon-color: var(--md-#{$comp}-pressed-icon-color)
+      ));
+    }
+
+    &.disabled {
+      @include background.theme((
+        color: var(--md-#{$comp}-disabled-container-color),
+        opacity: var(--md-#{$comp}-disabled-container-opacity)
+      ));
+      @include shared.theme((
+        icon-color: var(--md-#{$comp}-disabled-icon-color),
+        opacity: var(--md-#{$comp}-disabled-icon-opacity)
+      ));
+      cursor: auto;
+    }
+  }
+}

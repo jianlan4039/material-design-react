@@ -1,0 +1,77 @@
+@use "sass:map";
+@use "./md-sys-color";
+@use "./md-sys-shape";
+@use "./md-sys-typescale";
+@use "./md-sys-elevation";
+@use "./md-sys-state";
+
+$_default: (
+  'color': md-sys-color.values-light(),
+  'shape': md-sys-shape.values(),
+  'typescale': md-sys-typescale.values(),
+  'elevation': md-sys-elevation.values(),
+  'state': md-sys-state.values()
+);
+
+$support-tokens: (
+  'carousel-item-outline-color',
+  'carousel-item-outline-width',
+  'carousel-item-container-color',
+  'carousel-item-container-elevation',
+  'carousel-item-container-shadow-color',
+  'carousel-item-container-surface-tint-layer-color',
+  'carousel-item-container-shape',
+  'carousel-item-hover-container-elevation',
+  'carousel-item-hover-state-layer-color',
+  'carousel-item-hover-state-layer-opacity',
+  'carousel-item-outline-color',
+  'carousel-item-focus-indicator-color',
+  'carousel-item-focus-indicator-thickness',
+  'carousel-item-focus-indicator-offset',
+  'carousel-item-focus-outline-color',
+  'carousel-item-focus-container-elevation',
+  'carousel-item-focus-state-layer-color',
+  'carousel-item-focus-state-layer-opacity',
+  'carousel-item-pressed-outline-color',
+  'carousel-item-pressed-container-elevation',
+  'carousel-item-pressed-state-layer-color',
+  'carousel-item-pressed-state-layer-opacity',
+  'carousel-item-disabled-container-elevation',
+  'carousel-item-pressed-state-layer-color',
+  'carousel-item-disabled-container-color',
+  'carousel-item-disabled-outline-color',
+  'carousel-item-disabled-outline-opacity'
+);
+
+@function values($deps: $_default, $exclude-hardcoded-values: false) {
+
+  @return (
+    'carousel-item-outline-color': map.get($_default, 'color', 'outline'),
+    'carousel-item-outline-width': 1px,
+    'carousel-item-container-color': map.get($_default, 'color', 'surface'),
+    'carousel-item-container-elevation': map.get($_default, 'elevation', 'level0'),
+    'carousel-item-container-shadow-color': map.get($_default, 'color', 'shadow'),
+    'carousel-item-container-surface-tint-layer-color': map.get($_default, 'color', 'surface-tint'),
+    'carousel-item-container-shape': map.get($_default, 'shape', 'corner-extra-large'),
+    'carousel-item-hover-container-elevation': map.get($_default, 'elevation', 'level1'),
+    'carousel-item-hover-state-layer-color': map.get($_default, 'color', 'on-surface'),
+    'carousel-item-hover-state-layer-opacity': map.get($_default, 'state', 'hover-state-layer-opacity'),
+    'carousel-item-hover-outline-color': map.get($_default, 'color', 'outline'),
+    'carousel-item-focus-indicator-color': map.get($_default, 'color', 'secondary'),
+    'carousel-item-focus-indicator-thickness': 1px,
+    'carousel-item-focus-indicator-offset': 2px,
+    'carousel-item-focus-outline-color': map.get($_default, 'color', 'on-surface'),
+    'carousel-item-focus-container-elevation': map.get($_default, 'elevation', 'level0'),
+    'carousel-item-focus-state-layer-color': map.get($_default, 'color', 'on-surface'),
+    'carousel-item-focus-state-layer-opacity': map.get($_default, 'state', 'focus-state-layer-opacity'),
+    'carousel-item-pressed-outline-color': map.get($_default, 'color', 'outline'),
+    'carousel-item-pressed-container-elevation' 'carousel-item-pressed-state-layer-color': map.get($_default, 'elevation', 'level0'),
+    'carousel-item-pressed-state-layer-opacity': map.get($_default, 'state', 'pressed-state-layer-opacity'),
+    'carousel-item-pressed-state-layer-color': map.get($_default, 'color', 'on-surface'),
+    'carousel-item-disabled-container-elevation': map.get($_default, 'elevation', 'level0'),
+    'carousel-item-disabled-container-opacity': 0.38,
+    'carousel-item-disabled-container-color': map.get($_default, 'color', 'surface'),
+    'carousel-item-disabled-outline-color': map.get($_default, 'color', 'outline'),
+    'carousel-item-disabled-outline-opacity': 0.12,
+  )
+}

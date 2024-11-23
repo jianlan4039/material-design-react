@@ -1,9 +1,8 @@
 import React, {ReactNode, useState} from 'react'
-import {SelectionContextProvider} from "../internal/context/SelectionContext";
+import {SelectionContextProvider} from "../internal/context/MultiSelectContextProvider";
 
 export interface RadioGroupProps {
   children?: ReactNode
-  options?: RadioGroupProps[]
 }
 
 type Value = string | readonly string[] | number | undefined;
@@ -16,7 +15,7 @@ export default function RadioGroup(props: RadioGroupProps) {
   const [options, setOptions] = useState<Value[]>()
 
   return (
-    <div>
+    <div className={'nd-radio-group'}>
       <SelectionContextProvider multiple={false} list={options} setList={setOptions}>
         {children}
       </SelectionContextProvider>

@@ -1,7 +1,8 @@
-@use "./tab";
 @use "../../tokens/md-comp-primary-tab";
 @use "../../builder/tokens-builder";
 @use "../../Ripple/internal/ripple";
+@use "../../Focus/internal/focus-ring";
+@use "./tab";
 
 @mixin theme($tokens) {
   @include tokens-builder.theme($tokens, md-comp-primary-tab.$supported-tokens, primary-tab);
@@ -12,50 +13,63 @@
 
   .primary-tab {
     @include tokens-builder.tokens(md-comp-primary-tab.values(), primary-tab);
+    --md-primary-tab-container-shape-start-start: var(--md-primary-tab-container-shape-start-start, var(--md-primary-tab-container-shape));
+    --md-primary-tab-container-shape-start-end: var(--md-primary-tab-container-shape-start-end, var(--md-primary-tab-container-shape));
+    --md-primary-tab-container-shape-end-end: var(--md-primary-tab-container-shape-end-end, var(--md-primary-tab-container-shape));
+    --md-primary-tab-container-shape-end-start: var(--md-primary-tab-container-shape-end-start, var(--md-primary-tab-container-shape));
     @include tab.theme((
-      font-size: var(--_label-text-size),
-      font-weight: var(--_label-text-weight),
-      font-line-height: var(--_label-text-line-height),
-      font-color: var(--_label-text-color),
-      font-family: var(--_label-text-font)
+      font-size: var(--md-primary-tab-label-text-size),
+      font-weight: var(--md-primary-tab-label-text-weight),
+      font-line-height: var(--md-primary-tab-label-text-line-height),
+      font-color: var(--md-primary-tab-label-text-color),
+      font-family: var(--md-primary-tab-label-text-font)
     ));
     @include ripple.theme((
-      hover-color: var(--_hover-state-layer-color),
-      pressed-color: var(--_pressed-state-layer-color)
+      hover-color: var(--md-primary-tab-hover-state-layer-color),
+      hover-opacity: var(--md-primary-tab-hover-state-layer-opacity),
+      pressed-color: var(--md-primary-tab-pressed-state-layer-color),
+      pressed-opacity: var(--md-primary-tab-pressed-state-layer-opacity)
     ));
-    background: var(--_container-color);
-    block-size: var(--_container-height);
-    border-radius: var(--_container-shape);
+    @include focus-ring.theme((
+      shape-start-start: var(--md-primary-tab-container-shape-start-start),
+      shape-start-end: var(--md-primary-tab-container-shape-start-end),
+      shape-end-start: var(--md-primary-tab-container-shape-end-start),
+      shape-end-end: var(--md-primary-tab-container-shape-end-end),
+    ));
+    background: var(--md-primary-tab-container-color);
+    block-size: var(--md-primary-tab-container-height);
+    border-radius: var(--md-primary-tab-container-shape);
     cursor: pointer;
     outline: none;
+    position: relative;
 
     .nd-focus-ring-container {
       z-index: 10;
 
       .nd-focus-ring {
-        border-radius: var(--_container-shape);
+        border-radius: var(--md-primary-tab-container-shape);
       }
     }
 
     .primary-tab__indicator {
-      block-size: var(--_active-indicator-height);
-      background: var(--_active-indicator-color);
-      border-radius: var(--_active-indicator-shape);
+      block-size: var(--md-primary-tab-active-indicator-height);
+      background: var(--md-primary-tab-active-indicator-color);
+      border-radius: var(--md-primary-tab-active-indicator-shape);
     }
 
     .tab__presentation {
       inline-size: fit-content;
-      block-size: inherit;
+      block-size: 100%;
     }
 
     &.primary-tab--focus {
       .tab__presentation {
         .tab__presentation__icon {
-          color: var(--_focus-icon-color);
+          color: var(--md-primary-tab-focus-icon-color);
         }
 
         .tab__presentation__text {
-          color: var(--_focus-label-text-color)
+          color: var(--md-primary-tab-focus-label-text-color)
         }
       }
     }
@@ -63,11 +77,11 @@
     &.primary-tab--hover {
       .tab__presentation {
         .tab__presentation__icon {
-          color: var(--_hover-icon-color);
+          color: var(--md-primary-tab-hover-icon-color);
         }
 
         .tab__presentation__text {
-          color: var(--_hover-label-text-color)
+          color: var(--md-primary-tab-hover-label-text-color)
         }
       }
     }
@@ -75,29 +89,29 @@
     &.primary-tab--pressed {
       .tab__presentation {
         .tab__presentation__icon {
-          color: var(--_pressed-icon-color);
+          color: var(--md-primary-tab-pressed-icon-color);
         }
 
         .tab__presentation__text {
-          color: var(--_pressed-label-text-color)
+          color: var(--md-primary-tab-pressed-label-text-color)
         }
       }
     }
 
     &.primary-tab--active {
       @include ripple.theme((
-        hover-color: var(--_active-hover-state-layer-color),
-        pressed-color: var(--_active-pressed-state-layer-color)
+        hover-color: var(--md-primary-tab-active-hover-state-layer-color),
+        pressed-color: var(--md-primary-tab-active-pressed-state-layer-color)
       ));
 
       &.primary-tab--focus {
         .tab__presentation {
           .tab__presentation__icon {
-            color: var(--_active-focus-icon-color);
+            color: var(--md-primary-tab-active-focus-icon-color);
           }
 
           .tab__presentation__text {
-            color: var(--_active-focus-label-text-color)
+            color: var(--md-primary-tab-active-focus-label-text-color)
           }
         }
       }
@@ -105,11 +119,11 @@
       &.primary-tab--hover {
         .tab__presentation {
           .tab__presentation__icon {
-            color: var(--_active-hover-icon-color);
+            color: var(--md-primary-tab-active-hover-icon-color);
           }
 
           .tab__presentation__text {
-            color: var(--_active-hover-label-text-color)
+            color: var(--md-primary-tab-active-hover-label-text-color)
           }
         }
       }
@@ -117,11 +131,11 @@
       &.primary-tab--pressed {
         .tab__presentation {
           .tab__presentation__icon {
-            color: var(--_active-pressed-icon-color);
+            color: var(--md-primary-tab-active-pressed-icon-color);
           }
 
           .tab__presentation__text {
-            color: var(--_active-pressed-label-text-color)
+            color: var(--md-primary-tab-active-pressed-label-text-color)
           }
         }
       }

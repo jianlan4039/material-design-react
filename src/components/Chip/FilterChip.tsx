@@ -25,7 +25,7 @@ const FilterChip = forwardRef<FilterChipHandle, FilterChipProps>((props, ref) =>
   const [select, setSelect] = useState(_slc)
 
   const clickHandler = () => {
-    setSelect(!select)
+    !disabled && setSelect(!select)
   }
 
   useEffect(() => {
