@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {OutlinedTextField} from "../../index";
-import "../styles"
+import {OutlinedTextField} from "../../../index";
+import "../../styles"
 
 const meta: Meta = {
   title: 'Form/OutlinedTextField',

@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {Switch} from "../index";
+import {Switch} from "../../index";
 
 const meta: Meta = {
   title: 'Form/Switch',

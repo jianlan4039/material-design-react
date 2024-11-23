@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react';
-import './styles'
-import {DatePicker} from "../index";
+import '../styles'
+import {DatePicker} from "../../index";
 
 const meta: Meta = {
   title: 'Form/DatePicker',

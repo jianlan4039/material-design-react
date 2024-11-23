@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {FilledTextField} from "../../index";
+import {FilledTextField} from "../../../index";
 
 const meta: Meta = {
   title: "Form/FilledTextField",
