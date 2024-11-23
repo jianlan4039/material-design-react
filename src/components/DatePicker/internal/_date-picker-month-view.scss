@@ -11,41 +11,41 @@
 
     .date:not(.blank) {
       @include ripple.theme((
-        hover-color: var(--_date-unselected-hover-state-layer-color),
-        pressed-color: var(--_date-unselected-pressed-state-layer-color)
+        hover-color: var(--md-date-picker-date-unselected-hover-state-layer-color),
+        pressed-color: var(--md-date-picker-date-unselected-pressed-state-layer-color)
       ));
       position: relative;
-      border-radius: var(--_date-container-shape);
-      inline-size: var(--_date-container-width);
-      block-size: var(--_date-container-height);
+      border-radius: var(--md-date-picker-date-container-shape);
+      inline-size: var(--md-date-picker-date-container-width);
+      block-size: var(--md-date-picker-date-container-height);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: var(--_date-label-text-font), serif;
-      font-size: var(--_date-label-text-size);
-      font-weight: var(--_date-label-text-weight);
-      line-height: var(--_date-label-text-line-height);
-      color: var(--_date-label-text-color);
+      font-family: var(--md-date-picker-date-label-text-font), serif;
+      font-size: var(--md-date-picker-date-label-text-size);
+      font-weight: var(--md-date-picker-date-label-text-weight);
+      line-height: var(--md-date-picker-date-label-text-line-height);
+      color: var(--md-date-picker-date-label-text-color);
       cursor: pointer;
       box-sizing: border-box;
 
       &.selected:not(.blank) {
         @include ripple.theme((
-          hover-color: var(--_date-selected-hover-state-layer-color),
-          pressed-color: var(--_date-selected-pressed-state-layer-color)
+          hover-color: var(--md-date-picker-date-selected-hover-state-layer-color),
+          pressed-color: var(--md-date-picker-date-selected-pressed-state-layer-color)
         ));
         @include background.theme((
-          color: var(--_date-selected-container-color)
+          color: var(--md-date-picker-date-selected-container-color)
         ));
-        color: var(--_date-selected-label-text-color);
+        color: var(--md-date-picker-date-selected-label-text-color);
         @include background.styles;
       }
 
       &.today:not(.selected) {
-        border-width: var(--_date-today-container-outline-width);
+        border-width: var(--md-date-picker-date-today-container-outline-width);
         border-style: solid;
-        border-color: var(--_date-today-container-outline-color);
-        color: var(--_date-today-label-text-color)
+        border-color: var(--md-date-picker-date-today-container-outline-color);
+        color: var(--md-date-picker-date-today-label-text-color)
       }
     }
   }
