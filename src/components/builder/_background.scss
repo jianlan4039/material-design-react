@@ -10,7 +10,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background-color: var(--md-cust-#{$comp}-background-color, #fff);
+    background-color: var(--md-cust-#{$comp}-background-color);
     opacity: var(--md-cust-#{$comp}-background-opacity, 1);
     z-index: var(--md-cust-#{$comp}-background-z-index, -1);
     transition: background-color 300ms ease;
