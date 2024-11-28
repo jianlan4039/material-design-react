@@ -98,8 +98,8 @@ $easing-standard: map.get(md-sys-motion.values(), 'easing-standard');
         }
 
         &.with-selected-icon {
-          block-size: var(--md-switch-with-icon-handle-height);
-          inline-size: var(--md-switch-with-icon-handle-width);
+          //block-size: var(--md-switch-with-icon-handle-height);
+          //inline-size: var(--md-switch-with-icon-handle-width);
         }
 
         &.with-unchecked-icon {

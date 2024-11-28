@@ -11,25 +11,24 @@ export default meta;
 type Story = StoryObj<typeof Switch>
 
 export const Primary: Story = {
-  render: () => (
-    <Switch
-      icon={<span className={'material-icons'}>check</span>}
-      uncheckedIcon={<span className={'material-icons'}>home</span>}
-    ></Switch>
+  render: ({disabled}) => (
+    <Switch disabled={disabled}></Switch>
   )
 }
 
 export const withCheckIcon: Story = {
-  render: () => (
+  render: ({disabled}) => (
     <Switch
+      disabled={disabled}
       icon={<span className={'material-icons'}>check</span>}
     ></Switch>
   )
 }
 
 export const withUncheckIcon: Story = {
-  render: () => (
+  render: ({disabled}) => (
     <Switch
+      disabled={disabled}
       uncheckedIcon={<span className={'material-icons'}>home</span>}
     ></Switch>
   )
