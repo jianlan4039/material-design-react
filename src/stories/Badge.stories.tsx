@@ -34,11 +34,13 @@ export const Large: Story = {
 export const withIconButton: Story = {
   render: ({count = 10, size = "large"}) => {
     return (
-      <Badge count={count} size={size}>
-        <IconButton>
+
+      <IconButton>
+        <Badge count={count} size={size}>
           <span className={'material-icons'}>home</span>
-        </IconButton>
-      </Badge>
+        </Badge>
+      </IconButton>
+
     )
   }
 }

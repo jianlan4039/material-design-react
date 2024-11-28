@@ -99,12 +99,17 @@
     @include background.theme((
       color: var(--md-#{$comp}-disabled-container-color),
       opacity: var(--md-#{$comp}-disabled-container-opacity)
-    ));
+    ), $comp);
 
     .nd-button {
       color: var(--md-#{$comp}-disabled-label-text-color);
       opacity: var(--md-#{$comp}-disabled-label-text-opacity);
       cursor: auto;
+
+      .nd-button__icon-slot > * {
+        color: var(--md-#{$comp}-disabled-label-text-color);
+        fill: var(--md-#{$comp}-disabled-label-text-color);;
+      }
     }
   }
 }
