@@ -20,7 +20,7 @@ const OutlinedButton = forwardRef<OutlinedButtonHandle, OutlinedButtonProps>((
   }, ref) => {
 
   return (
-    <Wrapper ref={ref} name={'nd-outlined-button'} label={label || children} {...rest}>
+    <Wrapper ref={ref} name={'nd-outlined-button'} label={label || children} disabled={disabled} {...rest}>
       <Outline disabled={disabled}></Outline>
     </Wrapper>
   )
