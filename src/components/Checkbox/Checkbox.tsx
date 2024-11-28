@@ -47,6 +47,9 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
   }))
 
   const clickHandler = () => {
+    if (disabled) {
+      return
+    }
     if (state === 2) {
       setState(1)
     } else if (state === 1) {

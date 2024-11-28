@@ -11,4 +11,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
-export const Primary: Story = {}
+export const Primary: Story = {
+  args: {
+    disabled: false
+  }
+}
