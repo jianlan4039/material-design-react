@@ -33,8 +33,9 @@
   .nd-card-content {
     border-radius: inherit;
     position: relative;
-    block-size: 100%;
-    inline-size: 100%;
+    min-block-size: inherit;
+    display: block;
+    border: inherit;
     //overflow: auto;
   }
 

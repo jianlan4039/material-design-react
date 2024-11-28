@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react';
-import './styles'
-import {OutlinedCard} from "../index";
+import '../styles'
+import {OutlinedCard} from "../../index";
 
 const meta: Meta = {
   title: 'Card/Outlined Card',
