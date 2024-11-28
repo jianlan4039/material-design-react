@@ -15,16 +15,16 @@
     border-radius: var(--md-badge-shape);
     background-color: var(--md-badge-color);
     transition: opacity 150ms linear;
-    inset-inline-end: 0;
-    inset-block-start: 0;
+
 
     &.nd-badge--small {
       block-size: var(--md-badge-size);
       inline-size: var(--md-badge-size);
+      inset-inline-end: 0;
+      inset-block-start: 0;
     }
 
     &.nd-badge--large {
-      direction: rtl;
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
@@ -40,8 +40,7 @@
       overflow: hidden;
       padding-inline: calc(var(--md-badge-large-size) / 4);
       inset-block-start: -2px;
-      inset-inline-start: 100%;
-      transform: translateX(12px);
+      inset-inline-start: 50%;
     }
 
     &.nd-badge--hidden {
