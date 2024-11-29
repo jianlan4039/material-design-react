@@ -5,11 +5,12 @@
 
 $support-tokens: (
   'icon-color',
-  'opacity'
+  'opacity',
+  'icon-opacity'
 );
 
-@mixin theme($tokens) {
-  @include tokens-builder.theme($tokens, $support-tokens, icon-button);
+@mixin theme($tokens, $comp: "") {
+  @include tokens-builder.theme($tokens, $support-tokens, $comp);
 }
 
 @mixin styles($comp: "") {
@@ -42,12 +43,12 @@ $support-tokens: (
 
       .nd-icon-button__icon-slot,
       .nd-icon-button__icon-slot > * {
-        fill: var(--md-#{$comp}-icon-color);
-        color: var(--md-#{$comp}-icon-color);
+        fill: var(--md-cust-#{$comp}-icon-color, var(--md-#{$comp}-icon-color));
+        color: var(--md-cust-#{$comp}-icon-color, var(--md-#{$comp}-icon-color));
         font-size: var(--md-#{$comp}-icon-size);
         block-size: var(--md-#{$comp}-icon-size);
         inline-size: var(--md-#{$comp}-icon-size);
-        opacity: var(--md-icon-button-opacity, 1);
+        opacity: var(--md-cust-#{$comp}-icon-opacity, var(--md-#{$comp}-icon-opacity, 1));
       }
     }
   }

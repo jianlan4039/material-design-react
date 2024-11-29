@@ -33,6 +33,6 @@ $tokens: md-comp-filled-icon-button.values();
   ));
   @include shared.styles(filled-icon-button);
   @include background.styles(filled-icon-button);
-  @include state.styles;
   @include toggled.styles(filled-icon-button);
+  @include state.styles(filled-icon-button);
 }

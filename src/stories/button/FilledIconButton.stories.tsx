@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {FilledIconButton} from "../index";
+import {FilledIconButton} from "../../index";
 
 const meta: Meta = {
   title: 'IconButton/Filled Icon Button',
@@ -11,12 +11,8 @@ export default meta;
 type Story = StoryObj<typeof FilledIconButton>;
 
 export const Primary: Story = {
-  render: () => {
-
-    return (
-      <FilledIconButton>
-        <span className={"material-icons-round"}>home</span>
-      </FilledIconButton>
-    )
+  args: {
+    icon: <span className={"material-icons"}>home</span>,
+    toggled: false
   }
 }

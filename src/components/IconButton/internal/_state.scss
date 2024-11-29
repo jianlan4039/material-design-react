@@ -2,13 +2,6 @@
 @use "../../builder/background";
 @use "./shared";
 
-$support-tokens: (
-);
-
-@mixin theme($tokens) {
-  @include tokens-builder.tokens($tokens, $support-tokens, icon-button)
-}
-
 @mixin styles($comp:"") {
   & {
     &:hover {
@@ -33,11 +26,12 @@ $support-tokens: (
       @include background.theme((
         color: var(--md-#{$comp}-disabled-container-color),
         opacity: var(--md-#{$comp}-disabled-container-opacity)
-      ));
+      ), $comp);
       @include shared.theme((
         icon-color: var(--md-#{$comp}-disabled-icon-color),
-        opacity: var(--md-#{$comp}-disabled-icon-opacity)
-      ));
+        opacity: var(--md-#{$comp}-disabled-icon-opacity),
+        icon-opacity: var(--md-#{$comp}-disabled-icon-opacity)
+      ), $comp);
       cursor: auto;
     }
   }

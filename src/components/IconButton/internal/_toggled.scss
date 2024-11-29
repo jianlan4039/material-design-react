@@ -6,61 +6,61 @@
   &:not(.disabled).toggled {
     @include background.theme((
       color: var(--md-#{$comp}-unselected-container-color)
-    ));
+    ), $comp);
     @include ripple.theme((
       hover-color: var(--md-#{$comp}-toggle-hover-state-layer-color),
       pressed-color: var(--md-#{$comp}-toggle-pressed-state-layer-color)
     ));
     @include shared.theme((
       icon-color: var(--md-#{$comp}-toggle-icon-color)
-    ));
+    ), $comp);
 
     &:hover {
       @include shared.theme((
         icon-color: var(--md-#{$comp}-toggle-hover-icon-color)
-      ));
+      ), $comp);
     }
 
     &:focus {
       @include shared.theme((
         icon-color: var(--md-#{$comp}-toggle-focus-icon-color)
-      ));
+      ), $comp);
     }
 
     &:active {
       @include shared.theme((
         icon-color: var(--md-#{$comp}-toggle-pressed-icon-color)
-      ));
+      ), $comp);
     }
 
     &.selected {
       @include background.theme((
         color: var(--md-#{$comp}-selected-container-color)
-      ));
+      ), $comp);
       @include ripple.theme((
         hover-color: var(--md-#{$comp}-toggle-selected-hover-state-layer-color),
         pressed-color: var(--md-#{$comp}-toggle-selected-pressed-state-layer-color)
       ));
       @include shared.theme((
         icon-color: var(--md-#{$comp}-toggle-selected-icon-color)
-      ));
+      ), $comp);
 
       &:hover {
         @include shared.theme((
           icon-color: var(--md-#{$comp}-toggle-selected-hover-icon-color)
-        ));
+        ), $comp);
       }
 
       &:focus {
         @include shared.theme((
           icon-color: var(--md-#{$comp}-toggle-selected-focus-icon-color)
-        ));
+        ), $comp);
       }
 
       &:active {
         @include shared.theme((
           icon-color: var(--md-#{$comp}-toggle-selected-pressed-icon-color)
-        ));
+        ), $comp);
       }
     }
   }
