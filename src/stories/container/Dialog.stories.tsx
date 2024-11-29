@@ -1,10 +1,10 @@
 import {Meta, StoryObj} from "@storybook/react";
-import './styles'
-import {DatePicker, Dialog, ElevatedButton, TextButton} from "../index";
+import '../styles'
+import {DatePicker, Dialog, ElevatedButton, TextButton} from "../../index";
 import {useState} from "react";
 
 const meta: Meta = {
-  title: "Dialog",
+  title: "Container/Dialog",
   component: Dialog,
 }
 
@@ -26,6 +26,8 @@ export const Primary: Story = {
       <TextButton>OK</TextButton>
     </>,
     headerDivider: true,
-    footerDivider: true
+    footerDivider: true,
+    icon: <span className={'material-icons'}>home</span>,
+    supportingText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
   }
 }

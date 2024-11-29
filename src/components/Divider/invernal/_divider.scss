@@ -11,9 +11,9 @@ $supported-tokens: md-comp-divider.$supported-tokens;
 @mixin styles() {
   @include tokens-builder.tokens($tokens, divider);
   box-sizing: border-box;
-  color: var(--_color);
+  color: var(--md-divider-color);
   display: flex;
-  height: var(--_thickness);
+  height: var(--md-divider-thickness);
   width: 100%;
 
   &.nd-inset,
