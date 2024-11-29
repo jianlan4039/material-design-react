@@ -9,7 +9,7 @@ import useRipple from "../Ripple/useRipple";
 export interface FABProps extends ButtonProps {
   children?: ReactNode
   size?: 'small' | "large" | "default"
-  variant?: 'primary' | 'secondary' | 'tertiary'
+  variant?: 'normal' | 'primary' | 'secondary' | 'tertiary'
   lowered?: boolean
 }
 

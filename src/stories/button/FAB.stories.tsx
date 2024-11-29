@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
-import './styles';
-import {FAB} from "../index";
+import '../styles';
+import {FAB} from "../../index";
 
 const meta: Meta = {
   title: "Button/FAB",
@@ -12,7 +12,7 @@ type Story = StoryObj<typeof FAB>;
 export const Primary: Story = {
   args: {
     children: <span className={'material-icons'}>home</span>,
-    variant: 'tertiary',
+    variant: 'normal',
     size: 'large',
   }
 }

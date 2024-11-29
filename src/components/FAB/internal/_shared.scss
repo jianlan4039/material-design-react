@@ -8,7 +8,11 @@
 @mixin styles($comp:"") {
   & {
     @include focus-ring.theme((
-      shape: var(--md-#{$comp}-container-shape)
+      shape: var(--md-#{$comp}-container-shape),
+      shape-start-start: var(--md-#{$comp}-container-shape),
+      shape-start-end: var(--md-#{$comp}-container-shape),
+      shape-end-end: var(--md-#{$comp}-container-shape),
+      shape-end-start: var(--md-#{$comp}-container-shape),
     ));
     @include elevation.theme((
       level: var(--md-#{$comp}-container-elevation),
