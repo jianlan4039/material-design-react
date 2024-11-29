@@ -1,8 +1,8 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {ListItem, List} from "../index";
+import {ListItem, List} from "../../index";
 
 const meta: Meta = {
-  title: "Collection/List",
+  title: "Container/List",
   component: List,
   tags: ['autodocs']
 }
@@ -22,7 +22,7 @@ export const Primary: Story = {
           supportingText={"Lorem ipsum dolor sit amet."}
           trailingIcon={<span className="material-icons-outlined">chevron_right</span>}
         ></ListItem>
-        <ListItem headline={'Item 2'} supportingText={"Lorem ipsum dolor sit amet."}></ListItem>
+        <ListItem headline={'Item 2'} supportingText={"Lorem ipsum dolor sit amet."} disabled={true}></ListItem>
         <ListItem headline={'Item 3'} supportingText={"Lorem ipsum dolor sit amet."}></ListItem>
         <ListItem headline={'Item 4'} supportingText={"Lorem ipsum dolor sit amet."}></ListItem>
       </List>

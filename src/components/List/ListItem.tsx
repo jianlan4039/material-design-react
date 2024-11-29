@@ -81,7 +81,7 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
       {...rippleProps}
       {...rest}
     >
-      {interactive && ripple}
+      {!disabled && interactive && ripple}
       <LinearSectionContainer
         ref={contentRef}
         start={icon}
