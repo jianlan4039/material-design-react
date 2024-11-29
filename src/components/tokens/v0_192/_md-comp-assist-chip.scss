@@ -63,7 +63,7 @@ $_default: (
     'flat-disabled-outline-color': map.get($deps, 'md-sys-color', 'on-surface'),
     'flat-disabled-outline-opacity': if($exclude-hardcoded-values, null, 0.12),
     'flat-focus-outline-color': map.get($deps, 'md-sys-color', 'on-surface'),
-    'flat-outline-color': map.get($deps, 'md-sys-color', 'outline'),
+    'flat-outline-color': map.get($deps, 'md-sys-color', 'outline-variant'),
     'flat-outline-width': if($exclude-hardcoded-values, null, 1px),
     'focus-label-text-color': map.get($deps, 'md-sys-color', 'on-surface'),
     'focus-state-layer-color': map.get($deps, 'md-sys-color', 'on-surface'),

@@ -8,10 +8,10 @@ $supported-tokens: md-comp-suggestion-chip.$supported-tokens;
 
 .nd-suggestion-chip {
   @include tokens-builder.tokens($tokens, suggestion-chip);
-  --md-suggestion-chip-shape-start-start: var(--md-suggestion-chip-shape-start-start, var(--md-suggestion-chip-container-shape));
-  --md-suggestion-chip-shape-start-end: var(--md-suggestion-chip-shape-start-end, var(--md-suggestion-chip-container-shape));
-  --md-suggestion-chip-shape-end-start: var(--md-suggestion-chip-shape-end-start, var(--md-suggestion-chip-container-shape));
-  --md-suggestion-chip-shape-end-end: var(--md-suggestion-chip-shape-end-end, var(--md-suggestion-chip-container-shape));
+  --md-suggestion-chip-shape-start-start: var(--md-suggestion-chip-container-shape);
+  --md-suggestion-chip-shape-start-end: var(--md-suggestion-chip-container-shape);
+  --md-suggestion-chip-shape-end-start: var(--md-suggestion-chip-container-shape);
+  --md-suggestion-chip-shape-end-end: var(--md-suggestion-chip-container-shape);
   @include background.styles(suggestion-chip);
   @include shared.styles(suggestion-chip);
 }

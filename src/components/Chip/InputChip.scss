@@ -9,6 +9,12 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
 .nd-input-chip {
   @include tokens-builder.tokens($tokens, input-chip);
   --md-input-chip-trail-icon-size: var(--md-input-chip-icon-size);
+
+  --md-input-chip-shape-start-start: var(--md-input-chip-container-shape);
+  --md-input-chip-shape-start-end: var(--md-input-chip-container-shape);
+  --md-input-chip-shape-end-start: var(--md-input-chip-container-shape);
+  --md-input-chip-shape-end-end: var(--md-input-chip-container-shape);
+
   @include background.styles(input-chip);
   @include shared.styles(input-chip);
 

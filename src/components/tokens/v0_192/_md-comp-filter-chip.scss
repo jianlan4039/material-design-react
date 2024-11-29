@@ -81,7 +81,7 @@ $_default: (
       map.get($deps, 'md-sys-color', 'on-surface-variant'),
     'flat-unselected-hover-container-elevation':
       map.get($deps, 'md-sys-elevation', 'level0'),
-    'flat-unselected-outline-color': map.get($deps, 'md-sys-color', 'outline'),
+    'flat-unselected-outline-color': map.get($deps, 'md-sys-color', 'outline-variant'),
     'flat-unselected-outline-width': if($exclude-hardcoded-values, null, 1px),
     'flat-unselected-pressed-container-elevation':
       map.get($deps, 'md-sys-elevation', 'level0'),

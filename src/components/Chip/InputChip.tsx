@@ -47,9 +47,10 @@ const InputChip = forwardRef<InputChipHandle, InputChipProps>((props, ref) => {
         ref={trailingBtnRef}
         className={'nd-input-chip__trail'}
         onClick={onClose}
+        disabled={disabled}
         {...rippleProps}
       >
-        {ripple}
+        {!disabled && ripple}
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
             <path
               d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
