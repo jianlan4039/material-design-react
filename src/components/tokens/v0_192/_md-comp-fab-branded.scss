@@ -45,7 +45,7 @@ $_default: (
     'hover-state-layer-color': map.get($deps, 'md-sys-color', 'primary'),
     'hover-state-layer-opacity':
       map.get($deps, 'md-sys-state', 'hover-state-layer-opacity'),
-    'icon-size': if($exclude-hardcoded-values, null, 36px),
+    'icon-size': if($exclude-hardcoded-values, null, 24px),
     'lowered-container-color':
       map.get($deps, 'md-sys-color', 'surface-container-low'),
     'lowered-container-elevation': map.get($deps, 'md-sys-elevation', 'level1'),
