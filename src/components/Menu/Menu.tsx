@@ -291,7 +291,8 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       <div
         ref={menuRef}
         style={{...style, ...menuOffsetStyle}}
-        className={c('nd-menu', className, {
+        className={c(
+          'nd-menu', className, {
           'nd-menu--visible': isVisible === true,
           'nd-menu--hidden': isVisible === false
         })}
