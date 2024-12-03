@@ -1,11 +1,12 @@
 import React, {
-  forwardRef,
-  HTMLAttributes, LiHTMLAttributes,
+  HTMLAttributes,
+  LiHTMLAttributes,
   ReactNode,
+  forwardRef,
   useEffect,
   useImperativeHandle,
   useRef,
-  useState
+  useState, useMemo
 } from 'react'
 import LinearSectionContainer from "../Container/LinearSectionContainer/LinearSectionContainer";
 import './ListItem.scss'
@@ -61,23 +62,30 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   }))
 
   useEffect(() => {
-    if (rootRef.current) {
-      if (rootRef.current.getBoundingClientRect().height >= 88) {
-        setIsTopLayout(true)
-      } else {
-        setIsTopLayout(false)
-      }
-    }
-  }, [rootRef]);
+    const element = rootRef.current;
+    if (!element) return;
+
+    const observer = new ResizeObserver(() => {
+      const height = element.getBoundingClientRect().height;
+      setIsTopLayout(height >= 88);
+    });
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <li
       ref={rootRef}
-      className={c('list-item', className, {
-        'two-line-height': supportingText,
-        'top-layout': isTopLayout,
-        'disabled': disabled
-      })}
+      className={c('list-item', className,
+        {
+          'two-line-height': supportingText,
+          'top-layout': isTopLayout,
+          'disabled': disabled
+        })}
       {...rippleProps}
       {...rest}
     >

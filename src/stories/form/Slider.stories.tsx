@@ -1,19 +1,21 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {Slider} from "../index";
+import {Slider} from "../../index";
 
 const meta: Meta = {
   title: 'Form/Slider',
   component: Slider,
-  tags: ['autodocs']
+  tags: ['autodocs'],
+  parameters: {
+    layout: "centered"
+  }
 }
 
 export default meta;
 type Story = StoryObj<typeof Slider>;
 
 export const Primary: Story = {
-  render: () => (
-    <div>
-      <Slider max={200} min={0} value={0}></Slider>
-    </div>
-  )
+  args: {
+    min: 0,
+    max: 100
+  }
 }
