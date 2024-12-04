@@ -24,8 +24,8 @@ export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
 }
 
 export interface ListItemHandle extends HTMLAttributes<HTMLLIElement> {
-  root?: HTMLLIElement | null
-  body?: HTMLDivElement | null
+  container?: HTMLLIElement | null
+  child?: HTMLDivElement | null
 }
 
 const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
@@ -48,8 +48,8 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
     ...rest
   } = props
 
-  const rootRef = useRef<HTMLLIElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLLIElement>(null);
+  const childRef = useRef<HTMLDivElement>(null)
   const [isTopLayout, setIsTopLayout] = useState<boolean>(false)
 
   const [rippleProps, ripple] = useRipple<HTMLLIElement>({
@@ -57,29 +57,17 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   })
 
   useImperativeHandle(ref, () => ({
-    root: rootRef.current,
-    body: contentRef.current
+    container: containerRef.current,
+    child: childRef.current
   }))
 
   useEffect(() => {
-    const element = rootRef.current;
-    if (!element) return;
-
-    const observer = new ResizeObserver(() => {
-      const height = element.getBoundingClientRect().height;
-      setIsTopLayout(height >= 88);
-    });
-
-    observer.observe(element);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+    containerRef.current && setIsTopLayout(containerRef.current.getBoundingClientRect().height >= 88)
+  }, [containerRef.current]);
 
   return (
     <li
-      ref={rootRef}
+      ref={containerRef}
       className={c('list-item', className,
         {
           'two-line-height': supportingText,
@@ -91,7 +79,7 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
     >
       {!disabled && interactive && ripple}
       <LinearSectionContainer
-        ref={contentRef}
+        ref={childRef}
         start={icon}
         end={trailingIcon}
       >
