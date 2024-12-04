@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
   MouseEvent,
-  useImperativeHandle, memo
+  useImperativeHandle, memo, useMemo
 } from 'react'
 import ListItem, {ListItemProps} from "../../List/ListItem";
 import './NavigationEnter.scss';
@@ -21,7 +21,7 @@ export interface NavigationEnterProps extends ListItemProps {
 }
 
 export interface NavigationEnterHandle {
-  root: HTMLLIElement | null
+  container: HTMLLIElement | null
 }
 
 const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterProps>((props, ref) => {
@@ -45,15 +45,20 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [delayClose, setDelayClose] = useState<boolean>(isOpen)
 
+  const SubEntries = useMemo(
+    () => subEntries?.map((entry, i) =>
+        <NavigationEnter key={`${entry.id}-${i}`} {...entry}></NavigationEnter>),
+    [subEntries])
+
   useImperativeHandle(ref, () => ({
-    root: listRef.current?.root || null
+    container: listRef.current?.container || null
   }))
 
   useEffect(() => {
-    if (listRef.current && listRef.current.root) {
+    if (listRef.current && listRef.current.container) {
       active && setActive?.({id: id, value: value})
     }
-  }, [listRef]);
+  }, [listRef.current]);
 
   useEffect(() => {
     if (active) {
@@ -133,27 +138,27 @@ const NavigationEnter = memo(forwardRef<NavigationEnterHandle, NavigationEnterPr
   )
 
   return (
-    <ListItem
-      ref={listRef}
-      className={c('navigation-enter', {
-        'active': isActive,
-        'open': isOpen
-      })}
-      onClick={clickHandler}
-      interactive={!isOpen}
-      trailingIcon={subEntries ? isOpen ? <UpArrow></UpArrow> : <DownArrow></DownArrow> : trailingIcon}
-      {...rest}
-    >
-      <div ref={indicatorRef} className={'indicator'}></div>
+    <>
+      <ListItem
+        ref={listRef}
+        className={c('navigation-enter', {
+          'active': isActive,
+          'open': isOpen
+        })}
+        onClick={clickHandler}
+        interactive={!isOpen}
+        trailingIcon={subEntries ? isOpen ? <UpArrow></UpArrow> : <DownArrow></DownArrow> : trailingIcon}
+        {...rest}
+      >
+        <div ref={indicatorRef} className={'indicator'}></div>
+      </ListItem>
       {
         subEntries &&
         <ul ref={subEntryRef} className={c('sub-entries', {'open': isOpen || delayClose})}>
-          {
-            subEntries.map((e, i) => <NavigationEnter {...e} key={i}></NavigationEnter>)
-          }
+          {SubEntries}
         </ul>
       }
-    </ListItem>
+    </>
   )
 }))
 
