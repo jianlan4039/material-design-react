@@ -23,7 +23,6 @@ export interface MenuItemProps extends ListItemProps {
   trailingIcon?: ReactNode
   headline?: string
   keepOpen?: boolean
-  value?: number
   setIsMenuOpen?: (open: boolean) => void
 }
 
@@ -91,7 +90,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   /**
    * 点击回调函数，如果设置了id，那么就有选中效果，以及可以预制选中项。
    */
-  const clickHandler = (e:MouseEvent<HTMLLIElement>) => {
+  const clickHandler = (e: MouseEvent<HTMLLIElement>) => {
     onClick?.(e)
     if (!(id === undefined || id === null)) {
       if (multiple) {

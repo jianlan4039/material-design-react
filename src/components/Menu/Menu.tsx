@@ -175,7 +175,6 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   useEffect(() => {
     scrollIntoItem()
-    onSelected?.(selectedList)
   }, [selectedList]);
 
   const scrollIntoItem = () => {

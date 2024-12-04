@@ -40,7 +40,7 @@ export const Primary: Story = {
       setOpen(!open)
     }
 
-    const changeHandler = (values: string[]) => {
+    const changeHandler = (values: (string | number)[] | undefined) => {
       console.log(values)
     };
 
