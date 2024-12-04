@@ -1,6 +1,6 @@
 import React, {forwardRef, ReactNode, useMemo} from 'react'
 import './NavigationRail.scss';
-import Department, {DepartmentProps} from "./internal/Department";
+import NavigationAction, {DepartmentProps} from "./internal/NavigationAction";
 import {IndicatorActiveContextProvider} from "../internal/context/IndicatorActiveContext";
 import IconButton from "../IconButton/IconButton";
 
@@ -23,7 +23,7 @@ const NavigationRail = forwardRef<HTMLDivElement, NavigationRailProps>((props, r
   const Items = useMemo(() => {
     return items?.map((item, index) => {
       return (
-        <Department key={item.id ?? `nav-rail-${index}`} {...item}></Department>
+        <NavigationAction key={item.id ?? `nav-rail-${index}`} {...item}></NavigationAction>
       )
     })
   }, [items])

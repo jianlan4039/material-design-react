@@ -40,12 +40,12 @@ $values: (
 );
 
 @mixin theme($tokens) {
-  @include tokens-builder.theme($tokens, $support-tokens, navigation-department);
+  @include tokens-builder.theme($tokens, $support-tokens, navigation-action);
 }
 
 @mixin styles() {
-  .navigation-department {
-    @include tokens-builder.tokens($values, navigation-department);
+  .navigation-action {
+    @include tokens-builder.tokens($values, navigation-action);
     @include forbidden-highlight.no-highlight;
     position: relative;
     display: flex;
@@ -55,25 +55,25 @@ $values: (
     align-items: center;
     justify-content: center;
     cursor: default;
-    gap: var(--md-navigation-department-gap);
+    gap: var(--md-navigation-action-gap);
 
     .icon {
-      color: var(--md-navigation-department-icon-color);
+      color: var(--md-navigation-action-icon-color);
       display: inline-flex;
       align-items: center;
       justify-content: center;
     }
 
     .icon, .icon > * {
-      font-size: var(--md-navigation-department-icon-size);
+      font-size: var(--md-navigation-action-icon-size);
     }
 
     .label {
-      font-family: var(--md-navigation-department-label-font), serif;
-      font-size: var(--md-navigation-department-label-size);
-      font-weight: var(--md-navigation-department-label-font-weight);
-      line-height: var(--md-navigation-department-label-line-height);
-      color: var(--md-navigation-department-label-color);
+      font-family: var(--md-navigation-action-label-font), serif;
+      font-size: var(--md-navigation-action-label-size);
+      font-weight: var(--md-navigation-action-label-font-weight);
+      line-height: var(--md-navigation-action-label-line-height);
+      color: var(--md-navigation-action-label-color);
     }
 
     .navigation-indicator {
@@ -82,12 +82,12 @@ $values: (
 
     &.active {
       .icon {
-        color: var(--md-navigation-department-active-icon-color);
+        color: var(--md-navigation-action-active-icon-color);
       }
 
       .label {
-        color: var(--md-navigation-department-active-label-color);
-        font-weight: var(--md-navigation-department-active-font-weight);
+        color: var(--md-navigation-action-active-label-color);
+        font-weight: var(--md-navigation-action-active-font-weight);
       }
     }
   }

@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {NavigationRail} from "../index";
 import './styles'
-import Department from "../components/Navigation/internal/Department";
+import NavigationAction from "../components/Navigation/internal/NavigationAction";
 
 const meta: Meta = {
   title: "Navigation/Navigation Rail",
@@ -46,10 +46,10 @@ export const Secondary: Story = {
 
     return (
       <NavigationRail>
-        <Department icon={<span className={'material-icons'}>home</span>} label={'Home'}></Department>
-        <Department icon={<span className={'material-icons'}>search</span>} label={'Search'}></Department>
-        <Department icon={<span className={'material-icons'}>settings</span>} label={'Settings'}></Department>
-        <Department icon={<span className={'material-icons'}>help</span>} label={'Help'}></Department>
+        <NavigationAction icon={<span className={'material-icons'}>home</span>} label={'Home'}></NavigationAction>
+        <NavigationAction icon={<span className={'material-icons'}>search</span>} label={'Search'}></NavigationAction>
+        <NavigationAction icon={<span className={'material-icons'}>settings</span>} label={'Settings'}></NavigationAction>
+        <NavigationAction icon={<span className={'material-icons'}>help</span>} label={'Help'}></NavigationAction>
       </NavigationRail>
     )
   }

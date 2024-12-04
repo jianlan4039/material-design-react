@@ -4,12 +4,11 @@ import React, {
   ReactNode,
   useContext,
   MouseEvent,
-  useId,
   useEffect,
   useRef,
   useState
 } from 'react'
-import './Department.scss'
+import './NavigationAction.scss'
 import Indicator from "./Indicator";
 import {IndicatorActiveContext} from '../../internal/context/IndicatorActiveContext'
 
@@ -19,16 +18,16 @@ export interface DepartmentProps extends HTMLAttributes<HTMLDivElement> {
   label?: string
   badge?: 'small' | 'large' | 'none'
   badgeCount?: number
-  id?: string
+  id: string
   showLabel?: boolean
 }
 
-const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
+const NavigationAction = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
   const {
     icon,
     label,
     className = '',
-    id = useId(),
+    id,
     showLabel = true
   } = props
 
@@ -46,7 +45,7 @@ const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
   };
 
   return (
-    <div ref={ref} className={`navigation-department ${className}`}>
+    <div ref={ref} className={`navigation-action ${className}`}>
       <Indicator ref={indicatorRef} animating={isAnimating} active={isActive} onClick={clickHandler}></Indicator>
       <div className={'icon'}>{icon}</div>
       {showLabel && label && <div className={'label'}>{label}</div>}
@@ -54,4 +53,4 @@ const Department = forwardRef<HTMLDivElement, DepartmentProps>((props, ref) => {
   )
 })
 
-export default Department;
+export default NavigationAction;

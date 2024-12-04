@@ -1,6 +1,6 @@
 import React, {forwardRef, ReactNode, useMemo} from 'react'
 import './NavigationBar.scss'
-import Department from "./internal/Department";
+import NavigationAction from "./internal/NavigationAction";
 import {IndicatorActiveContextProvider} from "../internal/context/IndicatorActiveContext";
 
 export type Item = {
@@ -25,7 +25,7 @@ const NavigationBar = forwardRef<HTMLDivElement, NavigationBarProps>((props, ref
 
   const Items = useMemo(() => {
     return items?.map((o, i) => {
-      return <Department icon={o.icon} label={o.label} key={i} id={o.id}></Department>
+      return <NavigationAction icon={o.icon} label={o.label} key={i} id={o.id}></NavigationAction>
     })
   }, [items])
 
