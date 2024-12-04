@@ -1,4 +1,4 @@
-import React, { ComponentType, forwardRef, ReactNode, useEffect, useId, useRef, useState} from 'react'
+import React, {ComponentType, forwardRef, ReactNode, useEffect, useId, useRef, useState} from 'react'
 import Menu from "../../Menu/Menu";
 import {Corner} from "../../internal/alignment/geometry";
 import {MenuItemProps} from "../../Menu/MenuItem";
@@ -13,7 +13,7 @@ export interface SelectProps extends FieldProps {
   label?: string
   id?: string
   name?: string
-  onChange?: (value: OptionValue) => void
+  onChange?: (value: string | string[]) => void
   multiple?: boolean
 }
 
@@ -34,7 +34,7 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
     const [anchor, setAnchor] = useState<HTMLElement>()
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isFocus, setIsFocus] = useState<boolean>(false)
-    const [value, setValue] = useState<OptionValue>()
+    const [value, setValue] = useState<string>()
     const [showLabel, setShowLabel] = useState<string>()
 
     const clickHandler = () => {
@@ -45,10 +45,18 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
       setIsOpen(false)
     }
 
-    const changeHandler = (value: OptionValue, option?: MenuItemProps) => {
-      setValue(value)
-      onChange?.(value)
-      option && setShowLabel(option.headline)
+    const changeHandler = (ids: string[]) => {
+      onChange?.(ids)
+      if (multiple) {
+        const idsString = ids.join(",")
+        setValue(idsString)
+        setShowLabel(idsString)
+      } else {
+        const id = ids[0]
+        setValue(id)
+        const index = items?.findIndex(i => i.id === id)
+        index !== undefined && setShowLabel(items![index].headline)
+      }
     }
 
     const mouseDownHandler = () => {
@@ -91,7 +99,7 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
             name={name ?? internalId}
             id={id ?? internalId}
             onFocus={selectFocusHandler}
-            value={value}
+            // value={value}
           ></input>
         </Field>
         <Menu

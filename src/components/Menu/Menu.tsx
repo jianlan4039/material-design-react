@@ -27,7 +27,7 @@ export interface MenuProps extends ListProps {
   menuCorner?: Corner
   anchorCorner?: Corner
   quick?: boolean
-  onSelected?: (ids: (string | number)[] | undefined) => void
+  onSelected?: (ids: string[]) => void
   offsetX?: number
   offsetY?: number
   stayOpenOnOutsideClick?: boolean
@@ -39,7 +39,7 @@ export interface MenuProps extends ListProps {
    * selection always be the same. For farther usage, user should keep updating preset by event onSelected when it
    * returns a new selected list.
    */
-  preset?: (string | number)[]
+  preset?: string[]
   onOpening?: () => void
   onOpened?: () => void
   onClosing?: () => void
@@ -94,7 +94,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const [isAnimating, setIsAnimating] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const animationBuffer = useRef<Animation[]>([])
-  const [selectedList, setSelectedList] = useState<(string | number)[]>()
+  const [selectedList, setSelectedList] = useState<string[]>()
   const MenuItems = useMemo(() => items?.map((item, index) => {
     return <MenuItem
       key={`menu-item-${index}-${item.headline}`}
@@ -281,9 +281,9 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     })
   }
 
-  const setListWithOption = (list: (string | number) []) => {
+  const setListWithOption = (list: string[]) => {
+    onSelected?.(list)
     setSelectedList(list)
-    onSelected?.(list.map(i => i.toString()))
   }
 
   const clearAnimations = () => {

@@ -17,7 +17,6 @@ export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
   headline?: string
   supportingText?: string
   disabled?: boolean
-  url?: string
   interactive?: boolean
   icon?: ReactNode,
   trailingIcon?: ReactNode
@@ -36,7 +35,6 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
     headline,
     supportingText,
     disabled,
-    url,
     interactive = true,
     className,
     onMouseOver,

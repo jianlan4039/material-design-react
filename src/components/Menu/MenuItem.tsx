@@ -32,6 +32,7 @@ export interface MenuItemHandle {
 
 const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   const {
+    id,
     subMenu,
     style, //style仅仅中转给submenu，因为submenu的自定义样式必须保持与menu一致
     customOpenIcon,
@@ -39,7 +40,6 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     icon,
     headline,
     keepOpen,
-    id,
     onMouseEnter,
     onMouseLeave,
     setIsMenuOpen,
@@ -88,7 +88,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   }
 
   /**
-   * 点击回调函数，如果设置了id，那么就有选中效果，以及可以预制选中项。
+   * 点击回调函数，如果设置了id，那么就有选中效果，以及可以预设选中项。
    */
   const clickHandler = (e: MouseEvent<HTMLLIElement>) => {
     onClick?.(e)
