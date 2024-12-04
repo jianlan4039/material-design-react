@@ -27,7 +27,7 @@ export interface MenuProps extends ListProps {
   menuCorner?: Corner
   anchorCorner?: Corner
   quick?: boolean
-  onSelected?: (ids: string[]) => void
+  onSelected?: (ids: (string | number)[] | undefined) => void
   offsetX?: number
   offsetY?: number
   stayOpenOnOutsideClick?: boolean
@@ -45,6 +45,7 @@ export interface MenuProps extends ListProps {
   onClosing?: () => void
   onClosed?: () => void
   scrollConfig?: ScrollIntoViewOptions
+  shownCount?: number
 }
 
 export interface MenuHandle {
@@ -78,6 +79,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       block: 'start',
       behavior: 'smooth'
     },
+    shownCount = items?.length ?? 0,
     ...rest
   } = props
 
@@ -93,6 +95,16 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const animationBuffer = useRef<Animation[]>([])
   const [selectedList, setSelectedList] = useState<(string | number)[]>()
+  const MenuItems = useMemo(() => items?.map((item, index) => {
+    return <MenuItem
+      key={`menu-item-${index}-${item.headline}`}
+      ref={(node) => itemsRef.current.push(node)}
+      style={style}
+      keepOpen={keepOpen || item.keepOpen}
+      setIsMenuOpen={setIsOpen}
+      {...item}
+    ></MenuItem>
+  }), [items])
 
   useEffect(() => {
     let outsideHandlerCleaner: () => void;
@@ -163,6 +175,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
 
   useEffect(() => {
     scrollIntoItem()
+    onSelected?.(selectedList)
   }, [selectedList]);
 
   const scrollIntoItem = () => {
@@ -293,28 +306,13 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
         style={{...style, ...menuOffsetStyle}}
         className={c(
           'nd-menu', className, {
-          'nd-menu--visible': isVisible === true,
-          'nd-menu--hidden': isVisible === false
-        })}
+            'nd-menu--visible': isVisible === true,
+            'nd-menu--hidden': isVisible === false
+          })}
       >
         <Elevation></Elevation>
         <ol ref={listRef} className={'nd-menu__list'} {...rest}>
-          {
-            useMemo(() => {
-              return items?.map((item, index) => {
-                return (
-                  <MenuItem
-                    key={`menu-item-${index}-${item.headline}`}
-                    ref={(node) => itemsRef.current.push(node)}
-                    style={style}
-                    keepOpen={keepOpen || item.keepOpen}
-                    setIsMenuOpen={setIsOpen}
-                    {...item}
-                  ></MenuItem>
-                )
-              })
-            }, [items])
-          }
+          {MenuItems}
         </ol>
       </div>
     </SelectionContextProvider>

@@ -23,7 +23,7 @@ export interface MenuItemProps extends ListItemProps {
   trailingIcon?: ReactNode
   headline?: string
   keepOpen?: boolean
-  value?: string | number
+  value?: number
   setIsMenuOpen?: (open: boolean) => void
 }
 
@@ -40,38 +40,39 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
     icon,
     headline,
     keepOpen,
-    value,
     id,
     onMouseEnter,
     onMouseLeave,
     setIsMenuOpen,
+    onClick,
+    ...rest
   } = props
 
   const listItemRef = useRef<ListItemHandle>(null);
   const subMenuRef = useRef<SubMenuHandle>(null);
   const closeTimeoutIdRef = useRef<NodeJS.Timeout>();
 
-  const [anchor, setAnchor] = useState<HTMLDivElement>()
+  const [listItemAnchor, setListItemAnchor] = useState<HTMLDivElement>()
   const [isSubmenuOpen, setIsSubmenuOpen] = useState<boolean>(false)
   const {config: {multiple}, list = [], setList} = useContext(SelectionContext)
 
   useImperativeHandle(ref, () => ({
-    root: listItemRef.current?.root
+    root: listItemRef.current?.container
   }))
 
   useEffect(() => {
-    if (listItemRef.current && listItemRef.current.body) {
-      setAnchor(listItemRef.current.body)
+    if (listItemRef.current && listItemRef.current.child) {
+      setListItemAnchor(listItemRef.current.child)
     }
-  }, [listItemRef]);
+  }, [listItemRef.current]);
 
   useEffect(() => {
-    if (listItemRef.current && listItemRef.current.root) {
-      subMenu && outsideHandler(listItemRef.current.root, () => {
+    if (listItemRef.current && listItemRef.current.container) {
+      subMenu && outsideHandler(listItemRef.current.container, () => {
         setIsSubmenuOpen(false)
       })
     }
-  }, [subMenuRef]);
+  }, [subMenuRef.current]);
 
   const mouseEnterHandler = (e: MouseEvent<HTMLLIElement>) => {
     onMouseEnter?.(e)
@@ -80,8 +81,8 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   }
 
   const mouseLeaveHandler = (e: MouseEvent<HTMLLIElement>) => {
-    onMouseLeave?.(e)
     e.preventDefault()
+    onMouseLeave?.(e)
     closeTimeoutIdRef.current = setTimeout(() => {
       setIsSubmenuOpen(false)
     }, 500)
@@ -90,7 +91,8 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
   /**
    * 点击回调函数，如果设置了id，那么就有选中效果，以及可以预制选中项。
    */
-  const onSelected = () => {
+  const clickHandler = (e:MouseEvent<HTMLLIElement>) => {
+    onClick?.(e)
     if (!(id === undefined || id === null)) {
       if (multiple) {
         const index = list.indexOf(id)
@@ -109,6 +111,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
 
   return (
     <ListItem
+      id={id}
       ref={listItemRef}
       className={classNames(`nd-menu-item`, {
         'nd-menu-item--selected': isSubmenuOpen || id && list?.includes(id),
@@ -120,18 +123,18 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
           <path d="M400-280v-400l200 200-200 200Z"/>
         </svg> : trailingIcon
       }
-      value={value}
-      id={id}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
-      onClick={onSelected}
+      onClick={clickHandler}
+      headline={headline}
+      {...rest}
     >
-      {headline}
       {
-        subMenu && <SubMenu
+        subMenu &&
+        <SubMenu
           ref={subMenuRef}
           items={subMenu}
-          anchorEl={anchor}
+          anchorEl={listItemAnchor}
           style={style}
           open={isSubmenuOpen}
         ></SubMenu>
