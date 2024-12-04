@@ -29,9 +29,9 @@ const selectOptions = [
 ]
 
 export const Primary: Story = {
-  render: () => (
+  render: ({multiple, }) => (
     <div style={{width: "200px"}}>
-      <FilledSelect label={"fruit"} items={selectOptions}></FilledSelect>
+      <FilledSelect label={"fruit"} items={selectOptions} multiple={multiple}></FilledSelect>
     </div>
   )
 }

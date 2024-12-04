@@ -16,6 +16,12 @@ type Story = StoryObj<typeof Slider>;
 export const Primary: Story = {
   args: {
     min: 0,
-    max: 100
+    max: 100,
+    onChange: (value: number) => {
+      console.log(value)
+    },
+    onRangeChange: (values: number[]) => {
+      console.log(values)
+    }
   }
 }

@@ -26,6 +26,8 @@ export interface ISliderProps {
   range?: boolean
   disabled?: boolean
   size?: number
+  onChange?:(value: number) => void
+  onRangeChange?:(values: number[]) => void
 }
 
 type ActiveHandle = 'PRIMARY' | 'SECOND' | undefined;
@@ -55,6 +57,8 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
     step = 0,
     size = 200,
     labeled,
+    onChange,
+    onRangeChange,
     ...rest
   } = props
 
@@ -267,6 +271,11 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
   const handleUpHandler = () => {
     setIsDragging(false)
     activeHandle.current = undefined
+    if(range){
+      onRangeChange?.([calculateValue(secondHandleMovementX), calculateValue(primaryHandleMovementX)])
+    }else {
+      onChange?.(calculateValue(primaryHandleMovementX))
+    }
   };
 
   return (
@@ -293,7 +302,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
             <div className={'inactive-track left'} style={{inlineSize: `${secondHandleMovementX}px`}}></div>
             <Handle
               className={c('second', {'pressed': isDragging && activeHandle.current === 'SECOND'})}
-              label={valueLabelEnd || calculateValue(secondHandleMovementX)}
+              label={valueLabelStart || calculateValue(secondHandleMovementX)}
               position={secondHandleMovementX}
               labeled={labeled && isDragging}
               onMouseDown={secondaryHandleMouseDown}
@@ -310,7 +319,7 @@ const Slider: React.FC<ISliderProps> = forwardRef<HTMLDivElement, ISliderProps>(
         <div className={c('inactive-track')}></div>
         <Handle
           position={primaryHandleMovementX}
-          label={valueLabel || valueLabelStart || calculateValue(primaryHandleMovementX)}
+          label={valueLabel || valueLabelEnd || calculateValue(primaryHandleMovementX)}
           className={c({'pressed': isDragging && activeHandle.current === 'PRIMARY'})}
           labeled={labeled && isDragging}
           onMouseDown={primaryHandleMouseDown}
