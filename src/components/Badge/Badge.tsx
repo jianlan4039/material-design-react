@@ -6,7 +6,7 @@ export interface BadgeProps {
   children?: ReactNode
   size?: 'small' | 'large'
   count?: number
-  stayShow?: boolean
+  stayShow?: boolean  // keep shown whenever the count is 0
 }
 
 export interface BadgeHandle {
@@ -25,11 +25,6 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
   const _count = count > 999 ? '999+' : count
   const containerRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLSpanElement>(null)
-  const [isHidden, setIsHidden] = useState<boolean>(false)
-
-  useEffect(() => {
-    setIsHidden(count <= 0)
-  }, [count]);
 
   useImperativeHandle(ref, () => ({
     container: containerRef.current,
@@ -47,7 +42,7 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
         className={c('nd-badge', {
           'nd-badge--large': size === 'large',
           'nd-badge--small': size === 'small',
-          'nd-badge--hidden': stayShow ? false : isHidden
+          'nd-badge--hidden': stayShow ? false : count <= 0
         })}
       >
         {size === 'large' && _count}
