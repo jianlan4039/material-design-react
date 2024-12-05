@@ -66,7 +66,7 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   return (
     <li
       ref={containerRef}
-      className={c('list-item', className,
+      className={c('nd-list-item', className,
         {
           'two-line-height': supportingText,
           'top-layout': isTopLayout,

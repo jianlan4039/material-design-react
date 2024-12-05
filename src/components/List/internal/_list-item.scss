@@ -8,7 +8,7 @@
 }
 
 @mixin styles() {
-  .list-item {
+  .nd-list-item {
     @include tokens-builder.tokens(md-comp-list-item.values(), list-item);
     @include ripple.theme((
       hover-color: var(--md-list-item-hover-state-layer-color),

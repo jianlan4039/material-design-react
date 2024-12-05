@@ -1,7 +1,6 @@
 import {CSSProperties, MouseEvent} from "react";
 
-export interface BaseElement<T> {
+export interface BaseElement {
   className?: string
   style?: CSSProperties
-  onClick?: (e: MouseEvent<T>) => void
 }

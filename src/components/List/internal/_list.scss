@@ -8,7 +8,7 @@
 }
 
 @mixin styles() {
-  .list {
+  .nd-list {
     @include tokens-builder.tokens(md-comp-list.values(), list);
     @include background.theme((
       color: var(--md-list-container-color),

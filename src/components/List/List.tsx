@@ -14,7 +14,7 @@ const List = forwardRef<HTMLUListElement, ListProps>((props, ref) => {
   } = props
 
   return (
-    <ul ref={ref} className={classNames('list', className)} {...rest}>
+    <ul ref={ref} className={classNames('nd-list', className)} {...rest}>
       {children}
     </ul>
   )

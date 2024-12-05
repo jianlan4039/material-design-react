@@ -1,0 +1,67 @@
+@use "../../tokens/md-comp-navigation-drawer";
+@use "../../builder/tokens-builder";
+@use "../../builder/background";
+@use "../../Elevation/internal/elevation";
+
+@mixin styles() {
+
+  .nd-navigation-drawer {
+    @include tokens-builder.tokens(md-comp-navigation-drawer.values(), navigation-drawer);
+    @include background.theme((
+      color: var(--md-navigation-drawer-standard-container-color)
+    ), navigation-drawer);
+    @include elevation.theme((
+      level: var(--md-navigation-drawer-standard-container-elevation)
+    ));
+    position: absolute;
+    inset: 0 auto 0 0;
+    inline-size: var(--md-navigation-drawer-container-width);
+    border-radius: var(--md-navigation-drawer-container-shape);
+    padding-inline: 12px;
+    padding-block: 16px;
+    transition-property: inline-size, padding-inline, opacity;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(.3,0,0,1);
+    @include background.styles(navigation-drawer);
+
+    .nd-list {
+      position: relative;
+      block-size: 100%;
+      padding-block: 0;
+      margin-block: 0;
+      border-radius: inherit;
+      overflow: hidden;
+
+
+      .nd-list-item {
+        border-radius: var(--md-navigation-drawer-active-indicator-shape);
+      }
+    }
+
+    .nd-navigation-drawer__scrim {
+      display: none;
+    }
+
+    &:hover {
+      @include elevation.theme((
+        level: 1
+      ));
+    }
+
+    &.nd-navigation-drawer--modal-closed {
+      transition-timing-function: cubic-bezier(.3,0,.8,.15);
+      inline-size: 0;
+      padding-inline: 0;
+      opacity: 0;
+    }
+
+    &.nd-navigation-drawer--modal-open{
+      @include elevation.theme((
+        level: var(--md-navigation-drawer-modal-container-elevation)
+      ));
+      inline-size: var(--md-navigation-drawer-container-width);
+      padding-inline: 12px;
+      opacity: 1;
+    }
+  }
+}
