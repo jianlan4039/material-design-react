@@ -1,6 +1,6 @@
 import React, {forwardRef} from 'react';
 import {ButtonProps} from "./internal/Button";
-import Wrapper, {ButtonHandle} from "./Wrapper";
+import CommonButton, {ButtonHandle} from "./CommonButton";
 import './ElevatedButton.scss';
 import Elevation from "../Elevation";
 
@@ -20,9 +20,9 @@ const ElevatedButton = forwardRef<ElevatedButtonHandle, ElevatedButtonProps>((
   ref) => {
 
   return (
-    <Wrapper ref={ref} name={'nd-elevated-button'} label={label || children} {...rest}>
+    <CommonButton ref={ref} name={'nd-elevated-button'} label={label || children} {...rest}>
       <Elevation></Elevation>
-    </Wrapper>
+    </CommonButton>
   )
 })
 

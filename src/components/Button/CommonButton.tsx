@@ -4,7 +4,7 @@ import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
 import useRipple from "../Ripple/useRipple";
 
-export interface WrapperProps extends HTMLAttributes<HTMLButtonElement> {
+export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement> {
   name?: string
   label?: string | ReactNode
   className?: string
@@ -16,7 +16,7 @@ export interface ButtonHandle {
   button: HTMLButtonElement | null
 }
 
-const Wrapper = forwardRef<ButtonHandle, WrapperProps>(
+const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>(
   (
     {
       name,
@@ -31,16 +31,9 @@ const Wrapper = forwardRef<ButtonHandle, WrapperProps>(
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
-    const [parent, setParent] = useState<HTMLButtonElement>()
 
-    const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur});
+    const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent: btnRef.current, onFocus, onBlur});
     const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-    useEffect(() => {
-      if (btnRef.current) {
-        setParent(btnRef.current)
-      }
-    }, [btnRef]);
 
     useImperativeHandle(ref, () => ({
       wrapper: wrapperRef.current,
@@ -63,4 +56,4 @@ const Wrapper = forwardRef<ButtonHandle, WrapperProps>(
     )
   })
 
-export default Wrapper;
+export default CommonButton;
