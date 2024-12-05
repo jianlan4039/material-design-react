@@ -13,32 +13,8 @@ export default meta;
 type Story = StoryObj<typeof OutlinedButton>;
 
 export const Primary: Story = {
-  render: () => {
-    return (
-      <OutlinedButton>Outlined Button</OutlinedButton>
-    )
-  }
-}
-
-export const withIcon: Story = {
-  render: ({disabled}) => {
-    return (
-      <OutlinedButton
-        icon={<span className="material-icons">home</span>}
-        disabled={disabled}
-      >Outlined Button</OutlinedButton>
-    )
-  }
-}
-
-export const withTrailingIcon: Story = {
-  render: ({disabled}) => {
-    return (
-      <OutlinedButton
-        trailingIcon
-        icon={<span className="material-icons">home</span>}
-        disabled={disabled}
-      >Outlined Button</OutlinedButton>
-    )
+  args: {
+    icon: <span className={'material-icons'}>home</span>,
+    label: "Outlined Button",
   }
 }

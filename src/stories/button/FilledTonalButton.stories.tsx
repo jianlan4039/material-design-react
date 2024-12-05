@@ -13,34 +13,8 @@ export default meta;
 type Story = StoryObj<typeof FilledTonalButton>;
 
 export const Primary: Story = {
-  render: ({disabled}) => {
-    return (
-      <FilledTonalButton
-        disabled={disabled}
-      >Filled Tonal Button</FilledTonalButton>
-    )
-  }
-}
-
-export const withIcon: Story = {
-  render: ({disabled}) => {
-    return (
-      <FilledTonalButton
-        icon={<span className="material-icons">home</span>}
-        disabled={disabled}
-      >Filled Tonal Button</FilledTonalButton>
-    )
-  }
-}
-
-export const withTrailingIcon: Story = {
-  render: ({disabled}) => {
-    return (
-      <FilledTonalButton
-        trailingIcon={true}
-        icon={<span className="material-icons">home</span>}
-        disabled={disabled}
-      >Filled Tonal Button</FilledTonalButton>
-    )
+  args: {
+    icon: <span className={'material-icons'}>home</span>,
+    label: "Filled Tonal Button",
   }
 }
