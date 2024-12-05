@@ -12,48 +12,56 @@ export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement> {
 }
 
 export interface ButtonHandle {
-  wrapper?: HTMLDivElement | null
+  container?: HTMLDivElement | null
   button: HTMLButtonElement | null
 }
 
-const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>(
-  (
-    {
-      name,
-      label,
-      className,
-      disabled,
-      children,
-      onBlur,
-      onFocus,
-      ...rest
-    }, ref) => {
+const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) => {
+  const {
+    name,
+    label,
+    className,
+    disabled,
+    children,
+    onBlur,
+    onFocus,
+    ...rest
+  } = props
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
-    const btnRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
-    const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent: btnRef.current, onFocus, onBlur});
-    const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent: btnRef.current, onFocus, onBlur});
+  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
 
-    useImperativeHandle(ref, () => ({
-      wrapper: wrapperRef.current,
-      button: btnRef.current
-    }))
+  useImperativeHandle(ref, () => ({
+    container: containerRef.current,
+    button: btnRef.current
+  }))
 
-    return (
-      <div className={cln(name, className, {'nd-disabled': disabled})} {...rippleProps}>
-        {children}
-        {!disabled && ripple}
-        {focusRing}
-        <Button
-          ref={btnRef}
-          disabled={disabled}
-          label={label}
-          {...focusRingProps}
-          {...rest}
-        ></Button>
-      </div>
-    )
-  })
+  return (
+    <div
+      className={cln(
+        name,
+        className,
+        {
+          'nd-disabled': disabled
+        }
+      )}
+      {...rippleProps}
+    >
+      {children}
+      {!disabled && ripple}
+      {focusRing}
+      <Button
+        ref={btnRef}
+        disabled={disabled}
+        label={label}
+        {...focusRingProps}
+        {...rest}
+      ></Button>
+    </div>
+  )
+})
 
 export default CommonButton;
