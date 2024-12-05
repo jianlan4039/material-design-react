@@ -1,18 +1,16 @@
 import React, {ReactNode, useMemo, useState} from 'react';
-import './NavigationBar.scss';
-import Elevation from "../Elevation";
-import {SelectionContextProvider} from './context'
+import c from 'classnames';
+import './NavigationRail.scss'
 import NavigationAction, {NavigationActionProps} from "./NavigationAction";
 
-export interface NavigationBarProps {
-  children: ReactNode
-  preset?: number
+export interface NavigationRailProps {
+  children?: ReactNode
   items?: NavigationActionProps[]
+  alignment?: 'start' | 'center' | 'end'
 }
 
-export default function NavigationBar(props: NavigationBarProps) {
-  const {children, items} = props
-
+export default function NavigationRail(props: NavigationRailProps) {
+  const {children, items, alignment = "center"} = props
   const [activatedAction, setActivatedAction] = useState<string>('')
 
   const Actions = useMemo(() => {
@@ -30,9 +28,10 @@ export default function NavigationBar(props: NavigationBarProps) {
   }, [items, activatedAction])
 
   return (
-    <div className={'nd-navigation-bar'}>
-      <Elevation></Elevation>
-      {children || Actions}
+    <div className={c('nd-navigation-rail', alignment)}>
+      <div className={'nd-navigation-rail__actions'}>
+        {children || Actions}
+      </div>
     </div>
   )
 }

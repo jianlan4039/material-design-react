@@ -1,8 +1,7 @@
-import React, {ReactNode, useContext, useState} from "react";
+import React, {ReactNode, MouseEvent, useState} from "react";
 import Badge from "../Badge/Badge";
 import useRipple from "../Ripple/useRipple";
 import c from 'classnames'
-import {SelectionContext} from './context'
 import './NavigationAction.scss';
 
 export interface NavigationActionProps {
@@ -12,29 +11,30 @@ export interface NavigationActionProps {
   label?: string
   badgeSize?: 'small' | 'large'
   badgeCount?: number
+  active?: boolean
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void
 }
 
 export default function NavigationAction(props: NavigationActionProps) {
-  const {icon, activeIcon, badgeSize, badgeCount, label, id} = props
-  const {list, setList} = useContext(SelectionContext)
+  const {icon, activeIcon, badgeSize, badgeCount, label, id, active, ...rest} = props
   const [rippleProps, ripple] = useRipple({})
-  const isActive = list?.includes(id)
 
   return (
     <div
-      className={c('md-navigation-action', {
-        "md-navigation-action--active": isActive,
+      id={id}
+      className={c('nd-navigation-action', {
+        "nd-navigation-action--active": active,
       })}
-      onClick={() => setList?.([id])}
+      {...rest}
       {...rippleProps}
     >
-      <div className={'md-navigation-action__indicator'}>
+      <div className={'nd-navigation-action__indicator'}>
         {ripple}
       </div>
       <Badge size={badgeSize} count={badgeCount}>
-        <span className={'md-navigation-action__icon'}>{isActive ? activeIcon || icon : icon}</span>
+        <span className={'nd-navigation-action__icon'}>{active ? activeIcon || icon : icon}</span>
       </Badge>
-      <span className={'md-navigation-action__label'}>{label}</span>
+      <span className={'nd-navigation-action__label'}>{label}</span>
     </div>
   )
 }

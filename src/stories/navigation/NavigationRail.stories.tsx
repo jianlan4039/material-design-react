@@ -1,14 +1,14 @@
 import {Meta, StoryObj} from "@storybook/react";
-import NavigationBar from "../../components/Navigation/NavigationBar";
+import NavigationRail from "../../components/Navigation/NavigationRail";
 import NavigationAction from "../../components/Navigation/NavigationAction";
 
 const meta: Meta = {
-  title: "Navigation/Navigation Bar",
-  component: NavigationBar,
+  title: "Navigation/Navigation Rail",
+  component: NavigationRail,
 }
 
-export default meta
-type Story = StoryObj<typeof NavigationBar>;
+export default meta;
+type Story = StoryObj<typeof NavigationRail>;
 
 const actions = [
   {

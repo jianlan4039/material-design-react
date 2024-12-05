@@ -5,7 +5,7 @@
 @use "../../Ripple/internal/ripple";
 
 @mixin styles() {
-  .md-navigation-bar {
+  .nd-navigation-bar {
     @include tokens-builder.tokens(md-comp-navigation-bar.values(), navigation-bar);
     @include background.theme((
       color: var(--md-navigation-bar-container-color)
@@ -25,12 +25,12 @@
     align-items: center;
     justify-content: space-around;
 
-    .md-navigation-action {
-      .md-navigation-action__icon {
+    .nd-navigation-action {
+      .nd-navigation-action__icon {
         color: var(--md-navigation-bar-inactive-icon-color);
       }
 
-      .md-navigation-action__label {
+      .nd-navigation-action__label {
         font-family: var(--md-navigation-bar-label-text-font), Roboto, sans-serif;
         color: var(--md-navigation-bar-inactive-label-text-color);
         font-size: var(--md-navigation-bar-label-text-size);
@@ -38,56 +38,56 @@
       }
 
       &:hover {
-        .md-navigation-action__icon {
+        .nd-navigation-action__icon {
           color: var(--md-navigation-bar-inactive-hover-icon-color);
         }
 
-        .md-navigation-action__label {
+        .nd-navigation-action__label {
           color: var(--md-navigation-bar-inactive-hover-label-text-color);
         }
       }
 
       &:active {
-        .md-navigation-action__icon {
+        .nd-navigation-action__icon {
           color: var(--md-navigation-bar-inactive-pressed-icon-color);
         }
 
-        .md-navigation-action__label {
+        .nd-navigation-action__label {
           color: var(--md-navigation-bar-inactive-pressed-label-text-color);
         }
       }
     }
 
-    .md-navigation-action.md-navigation-action--active {
+    .nd-navigation-action.nd-navigation-action--active {
       @include ripple.theme((
         hover-color: var(--md-navigation-bar-active-hover-state-layer-color),
         pressed-color: var(--md-navigation-bar-active-pressed-state-layer-color)
       ));
 
-      .md-navigation-action__icon {
+      .nd-navigation-action__icon {
         color: var(--md-navigation-bar-active-icon-color);
       }
 
-      .md-navigation-action__label {
+      .nd-navigation-action__label {
         color: var(--md-navigation-bar-active-label-text-color);
       }
 
       &:hover {
-        .md-navigation-action__icon {
+        .nd-navigation-action__icon {
           color: var(--md-navigation-bar-active-hover-icon-color);
         }
 
-        .md-navigation-action__label {
+        .nd-navigation-action__label {
           color: var(--md-navigation-bar-active-hover-label-text-color);
         }
       }
 
       &:active {
-        .md-navigation-action__icon {
+        .nd-navigation-action__icon {
           color: var(--md-navigation-bar-active-pressed-icon-color);
         }
 
-        .md-navigation-action__label {
+        .nd-navigation-action__label {
           color: var(--md-navigation-bar-active-pressed-label-text-color);
         }
       }
