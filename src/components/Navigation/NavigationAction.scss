@@ -1,0 +1,44 @@
+@use "../builder/background";
+
+.md-navigation-action {
+  $inline-size: 64px;
+  $container-height: 32px + 8px + 12px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  inline-size: $inline-size;
+  block-size: $container-height;
+
+  .md-navigation-action__icon {
+    block-size: 24px;
+    inline-size: 24px;
+  }
+
+  .md-navigation-action__label {
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    margin-block-start: 8px;
+  }
+
+  .md-navigation-action__indicator {
+    position: absolute;
+    block-size: 32px;
+    inline-size: $inline-size;
+    border-radius: 9999px;
+    top: 0;
+  }
+
+  &.md-navigation-action--active {
+
+    .md-navigation-action__indicator {
+      @include background.theme((
+        color: #E8DEF8
+      ), indicator);
+      @include background.styles(indicator);
+    }
+  }
+}

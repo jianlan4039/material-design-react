@@ -1,44 +1,24 @@
-import React, {forwardRef, ReactNode, useMemo} from 'react'
-import './NavigationBar.scss'
-import NavigationAction from "./internal/NavigationAction";
-import {IndicatorActiveContextProvider} from "../internal/context/IndicatorActiveContext";
-
-export type Item = {
-  label?: string
-  icon?: ReactNode
-  id?: string
-}
+import React, {ReactNode, useState} from 'react';
+import './NavigationBar.scss';
+import Elevation from "../Elevation";
+import {SelectionContextProvider} from './context'
 
 export interface NavigationBarProps {
-  children?: ReactNode
-  items?: Item[]
-  order?: number
-  active?: string
+  children: ReactNode
+  preset?: number
 }
 
-const NavigationBar = forwardRef<HTMLDivElement, NavigationBarProps>((props, ref) => {
-  const {
-    items,
-    children,
-    active,
-  } = props
+export default function NavigationBar(props: NavigationBarProps) {
+  const {children} = props
 
-  const Items = useMemo(() => {
-    return items?.map((o, i) => {
-      return <NavigationAction icon={o.icon} label={o.label} key={i} id={o.id}></NavigationAction>
-    })
-  }, [items])
+  const [selected, setSelected] = useState<string[]>()
 
   return (
-    <IndicatorActiveContextProvider active={active}>
-      <div
-        ref={ref}
-        className={'navigation-bar container'}
-      >
-        {Items || children}
+    <SelectionContextProvider config={{multiple: false}} list={selected} setList={setSelected}>
+      <div className={'md-navigation-bar'}>
+        <Elevation></Elevation>
+        {children}
       </div>
-    </IndicatorActiveContextProvider>
+    </SelectionContextProvider>
   )
-})
-
-export default NavigationBar;
+}

@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
-import './styles';
-import {BrandedFAB} from "../index";
+import '../styles';
+import {BrandedFAB} from "../../index";
 
 const meta: Meta = {
   title: 'Button/Extended FAB',

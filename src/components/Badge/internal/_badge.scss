@@ -6,7 +6,7 @@
     @include tokens-builder.tokens(md-comp-badge.values(), badge);
     position: relative;
     display: inline-flex;
-    cursor: default;
+    cursor: pointer;
   }
 
   .nd-badge {
