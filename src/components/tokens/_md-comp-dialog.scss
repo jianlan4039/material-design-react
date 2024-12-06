@@ -44,7 +44,7 @@ $_default: (
 );
 
 // Note: currently ignoring tokens for `action-*-label-text` and
-// `action-*-state-layer` since actions are spec'd as standard text buttons.
+// `action-*-state-layer` since actions are spec'd as standard text button.
 $unsupported-tokens: (
   // go/keep-sorted start
   'action-focus-label-text-color',

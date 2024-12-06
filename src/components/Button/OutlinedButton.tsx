@@ -10,7 +10,7 @@ export interface OutlinedButtonHandle extends ButtonHandle {
 }
 
 /**
- * Outlined Button is one of common buttons in Material Design 3.
+ * Outlined Button is one of common button in Material Design 3.
  */
 const OutlinedButton = forwardRef<OutlinedButtonHandle, OutlinedButtonProps>((
   props, ref) => {

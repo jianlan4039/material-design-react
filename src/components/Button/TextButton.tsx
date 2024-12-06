@@ -10,7 +10,7 @@ export interface TextButtonHandle extends ButtonHandle {
 }
 
 /**
- * Text Button is one of common buttons in Material Design 3.
+ * Text Button is one of common button in Material Design 3.
  */
 const TextButton = forwardRef<TextButtonHandle, TextButtonProps>((props, ref) => {
   return (

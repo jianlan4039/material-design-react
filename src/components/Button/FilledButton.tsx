@@ -8,7 +8,7 @@ export interface FilledButtonProps extends ButtonProps {}
 export interface FilledButtonHandle extends ButtonHandle {}
 
 /**
- * Filled button is one of the common buttons in Material Design 3.
+ * Filled button is one of the common button in Material Design 3.
  */
 const FilledButton = forwardRef<FilledButtonHandle, FilledButtonProps>((props, ref) => {
   return (

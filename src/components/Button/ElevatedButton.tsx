@@ -10,7 +10,7 @@ export interface ElevatedButtonHandle extends ButtonHandle {
 }
 
 /**
- * Elevated Button is one of the common buttons.
+ * Elevated Button is one of the common button.
  */
 const ElevatedButton = forwardRef<ElevatedButtonHandle, ElevatedButtonProps>((
   {
