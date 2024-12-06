@@ -1,9 +1,5 @@
 export {default as Badge} from './components/Badge/Badge';
-export {default as ElevatedButton} from './components/Button/ElevatedButton';
-export {default as FilledButton} from './components/Button/FilledButton';
-export {default as FilledTonalButton} from './components/Button/FilledTonalButton';
-export {default as OutlinedButton} from './components/Button/OutlinedButton';
-export {default as TextButton} from './components/Button/TextButton';
+export * from './components/Button';
 export {default as ElevatedCard} from './components/Card/ElevatedCard';
 export {default as FilledCard} from './components/Card/FilledCard';
 export {default as OutlinedCard} from './components/Card/OutlinedCard';

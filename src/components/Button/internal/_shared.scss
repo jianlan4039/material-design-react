@@ -63,12 +63,12 @@
       display: inline-block;
     }
 
-    &.nd-button--has-icon {
+    &.nd-button--icon {
       padding-inline-start: var(--md-#{$comp}-with-leading-icon-leading-space);
       padding-inline-end: var(--md-#{$comp}-with-leading-icon-trailing-space);
     }
 
-    &.nd-button--has-trailing-icon {
+    &.nd-button--trailing-icon {
       padding-inline-start: var(--md-#{$comp}-with-trailing-icon-leading-space);
       padding-inline-end: var(--md-#{$comp}-with-trailing-icon-trailing-space);
     }
@@ -92,7 +92,7 @@
     ))
   }
 
-  &.nd-disabled {
+  &.nd-button--disabled {
     @include elevation.theme((
       level: var(--md-#{$comp}-disabled-container-elevation)
     ));

@@ -3,12 +3,14 @@ import cln from "classnames";
 import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
 import useRipple from "../Ripple/useRipple";
+import Elevation from "../Elevation";
 
 export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement> {
   name?: string
-  label?: string | ReactNode
+  label?: string
   className?: string
   disabled?: boolean
+  variant?: "elevated" | "filled" | "filled-tonal" | "text" | "outlined"
 }
 
 export interface ButtonHandle {
@@ -25,6 +27,7 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
     children,
     onBlur,
     onFocus,
+    variant,
     ...rest
   } = props
 
@@ -41,25 +44,24 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
 
   return (
     <div
-      className={cln(
-        name,
-        className,
-        {
-          'nd-disabled': disabled
-        }
-      )}
+      className={cln(className, {
+        [`nd-${variant}-button`]: variant,
+        'nd-button--disabled': disabled
+      })}
       {...rippleProps}
     >
-      {children}
       {!disabled && ripple}
       {focusRing}
+      <Elevation></Elevation>
       <Button
         ref={btnRef}
         disabled={disabled}
         label={label}
         {...focusRingProps}
         {...rest}
-      ></Button>
+      >
+        {children}
+      </Button>
     </div>
   )
 })

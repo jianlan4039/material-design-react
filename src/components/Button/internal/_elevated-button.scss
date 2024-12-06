@@ -30,10 +30,10 @@ $token: md-comp-elevated-button.values();
       opacity: 1,
       z-index: -1
     ), elevated-button);
-    --md-elevated-button-container-shape-start-start: var(--md-elevated-button-container-shape);
-    --md-elevated-button-container-shape-start-end: var(--md-elevated-button-container-shape);
-    --md-elevated-button-container-shape-end-end: var(--md-elevated-button-container-shape);
-    --md-elevated-button-container-shape-end-start: var(--md-elevated-button-container-shape);
+    --md-elevated-button-container-shape-start-start: var(--md-cust-elevated-button-container-shape-start-start, var(--md-elevated-button-container-shape));
+    --md-elevated-button-container-shape-start-end: var(--md-cust-elevated-button-container-shape-start-end, var(--md-elevated-button-container-shape));
+    --md-elevated-button-container-shape-end-end: var(--md-cust-elevated-button-container-shape-end-end, var(--md-elevated-button-container-shape));
+    --md-elevated-button-container-shape-end-start: var(--md-cust-elevated-button-container-shape-end-start, var(--md-elevated-button-container-shape));
     @include focus-ring.theme((
       shape-start-start: var(--md-elevated-button-container-shape-start-start),
       shape-start-end: var(--md-elevated-button-container-shape-start-end),

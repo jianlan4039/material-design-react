@@ -1,20 +1,20 @@
 import React from "react";
 import {Meta, StoryObj} from '@storybook/react';
-import {TextButton} from "../../index";
+import {FilledTonalButton} from "../../../index";
 
 const meta: Meta = {
-  component: TextButton,
-  title: "Button/TextButton",
+  component: FilledTonalButton,
+  title: "Button/FilledTonalButton",
   tags: ['autodocs'],
 }
 
 export default meta;
 
-type Story = StoryObj<typeof TextButton>;
+type Story = StoryObj<typeof FilledTonalButton>;
 
 export const Primary: Story = {
   args: {
     icon: <span className={'material-icons'}>home</span>,
-    label: "Text Button",
+    label: "Filled Tonal Button",
   }
 }
