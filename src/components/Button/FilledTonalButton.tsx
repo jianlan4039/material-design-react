@@ -2,7 +2,6 @@ import React, {forwardRef} from 'react'
 import {ButtonProps} from "./internal/Button";
 import CommonButton, {ButtonHandle} from "./CommonButton";
 import './FilledTonalButton.scss'
-import Elevation from "../Elevation";
 
 export interface FilledTonalButtonProps extends ButtonProps {
 }
