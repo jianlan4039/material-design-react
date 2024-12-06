@@ -235,42 +235,42 @@ You can achieve a custom appearance simply by defining the token value in the pa
 
 ### Outlined Button Tokens
 
-| Token                                                  | Default | Description |
-|--------------------------------------------------------|---------|-------------|
-| --md-outlined-button-container-height                  |         |             |
-| --md-outlined-button-container-shape                   |         |             |
-| --md-outlined-button-disabled-icon-color               |         |             |
-| --md-outlined-button-disabled-icon-opacity             |         |             |
-| --md-outlined-button-disabled-label-text-color         |         |             |
-| --md-outlined-button-disabled-label-text-opacity       |         |             |
-| --md-outlined-button-disabled-outline-color            |         |             |
-| --md-outlined-button-disabled-outline-opacity          |         |             |
-| --md-outlined-button-focus-icon-color                  |         |             |
-| --md-outlined-button-focus-label-text-color            |         |             |
-| --md-outlined-button-hover-icon-color                  |         |             |
-| --md-outlined-button-hover-label-text-color            |         |             |
-| --md-outlined-button-hover-state-layer-color           |         |             |
-| --md-outlined-button-hover-state-layer-opacity         |         |             |
-| --md-outlined-button-icon-color                        |         |             |
-| --md-outlined-button-icon-size                         |         |             |
-| --md-outlined-button-label-text-color                  |         |             |
-| --md-outlined-button-label-text-font                   |         |             |
-| --md-outlined-button-label-text-line-height            |         |             |
-| --md-outlined-button-label-text-size                   |         |             |
-| --md-outlined-button-label-text-weight                 |         |             |
-| --md-outlined-button-leading-space                     |         |             |
-| --md-outlined-button-outline-color                     |         |             |
-| --md-outlined-button-outline-width                     |         |             |
-| --md-outlined-button-pressed-icon-color                |         |             |
-| --md-outlined-button-pressed-label-text-color          |         |             |
-| --md-outlined-button-pressed-outline-color             |         |             |
-| --md-outlined-button-pressed-state-layer-color         |         |             |
-| --md-outlined-button-pressed-state-layer-opacity       |         |             |
-| --md-outlined-button-trailing-space                    |         |             |
-| --md-outlined-button-with-leading-icon-leading-space   |         |             |
-| --md-outlined-button-with-leading-icon-trailing-space  |         |             |
-| --md-outlined-button-with-trailing-icon-leading-space  |         |             |
-| --md-outlined-button-with-trailing-icon-trailing-space |         |             |
+| Token                                                  | Description |
+|--------------------------------------------------------|-------------|
+| --md-outlined-button-container-height                  |             |
+| --md-outlined-button-container-shape                   |             |
+| --md-outlined-button-disabled-icon-color               |             |
+| --md-outlined-button-disabled-icon-opacity             |             |
+| --md-outlined-button-disabled-label-text-color         |             |
+| --md-outlined-button-disabled-label-text-opacity       |             |
+| --md-outlined-button-disabled-outline-color            |             |
+| --md-outlined-button-disabled-outline-opacity          |             |
+| --md-outlined-button-focus-icon-color                  |             |
+| --md-outlined-button-focus-label-text-color            |             |
+| --md-outlined-button-hover-icon-color                  |             |
+| --md-outlined-button-hover-label-text-color            |             |
+| --md-outlined-button-hover-state-layer-color           |             |
+| --md-outlined-button-hover-state-layer-opacity         |             |
+| --md-outlined-button-icon-color                        |             |
+| --md-outlined-button-icon-size                         |             |
+| --md-outlined-button-label-text-color                  |             |
+| --md-outlined-button-label-text-font                   |             |
+| --md-outlined-button-label-text-line-height            |             |
+| --md-outlined-button-label-text-size                   |             |
+| --md-outlined-button-label-text-weight                 |             |
+| --md-outlined-button-leading-space                     |             |
+| --md-outlined-button-outline-color                     |             |
+| --md-outlined-button-outline-width                     |             |
+| --md-outlined-button-pressed-icon-color                |             |
+| --md-outlined-button-pressed-label-text-color          |             |
+| --md-outlined-button-pressed-outline-color             |             |
+| --md-outlined-button-pressed-state-layer-color         |             |
+| --md-outlined-button-pressed-state-layer-opacity       |             |
+| --md-outlined-button-trailing-space                    |             |
+| --md-outlined-button-with-leading-icon-leading-space   |             |
+| --md-outlined-button-with-leading-icon-trailing-space  |             |
+| --md-outlined-button-with-trailing-icon-leading-space  |             |
+| --md-outlined-button-with-trailing-icon-trailing-space |             |
 
 ### Text Button Tokens
 
