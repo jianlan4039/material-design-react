@@ -2,19 +2,24 @@ import React from "react";
 import {Meta, StoryObj} from '@storybook/react';
 import {OutlinedButton} from "../../../index";
 
-const meta: Meta = {
+export default {
   component: OutlinedButton,
-  title: "Button/OutlinedButton",
+  title: "Common Buttons/Outlined Button",
   tags: ['autodocs'],
-}
-
-export default meta;
+  args: {
+    label: "Outlined Button"
+  },
+  parameters: {
+    layout: "centered",
+  }
+} as Meta;
 
 type Story = StoryObj<typeof OutlinedButton>;
 
-export const Primary: Story = {
+export const Default: Story = {}
+
+export const WithIcon: Story = {
   args: {
     icon: <span className={'material-icons'}>home</span>,
-    label: "Outlined Button",
   }
 }

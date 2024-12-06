@@ -4,6 +4,7 @@ import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
 import useRipple from "../Ripple/useRipple";
 import Elevation from "../Elevation";
+import Outline from "../Outline/Outline";
 
 export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement> {
   name?: string
@@ -52,6 +53,7 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
     >
       {!disabled && ripple}
       {focusRing}
+      {variant === "outlined" && <Outline disabled={disabled}></Outline>}
       <Elevation></Elevation>
       <Button
         ref={btnRef}

@@ -2,17 +2,24 @@ import React from "react";
 import {Meta, StoryObj} from '@storybook/react';
 import {TextButton} from "../../../index";
 
-const meta: Meta = {
+export default {
   component: TextButton,
-  title: "Button/TextButton",
+  title: "Common Buttons/TextButton",
   tags: ['autodocs'],
-}
+  args: {
+    label: "Text Button"
+  },
+  parameters: {
+    layout: "centered",
+  }
+} as Meta
 
-export default meta;
 
 type Story = StoryObj<typeof TextButton>;
 
-export const Primary: Story = {
+export const Default: Story = {}
+
+export const WithIcon: Story = {
   args: {
     icon: <span className={'material-icons'}>home</span>,
     label: "Text Button",

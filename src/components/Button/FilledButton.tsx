@@ -1,18 +1,18 @@
 import React, {forwardRef} from 'react';
 import {ButtonProps} from "./internal/Button";
 import CommonButton, {ButtonHandle} from "./CommonButton";
-import Elevation from "../Elevation";
 import './FilledButton.scss';
 
 export interface FilledButtonProps extends ButtonProps {}
 
 export interface FilledButtonHandle extends ButtonHandle {}
 
-const FilledButton = forwardRef<FilledButtonHandle, FilledButtonProps>(({label, children, ...rest}, ref) => {
+/**
+ * Filled button is one of the common buttons in Material Design 3.
+ */
+const FilledButton = forwardRef<FilledButtonHandle, FilledButtonProps>((props, ref) => {
   return (
-    <CommonButton ref={ref} name={'nd-filled-button'} label={label || children} {...rest}>
-      <Elevation></Elevation>
-    </CommonButton>
+    <CommonButton ref={ref} variant={"filled"} {...props}></CommonButton>
   )
 })
 

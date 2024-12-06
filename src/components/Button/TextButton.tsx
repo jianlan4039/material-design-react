@@ -9,9 +9,12 @@ export interface TextButtonProps extends ButtonProps {
 export interface TextButtonHandle extends ButtonHandle {
 }
 
-const TextButton = forwardRef<TextButtonHandle, TextButtonProps>(({label, children, ...rest}, ref) => {
+/**
+ * Text Button is one of common buttons in Material Design 3.
+ */
+const TextButton = forwardRef<TextButtonHandle, TextButtonProps>((props, ref) => {
   return (
-    <CommonButton ref={ref} name={'nd-text-button'} label={label || children} {...rest}></CommonButton>
+    <CommonButton ref={ref} variant={"text"} {...props}></CommonButton>
   )
 })
 

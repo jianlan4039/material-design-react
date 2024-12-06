@@ -10,11 +10,9 @@ export interface FilledTonalButtonProps extends ButtonProps {
 export interface FilledTonalButtonHandle extends ButtonHandle {
 }
 
-const FilledTonalButton = forwardRef<FilledTonalButtonHandle, FilledTonalButtonProps>(({label, children, ...rest}, ref) => {
+const FilledTonalButton = forwardRef<FilledTonalButtonHandle, FilledTonalButtonProps>((props, ref) => {
   return (
-    <CommonButton ref={ref} name={'nd-filled-tonal-button'} label={label || children} {...rest}>
-      <Elevation></Elevation>
-    </CommonButton>
+    <CommonButton ref={ref} variant={"filled-tonal"} {...props}></CommonButton>
   )
 })
 
