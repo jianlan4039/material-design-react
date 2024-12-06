@@ -31,8 +31,10 @@ const children = items.map((it, i) => (
 
 export const Primary: Story = {
   args: {
-    children: <List>
-      {children}
-    </List>
+    children: (
+      <List>
+        {children}
+      </List>
+    )
   }
 }
