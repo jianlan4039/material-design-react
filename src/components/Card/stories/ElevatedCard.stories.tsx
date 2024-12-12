@@ -1,6 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react';
-import '../styles'
-import {ElevatedCard} from "../../index";
+import {ElevatedCard} from "../../../index";
 
 const meta: Meta = {
   title: 'Card/Elevated Card',
@@ -14,7 +13,7 @@ type Story = StoryObj<typeof ElevatedCard>;
 export const Primary: Story = {
   render: () => (
     <ElevatedCard>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam, soluta.
+
     </ElevatedCard>
   )
 }

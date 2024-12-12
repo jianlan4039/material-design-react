@@ -1,6 +1,5 @@
 import {Meta, StoryObj} from '@storybook/react';
-import '../styles'
-import {FilledCard} from "../../index";
+import {FilledCard} from "../../../index";
 
 const meta: Meta = {
   title: 'Card/Filled Card',

@@ -13,7 +13,6 @@ export interface FilledCardProps extends CardProps {
 const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCardProps, ref) => {
   const {
     children,
-    style,
     disabled,
     className,
     interactive = true,
@@ -29,7 +28,6 @@ const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCar
         'nd-disabled': disabled,
         'nd-card--static': !interactive,
       })}
-      style={style}
       {...rippleProps}
     >
       <Elevation></Elevation>

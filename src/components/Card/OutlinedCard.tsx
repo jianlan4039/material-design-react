@@ -14,7 +14,6 @@ export interface OutlineCardProps extends CardProps {
 const OutlinedCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) => {
   const {
     children,
-    style,
     className,
     disabled,
     interactive = true,
@@ -30,7 +29,6 @@ const OutlinedCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) =
         'nd-disabled': disabled,
         'nd-card--static': !interactive,
       })}
-      style={style}
       {...rippleProps}
     >
       <Outline></Outline>

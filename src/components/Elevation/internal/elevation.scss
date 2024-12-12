@@ -25,6 +25,7 @@ $supported-tokens: tokens.$md-comp-elevation-supported-tokens;
   transition-timing-function: inherit;
   z-index: -1;
 
+
   &::before,
   &::after {
     content: '';
