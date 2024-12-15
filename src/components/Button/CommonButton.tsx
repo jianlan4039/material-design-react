@@ -2,7 +2,6 @@ import React, {forwardRef, HTMLAttributes, useImperativeHandle, useRef} from "re
 import cln from "classnames";
 import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
-// import useRipple from "../Ripple/useRipple";
 import Ripple from "../Ripple/Ripple";
 import Elevation from "../Elevation";
 import Outline from "../Outline/Outline";
@@ -37,7 +36,6 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent: btnRef.current, onFocus, onBlur});
-  // const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
 
   useImperativeHandle(ref, () => ({
     container: containerRef.current,
