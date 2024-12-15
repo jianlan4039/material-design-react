@@ -2,7 +2,8 @@ import React, {forwardRef, HTMLAttributes, useImperativeHandle, useRef} from "re
 import cln from "classnames";
 import Button from "./internal/Button";
 import useFocusRing from "../Focus/useFocusRing";
-import useRipple from "../Ripple/useRipple";
+// import useRipple from "../Ripple/useRipple";
+import Ripple from "../Ripple/Ripple";
 import Elevation from "../Elevation";
 import Outline from "../Outline/Outline";
 
@@ -36,7 +37,7 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent: btnRef.current, onFocus, onBlur});
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
+  // const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
 
   useImperativeHandle(ref, () => ({
     container: containerRef.current,
@@ -49,21 +50,21 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
         [`nd-${variant}-button`]: variant,
         'nd-button--disabled': disabled
       })}
-      {...rippleProps}
     >
-      {!disabled && ripple}
       {focusRing}
-      {variant === "outlined" && <Outline disabled={disabled}></Outline>}
       <Elevation></Elevation>
-      <Button
-        ref={btnRef}
-        disabled={disabled}
-        label={label}
-        {...focusRingProps}
-        {...rest}
-      >
-        {children}
-      </Button>
+      <Ripple>
+        {variant === "outlined" && <Outline disabled={disabled}></Outline>}
+        <Button
+          ref={btnRef}
+          disabled={disabled}
+          label={label}
+          {...focusRingProps}
+          {...rest}
+        >
+          {children}
+        </Button>
+      </Ripple>
     </div>
   )
 })
