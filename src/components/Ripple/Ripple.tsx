@@ -11,7 +11,8 @@ import './Ripple.scss'
 import classNames from "classnames";
 
 export interface RippleProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode
+  disabled?: boolean
 }
 
 interface ClickPoint {
@@ -22,7 +23,7 @@ interface ClickPoint {
 export default function Ripple(props: RippleProps) {
   const {
     children,
-    ...rest
+    disabled
   } = props
 
   const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -125,10 +126,8 @@ export default function Ripple(props: RippleProps) {
   }
 
   const mouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
-    if (!surfaceRef.current) {
-      return
-    }
-    clickPoint.current = {x: e.pageX, y: e.pageY}
+    if (!surfaceRef.current || disabled) return;
+    clickPoint.current = {x: e.clientX, y: e.clientY}
     setIsPressed(true)
   }
 
@@ -137,6 +136,7 @@ export default function Ripple(props: RippleProps) {
   }
 
   const mouseEnterHandler = () => {
+    if(disabled) return;
     setIsHover(true)
   }
 
@@ -146,7 +146,8 @@ export default function Ripple(props: RippleProps) {
   }
 
   function touchStartHandler(e: TouchEvent<HTMLDivElement>) {
-    clickPoint.current = {x: e.touches[0].pageX, y: e.touches[0].pageY,}
+    if(disabled) return;
+    clickPoint.current = {x: e.touches[0].clientX, y: e.touches[0].clientY,}
     setIsPressed(true)
   }
 

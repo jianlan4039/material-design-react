@@ -1,7 +1,8 @@
 @use "./internal/focus-ring";
 
 .nd-focus-ring-container {
-  position: absolute;
+  position: relative;
+  border-radius: inherit;
   inset: 0;
   display: flex;
   outline: none;
@@ -9,5 +10,6 @@
 
   .nd-focus-ring {
     @include focus-ring.styles;
+    border-radius: inherit;
   }
 }

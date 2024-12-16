@@ -74,25 +74,25 @@
     }
   }
 
-  &:hover {
+  &.nd-#{$comp}--hover {
     @include elevation.theme((
       level: var(--md-#{$comp}-hover-container-elevation)
     ))
   }
 
-  &:focus-visible {
+  &.nd-#{$comp}--focus {
     @include elevation.theme((
       level: var(--md-#{$comp}-focus-container-elevation)
     ))
   }
 
-  &:active {
+  &.nd-#{$comp}--pressed {
     @include elevation.theme((
       level: var(--md-#{$comp}-pressed-container-elevation)
     ))
   }
 
-  &.nd-button--disabled {
+  &.nd-#{$comp}--disabled {
     @include elevation.theme((
       level: var(--md-#{$comp}-disabled-container-elevation)
     ));

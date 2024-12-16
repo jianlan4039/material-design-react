@@ -7,6 +7,7 @@ const meta: Meta = {
   component: ElevatedButton,
   args: {
     label: "Elevated Button",
+    disabled: false
   },
   parameters: {
     layout: "centered",

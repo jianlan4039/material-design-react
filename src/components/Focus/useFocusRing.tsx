@@ -27,7 +27,7 @@ function useFocusRing<R extends HTMLElement>({parent, inward = false, onFocus, o
   };
 
   const focusRing = (
-    <span className={'nd-focus-ring-container'} aria-hidden={true}>
+    <span className={'nd-focus-ring-container'}>
       <span className={classNames('nd-focus-ring', {'inward': inward, 'visible': isVisible})}></span>
     </span>
   );
