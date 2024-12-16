@@ -127,6 +127,7 @@ export default function Ripple(props: RippleProps) {
 
   const mouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (!surfaceRef.current || disabled) return;
+    // e.stopPropagation()
     clickPoint.current = {x: e.clientX, y: e.clientY}
     setIsPressed(true)
   }
@@ -160,8 +161,8 @@ export default function Ripple(props: RippleProps) {
       ref={surfaceRef}
       aria-hidden={true}
       className={classNames('nd-ripple', {
-        'hover': isHover,
-        'pressed': isPressed
+        'nd-ripple--hover': isHover,
+        'nd-ripple--pressed': isPressed
       })}
       onMouseEnter={!isTouchDevice ? mouseEnterHandler: undefined}
       onMouseLeave={!isTouchDevice ? mouseLeaveHandler: undefined}

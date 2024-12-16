@@ -18,14 +18,13 @@ $supported-tokens: md-comp-ripple.$supported-tokens;
 @mixin styles() {
   @include tokens-builder.tokens($tokens, ripple);
   position: relative;
-  inset: 0;
   block-size: 100%;
   inline-size: 100%;
+  min-block-size: inherit;
+  min-inline-size: inherit;
   border-radius: inherit;
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
-  //pointer-events: none;
-  //z-index: -1;
 
   &::before,
   &::after {
@@ -33,7 +32,6 @@ $supported-tokens: md-comp-ripple.$supported-tokens;
     position: absolute;
     opacity: 0;
     pointer-events: none;
-    //z-index: -1;
   }
 
   &::before {
@@ -48,11 +46,11 @@ $supported-tokens: md-comp-ripple.$supported-tokens;
     transition: opacity 375ms linear;
   }
 
-  &.hover:not(.disabled)::before {
+  &.nd-ripple--hover:not(.disabled)::before {
     opacity: var(--md-ripple-hover-opacity);
   }
 
-  &.pressed:not(.disabled)::after {
+  &.nd-ripple--pressed:not(.disabled)::after {
     opacity: var(--md-ripple-pressed-opacity);
     transition-duration: 105ms;
   }

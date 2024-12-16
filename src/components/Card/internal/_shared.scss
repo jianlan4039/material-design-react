@@ -5,7 +5,6 @@
 @mixin styles($comp:"") {
   @include background.theme((
     opacity: 1,
-    z-index: -1,
     color: var(--md-#{$comp}-container-color),
   ), $comp);
   @include elevation.theme((
@@ -26,7 +25,6 @@
   border-start-end-radius: var(--md-#{$comp}-container-shape-start-end);
   border-end-start-radius: var(--md-#{$comp}-container-shape-end-start);
   border-end-end-radius: var(--md-#{$comp}-container-shape-end-end);
-  z-index: 10;
   min-block-size: 50px;
   min-inline-size: 50px;
 
@@ -39,7 +37,7 @@
     //overflow: auto;
   }
 
-  &:not(.nd-card--static):focus-visible {
+  &.nd-#{comp}--focus:not(.nd-card--static) {
     @include background.theme((
       color: var(--md-#{$comp}-focus-state-layer-color),
       opacity: var(--md-#{$comp}-focus-state-layer-opacity)
@@ -49,13 +47,13 @@
     ));
   }
 
-  &:not(.nd-card--static):hover {
+  &.nd-#{comp}--hover {
     @include elevation.theme((
       level: var(--md-#{$comp}-hover-container-elevation),
     ));
   }
 
-  &:not(.nd-card--static):active {
+  &:not(.nd-card--static).nd-#{comp}--pressed{
     @include elevation.theme((
       level: var(--md-#{$comp}-pressed-container-elevation),
     ));
@@ -71,7 +69,7 @@
     ), $comp);
   }
 
-  &.nd-disabled {
+  &.nd-#{$comp}--disabled {
     @include elevation.theme((
       level: var(--md-#{$comp}-disabled-container-elevation),
     ));
