@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
+import React, {ReactNode} from 'react'
 import c from 'classnames'
 import './Badge.scss'
 
@@ -9,12 +9,7 @@ export interface BadgeProps {
   stayShow?: boolean  // keep shown whenever the count is 0
 }
 
-export interface BadgeHandle {
-  container?: HTMLDivElement | null
-  badge?: HTMLSpanElement | null
-}
-
-const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, ref) => {
+const Badge: React.FC<BadgeProps> = ((props) => {
   const {
     children,
     size = 'small',
@@ -22,22 +17,11 @@ const Badge: React.FC<BadgeProps> = forwardRef<BadgeHandle, BadgeProps>((props, 
     stayShow = false
   } = props
 
-  const _count = count > 999 ? '999+' : count
-  const containerRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLSpanElement>(null)
-
-  useImperativeHandle(ref, () => ({
-    container: containerRef.current,
-    badge: badgeRef.current
-  }))
+  const _count = count > 999 ? '999+' : count;
 
   return (
-    <div
-      ref={containerRef}
-      className={'nd-badge-container'}
-    >
+    <div className={'nd-badge-container'}>
       <span
-        ref={badgeRef}
         aria-label={_count.toString()}
         className={c('nd-badge', {
           'nd-badge--large': size === 'large',

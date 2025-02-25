@@ -4,7 +4,7 @@
 @mixin styles() {
   .nd-badge-container {
     @include tokens-builder.tokens(md-comp-badge.values(), badge);
-    position: relative;
+    position: relative; // positioned parent element
     display: inline-flex;
     cursor: pointer;
   }
@@ -29,8 +29,8 @@
       align-items: center;
       box-sizing: border-box;
       block-size: var(--md-badge-large-size);
-      min-inline-size: var(--md-badge-large-size);
       max-inline-size: 34px;
+      min-inline-size: var(--md-badge-large-size);
       font-size: var(--md-badge-large-label-text-size);
       color: var(--md-badge-large-label-text-color);
       font-family: var(--md-badge-large-label-text-font), serif;
