@@ -14,12 +14,7 @@ export default function Card(props: CardProps) {
   } = props
 
   return (
-    <div
-      className={cln('nd-card-content', {
-        'nd-disabled': disabled
-      })}
-      {...rest}
-    >
+    <div className={cln('nd-card-content', {'nd-disabled': disabled})} {...rest}>
       {children}
     </div>
   )

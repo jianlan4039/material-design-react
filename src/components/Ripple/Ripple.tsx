@@ -1,6 +1,6 @@
 import React, {
   MouseEvent as ReactMouseEvent,
-  TouchEvent,
+  TouchEvent, useContext,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -9,6 +9,7 @@ import React, {
 import {EASING} from "../internal/motion/animation";
 import './Ripple.scss'
 import classNames from "classnames";
+import RippleContext, {RippleContextProps} from "./context/RippleContext";
 
 export interface RippleProps {
   children?: React.ReactNode
@@ -39,15 +40,14 @@ export default function Ripple(props: RippleProps) {
   let rippleScale = '';
   let initialSize = 0;
 
-  const surfaceRef = useRef<HTMLDivElement>(null);
-  const growAnimation = useRef<Animation>();
+  const surfaceRef = useRef<HTMLDivElement>(null)
+  const growAnimation = useRef<Animation>()
 
   const [isHover, setIsHover] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
 
-  const surfaceRect = useRef<DOMRect>();
+  const surfaceRect = useRef<DOMRect>()
   const clickPoint = useRef<ClickPoint>()
-
 
   useLayoutEffect(() => {
     if(!surfaceRef.current) return;
@@ -127,7 +127,6 @@ export default function Ripple(props: RippleProps) {
 
   const mouseDownHandler = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (!surfaceRef.current || disabled) return;
-    // e.stopPropagation()
     clickPoint.current = {x: e.clientX, y: e.clientY}
     setIsPressed(true)
   }
@@ -164,12 +163,12 @@ export default function Ripple(props: RippleProps) {
         'nd-ripple--hover': isHover,
         'nd-ripple--pressed': isPressed
       })}
-      onMouseEnter={!isTouchDevice ? mouseEnterHandler: undefined}
-      onMouseLeave={!isTouchDevice ? mouseLeaveHandler: undefined}
+      onMouseEnter={!isTouchDevice ? mouseEnterHandler : undefined}
+      onMouseLeave={!isTouchDevice ? mouseLeaveHandler : undefined}
       onMouseDown={!isTouchDevice ? mouseDownHandler : undefined}
-      onMouseUp={!isTouchDevice ? mouseUpHandler: undefined}
-      onTouchStart={isTouchDevice ? touchStartHandler: undefined}
-      onTouchEnd={isTouchDevice? touchEndHandler: undefined}
+      onMouseUp={!isTouchDevice ? mouseUpHandler : undefined}
+      onTouchStart={isTouchDevice ? touchStartHandler : undefined}
+      onTouchEnd={isTouchDevice ? touchEndHandler : undefined}
     >
       {children}
     </div>
