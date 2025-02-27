@@ -4,6 +4,7 @@ import c from "classnames";
 type StatefulBoxProps<T extends React.ElementType> = {
   variant?: T; // 指定要渲染的 HTML 元素类型
   disabled?: boolean
+  target?: HTMLElement
 } & React.ComponentPropsWithRef<T>; // 合并指定元素的原生属性，并支持 ref
 
 type State = {
@@ -16,6 +17,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
   const {
     children,
     variant: Component = "div", // 默认渲染为 div
+    target,
     className,
     onMouseDown,
     onMouseUp,
