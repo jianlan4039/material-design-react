@@ -60,10 +60,10 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     <Component
       ref={ref}
       className={c(className, {
-        [`${className}--hover`]: state?.hover,
-        [`${className}--pressed`]: state?.pressed,
-        [`${className}--focus`]: state?.focus,
-        [`${className}--disabled`]: disabled
+        [`hover`]: state?.hover,
+        [`pressed`]: state?.pressed,
+        [`focus`]: state?.focus,
+        [`disabled`]: disabled
       })}
       onMouseDown={mouseDownHandler}
       onMouseUp={mouseUpHandler}

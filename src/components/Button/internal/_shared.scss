@@ -63,43 +63,43 @@
       display: inline-block;
     }
 
-    &.nd-button--icon {
+    &.nd-button__icon {
       padding-inline-start: var(--md-#{$comp}-with-leading-icon-leading-space);
       padding-inline-end: var(--md-#{$comp}-with-leading-icon-trailing-space);
     }
 
-    &.nd-button--trailing-icon {
+    &.nd-button__trailing-icon {
       padding-inline-start: var(--md-#{$comp}-with-trailing-icon-leading-space);
       padding-inline-end: var(--md-#{$comp}-with-trailing-icon-trailing-space);
     }
   }
 
-  &.nd-#{$comp}--hover {
+  &.hover {
     @include elevation.theme((
       level: var(--md-#{$comp}-hover-container-elevation)
     ))
   }
 
-  &.nd-#{$comp}--focus {
+  &.focus {
     @include elevation.theme((
       level: var(--md-#{$comp}-focus-container-elevation)
     ))
   }
 
-  &.nd-#{$comp}--pressed {
+  &.pressed {
     @include elevation.theme((
       level: var(--md-#{$comp}-pressed-container-elevation)
     ))
   }
 
-  &.nd-#{$comp}--disabled {
+  &.disabled {
     @include elevation.theme((
       level: var(--md-#{$comp}-disabled-container-elevation)
     ));
     @include background.theme((
       color: var(--md-#{$comp}-disabled-container-color),
       opacity: var(--md-#{$comp}-disabled-container-opacity)
-    ), $comp);
+    ), #{$comp});
 
     .nd-button {
       color: var(--md-#{$comp}-disabled-label-text-color);

@@ -1,6 +1,6 @@
 import React, {forwardRef} from 'react';
 import {ButtonProps} from "./internal/Button";
-import CommonButton, {ButtonHandle} from "./CommonButton";
+import Button, {ButtonHandle} from "./Button";
 import './ElevatedButton.scss';
 
 export interface ElevatedButtonProps extends ButtonProps {
@@ -19,11 +19,11 @@ const ElevatedButton = forwardRef<ElevatedButtonHandle, ElevatedButtonProps>((
   ref) => {
 
   return (
-    <CommonButton
+    <Button
       ref={ref}
       variant={'elevated'}
       {...rest}
-    ></CommonButton>
+    ></Button>
   )
 })
 

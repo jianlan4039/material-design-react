@@ -24,9 +24,9 @@ const Badge: React.FC<BadgeProps> = ((props) => {
       <span
         aria-label={_count.toString()}
         className={c('nd-badge', {
-          'nd-badge--large': size === 'large',
-          'nd-badge--small': size === 'small',
-          'nd-badge--hidden': stayShow ? false : count <= 0
+          'large': size === 'large',
+          'small': size === 'small',
+          'hidden': stayShow ? false : count <= 0
         })}
       >
         {size === 'large' && _count}

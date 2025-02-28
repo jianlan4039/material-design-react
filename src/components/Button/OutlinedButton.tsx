@@ -1,6 +1,6 @@
 import React, {forwardRef} from 'react'
 import {ButtonProps} from "./internal/Button";
-import CommonButton, {ButtonHandle} from "./CommonButton";
+import Button, {ButtonHandle} from "./Button";
 import './OutlinedButton.scss'
 
 export interface OutlinedButtonProps extends ButtonProps {
@@ -16,7 +16,7 @@ const OutlinedButton = forwardRef<OutlinedButtonHandle, OutlinedButtonProps>((
   props, ref) => {
 
   return (
-    <CommonButton ref={ref} variant={'outlined'} {...props}></CommonButton>
+    <Button ref={ref} variant={'outlined'} {...props}></Button>
   )
 })
 

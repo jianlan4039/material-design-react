@@ -28,8 +28,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     <button
       ref={ref}
       className={cln('nd-button', {
-        'nd-button--icon': renderIcon,
-        'nd-button--trailing-icon': renderTrailingIcon
+        'nd-button__icon': renderIcon,
+        'nd-button__trailing-icon': renderTrailingIcon
       })}
       {...rest}
     >

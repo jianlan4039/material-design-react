@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import CommonButton from "../CommonButton";
+import Button from "../Button";
 import {ElevatedButton, FilledButton, FilledTonalButton, OutlinedButton, TextButton} from "../index";
 
 export default {
@@ -10,7 +10,7 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-type Story = StoryObj<typeof CommonButton>
+type Story = StoryObj<typeof Button>
 
 export const Default: Story = {
   render: (args) => {

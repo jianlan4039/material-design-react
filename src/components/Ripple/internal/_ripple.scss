@@ -46,11 +46,11 @@ $supported-tokens: md-comp-ripple.$supported-tokens;
     transition: opacity 375ms linear;
   }
 
-  &.nd-ripple--hover:not(.disabled)::before {
+  &.hover:not(.disabled)::before {
     opacity: var(--md-ripple-hover-opacity);
   }
 
-  &.nd-ripple--pressed:not(.disabled)::after {
+  &.pressed:not(.disabled)::after {
     opacity: var(--md-ripple-pressed-opacity);
     transition-duration: 105ms;
   }

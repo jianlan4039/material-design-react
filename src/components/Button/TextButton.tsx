@@ -1,6 +1,6 @@
 import React, {forwardRef} from 'react'
 import {ButtonProps} from "./internal/Button";
-import CommonButton, {ButtonHandle} from "./CommonButton";
+import Button, {ButtonHandle} from "./Button";
 import './TextButton.scss'
 
 export interface TextButtonProps extends ButtonProps {
@@ -14,7 +14,7 @@ export interface TextButtonHandle extends ButtonHandle {
  */
 const TextButton = forwardRef<TextButtonHandle, TextButtonProps>((props, ref) => {
   return (
-    <CommonButton ref={ref} variant={"text"} {...props}></CommonButton>
+    <Button ref={ref} variant={"text"} {...props}></Button>
   )
 })
 

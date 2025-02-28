@@ -1,13 +1,13 @@
 import React, {forwardRef, HTMLAttributes, useImperativeHandle, useRef} from "react";
 import cln from "classnames";
-import Button from "./internal/Button";
+import {default as SharedButton} from "./internal/Button";
 import Ripple from "../Ripple/Ripple";
 import Elevation from "../Elevation";
 import Outline from "../Outline/Outline";
 import StatefulBox from '../StatefulBox'
 import FocusRing from "../Focus/FocusRing";
 
-export interface CommonButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   name?: string
   label?: string
   className?: string
@@ -20,7 +20,7 @@ export interface ButtonHandle {
   button: HTMLButtonElement | null
 }
 
-const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) => {
+const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
   const {
     name,
     label,
@@ -43,7 +43,7 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
 
   return (
     <StatefulBox
-      className={cln(className, {
+      className={cln("nd-button", className, {
         [`nd-${variant}-button`]: variant,
       })}
       disabled={disabled}
@@ -52,18 +52,18 @@ const CommonButton = forwardRef<ButtonHandle, CommonButtonProps>((props, ref) =>
       <FocusRing>
         <Ripple disabled={disabled}>
           {variant === "outlined" && <Outline disabled={disabled}></Outline>}
-          <Button
+          <SharedButton
             ref={btnRef}
             disabled={disabled}
             label={label}
             {...rest}
           >
             {children}
-          </Button>
+          </SharedButton>
         </Ripple>
       </FocusRing>
     </StatefulBox>
   )
 })
 
-export default CommonButton;
+export default Button;

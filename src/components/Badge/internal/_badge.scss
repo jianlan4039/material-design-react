@@ -17,14 +17,14 @@
     transition: opacity 150ms linear;
 
 
-    &.nd-badge--small {
+    &.small {
       block-size: var(--md-badge-size);
       inline-size: var(--md-badge-size);
       inset-inline-end: 0;
       inset-block-start: 0;
     }
 
-    &.nd-badge--large {
+    &.large {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
@@ -43,7 +43,7 @@
       inset-inline-start: 50%;
     }
 
-    &.nd-badge--hidden {
+    &.hidden {
       opacity: 0;
     }
   }

@@ -129,16 +129,19 @@ export default function Ripple(props: RippleProps) {
   }
 
   function rippleMouseEnterHandler() {
+    if(disabled) return;
     setIsHover(true)
     isMouseEnter.current = true
   }
 
   function rippleMouseLeaveHandler() {
+    if(disabled) return;
     setIsHover(false)
     isMouseEnter.current = false
   }
 
   function rippleMouseDownHandler(e: ReactMouseEvent<HTMLDivElement>) {
+    if(disabled) return;
     e.stopPropagation()
     if (isMouseEnter.current && surfaceRect.current) {
       clickPoint.current = {x: e.clientX, y: e.clientY}
@@ -147,6 +150,7 @@ export default function Ripple(props: RippleProps) {
   }
 
   function rippleMouseUpHandler(e: ReactMouseEvent<HTMLDivElement>) {
+    if(disabled) return;
     e.stopPropagation()
     setStartRipple(false)
   }
@@ -156,8 +160,8 @@ export default function Ripple(props: RippleProps) {
       ref={surfaceRef}
       aria-hidden={true}
       className={classNames('nd-ripple', {
-        'nd-ripple--hover': isHover,
-        'nd-ripple--pressed': startRipple
+        'hover': isHover,
+        'pressed': startRipple
       })}
       onMouseEnter={rippleMouseEnterHandler}
       onMouseLeave={rippleMouseLeaveHandler}
