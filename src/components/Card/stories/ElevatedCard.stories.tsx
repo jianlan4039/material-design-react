@@ -12,9 +12,17 @@ export default meta;
 type Story = StoryObj<typeof ElevatedCard>;
 
 export const Primary: Story = {
-  render: () => (
-    <ElevatedCard>
-      <ElevatedButton>Confirm</ElevatedButton>
-    </ElevatedCard>
-  )
+
+  render: () => {
+
+    function mouseDownHandler() {
+      console.log('down')
+    }
+
+    return (
+      <ElevatedCard onMouseDown={mouseDownHandler} style={{height: "200px"}}>
+        <ElevatedButton >Confirm</ElevatedButton>
+      </ElevatedCard>
+    )
+  }
 }

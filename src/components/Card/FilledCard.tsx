@@ -1,9 +1,10 @@
 import React, {forwardRef, ReactNode} from 'react'
+import './FilledCard.scss'
 import Card, {CardProps} from "./internal/Card";
 import Elevation from "../Elevation";
 import cln from "classnames";
-import './FilledCard.scss'
-import useRipple from "../Ripple/useRipple";
+import Ripple from "../Ripple/Ripple";
+import StatefulBox from "../StatefulBox";
 
 export interface FilledCardProps extends CardProps {
   children?: ReactNode
@@ -19,21 +20,21 @@ const FilledCard = forwardRef<HTMLDivElement, FilledCardProps>((props: FilledCar
     ...rest
   } = props
 
-  const [rippleProps, ripple] = useRipple({})
+
 
   return (
-    <div
+    <StatefulBox
       ref={ref}
       className={cln('nd-filled-card', className, {
         'nd-disabled': disabled,
         'nd-card--static': !interactive,
       })}
-      {...rippleProps}
     >
       <Elevation></Elevation>
-      {interactive && ripple}
-      <Card disabled={disabled} {...rest}>{children}</Card>
-    </div>
+      <Ripple>
+        <Card disabled={disabled} {...rest}>{children}</Card>
+      </Ripple>
+    </StatefulBox>
   )
 })
 

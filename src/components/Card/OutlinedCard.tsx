@@ -4,7 +4,8 @@ import Elevation from "../Elevation";
 import cln from "classnames";
 import './OutlinedCard.scss'
 import Outline from "../Outline/Outline";
-import useRipple from "../Ripple/useRipple";
+import Ripple from "../Ripple/Ripple";
+import StatefulBox from "../StatefulBox";
 
 export interface OutlineCardProps extends CardProps {
   children?: ReactNode,
@@ -20,22 +21,20 @@ const OutlinedCard = forwardRef<HTMLDivElement, OutlineCardProps>((props, ref) =
     ...rest
   } = props
 
-  const [rippleProps, ripple] = useRipple({})
-
   return (
-    <div
+    <StatefulBox
       ref={ref}
       className={cln('nd-outline-card', className, {
         'nd-disabled': disabled,
         'nd-card--static': !interactive,
       })}
-      {...rippleProps}
     >
       <Outline></Outline>
       <Elevation></Elevation>
-      {interactive && ripple}
-      <Card disabled={disabled} {...rest}>{children}</Card>
-    </div>
+      <Ripple>
+        <Card disabled={disabled} {...rest}>{children}</Card>
+      </Ripple>
+    </StatefulBox>
   )
 })
 
