@@ -26,7 +26,6 @@ export default function Ripple(props: RippleProps) {
     disabled
   } = props
 
-  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
   const PRESS_GROW_MS = 450;
   const MINIMUM_PRESS_MS = 225;
   const INITIAL_ORIGIN_SCALE = 0.2;

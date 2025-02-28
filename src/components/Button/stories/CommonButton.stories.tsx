@@ -13,7 +13,7 @@ export default {
 type Story = StoryObj<typeof Button>
 
 export const Default: Story = {
-  render: (args) => {
+  render: () => {
     return <>
       <ElevatedButton label={"Elevated"}></ElevatedButton>
       <FilledButton label={'Filled'}></FilledButton>

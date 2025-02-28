@@ -1,4 +1,4 @@
-import React, {useState, MouseEvent, FocusEvent, useImperativeHandle} from "react"
+import React, {useState, MouseEvent, FocusEvent} from "react"
 import c from "classnames";
 
 type StatefulBoxProps<T extends React.ElementType> = {
@@ -30,19 +30,19 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
 
   const [state, setState] = useState<State>()
 
-  const mouseDownHandler = (e: MouseEvent<T>) => {
+  const mouseDownHandler = () => {
     setState(prevState => ({...prevState, pressed: true,}))
   }
 
-  const mouseUpHandler = (e: MouseEvent<T>) => {
+  const mouseUpHandler = () => {
     setState(prevState => ({ ...prevState, pressed: false,}))
   }
 
-  const mouseEnterHandler = (e: MouseEvent<T>) => {
+  const mouseEnterHandler = () => {
     setState(prevState => ({...prevState, hover: true}))
   }
 
-  const mouseLeaveHandler = (e: MouseEvent<T>) => {
+  const mouseLeaveHandler = () => {
     setState(prevState => ({...prevState, hover: false}))
   }
 
@@ -52,7 +52,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     }
   }
 
-  const blurHandler = (e: FocusEvent<T>) => {
+  const blurHandler = () => {
     setState(prevState => ({...prevState, focus: false}))
   }
 
