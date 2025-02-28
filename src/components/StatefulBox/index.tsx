@@ -13,18 +13,17 @@ type State = {
   focus?: boolean
 }
 
+/**
+ * This component is used to encapsulate mouse-related state effects,
+ * including mouseenter, mouseleave, mousedown, mouseup, focus, and blur events.
+ *
+ */
 const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props: StatefulBoxProps<T>, ref: React.Ref<Element>) => {
   const {
     children,
     variant: Component = "div", // 默认渲染为 div
     target,
     className,
-    onMouseDown,
-    onMouseUp,
-    onMouseEnter,
-    onMouseLeave,
-    onFocus,
-    onBlur,
     disabled,
     ...rest
   } = props
@@ -32,34 +31,28 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
   const [state, setState] = useState<State>()
 
   const mouseDownHandler = (e: MouseEvent<T>) => {
-    onMouseDown?.(e)
     setState(prevState => ({...prevState, pressed: true,}))
   }
 
   const mouseUpHandler = (e: MouseEvent<T>) => {
-    onMouseUp?.(e)
     setState(prevState => ({ ...prevState, pressed: false,}))
   }
 
   const mouseEnterHandler = (e: MouseEvent<T>) => {
-    onMouseEnter?.(e)
     setState(prevState => ({...prevState, hover: true}))
   }
 
   const mouseLeaveHandler = (e: MouseEvent<T>) => {
-    onMouseLeave?.(e)
     setState(prevState => ({...prevState, hover: false}))
   }
 
   const focusHandler =(e: FocusEvent<T>) => {
-    onFocus?.(e)
     if((e.target as unknown as HTMLElement).matches(':focus-visible')){
       setState(prevState => ({...prevState, focus: true}))
     }
   }
 
   const blurHandler = (e: FocusEvent<T>) => {
-    onFocus?.(e)
     setState(prevState => ({...prevState, focus: false}))
   }
 
