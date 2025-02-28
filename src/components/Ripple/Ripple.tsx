@@ -155,7 +155,7 @@ export default function Ripple(props: RippleProps) {
   }
 
   return (
-    <div
+    <span
       ref={surfaceRef}
       aria-hidden={true}
       className={classNames('nd-ripple', {
@@ -168,6 +168,6 @@ export default function Ripple(props: RippleProps) {
       onMouseUp={rippleMouseUpHandler}
     >
       {children}
-    </div>
+    </span>
   )
 }

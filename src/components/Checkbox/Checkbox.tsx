@@ -72,15 +72,14 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
       onClick={clickHandler}
     >
       <FocusRing></FocusRing>
-      <Ripple>
-        <CheckboxContent
-          ref={checkbox}
-          disabled={disabled}
-          checked={state === 1}
-          indeterminate={state === 2}
-          {...rest}
-        ></CheckboxContent>
-      </Ripple>
+      <Ripple></Ripple>
+      <CheckboxContent
+        ref={checkbox}
+        disabled={disabled}
+        checked={state === 1}
+        indeterminate={state === 2}
+        {...rest}
+      ></CheckboxContent>
     </StatefulBox>
   )
 })

@@ -17,9 +17,8 @@ $supported-tokens: md-comp-ripple.$supported-tokens;
 
 @mixin styles() {
   @include tokens-builder.tokens($tokens, ripple);
-  position: relative;
-  block-size: 100%;
-  inline-size: 100%;
+  position: absolute;
+  inset: 0;
   min-block-size: inherit;
   min-inline-size: inherit;
   border-radius: inherit;

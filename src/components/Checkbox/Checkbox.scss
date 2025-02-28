@@ -16,17 +16,21 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
     pressed-color: var(--md-checkbox-pressed-state-layer-color),
     pressed-opacity: var(--md-checkbox-pressed-state-layer-opacity),
   ));
+
   --md-checkbox-container-shape-start-start: var(--md-checkbox-state-layer-shape);
   --md-checkbox-container-shape-start-end: var(--md-checkbox-state-layer-shape);
   --md-checkbox-container-shape-end-end: var(--md-checkbox-state-layer-shape);
   --md-checkbox-container-shape-end-start: var(--md-checkbox-state-layer-shape);
+
   @include focus-ring.theme((
     shape-start-start: var(--md-checkbox-container-shape-start-start),
     shape-start-end: var(--md-checkbox-container-shape-start-end),
     shape-end-start: var(--md-checkbox-container-shape-end-start),
     shape-end-end: var(--md-checkbox-container-shape-end-end),
   ));
+
   @include check-box.styles;
+
   border-radius: var(--md-checkbox-container-shape-start-start) var(--md-checkbox-container-shape-start-end) var(--md-checkbox-container-shape-end-start) var(--md-checkbox-container-shape-end-end);
   block-size: 24px;
   inline-size: 24px;
