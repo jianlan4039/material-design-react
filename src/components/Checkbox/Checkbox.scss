@@ -49,7 +49,7 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
     inset: unset !important;
   }
 
-  &.nd-disabled {
+  &.disabled {
     & > .nd-check,
     & > .nd-indeterminate {
       @include background.theme((
@@ -58,7 +58,7 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
       ), checkbox)
     }
 
-    & > .nd-uncheck {
+    & > .uncheck {
       svg {
         fill: var(--md-checkbox-disabled-outline-color);
         opacity: var(--md-checkbox-disabled-container-opacity)
@@ -66,14 +66,14 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
     }
   }
 
-  &.nd-selected {
+  &.selected {
     @include ripple.theme((
       hover-color: var(--md-checkbox-selected-hover-state-layer-color),
       pressed-color: var(--md-checkbox-selected-pressed-state-layer-color)
     ))
   }
 
-  &.nd-error {
+  &.error {
     @include ripple.theme((
       hover-color: var(--md-checkbox-error-hover-state-layer-color),
       pressed-color: var(--md-checkbox-error-pressed-state-layer-color)
@@ -83,7 +83,7 @@ $supported-tokens: md-comp-checkbox.$supported-tokens;
       fill: var(--md-checkbox-error-outline-color);
     }
 
-    &.nd-selected {
+    &.selected {
       @include ripple.theme((
         hover-color: var(--md-checkbox-error-hover-state-layer-color),
         pressed-color: var(--md-checkbox-error-pressed-state-layer-color)

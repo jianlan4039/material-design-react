@@ -27,7 +27,7 @@ export default function FocusRing(props: FocusRingProps) {
   };
 
   return (
-    <div
+    <span
       tabIndex={0}
       ref={container}
       className={c('nd-focus-ring-container')}
@@ -35,7 +35,6 @@ export default function FocusRing(props: FocusRingProps) {
       onBlur={blurHandler}
     >
       <span className={c('nd-focus-ring', {'inward': inward, 'visible': isVisible})}></span>
-      {children}
-    </div>
+    </span>
   )
 }

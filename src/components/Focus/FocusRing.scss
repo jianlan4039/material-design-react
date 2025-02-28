@@ -1,7 +1,7 @@
 @use "./internal/focus-ring";
 
 .nd-focus-ring-container {
-  position: relative;
+  position: absolute;
   border-radius: inherit;
   inset: 0;
   display: flex;
