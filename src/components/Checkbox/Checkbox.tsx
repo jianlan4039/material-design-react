@@ -4,9 +4,9 @@ import './Checkbox.scss'
 import cln from "classnames";
 import useRipple from "../Ripple/useRipple";
 import useFocusRing from "../Focus/useFocusRing";
-import StatefulBox from "../StatefulBox";
-import Ripple from "../Ripple/Ripple";
-import FocusRing from "../Focus/FocusRing";
+import StatefulBox from "../StatefulBox/StatefulBox";
+import UseRipple from "../Ripple/useRipple";
+import UseFocusRing from "../Focus/useFocusRing";
 
 export interface CheckboxProps extends CheckboxContentProps {
   children?: ReactNode
@@ -31,9 +31,6 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
   const [state, setState] = useState<number>(_indeterm ? 2 : _chk ? 1 : 0)
   const checkbox = useRef<HTMLInputElement>(null);
   const [parent, setParent] = useState<HTMLInputElement>()
-
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-  const [focusRingProps, focusRing] = useFocusRing<HTMLInputElement>({parent, onFocus, onBlur})
 
   useEffect(() => {
     if (checkbox.current) {
@@ -71,8 +68,6 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
       })}
       onClick={clickHandler}
     >
-      <FocusRing></FocusRing>
-      <Ripple></Ripple>
       <CheckboxContent
         ref={checkbox}
         disabled={disabled}

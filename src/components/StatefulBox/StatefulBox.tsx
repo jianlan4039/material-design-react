@@ -1,5 +1,8 @@
 import React, {useState, MouseEvent, FocusEvent} from "react"
 import c from "classnames";
+import useFocusRing from "../Focus/useFocusRing";
+import useRipple from "../Ripple/useRipple";
+import Elevation from "../Elevation";
 
 type StatefulBoxProps<T extends React.ElementType> = {
   variant?: T; // 指定要渲染的 HTML 元素类型
@@ -29,31 +32,39 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
   } = props
 
   const [state, setState] = useState<State>()
+  const [FocusRing, {focusRingStart, focusRingEnd}] = useFocusRing()
+  const [Ripple, {starHoverEffect, endHoverEffect, startRipple, endRipple}] = useRipple()
 
-  const mouseDownHandler = () => {
-    setState(prevState => ({...prevState, pressed: true,}))
+  const mouseDownHandler = (e: MouseEvent<HTMLElement>) => {
+    // setState(prevState => ({...prevState, pressed: true,}))
+    startRipple(e)
   }
 
-  const mouseUpHandler = () => {
-    setState(prevState => ({ ...prevState, pressed: false,}))
+  const mouseUpHandler = (e: MouseEvent<HTMLElement>) => {
+    // setState(prevState => ({...prevState, pressed: false,}))
+    endRipple()
   }
 
   const mouseEnterHandler = () => {
-    setState(prevState => ({...prevState, hover: true}))
+    // setState(prevState => ({...prevState, hover: true}))
+    starHoverEffect()
   }
 
   const mouseLeaveHandler = () => {
-    setState(prevState => ({...prevState, hover: false}))
+    // setState(prevState => ({...prevState, hover: false}))
+    endHoverEffect()
   }
 
-  const focusHandler =(e: FocusEvent<T>) => {
-    if((e.target as unknown as HTMLElement).matches(':focus-visible')){
+  const focusHandler = (e: FocusEvent<T>) => {
+    if ((e.target as unknown as HTMLElement).matches(':focus-visible')) {
       setState(prevState => ({...prevState, focus: true}))
+      focusRingStart()
     }
   }
 
   const blurHandler = () => {
     setState(prevState => ({...prevState, focus: false}))
+    focusRingEnd()
   }
 
   return (
@@ -73,6 +84,9 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
       onBlur={blurHandler}
       {...rest}
     >
+      <Elevation></Elevation>
+      <Ripple></Ripple>
+      <FocusRing></FocusRing>
       {children}
     </Component>
   )

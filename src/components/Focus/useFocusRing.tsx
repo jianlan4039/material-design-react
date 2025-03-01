@@ -1,41 +1,40 @@
-import React, {useState} from "react";
-import classNames from "classnames";
-import './FocusRing.scss';
+import React, {HTMLAttributes, useRef, useState} from "react";
+import c from "classnames";
+import './FocusRing.scss'
 
-export interface FocusRingProps<R extends HTMLElement> {
-  parent?: R | null,
+export interface FocusRingProps extends HTMLAttributes<HTMLDivElement> {
   inward?: boolean
-  onFocus?: (e: React.FocusEvent<R>) => void;
-  onBlur?: (e: React.FocusEvent<R>) => void;
 }
 
-function useFocusRing<R extends HTMLElement>({parent, inward = false, onFocus, onBlur}: FocusRingProps<R>) {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+export default function useFocusRing(props?: FocusRingProps) {
 
-  const focusHandler = (e: React.FocusEvent<R>) => {
-    if (!parent) return;
-    onFocus?.(e)
-    if (parent.matches(':focus-visible')) {
-      setIsVisible(true);
-    }
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const container = useRef<HTMLDivElement>(null);
+
+  const focusRingStart = () => {
+    if (!container.current) return;
+    setIsVisible(true);
   };
 
-  const blurHandler = (e: React.FocusEvent<R>) => {
-    if (!parent) return;
-    onBlur?.(e)
+  const focusRingEnd = () => {
+    if (!container.current) return;
     setIsVisible(false);
   };
 
-  const focusRing = (
-    <span className={'nd-focus-ring-container'}>
-      <span className={classNames('nd-focus-ring', {'inward': inward, 'visible': isVisible})}></span>
+  const RingContainer = () => (
+    <span
+      ref={container}
+      className={c('nd-focus-ring-container')}
+    >
+      <span className={c('nd-focus-ring', {'inward': props?.inward, 'visible': isVisible})}></span>
     </span>
-  );
+  )
 
   return [
-    {onFocus: focusHandler, onBlur: blurHandler},
-    focusRing
-  ] as const;
+    RingContainer,
+    {
+      focusRingStart: focusRingStart,
+      focusRingEnd: focusRingEnd
+    }
+  ] as const
 }
-
-export default useFocusRing;

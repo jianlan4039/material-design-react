@@ -1,30 +1,29 @@
-import React, {MouseEvent as ReactMouseEvent, TouchEvent, useEffect, useRef, useState} from "react";
+import React, {
+  MouseEvent as ReactMouseEvent,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from "react";
+
+import './Ripple.scss'
 import {EASING} from "../internal/motion/animation";
 import classNames from "classnames";
-import './Ripple.scss'
 
-export interface RippleProps<R extends HTMLElement> {
-  onMouseOver?: (e: ReactMouseEvent<R>) => void,
-  onMouseOut?: (e: ReactMouseEvent<R>) => void,
-  onMouseDown?: (e: ReactMouseEvent<R>) => void,
-  onMouseUp?: (e: ReactMouseEvent<R>) => void,
-  onTouchStart?: (e: TouchEvent<R>) => void
-  onTouchEnd?: (e: TouchEvent<R>) => void,
+export interface RippleProps {
+  children?: React.ReactNode
+  disabled?: boolean
 }
 
-function useRipple<R extends HTMLElement>(
-  {
-    onMouseOver,
-    onMouseOut,
-    onMouseDown,
-    onMouseUp,
-    onTouchStart,
-    onTouchEnd
-  }: RippleProps<R>
-) {
+interface ClickPoint {
+  x: number;
+  y: number;
+}
+
+export default function useRipple(props?: RippleProps) {
 
   const PRESS_GROW_MS = 450;
-  // const MINIMUM_PRESS_MS = 225;
+  const MINIMUM_PRESS_MS = 225;
   const INITIAL_ORIGIN_SCALE = 0.2;
   const PADDING = 10;
   const SOFT_EDGE_MINIMUM_SIZE = 75;
@@ -35,38 +34,34 @@ function useRipple<R extends HTMLElement>(
   let rippleScale = '';
   let initialSize = 0;
 
-  const surfaceRef = useRef<HTMLSpanElement>(null);
-  const growAnimation = useRef<Animation>();
+  const surfaceRef = useRef<HTMLDivElement>(null)
+  const growAnimation = useRef<Animation>()
 
-  const [isTouchEvent, setIsTouchEvent] = useState(false)
-  const touchEventRecoverTimeId = useRef<NodeJS.Timeout>();
   const [isHover, setIsHover] = useState(false)
-  const [isPressed, setIsPressed] = useState(false)
-  const mouseEventRef = useRef<ReactMouseEvent | TouchEvent>();
-  const pageXRef = useRef<number>(0);
-  const pageYRef = useRef<number>(0);
+
+  const surfaceRect = useRef<DOMRect>()
+  const clickPoint = useRef<ClickPoint>()
+
+  const isMouseEnter = useRef(false);
+  const [startRipple, setStartRipple] = useState(false);
 
   useEffect(() => {
-    if (isPressed && mouseEventRef.current && surfaceRef.current) {
-      if (!isTouchEvent) {
-        const {pageX, pageY} = mouseEventRef.current as ReactMouseEvent
-        const rect = surfaceRef.current.getBoundingClientRect()
-        startPressAnimation(pageX, pageY, rect)
-      } else {
-        const {touches} = mouseEventRef.current as TouchEvent
-        const {pageX, pageY} = touches[0]
-        const rect = surfaceRef.current.getBoundingClientRect()
-        startPressAnimation(pageX, pageY, rect)
-      }
+    if (startRipple && clickPoint.current && surfaceRect.current) {
+      startPressAnimation(clickPoint.current.x, clickPoint.current.y, surfaceRect.current)
     }
-  }, [isPressed]);
+  }, [startRipple]);
 
-  function getNormalizedPointerEventCoords(rect: DOMRect) {
+  useLayoutEffect(() => {
+    if (!surfaceRef.current) return;
+    surfaceRect.current = surfaceRef.current!.getBoundingClientRect();
+  }, [surfaceRef.current]);
+
+  function getNormalizedPointerEventCoords(rect: DOMRect, x: number, y: number) {
     const {scrollX, scrollY} = window;
     const {left, top} = rect;
     const documentX = scrollX + left;
     const documentY = scrollY + top;
-    return {x: pageXRef.current - documentX, y: pageYRef.current - documentY};
+    return {x: x - documentX, y: y - documentY};
   }
 
   function determineRippleSize(rect: DOMRect) {
@@ -80,13 +75,13 @@ function useRipple<R extends HTMLElement>(
     rippleScale = `${(maxRadius + softEdgeSize) / initialSize}`;
   }
 
-  function getTranslationCoordinates(rect: DOMRect) {
+  function getTranslationCoordinates(rect: DOMRect, x: number, y: number) {
     const {height, width} = rect
     const endPoint = {
       x: (width - initialSize) / 2,
       y: (height - initialSize) / 2,
     };
-    let startPoint = getNormalizedPointerEventCoords(rect)
+    let startPoint = getNormalizedPointerEventCoords(rect, x, y)
     startPoint = {
       x: startPoint.x - (initialSize / 2),
       y: startPoint.y - (initialSize / 2),
@@ -95,10 +90,9 @@ function useRipple<R extends HTMLElement>(
   }
 
   function startPressAnimation(pageX: number, pageY: number, rect: DOMRect) {
-    pageXRef.current = pageX
-    pageYRef.current = pageY
+    endPressAnimation()
     determineRippleSize(rect);
-    const {startPoint, endPoint} = getTranslationCoordinates(rect);
+    const {startPoint, endPoint} = getTranslationCoordinates(rect, pageX, pageY);
     const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
     const translateEnd = `${endPoint.x}px, ${endPoint.y}px`;
     growAnimation.current = surfaceRef.current?.animate(
@@ -118,93 +112,69 @@ function useRipple<R extends HTMLElement>(
         easing: EASE_STANDARD,
         fill: ANIMATION_FILL,
       })
+
+    growAnimation.current!.onfinish = () => {
+      setStartRipple(false)
+    }
+    growAnimation.current!.oncancel = () => {
+      setStartRipple(false)
+    }
   }
 
-  // function endPressAnimation() {
-  //   const pressAnimationPlayState = growAnimation.current?.currentTime as number
-  //   if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
-  //     return
-  //   }
-  //   growAnimation.current?.cancel()
-  // }
-
-  const mouseDownHandler = (e: ReactMouseEvent<R>) => {
-    onMouseDown?.(e)
-    e.stopPropagation();
-    if (!surfaceRef.current || isTouchEvent) {
+  function endPressAnimation() {
+    const pressAnimationPlayState = growAnimation.current?.currentTime as number
+    if (pressAnimationPlayState > MINIMUM_PRESS_MS) {
       return
     }
-    mouseEventRef.current = e
-    setIsPressed(true)
+    growAnimation.current?.cancel()
   }
 
-  const mouseUpHandler = (e: ReactMouseEvent<R>) => {
-    onMouseUp?.(e)
-    e.stopPropagation();
-    if (isTouchEvent) {
-      return
-    }
-    setIsPressed(false)
-  }
-
-  const mouseEnterHandler = (e: ReactMouseEvent<R>) => {
-    onMouseOver?.(e)
-    e.stopPropagation();
-    if (isTouchEvent) {
-      return
-    }
+  function rippleMouseEnterHandler() {
+    if(props?.disabled) return;
     setIsHover(true)
+    isMouseEnter.current = true
   }
 
-  const mouseLeaveHandler = (e: ReactMouseEvent<R>) => {
-    onMouseOut?.(e)
-    e.stopPropagation();
-    if (isTouchEvent) {
-      return
-    }
+  function rippleMouseLeaveHandler() {
+    if(props?.disabled) return;
     setIsHover(false)
-    setIsPressed(false)
+    isMouseEnter.current = false
   }
 
-  function touchStartHandler(e: TouchEvent<R>) {
-    onTouchStart?.(e)
-    clearTimeout(touchEventRecoverTimeId.current)
-    mouseEventRef.current = e
-    setIsTouchEvent(true)
-    setIsPressed(true)
-    touchEventRecoverTimeId.current = setTimeout(() => {
-      setIsTouchEvent(false)
-      setIsPressed(false)
-    }, 1000)
+  function rippleMouseDownHandler(e: ReactMouseEvent<HTMLElement>) {
+    if(props?.disabled) return;
+    if (isMouseEnter.current && surfaceRect.current) {
+      clickPoint.current = {x: e.clientX, y: e.clientY}
+      setStartRipple(true)
+    }
   }
 
-  function touchEndHandler(e: TouchEvent<R>) {
-    onTouchEnd?.(e)
-    setIsPressed(false)
+  function rippleMouseUpHandler() {
+    if(props?.disabled) return;
   }
 
-  const ripple = (
-    <span
-      ref={surfaceRef}
-      aria-hidden={true}
-      className={classNames('nd-ripple', {
-        'hover': isHover,
-        'pressed': isPressed
-      })}
-    ></span>
-  )
+  function Ripple() {
+    return (
+      <span
+        ref={surfaceRef}
+        aria-hidden={true}
+        className={classNames('nd-ripple', {
+          'hover': isHover,
+          'pressed': startRipple
+        })}
+      >
+      {props?.children}
+    </span>
+    )
+  }
 
   return [
+    Ripple,
     {
-      onMouseOver: mouseEnterHandler,
-      onMouseOut: mouseLeaveHandler,
-      onMouseDown: mouseDownHandler,
-      onMouseUp: mouseUpHandler,
-      onTouchStart: touchStartHandler,
-      onTouchEnd: touchEndHandler,
-    },
-    ripple
-  ] as const;
+      starHoverEffect: rippleMouseEnterHandler,
+      endHoverEffect: rippleMouseLeaveHandler,
+      startRipple: rippleMouseDownHandler,
+      endRipple: rippleMouseUpHandler
+    }
+  ] as const
 }
-
-export default useRipple;

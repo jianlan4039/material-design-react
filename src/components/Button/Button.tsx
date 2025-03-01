@@ -1,11 +1,11 @@
 import React, {forwardRef, HTMLAttributes, useImperativeHandle, useRef} from "react";
 import cln from "classnames";
 import {default as SharedButton} from "./internal/Button";
-import Ripple from "../Ripple/Ripple";
+import UseRipple from "../Ripple/useRipple";
 import Elevation from "../Elevation";
 import Outline from "../Outline/Outline";
-import StatefulBox from '../StatefulBox'
-import FocusRing from "../Focus/FocusRing";
+import StatefulBox from '../StatefulBox/StatefulBox'
+import UseFocusRing from "../Focus/useFocusRing";
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   name?: string
@@ -48,20 +48,15 @@ const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
       })}
       disabled={disabled}
     >
-      <Elevation></Elevation>
-      <FocusRing>
-        <Ripple disabled={disabled}>
-          {variant === "outlined" && <Outline disabled={disabled}></Outline>}
-          <SharedButton
-            ref={btnRef}
-            disabled={disabled}
-            label={label}
-            {...rest}
-          >
-            {children}
-          </SharedButton>
-        </Ripple>
-      </FocusRing>
+      {variant === "outlined" && <Outline disabled={disabled}></Outline>}
+      <SharedButton
+        ref={btnRef}
+        disabled={disabled}
+        label={label}
+        {...rest}
+      >
+        {children}
+      </SharedButton>
     </StatefulBox>
   )
 })
