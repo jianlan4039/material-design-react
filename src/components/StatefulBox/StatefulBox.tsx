@@ -36,22 +36,22 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
   const [Ripple, {starHoverEffect, endHoverEffect, startRipple, endRipple}] = useRipple()
 
   const mouseDownHandler = (e: MouseEvent<HTMLElement>) => {
-    // setState(prevState => ({...prevState, pressed: true,}))
+    setState(prevState => ({...prevState, pressed: true,}))
     startRipple(e)
   }
 
   const mouseUpHandler = (e: MouseEvent<HTMLElement>) => {
-    // setState(prevState => ({...prevState, pressed: false,}))
+    setState(prevState => ({...prevState, pressed: false,}))
     endRipple()
   }
 
   const mouseEnterHandler = () => {
-    // setState(prevState => ({...prevState, hover: true}))
+    setState(prevState => ({...prevState, hover: true}))
     starHoverEffect()
   }
 
   const mouseLeaveHandler = () => {
-    // setState(prevState => ({...prevState, hover: false}))
+    setState(prevState => ({...prevState, hover: false}))
     endHoverEffect()
   }
 
@@ -85,8 +85,8 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
       {...rest}
     >
       <Elevation></Elevation>
-      <Ripple></Ripple>
-      <FocusRing></FocusRing>
+      {Ripple}
+      {FocusRing}
       {children}
     </Component>
   )

@@ -21,7 +21,7 @@ export default function useFocusRing(props?: FocusRingProps) {
     setIsVisible(false);
   };
 
-  const RingContainer = () => (
+  const RingContainer = (
     <span
       ref={container}
       className={c('nd-focus-ring-container')}

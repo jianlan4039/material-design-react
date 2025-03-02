@@ -112,13 +112,6 @@ export default function useRipple(props?: RippleProps) {
         easing: EASE_STANDARD,
         fill: ANIMATION_FILL,
       })
-
-    growAnimation.current!.onfinish = () => {
-      setStartRipple(false)
-    }
-    growAnimation.current!.oncancel = () => {
-      setStartRipple(false)
-    }
   }
 
   function endPressAnimation() {
@@ -130,19 +123,19 @@ export default function useRipple(props?: RippleProps) {
   }
 
   function rippleMouseEnterHandler() {
-    if(props?.disabled) return;
+    if (props?.disabled) return;
     setIsHover(true)
     isMouseEnter.current = true
   }
 
   function rippleMouseLeaveHandler() {
-    if(props?.disabled) return;
+    if (props?.disabled) return;
     setIsHover(false)
     isMouseEnter.current = false
   }
 
   function rippleMouseDownHandler(e: ReactMouseEvent<HTMLElement>) {
-    if(props?.disabled) return;
+    if (props?.disabled) return;
     if (isMouseEnter.current && surfaceRect.current) {
       clickPoint.current = {x: e.clientX, y: e.clientY}
       setStartRipple(true)
@@ -150,23 +143,22 @@ export default function useRipple(props?: RippleProps) {
   }
 
   function rippleMouseUpHandler() {
-    if(props?.disabled) return;
+    if (props?.disabled) return;
+    setStartRipple(false)
   }
 
-  function Ripple() {
-    return (
-      <span
-        ref={surfaceRef}
-        aria-hidden={true}
-        className={classNames('nd-ripple', {
-          'hover': isHover,
-          'pressed': startRipple
-        })}
-      >
+  const Ripple = (
+    <span
+      ref={surfaceRef}
+      aria-hidden={true}
+      className={classNames('nd-ripple', {
+        'hover': isHover,
+        'pressed': startRipple
+      })}
+    >
       {props?.children}
     </span>
-    )
-  }
+  )
 
   return [
     Ripple,
