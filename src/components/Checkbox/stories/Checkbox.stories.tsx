@@ -12,6 +12,9 @@ type Story = StoryObj<typeof Checkbox>;
 
 export const Primary: Story = {
   args: {
-    disabled: false
+    disabled: false,
+    indeterminate: false,
+    error: false,
+    checked: false
   }
 }

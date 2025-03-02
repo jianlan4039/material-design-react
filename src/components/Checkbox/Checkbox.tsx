@@ -67,6 +67,7 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
         'error': error
       })}
       onClick={clickHandler}
+      focusable={true}
     >
       <CheckboxContent
         ref={checkbox}
