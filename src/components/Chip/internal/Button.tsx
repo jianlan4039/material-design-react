@@ -12,6 +12,7 @@ import cln from "classnames";
 import {linkHandler} from "../../internal/common/handlers";
 import useFocusRing from "../../Focus/useFocusRing";
 import useRipple from "../../Ripple/useRipple";
+import StatefulBox from "../../StatefulBox/StatefulBox";
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   children?: ReactNode
@@ -38,35 +39,10 @@ const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
     target = "",
     label,
     onClick,
-    onFocus,
-    onBlur,
-    onMouseOver,
-    onMouseOut,
-    onMouseDown,
-    onMouseUp,
-    onTouchStart,
-    onTouchEnd,
     ...rest
   } = props
 
   const btnRef = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur})
-  const [rippleProps, ripple] = useRipple<HTMLButtonElement>({
-    onMouseOver,
-    onMouseOut,
-    onMouseDown,
-    onMouseUp,
-    onTouchStart,
-    onTouchEnd
-  })
-
-  useEffect(() => {
-    if (btnRef.current) {
-      setParent(btnRef.current)
-    }
-  }, [btnRef]);
 
   useImperativeHandle(ref, () => ({
     button: btnRef.current
@@ -75,29 +51,24 @@ const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
   function clickHandler(e: MouseEvent<HTMLButtonElement>) {
     if (disabled) return;
     onClick?.(e)
-    if (href) {
-      e.preventDefault()
-      linkHandler(href, target)
-    }
+    href && linkHandler(href, target)
   }
 
   return (
-    <button
+    <StatefulBox
+      variant={'button'}
       ref={btnRef}
       className={cln('nd-chip__button', {
-        'nd-chip--with-icon': icon,
+        'with-icon': icon,
       })}
       aria-disabled={disabled}
       onClick={clickHandler}
-      {...focusRingProps}
-      {...rippleProps}
+      disabled={disabled}
       {...rest}
     >
       {icon && <span className={'nd-chip__icon-slot'}>{icon}</span>}
-      {!disabled && ripple}
-      {focusRing}
       <span className={'nd-chip__label'}>{children || label}</span>
-    </button>
+    </StatefulBox>
   )
 })
 

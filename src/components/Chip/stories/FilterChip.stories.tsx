@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react';
-import '../styles'
-import {FilterChip} from "../../index";
+import '../../../stories/styles'
+import {FilterChip} from "../../../index";
 
 const meta: Meta = {
   title: 'Chip/Filter Chip',

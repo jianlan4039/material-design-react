@@ -38,26 +38,31 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
   const [Ripple, {starHoverEffect, endHoverEffect, startRipple, endRipple}] = useRipple()
 
   const mouseDownHandler = (e: MouseEvent<HTMLElement>) => {
+    if(disabled) return;
     setState(prevState => ({...prevState, pressed: true,}))
     startRipple(e)
   }
 
   const mouseUpHandler = () => {
+    if(disabled) return;
     setState(prevState => ({...prevState, pressed: false,}))
     endRipple()
   }
 
   const mouseEnterHandler = () => {
+    if(disabled) return;
     setState(prevState => ({...prevState, hover: true}))
     starHoverEffect()
   }
 
   const mouseLeaveHandler = () => {
+    if(disabled) return;
     setState(prevState => ({...prevState, hover: false}))
     endHoverEffect()
   }
 
   const focusHandler = (e: FocusEvent<T>) => {
+    if(disabled) return;
     if ((e.target as unknown as HTMLElement).matches(':focus-visible')) {
       setState(prevState => ({...prevState, focus: true}))
       focusable && focusRingStart()
@@ -65,6 +70,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
   }
 
   const blurHandler = () => {
+    if(disabled) return;
     setState(prevState => ({...prevState, focus: false}))
     focusable && focusRingEnd()
   }
@@ -84,6 +90,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
       onMouseLeave={mouseLeaveHandler}
       onFocus={focusHandler}
       onBlur={blurHandler}
+      disabled={disabled}
       {...rest}
     >
       <Elevation></Elevation>

@@ -1,7 +1,7 @@
 import React, {forwardRef} from 'react'
 import Button, {ButtonHandle, ButtonProps} from "./internal/Button";
 import Outline from "../Outline/Outline";
-import cln from "classnames";
+import c from "classnames";
 import Elevation from "../Elevation";
 import './AssistChip.scss'
 
@@ -23,9 +23,9 @@ const AssistChip = forwardRef<AssistChipHandle, AssistChipProps>((props, ref) =>
 
   return (
     <div
-      className={cln('nd-assist-chip', {
-        'nd-disabled': disabled,
-        'nd-elevated': elevated
+      className={c('nd-assist-chip', {
+        'disabled': disabled,
+        'elevated': elevated
       })}
     >
       {elevated ? <Elevation></Elevation> : <Outline></Outline>}

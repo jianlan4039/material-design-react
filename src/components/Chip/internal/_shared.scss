@@ -91,7 +91,7 @@
       font-weight: var(--md-#{$comp}-font-weight);
     }
 
-    &.nd-chip--with-icon {
+    &.with-icon {
       --md-#{$comp}-padding-inline-start: var(--md-#{$comp}-with-leading-icon-leading-space)
     }
 
@@ -120,7 +120,7 @@
     --md-#{$comp}-icon-color: var(--md-#{$comp}-pressed-leading-icon-color);
   }
 
-  &.nd-disabled {
+  &.disabled {
     --md-#{$comp}-font-color: var(--md-#{$comp}-disabled-label-text-color);
     --md-#{$comp}-icon-color: var(--md-#{$comp}-disabled-leading-icon-color);
     @include outline.theme((
@@ -138,7 +138,7 @@
     }
   }
 
-  &.nd-elevated {
+  &.elevated {
     @include background.theme((
       color: var(--md-#{$comp}-elevated-container-color)
     ), $comp);
@@ -166,7 +166,7 @@
       ));
     }
 
-    &.nd-disabled {
+    &.disabled {
       @include background.theme((
         color: var(--md-#{$comp}-elevated-disabled-container-color),
         opacity: var(--md-#{$comp}-elevated-disabled-container-opacity)
