@@ -2,11 +2,7 @@ import React, {forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, us
 import CheckboxContent, {CheckboxContentProps, setState as _setState} from "./internal/CheckboxContent";
 import './Checkbox.scss'
 import cln from "classnames";
-import useRipple from "../Ripple/useRipple";
-import useFocusRing from "../Focus/useFocusRing";
 import StatefulBox from "../StatefulBox/StatefulBox";
-import UseRipple from "../Ripple/useRipple";
-import UseFocusRing from "../Focus/useFocusRing";
 
 export interface CheckboxProps extends CheckboxContentProps {
   children?: ReactNode
@@ -30,13 +26,6 @@ const Checkbox = forwardRef<CheckboxHandle, CheckboxProps>((props: CheckboxProps
 
   const [state, setState] = useState<number>(_indeterm ? 2 : _chk ? 1 : 0)
   const checkbox = useRef<HTMLInputElement>(null);
-  const [parent, setParent] = useState<HTMLInputElement>()
-
-  useEffect(() => {
-    if (checkbox.current) {
-      setParent(checkbox.current)
-    }
-  }, [checkbox]);
 
   useEffect(() => {
     setState(_setState(_chk, _indeterm))

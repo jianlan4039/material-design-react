@@ -4,14 +4,10 @@ import React, {
   ReactNode,
   MouseEvent,
   useRef,
-  useState,
-  useEffect,
   useImperativeHandle
 } from 'react'
 import cln from "classnames";
 import {linkHandler} from "../../internal/common/handlers";
-import useFocusRing from "../../Focus/useFocusRing";
-import useRipple from "../../Ripple/useRipple";
 import StatefulBox from "../../StatefulBox/StatefulBox";
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
