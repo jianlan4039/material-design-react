@@ -1,10 +1,8 @@
 import React, {forwardRef, ReactNode} from 'react'
 import Card, {CardProps} from "./internal/Card";
-import Elevation from "../Elevation";
 import cln from "classnames";
 import './ElevatedCard.scss'
 import StatefulBox from "../StatefulBox/StatefulBox";
-import UseRipple from "../Ripple/useRipple";
 
 export interface ElevatedCardProps extends CardProps {
   children?: ReactNode
@@ -27,10 +25,6 @@ const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) 
         'nd-card--static': !interactive,
       })}
     >
-      <Elevation></Elevation>
-      {/*<UseRipple disabled={disabled}>*/}
-      {/*  */}
-      {/*</UseRipple>*/}
       <Card disabled={disabled} {...rest}>{children}</Card>
     </StatefulBox>
   )

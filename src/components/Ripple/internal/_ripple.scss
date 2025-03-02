@@ -23,6 +23,7 @@ $supported-tokens: md-comp-ripple.$supported-tokens;
   min-inline-size: inherit;
   border-radius: inherit;
   overflow: hidden;
+  z-index: -1;
   -webkit-tap-highlight-color: transparent;
 
   &::before,
