@@ -136,9 +136,14 @@ export default function useRipple(props?: RippleProps) {
 
   function rippleMouseDownHandler(e: ReactMouseEvent<HTMLElement>) {
     if (props?.disabled) return;
-    if (isMouseEnter.current && surfaceRect.current) {
-      clickPoint.current = {x: e.clientX, y: e.clientY}
-      setStartRipple(true)
+    if (!(e.target as HTMLElement).matches(".nd-ripple")) {
+      e.stopPropagation()
+      surfaceRef.current?.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}))
+
+      if (isMouseEnter.current && surfaceRect.current) {
+        clickPoint.current = {x: e.clientX, y: e.clientY}
+        setStartRipple(true)
+      }
     }
   }
 

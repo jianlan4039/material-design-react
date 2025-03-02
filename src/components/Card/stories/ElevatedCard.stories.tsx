@@ -15,12 +15,8 @@ export const Primary: Story = {
 
   render: () => {
 
-    function mouseDownHandler() {
-      console.log('down')
-    }
-
     return (
-      <ElevatedCard onMouseDown={mouseDownHandler} style={{height: "200px"}}>
+      <ElevatedCard style={{height: "200px"}}>
         <ElevatedButton >Confirm</ElevatedButton>
       </ElevatedCard>
     )
