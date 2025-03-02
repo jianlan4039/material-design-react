@@ -16,7 +16,7 @@ $supported-tokens: md-comp-filter-chip.$supported-tokens;
   @include background.styles(filter-chip);
   @include shared.styles(filter-chip);
 
-  &.nd-selected {
+  &.selected {
     @include background.theme((
       color: var(--md-filter-chip-selected-container-color)
     ), filter-chip);
@@ -29,7 +29,7 @@ $supported-tokens: md-comp-filter-chip.$supported-tokens;
       fill: var(--md-filter-chip-selected-leading-icon-color);
     }
 
-    &.nd-disabled{
+    &.disabled{
       @include background.theme((
         color: var(--md-filter-chip-disabled-selected-container-color),
         opacity: var(--md-filter-chip-disabled-selected-container-opacity)

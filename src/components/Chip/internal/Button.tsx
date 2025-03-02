@@ -35,6 +35,7 @@ const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
     target = "",
     label,
     onClick,
+    elevated,
     ...rest
   } = props
 
@@ -57,6 +58,7 @@ const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
       className={cln('nd-chip__button', {
         'with-icon': icon,
       })}
+      elevatedable={elevated}
       aria-disabled={disabled}
       onClick={clickHandler}
       disabled={disabled}

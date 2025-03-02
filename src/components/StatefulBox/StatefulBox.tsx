@@ -9,6 +9,7 @@ type StatefulBoxProps<T extends React.ElementType> = {
   disabled?: boolean
   target?: HTMLElement
   focusable?: boolean
+  elevatedable?: boolean
 } & React.ComponentPropsWithRef<T>; // 合并指定元素的原生属性，并支持 ref
 
 type State = {
@@ -30,6 +31,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     className,
     disabled,
     focusable,
+    elevatedable = true,
     ...rest
   } = props
 
@@ -93,7 +95,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
       disabled={disabled}
       {...rest}
     >
-      <Elevation></Elevation>
+      {elevatedable && <Elevation></Elevation>}
       {Ripple}
       {focusable && FocusRing}
       {children}

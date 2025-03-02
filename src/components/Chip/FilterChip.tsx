@@ -35,9 +35,9 @@ const FilterChip = forwardRef<FilterChipHandle, FilterChipProps>((props, ref) =>
   return (
     <div
       className={cln('nd-filter-chip', {
-        'nd-selected': select,
-        'nd-disabled': disabled,
-        'nd-elevated': elevated
+        'selected': select,
+        'disabled': disabled,
+        'elevated': elevated
       })}
       onClick={clickHandler}
     >

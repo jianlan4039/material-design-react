@@ -3,7 +3,7 @@ import Button, {ButtonHandle, ButtonProps} from "./internal/Button";
 import './InputChip.scss'
 import Outline from "../Outline/Outline";
 import cln from "classnames";
-import useRipple from "../Ripple/useRipple";
+import StatefulBox from "../StatefulBox/StatefulBox";
 
 export interface InputChipProps extends Omit<ButtonProps, 'elevated'> {
   children?: ReactNode
@@ -26,8 +26,6 @@ const InputChip = forwardRef<InputChipHandle, InputChipProps>((props, ref) => {
   const btnRef = useRef<ButtonHandle>(null);
   const trailingBtnRef = useRef<HTMLButtonElement>(null);
 
-  const [rippleProps, ripple] = useRipple<HTMLButtonElement>({})
-
   useImperativeHandle(ref, () => ({
     button: btnRef.current?.button,
     trailingButton: trailingBtnRef.current
@@ -36,26 +34,25 @@ const InputChip = forwardRef<InputChipHandle, InputChipProps>((props, ref) => {
   return (
     <div
       className={cln('nd-input-chip', {
-        'nd-disabled': disabled,
+        'disabled': disabled,
       })}
     >
       <Outline></Outline>
       <Button ref={btnRef} disabled={disabled} onClick={onClick} {...rest}>
         {children}
       </Button>
-      <button
+      <StatefulBox
+        variant={'button'}
         ref={trailingBtnRef}
         className={'nd-input-chip__trail'}
         onClick={onClose}
         disabled={disabled}
-        {...rippleProps}
       >
-        {!disabled && ripple}
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
             <path
               d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
           </svg>
-      </button>
+      </StatefulBox>
     </div>
   )
 })

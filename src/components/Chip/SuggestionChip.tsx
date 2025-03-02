@@ -3,7 +3,6 @@ import Button, {ButtonHandle, ButtonProps} from "./internal/Button";
 import Outline from "../Outline/Outline";
 import cln from "classnames";
 import './SuggestionChip.scss'
-import Elevation from "../Elevation";
 
 export interface SuggestionChipProps extends ButtonProps {
   children?: ReactNode
@@ -23,12 +22,17 @@ const SuggestionChip = forwardRef<SuggestionChipHandle, SuggestionChipProps>((pr
   return (
     <div
       className={cln('nd-suggestion-chip', {
-        'nd-disabled': disabled,
-        'nd-elevated': elevated
+        'disabled': disabled,
+        'elevated': elevated
       })}
     >
-      {elevated ? <Elevation></Elevation> : <Outline></Outline>}
-      <Button ref={ref} disabled={disabled} {...rest}>
+      {!elevated && <Outline></Outline>}
+      <Button
+        ref={ref}
+        disabled={disabled}
+        elevated={elevated}
+        {...rest}
+      >
         {children}
       </Button>
     </div>

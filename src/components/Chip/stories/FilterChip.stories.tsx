@@ -16,6 +16,7 @@ export const Primary: Story = {
     label: 'Filter Chip',
     elevated: false,
     disabled: false,
+    selected: false,
     icon: <span className={"material-icons-round"}>home</span>
   }
 }

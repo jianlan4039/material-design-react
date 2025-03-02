@@ -49,7 +49,7 @@ $supported-tokens: md-comp-input-chip.$supported-tokens;
     }
   }
 
-  &.nd-disabled {
+  &.disabled {
     .nd-input-chip__trail {
       svg {
         fill: var(--md-input-chip-disabled-trailing-icon-color);
