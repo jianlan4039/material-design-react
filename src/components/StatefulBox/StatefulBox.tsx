@@ -8,6 +8,7 @@ type StatefulBoxProps<T extends React.ElementType> = {
   variant?: T; // 指定要渲染的 HTML 元素类型
   disabled?: boolean
   target?: HTMLElement
+  focusable?: boolean
 } & React.ComponentPropsWithRef<T>; // 合并指定元素的原生属性，并支持 ref
 
 type State = {
@@ -28,6 +29,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     target,
     className,
     disabled,
+    focusable,
     ...rest
   } = props
 
@@ -40,7 +42,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     startRipple(e)
   }
 
-  const mouseUpHandler = (e: MouseEvent<HTMLElement>) => {
+  const mouseUpHandler = () => {
     setState(prevState => ({...prevState, pressed: false,}))
     endRipple()
   }
@@ -58,13 +60,13 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
   const focusHandler = (e: FocusEvent<T>) => {
     if ((e.target as unknown as HTMLElement).matches(':focus-visible')) {
       setState(prevState => ({...prevState, focus: true}))
-      focusRingStart()
+      focusable && focusRingStart()
     }
   }
 
   const blurHandler = () => {
     setState(prevState => ({...prevState, focus: false}))
-    focusRingEnd()
+    focusable && focusRingEnd()
   }
 
   return (
@@ -86,7 +88,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     >
       <Elevation></Elevation>
       {Ripple}
-      {FocusRing}
+      {focusable && FocusRing}
       {children}
     </Component>
   )

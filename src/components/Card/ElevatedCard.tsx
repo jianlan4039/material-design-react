@@ -24,6 +24,7 @@ const ElevatedCard = forwardRef<HTMLDivElement, ElevatedCardProps>((props, ref) 
       className={cln('nd-elevated-card', className, {
         'nd-card--static': !interactive,
       })}
+      focusable={false}
     >
       <Card disabled={disabled} {...rest}>{children}</Card>
     </StatefulBox>
