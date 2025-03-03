@@ -6,6 +6,7 @@ import './BrandedFAB.scss'
 import {FABProps} from "./FAB";
 import useFocusRing from "../Focus/useFocusRing";
 import useRipple from "../Ripple/useRipple";
+import StatefulBox from "../StatefulBox/StatefulBox";
 
 export interface BrandedFABProps extends Omit<FABProps, 'variant'>, ButtonProps {
   children?: ReactNode
@@ -28,37 +29,22 @@ const BrandedFAB = forwardRef<BrandedFABHandle, BrandedFABProps>((props, ref) =>
     ...rest
   } = props
 
-  const button = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onBlur, onFocus})
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (button.current) {
-      setParent(button.current)
-    }
-  }, [button]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useImperativeHandle(ref, () => ({
-    button: button.current
+    button: buttonRef.current
   }))
 
   return (
-    <div
+    <StatefulBox
       className={cln('nd-branded-fab', {
-        // 'large': large,
         'lowered': lowered
       })}
-      {...rippleProps}
     >
-      <Elevation></Elevation>
-      {ripple}
-      {focusRing}
-      <Button ref={button} icon={icon} label={label} {...focusRingProps} {...rest}>
+      <Button ref={buttonRef} icon={icon} label={label} {...rest}>
         {children}
       </Button>
-    </div>
+    </StatefulBox>
   )
 })
 

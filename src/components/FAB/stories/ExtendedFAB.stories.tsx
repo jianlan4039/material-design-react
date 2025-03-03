@@ -1,10 +1,11 @@
 import {Meta, StoryObj} from "@storybook/react";
-import '../styles';
-import {BrandedFAB} from "../../index";
+import '../../../stories/styles';
+import {BrandedFAB} from "../../../index";
 
 const meta: Meta = {
   title: 'Button/Extended FAB',
-  component: BrandedFAB
+  component: BrandedFAB,
+  tags: ['autodocs']
 }
 
 export default meta;

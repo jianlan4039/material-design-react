@@ -1,10 +1,11 @@
 import {Meta, StoryObj} from "@storybook/react";
-import '../styles';
-import {FAB} from "../../index";
+import '../../../stories/styles';
+import {FAB} from "../../../index";
 
 const meta: Meta = {
   title: "Button/FAB",
   component: FAB,
+  tags: ['autodocs']
 }
 export default meta;
 type Story = StoryObj<typeof FAB>;

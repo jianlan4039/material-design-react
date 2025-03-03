@@ -1,10 +1,8 @@
-import React, {forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState} from 'react'
-import Button, {ButtonProps} from "./internal/Button";
-import Elevation from "../Elevation";
-import cln from "classnames";
+import React, {forwardRef, ReactNode, useImperativeHandle, useRef} from 'react'
 import './FAB.scss'
-import useFocusRing from "../Focus/useFocusRing";
-import useRipple from "../Ripple/useRipple";
+import Button, {ButtonProps} from "./internal/Button";
+import cln from "classnames";
+import StatefulBox from "../StatefulBox/StatefulBox";
 
 export interface FABProps extends ButtonProps {
   children?: ReactNode
@@ -28,38 +26,24 @@ const FAB = forwardRef<FABHandle, FABProps>((props, ref) => {
     ...rest
   } = props
 
-  const button = useRef<HTMLButtonElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onBlur, onFocus})
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (button.current) {
-      setParent(button.current)
-    }
-  }, [button]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useImperativeHandle(ref, () => ({
-    button: button.current
+    button: buttonRef.current
   }))
 
   return (
-    <div
+    <StatefulBox
       className={cln('nd-fab', {
         [`${size}`]: size,
         [`nd-fab--${variant}`]: variant,
         'lowered': lowered
       })}
-      {...rippleProps}
     >
-      <Elevation></Elevation>
-      {ripple}
-      {focusRing}
-      <Button ref={button} {...focusRingProps} {...rest}>
+      <Button ref={buttonRef} {...rest}>
         {children}
       </Button>
-    </div>
+    </StatefulBox>
   )
 })
 
