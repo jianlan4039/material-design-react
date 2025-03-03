@@ -22,6 +22,7 @@ const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
     name,
     label,
     className,
+    style,
     disabled,
     children,
     onBlur,
@@ -43,6 +44,7 @@ const Button = forwardRef<ButtonHandle, ButtonProps>((props, ref) => {
       className={cln("nd-button", className, {
         [`nd-${variant}-button`]: variant,
       })}
+      style={style}
       disabled={disabled}
       focusable={true}
     >

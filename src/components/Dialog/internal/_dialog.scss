@@ -20,18 +20,6 @@ $md-sys-color: md-sys-color.values-light();
   --md-dialog-container-shape-end-start: var(--md-dialog-container-shape);
   z-index: 10;
 
-  .nd-dialog-scrim {
-    background: map.get($md-sys-color, 'scrim');
-    position: fixed;
-    display: none;
-    inset: 0;
-    opacity: 32%;
-
-    &.nd-show {
-      display: flex;
-    }
-  }
-
   .nd-dialog {
     border-start-start-radius: var(--md-dialog-container-shape-start-start);
     border-start-end-radius: var(--md-dialog-container-shape-start-end);
@@ -46,8 +34,10 @@ $md-sys-color: md-sys-color.values-light();
     background: transparent;
 
     &::backdrop {
-      background: none;
+      //background: none;
       //pointer-events: none;
+      background: map.get($md-sys-color, 'scrim');
+      opacity: 32%;
     }
 
     .nd-dialog-container {

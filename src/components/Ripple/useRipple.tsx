@@ -1,7 +1,6 @@
 import React, {
   MouseEvent as ReactMouseEvent,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState
 } from "react";
@@ -39,22 +38,16 @@ export default function useRipple(props?: RippleProps) {
 
   const [isHover, setIsHover] = useState(false)
 
-  const surfaceRect = useRef<DOMRect>()
   const clickPoint = useRef<ClickPoint>()
 
   const isMouseEnter = useRef(false);
   const [startRipple, setStartRipple] = useState(false);
 
   useEffect(() => {
-    if (startRipple && clickPoint.current && surfaceRect.current) {
-      startPressAnimation(clickPoint.current.x, clickPoint.current.y, surfaceRect.current)
+    if (startRipple && clickPoint.current && surfaceRef.current) {
+      startPressAnimation(clickPoint.current.x, clickPoint.current.y, surfaceRef.current.getBoundingClientRect())
     }
   }, [startRipple]);
-
-  useLayoutEffect(() => {
-    if (!surfaceRef.current) return;
-    surfaceRect.current = surfaceRef.current!.getBoundingClientRect();
-  }, [surfaceRef.current]);
 
   function getNormalizedPointerEventCoords(rect: DOMRect, x: number, y: number) {
     const {scrollX, scrollY} = window;
@@ -140,7 +133,7 @@ export default function useRipple(props?: RippleProps) {
       e.stopPropagation()
       surfaceRef.current?.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}))
 
-      if (isMouseEnter.current && surfaceRect.current) {
+      if (isMouseEnter.current) {
         clickPoint.current = {x: e.clientX, y: e.clientY}
         setStartRipple(true)
       }

@@ -48,7 +48,7 @@ export const DIALOG_DEFAULT_OPEN_ANIMATION: DialogAnimation = {
     [
       // Scrim fade in
       [{'opacity': 0}, {'opacity': 0.32}],
-      {duration: 500, easing: 'linear', fill: 'forwards'},
+      {duration: 500, easing: 'linear', fill: 'forwards', pseudoElement: "::backdrop"},
     ],
   ],
   container: [
@@ -104,7 +104,7 @@ export const DIALOG_DEFAULT_CLOSE_ANIMATION: DialogAnimation = {
     [
       // Scrim fade out
       [{'opacity': 0.32}, {'opacity': 0}],
-      {duration: 150, easing: 'linear', fill: 'forwards'},
+      {duration: 150, easing: 'linear', fill: 'forwards', pseudoElement: "::backdrop"},
     ],
   ],
   container: [

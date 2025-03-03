@@ -12,17 +12,13 @@ export interface ElevatedButtonHandle extends ButtonHandle {
 /**
  * Elevated Button is one of the common button.
  */
-const ElevatedButton = forwardRef<ElevatedButtonHandle, ElevatedButtonProps>((
-  {
-    ...rest
-  },
-  ref) => {
+const ElevatedButton = forwardRef<ElevatedButtonHandle, ElevatedButtonProps>((props, ref) => {
 
   return (
     <Button
       ref={ref}
       variant={'elevated'}
-      {...rest}
+      {...props}
     ></Button>
   )
 })

@@ -59,11 +59,10 @@ const Dialog = forwardRef<DialogHandle, DialogProps>((props, ref) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<InnerRefHandle>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const scrimRef = useRef<HTMLDivElement>(null);
   const [isShow, setIsShow] = useState(show)
 
   const animateDialog = async (animation: DialogAnimation) => {
-    if (!dialogRef.current || !scrimRef.current || !containerRef.current || quick) {
+    if (!dialogRef.current || !containerRef.current || quick) {
       return;
     }
 
@@ -78,7 +77,7 @@ const Dialog = forwardRef<DialogHandle, DialogProps>((props, ref) => {
 
     const elementAndAnimation: [HTMLElement, DialogAnimationArgs[]][] = [
       [dialogRef.current, dialogAnimate ?? []],
-      [scrimRef.current, scrimAnimate ?? []],
+      [dialogRef.current, scrimAnimate ?? []],
       [containerRef.current.containerRef(), containerAnimate ?? []],
       [containerRef.current.headlineRef(), headlineAnimate ?? []],
       [containerRef.current.contentRef(), contentAnimate ?? []],
@@ -164,7 +163,6 @@ const Dialog = forwardRef<DialogHandle, DialogProps>((props, ref) => {
 
   return (
     <div ref={rootRef} className={c('nd-dialog-host', {'nd-show': isShow, 'quick': quick})} onClick={rootClickHandler}>
-      <div ref={scrimRef} className={c("nd-dialog-scrim", {'nd-show': isShow})}></div>
       <dialog ref={dialogRef} className={'nd-dialog'} onSubmit={submitHandler} {...rest}>
         <DialogContent
           ref={containerRef}
