@@ -313,7 +313,11 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
           })}
       >
         <Elevation></Elevation>
-        <ol ref={listRef} className={'nd-menu__list'} {...rest}>
+        <ol
+          ref={listRef}
+          className={'nd-menu__list'}
+          {...rest}
+        >
           {MenuItems}
         </ol>
       </div>

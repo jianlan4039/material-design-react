@@ -7,7 +7,10 @@ import {useEffect, useRef, useState} from "react";
 const meta: Meta = {
   title: 'Container/Menu',
   component: Menu,
-  tags: ['autodocs']
+  tags: ['autodocs'],
+  parameters: {
+    layout: "centered",
+  },
 };
 
 export default meta;
