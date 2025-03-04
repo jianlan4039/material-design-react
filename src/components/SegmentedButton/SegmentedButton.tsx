@@ -6,6 +6,7 @@ import useRipple from "../Ripple/useRipple";
 import useFocusRing from "../Focus/useFocusRing";
 import classNames from "classnames";
 import './SegmentedButton.scss'
+import StatefulBox from "../StatefulBox/StatefulBox";
 
 export interface SegmentedButtonProps extends SegmentedButtonContentProps {
   children?: ReactNode
@@ -29,23 +30,12 @@ const SegmentedButton = forwardRef<SegmentedButtonHandle, SegmentedButtonProps>(
   const id = ndId ?? useId()
   const {list, setList} = useContext(MultiSelectionContext)
   const [selected, setSelected] = useState<boolean>(false)
-  const [parent, setParent] = useState<HTMLButtonElement>()
   const btnRef = useRef<HTMLButtonElement>(null);
-
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur})
-
 
 
   useEffect(() => {
     setSelected(list?.includes(id) ?? false)
   }, [list]);
-
-  useEffect(() => {
-    if (btnRef.current) {
-      setParent(btnRef.current)
-    }
-  }, [btnRef]);
 
   useImperativeHandle(ref, () => ({
     button: btnRef.current
@@ -56,24 +46,23 @@ const SegmentedButton = forwardRef<SegmentedButtonHandle, SegmentedButtonProps>(
   }
 
   return (
-    <div
+    <StatefulBox
       onClick={clickHandler}
       className={classNames('nd-segmented-button', {
         'nd-selected': selected,
         'nd-disabled': disabled
       })}
-      {...rippleProps}
+      disabled={disabled}
     >
       <Outline disabled={disabled}></Outline>
-      {ripple}
-      {focusRing}
       <SegmentedButtonContent
         ref={btnRef}
         disabled={disabled}
-        {...focusRingProps}
         {...rest}
-      >{children}</SegmentedButtonContent>
-    </div>
+      >
+        {children}
+      </SegmentedButtonContent>
+    </StatefulBox>
   )
 })
 

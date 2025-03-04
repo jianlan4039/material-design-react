@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
-import './styles';
-import {SegmentedButton, SegmentedButtonContainer} from "../index";
+import '../../../stories/styles';
+import {SegmentedButton, SegmentedButtonContainer} from "../../../index";
 
 const meta: Meta = {
   title: "Button/Segmented Button",
