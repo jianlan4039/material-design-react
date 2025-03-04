@@ -38,6 +38,7 @@ export default function FilledTextField(props: FilledTextFieldProps) {
     error,
     disabled,
     onChange,
+    onClick,
     className,
     ...rest
   } = props
@@ -55,6 +56,7 @@ export default function FilledTextField(props: FilledTextFieldProps) {
       e.preventDefault()
     }
     setFocus(true)
+    inputRef.current?.focus()
   }
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +102,7 @@ export default function FilledTextField(props: FilledTextFieldProps) {
         error={error}
         supportingTextTrailing={supportingTextTrailing}
         showSupportingText={showSupportingText}
+        onMouseDown={mouseDownHandler}
       >
         <InputWrapper
           ref={inputRef}

@@ -10,6 +10,7 @@ type StatefulBoxProps<T extends React.ElementType> = {
   target?: HTMLElement
   focusable?: boolean
   elevatedable?: boolean
+  rippleable?: boolean
 } & React.ComponentPropsWithRef<T>; // 合并指定元素的原生属性，并支持 ref
 
 type State = {
@@ -32,6 +33,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     disabled,
     focusable,
     elevatedable = true,
+    rippleable = true,
     ...rest
   } = props
 
@@ -63,9 +65,9 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
     endHoverEffect()
   }
 
-  const focusHandler = (e: FocusEvent<T>) => {
+  const focusHandler = (e: FocusEvent) => {
     if(disabled) return;
-    if ((e.target as unknown as HTMLElement).matches(':focus-visible')) {
+    if (e.target.matches(':focus-visible')) {
       setState(prevState => ({...prevState, focus: true}))
       focusable && focusRingStart()
     }
@@ -96,7 +98,7 @@ const StatefulBox = React.forwardRef(<T extends React.ElementType = "div">(props
       {...rest}
     >
       {elevatedable && <Elevation></Elevation>}
-      {Ripple}
+      {rippleable && Ripple}
       {focusable && FocusRing}
       {children}
     </Component>

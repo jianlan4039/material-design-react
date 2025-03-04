@@ -41,7 +41,6 @@ $supporting-tokens: (
       inset-block-start: 0;
       margin-inline-start: var(--md-cust-#{$comp}-label-leading-space, var(--md-#{$comp}-leading-space));
 
-
       .nd-field__label-wrapper__label.resting {
         position: absolute;
         inset-block-start: var(--md-cust-#{$comp}-top-space, var(--md-#{$comp}-top-space));
@@ -86,6 +85,10 @@ $supporting-tokens: (
         .nd-container__content {
           color: var(--md-cust-#{$comp}-content-color, var(--md-#{$comp}-content-color));
         }
+      }
+
+      .nd-container__content{
+        width: 100%;
       }
     }
   }

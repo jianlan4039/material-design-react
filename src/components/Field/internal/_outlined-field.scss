@@ -28,6 +28,11 @@
     border-radius: var(--md-outlined-field-container-shape);
     min-width: inherit;
 
+    --md-cust-focus-ring-shape-start-start: 4px;
+    --md-cust-focus-ring-shape-start-end: 4px;
+    --md-cust-focus-ring-shape-end-start: 4px;
+    --md-cust-focus-ring-shape-end-end: 4px;
+
     @include field-outline.styles(outlined-field);
     @include basic-field.styles(outlined-field);
 

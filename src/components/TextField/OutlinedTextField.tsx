@@ -75,6 +75,7 @@ export default function OutlinedTextField(props: OutlinedTextFieldProps) {
       e.preventDefault()
     }
     setFocus(true)
+    inputRef.current?.focus()
   }
 
   const focusHandler = () => {

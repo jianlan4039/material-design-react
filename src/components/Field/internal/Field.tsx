@@ -1,11 +1,10 @@
-import React, {forwardRef, ReactNode, useEffect, useRef, useState} from 'react'
+import React, {forwardRef, HTMLAttributes, ReactNode, useEffect, useRef, useState} from 'react'
 import Container from "../../Container/Container";
 import c from 'classnames'
 import {EASING} from "../../internal/motion/animation";
 import SupportingText from "./SupportingText";
-import {BaseElement} from "../../internal/common/BaseElement";
 
-export interface FieldProps extends BaseElement {
+export interface FieldProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   label?: string
   populated?: boolean

@@ -32,6 +32,11 @@
       color: var(--md-filled-field-supporting-text-color)
     ));
 
+    --md-cust-focus-ring-shape-start-start: 4px;
+    --md-cust-focus-ring-shape-start-end: 4px;
+    --md-cust-focus-ring-shape-end-start: 0;
+    --md-cust-focus-ring-shape-end-end: 0;
+
     position: relative;
     block-size: 56px;
     border-radius: var(--md-filled-field-container-shape);

@@ -15,8 +15,6 @@ export const Primary: Story = {
     return (
       <>
         <FilledTextField label={"Username"} supportingText={"supporting text"} showSupportingText={true}></FilledTextField>
-        <FilledTextField label={"Password"}></FilledTextField>
-        <FilledTextField label={"Age"}></FilledTextField>
       </>
     )
   }
