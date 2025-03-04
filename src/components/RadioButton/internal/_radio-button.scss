@@ -56,7 +56,7 @@
       }
     }
 
-    &.radio-button--selected {
+    &.selected {
       svg {
         fill: var(--md-radio-button-selected-icon-color)
       }
@@ -81,7 +81,7 @@
         }
       }
 
-      &.radio-button--disabled {
+      &.disabled {
         svg {
           fill: var(--md-radio-button-disabled-selected-icon-color);
           opacity: var(--md-radio-button-disabled-selected-icon-opacity);
@@ -89,7 +89,7 @@
       }
     }
 
-    &.radio-button--disabled {
+    &.disabled {
       svg {
         fill: var(--md-radio-button-disabled-unselected-icon-color);
         opacity: var(--md-radio-button-disabled-unselected-icon-opacity);

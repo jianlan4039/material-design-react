@@ -2,8 +2,7 @@ import React, {useState, useEffect, forwardRef, HTMLProps, useContext, useRef, u
 import './RadioButton.scss'
 import {MultiSelectContextProvider} from "../internal/context/MultiSelectContextProvider";
 import c from 'classnames'
-import useRipple from "../Ripple/useRipple";
-import useFocusRing from "../Focus/useFocusRing";
+import StatefulBox from "../StatefulBox/StatefulBox";
 
 interface RadioButtonProps extends HTMLProps<HTMLInputElement> {
   disabled?: boolean
@@ -34,20 +33,10 @@ const RadioButton = forwardRef<RadioButtonHandle, RadioButtonProps>((props, ref)
   const [isSelected, setIsSelected] = useState<boolean>(selected || false);
   const {list: selectedList, setList} = useContext(MultiSelectContextProvider)
 
-  const radio = useRef<HTMLInputElement>(null);
-  const [parent, setParent] = useState<HTMLInputElement>()
-
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-  const [focusRingProps, focusRing] = useFocusRing<HTMLInputElement>({parent, onFocus, onBlur})
-
-  useEffect(() => {
-    if (radio.current) {
-      setParent(radio.current)
-    }
-  }, [radio]);
+  const radioRef = useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => ({
-    input: radio.current
+    input: radioRef.current
   }))
 
   const selectedIcon = (
@@ -80,29 +69,26 @@ const RadioButton = forwardRef<RadioButtonHandle, RadioButtonProps>((props, ref)
   }, [selected]);
 
   return (
-    <div
+    <StatefulBox
       className={c("radio-button", {
-        'radio-button--selected': isSelected,
-        'radio-button--disabled': disabled
+        'selected': isSelected,
+        'disabled': disabled
       })}
       onClick={clickHandler}
-      {...rippleProps}
+      disabled={disabled}
     >
-      {focusRing}
-      {!disabled && ripple}
       <input
-        ref={radio}
+        ref={radioRef}
         type="radio"
         onChange={onChange}
         name={name}
         value={value}
         id={id}
         aria-disabled={disabled}
-        {...focusRingProps}
         {...rest}
       />
       {isSelected ? selectedIcon : unselectedIcon}
-    </div>
+    </StatefulBox>
   );
 })
 

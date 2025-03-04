@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
-import './styles';
-import {RadioButton, RadioGroup} from "../index";
+import '../../../stories/styles';
+import {RadioButton, RadioGroup} from "../../../index";
 
 const meta: Meta = {
   title: "Form/RadioButton",
