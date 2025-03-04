@@ -6,12 +6,12 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState, useMemo
+  useState,
 } from 'react'
 import LinearSectionContainer from "../Container/LinearSectionContainer/LinearSectionContainer";
 import './ListItem.scss'
 import c from 'classnames'
-import useRipple from "../Ripple/useRipple";
+import StatefulBox from "../StatefulBox/StatefulBox";
 
 export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
   headline?: string
@@ -50,10 +50,6 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   const childRef = useRef<HTMLDivElement>(null)
   const [isTopLayout, setIsTopLayout] = useState<boolean>(false)
 
-  const [rippleProps, ripple] = useRipple<HTMLLIElement>({
-    onMouseOver, onMouseOut, onMouseDown, onMouseUp, onTouchStart, onTouchEnd
-  })
-
   useImperativeHandle(ref, () => ({
     container: containerRef.current,
     child: childRef.current
@@ -64,7 +60,8 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
   }, [containerRef.current]);
 
   return (
-    <li
+    <StatefulBox
+      variant={'li'}
       ref={containerRef}
       className={c('nd-list-item', className,
         {
@@ -72,10 +69,10 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
           'top-layout': isTopLayout,
           'disabled': disabled
         })}
-      {...rippleProps}
+      diabled={disabled}
+      rippleable={interactive}
       {...rest}
     >
-      {!disabled && interactive && ripple}
       <LinearSectionContainer
         ref={childRef}
         start={icon}
@@ -85,7 +82,7 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
         {supportingText && <div className={'list-item__spt-txt'}>{supportingText}</div>}
         {children}
       </LinearSectionContainer>
-    </li>
+    </StatefulBox>
   )
 })
 
