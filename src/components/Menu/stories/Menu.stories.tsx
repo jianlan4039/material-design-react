@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
-import '../styles'
-import {Menu} from "../../index";
-import ElevatedButton, {ElevatedButtonHandle} from "../../components/Button/ElevatedButton";
+import '../../../stories/styles'
+import {Menu} from "../../../index";
+import ElevatedButton, {ElevatedButtonHandle} from "../../Button/ElevatedButton";
 import {useEffect, useRef, useState} from "react";
 
 const meta: Meta = {

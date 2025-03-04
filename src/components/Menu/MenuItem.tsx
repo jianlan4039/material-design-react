@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
   MouseEvent,
-  useContext,
+  useContext, HTMLAttributes,
 } from 'react';
 import ListItem, {ListItemHandle, ListItemProps} from "../List/ListItem";
 import SubMenu, {SubMenuHandle} from "./SubMenu";
@@ -14,8 +14,9 @@ import {outsideHandler} from "../internal/common/handlers";
 import classNames from "classnames";
 import {SelectionContext} from "./internal/context";
 import './MenuItem.scss';
+import {StatefulBoxProps} from "../StatefulBox/StatefulBox";
 
-export interface MenuItemProps extends ListItemProps {
+export interface MenuItemProps extends HTMLAttributes<HTMLLIElement>, Omit<ListItemProps, keyof StatefulBoxProps<'li'>>{
   children?: ReactNode
   customOpenIcon?: ReactNode
   subMenu?: MenuItemProps[]
@@ -126,6 +127,7 @@ const MenuItem = forwardRef<MenuItemHandle, MenuItemProps>((props, ref) => {
       onMouseLeave={mouseLeaveHandler}
       onClick={clickHandler}
       headline={headline}
+      elevatedable={false}
       {...rest}
     >
       {

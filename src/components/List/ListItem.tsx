@@ -11,9 +11,9 @@ import React, {
 import LinearSectionContainer from "../Container/LinearSectionContainer/LinearSectionContainer";
 import './ListItem.scss'
 import c from 'classnames'
-import StatefulBox from "../StatefulBox/StatefulBox";
+import StatefulBox, {StatefulBoxProps} from "../StatefulBox/StatefulBox";
 
-export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
+export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement>, StatefulBoxProps<'li'> {
   headline?: string
   supportingText?: string
   disabled?: boolean
@@ -37,12 +37,6 @@ const ListItem = forwardRef<ListItemHandle, ListItemProps>((props, ref) => {
     disabled,
     interactive = true,
     className,
-    onMouseOver,
-    onMouseOut,
-    onMouseDown,
-    onMouseUp,
-    onTouchStart,
-    onTouchEnd,
     ...rest
   } = props
 

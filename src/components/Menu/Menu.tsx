@@ -95,6 +95,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const animationBuffer = useRef<Animation[]>([])
   const [selectedList, setSelectedList] = useState<string[]>()
+
   const MenuItems = useMemo(() => items?.map((item, index) => {
     return <MenuItem
       key={`menu-item-${index}-${item.headline}`}
@@ -162,11 +163,6 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     }
   }, [isAnimating, isOpen])
 
-  useImperativeHandle(ref, () => ({
-    root: menuRef.current,
-    list: listRef.current,
-  }))
-
   useEffect(() => {
     if (preset) {
       setSelectedList(preset)
@@ -177,12 +173,17 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
     scrollIntoItem()
   }, [selectedList]);
 
+  useImperativeHandle(ref, () => ({
+    root: menuRef.current,
+    list: listRef.current,
+  }))
+
   const scrollIntoItem = () => {
-    if (selectedList && listRef.current) {
-      const theFirstId = selectedList[0]
-      const theFirstItem = listRef.current.querySelector(`#${theFirstId}`)
-      theFirstItem?.scrollIntoView(scrollConfig);
-    }
+    // if (selectedList && listRef.current) {
+    //   const theFirstId = selectedList[0]
+    //   const theFirstItem = listRef.current.querySelector(`#${theFirstId}`)
+    //   theFirstItem?.scrollIntoView(scrollConfig);
+    // }
   }
 
   const animateOpen = async () => {
@@ -224,7 +225,9 @@ const Menu = forwardRef<MenuHandle, MenuProps>((props, ref) => {
       }, {duration: ITEM_OPACITY_DURATION, delay: DELAY_BETWEEN_ITEMS * i, fill: 'both'})
       childOpacityAnimation && animationBuffer.current.push(childOpacityAnimation)
     }
+
     animationBuffer.current.push(rootHeightAnimation, rootOpacityAnimation, upPositionCorrectionAnimation)
+
     return await Promise.all([rootHeightAnimation.finished, rootOpacityAnimation.finished, upPositionCorrectionAnimation.finished]).then(() => {
       onOpened?.()
       scrollIntoItem()
