@@ -121,6 +121,7 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
     <div
       ref={ref}
       className={c('nd-field', className, {'populated': populated})}
+      {...rest}
     >
       <Container
         start={icon}
@@ -141,16 +142,12 @@ const Field = forwardRef<HTMLDivElement, FieldProps>((props, ref) => {
             </span>
           </div>
         }
-        {...rest}
       >
         {children}
       </Container>
       {
         showSupportingText &&
-        <SupportingText
-          trailing={supportingTextTrailing}
-          content={supportingText}
-        ></SupportingText>
+        <SupportingText trailing={supportingTextTrailing} content={supportingText}></SupportingText>
       }
     </div>
   )

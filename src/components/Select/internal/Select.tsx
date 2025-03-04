@@ -1,13 +1,11 @@
-import React, {ComponentType, forwardRef, ReactNode, useEffect, useId, useRef, useState} from 'react'
+import React, {ComponentType, forwardRef, ReactHTMLElement, ReactNode, useEffect, useId, useRef, useState} from 'react'
+import './Select.scss'
 import Menu from "../../Menu/Menu";
 import {Corner} from "../../internal/alignment/geometry";
 import {MenuItemProps} from "../../Menu/MenuItem";
-import './Select.scss'
-import {OptionValue} from "../../Menu/internal/menuTypes";
-import {FieldProps} from "../../Field/internal/Field";
 import {outsideHandler} from "../../internal/common/handlers";
 
-export interface SelectProps extends FieldProps {
+export interface SelectProps {
   children?: ReactNode
   items?: MenuItemProps[]
   label?: string
@@ -99,7 +97,6 @@ function Select<R extends HTMLInputElement, T extends SelectProps>(Field: Compon
             name={name ?? internalId}
             id={id ?? internalId}
             onFocus={selectFocusHandler}
-            // value={value}
           ></input>
         </Field>
         <Menu
