@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {OutlinedIconButton} from "../../index";
+import {OutlinedIconButton} from "../../../index";
 
 const meta:Meta = {
   title: "IconButton/OutlinedIconButton",

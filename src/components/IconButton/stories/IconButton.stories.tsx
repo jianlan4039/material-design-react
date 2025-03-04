@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {IconButton} from "../../index";
+import {IconButton} from "../../../index";
 import React from "react";
 
 const meta: Meta = {

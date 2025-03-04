@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode} from 'react'
 import {ButtonProps} from "./internal/Button";
 import './FilledTonalIconButton.scss'
 import classNames from "classnames";
-import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";
+import Container, {WrapperHandle, WrapperProps} from "./Container";
 
 export interface FilledTonalIconButtonProps extends ButtonProps, WrapperProps{
   children?: ReactNode
@@ -21,7 +21,7 @@ const FilledTonalIconButton = forwardRef<FilledTonalIconButtonHandle, FilledTona
   } = props
 
   return (
-    <Wrapper ref={ref} className={classNames('nd-filled-tonal-icon-button', className)} icon={children || icon} {...rest}></Wrapper>
+    <Container ref={ref} className={classNames('nd-filled-tonal-icon-button', className)} icon={children || icon} {...rest}></Container>
   )
 })
 

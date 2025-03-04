@@ -1,6 +1,6 @@
 import React, {forwardRef, ReactNode} from 'react'
 import {ButtonProps} from "./internal/Button";
-import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";
+import Container, {WrapperHandle, WrapperProps} from "./Container";
 import classNames from "classnames";
 import './FilledIconButton.scss';
 
@@ -22,12 +22,12 @@ const FilledIconButton = forwardRef<FilledIconButtonHandle, FilledIconButtonProp
   } = props
 
   return (
-    <Wrapper
+    <Container
       ref={ref}
       className={classNames('nd-filled-icon-button', className)}
       icon={children || icon}
       {...rest}
-    ></Wrapper>
+    ></Container>
   )
 })
 

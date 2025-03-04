@@ -8,11 +8,9 @@ import React, {
   MouseEvent,
   useImperativeHandle
 } from 'react'
-import Elevation from "../Elevation";
 import c from 'classnames'
-import useRipple from "../Ripple/useRipple";
 import Button from "./internal/Button";
-import useFocusRing from "../Focus/useFocusRing";
+import StatefulBox from "../StatefulBox/StatefulBox";
 
 export interface WrapperProps extends HTMLAttributes<HTMLButtonElement> {
   children?: ReactNode
@@ -28,7 +26,7 @@ export interface WrapperHandle {
   button?: HTMLButtonElement | null
 }
 
-const Wrapper = forwardRef<WrapperHandle, WrapperProps>((props, ref) => {
+const Container = forwardRef<WrapperHandle, WrapperProps>((props, ref) => {
   const {
     children,
     disabled,
@@ -46,16 +44,6 @@ const Wrapper = forwardRef<WrapperHandle, WrapperProps>((props, ref) => {
   const [selected, setSelected] = useState<boolean>(Boolean(_selected))
   const button = useRef<HTMLButtonElement>(null);
   const wrapper = useRef<HTMLDivElement>(null);
-  const [parent, setParent] = useState<HTMLButtonElement>()
-
-  const [focusRingProps, focusRing] = useFocusRing<HTMLButtonElement>({parent, onFocus, onBlur})
-  const [rippleProps, ripple] = useRipple<HTMLDivElement>({})
-
-  useEffect(() => {
-    if (button.current) {
-      setParent(button.current)
-    }
-  }, [button]);
 
   useEffect(() => {
     setSelected(Boolean(_selected))
@@ -75,23 +63,20 @@ const Wrapper = forwardRef<WrapperHandle, WrapperProps>((props, ref) => {
   };
 
   return (
-    <div
+    <StatefulBox
       className={c(className, {
         'disabled': disabled,
         'toggled': toggled,
         'selected': toggled && selected
       })}
-      {...rippleProps}
+      disabled={disabled}
     >
-      <Elevation></Elevation>
-      {!disabled && ripple}
-      {focusRing}
       {children}
-      <Button ref={button} disabled={disabled} onClick={clickHandler} {...focusRingProps} {...rest}>
+      <Button ref={button} disabled={disabled} onClick={clickHandler} {...rest}>
         {toggled ? selected ? selectedIcon ?? icon : icon : icon}
       </Button>
-    </div>
+    </StatefulBox>
   )
 })
 
-export default Wrapper
+export default Container;

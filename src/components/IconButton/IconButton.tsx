@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode} from 'react'
 import {ButtonProps} from "./internal/Button";
 import './IconButton.scss'
 import c from 'classnames'
-import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";
+import Container, {WrapperHandle, WrapperProps} from "./Container";
 
 export interface IconButtonProps extends ButtonProps, WrapperProps {
   children?: ReactNode
@@ -23,7 +23,7 @@ const IconButton = forwardRef<IconButtonHandle, IconButtonProps>((props, ref) =>
   } = props
 
   return (
-    <Wrapper ref={ref} className={c('nd-icon-button', className)} icon={children || icon} {...rest}></Wrapper>
+    <Container ref={ref} className={c('nd-icon-button', className)} icon={children || icon} {...rest}></Container>
   )
 })
 

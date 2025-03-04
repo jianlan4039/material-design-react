@@ -2,7 +2,7 @@ import React, {forwardRef, ReactNode} from 'react'
 import {ButtonProps} from "./internal/Button";
 import './OutlinedIconButton.scss'
 import Outline from "../Outline/Outline";
-import Wrapper, {WrapperHandle, WrapperProps} from "./Wrapper";
+import Container, {WrapperHandle, WrapperProps} from "./Container";
 import classNames from "classnames";
 
 export interface OutlinedIconButtonProps extends ButtonProps, WrapperProps {
@@ -25,7 +25,7 @@ const OutlinedIconButton = forwardRef<OutlinedIconButtonHandle, OutlinedIconButt
   } = props
 
   return (
-    <Wrapper
+    <Container
       ref={ref}
       className={classNames('nd-outlined-icon-button', className)}
       icon={children || icon}
@@ -33,7 +33,7 @@ const OutlinedIconButton = forwardRef<OutlinedIconButtonHandle, OutlinedIconButt
       {...rest}
     >
       <Outline disabled={disabled}></Outline>
-    </Wrapper>
+    </Container>
   )
 })
 

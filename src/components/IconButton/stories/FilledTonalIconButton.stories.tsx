@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {FilledTonalIconButton} from "../../index";
+import {FilledTonalIconButton} from "../../../index";
 
 const meta: Meta = {
   title: "IconButton/Filled Tonal Icon Button",
