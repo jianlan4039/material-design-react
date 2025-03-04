@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {CircularProgress} from "../../index";
+import {CircularProgress} from "../../../index";
 
 const meta:Meta = {
   title: "Progress/CircularProgress",
